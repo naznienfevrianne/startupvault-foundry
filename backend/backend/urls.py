@@ -1,9 +1,9 @@
 # example/urls.py
 from django.urls import path, include
+from rest_framework import routers, serializers, viewsets
 
-from user.views import index
 
 
 urlpatterns = [
-    path('', include('user.urls')),
+    path('user/', include('user.urls')),
 ]
