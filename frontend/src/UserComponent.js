@@ -6,7 +6,7 @@ function UserComponent() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch('http://startupvault-foundry.vercel.app/user/user/');
+                const response = await fetch('https://startupvault-foundry.vercel.app/user/user/');
                 console.log('Response:', response);
                 const data = await response.json();
                 setUserData(data);
