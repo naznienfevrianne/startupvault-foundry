@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'user',
     'rest_framework',
     'corsheaders',
-    'home'
+    'home',
+    'diaryentries',
+    'authentication'
 ]
 
 MIDDLEWARE = [
