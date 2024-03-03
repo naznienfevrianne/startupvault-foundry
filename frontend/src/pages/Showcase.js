@@ -1,4 +1,7 @@
 import React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { createClient } from "@supabase/supabase-js";
 
 const Header = () => (
   <header className="flex gap-5 justify-between px-20 py-6 w-full max-md:flex-wrap max-md:px-5 max-md:max-w-full text-white">
