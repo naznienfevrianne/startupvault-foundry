@@ -35,5 +35,23 @@ class StartupListCreate(generics.ListCreateAPIView):
     queryset = Startup.objects.all()
     serializer_class = StartupSerializer
 
+class FounderRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [AllowAny]  # pake IsAuthenticated kalo udah ada token login
+    serializer_class = FounderSerializer
+
+    def get_queryset(self):
+        # Only allow the authenticated user to retrieve and update their own startup information
+        # pake pas udah ada token login
+        # return Founder.objects.filter(user=self.request.user)
+        return Founder.objects.all()
+
+class StartupRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = StartupSerializer
+
+    def get_queryset(self):
+        # return Startup.objects.filter(user=self.request.user)
+        return Startup.objects.all()
+
 
     

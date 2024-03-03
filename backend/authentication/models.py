@@ -7,7 +7,7 @@ from django.db import models
 class UserModel(models.Model):
     email = models.EmailField()
     role = models.CharField(max_length=10)
-    password = models.CharField()
+    password = models.CharField(max_length=12)
     isVerified = models.BooleanField()
     image = models.TextField()
     linkedin = models.URLField()
@@ -27,7 +27,7 @@ class Startup(models.Model):
     linkedin = models.TextField()
 
 class Founder(UserModel):
-    phoneNumber = models.CharField()
+    phoneNumber = models.CharField(max_length=12)
     startup = models.OneToOneField(Startup, on_delete=models.CASCADE, related_name='founder')
     
 class Investor(UserModel):
