@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="574fec08-fcf1-49d1-9f44-1fd557cd7bd1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/showcase/forms.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/showcase/serializers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/showcase/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/Showcase.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/backend/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/backend/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/backend/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/showcase/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/showcase/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/showcase/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/showcase/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/showcase/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/showcase/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

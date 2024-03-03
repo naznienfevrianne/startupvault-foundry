@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from backend.user.models import User
+from user.models import User
 
 class ShowcasePost(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='showcase_posts')
