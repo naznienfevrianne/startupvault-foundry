@@ -1,3 +1,4 @@
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -11,12 +12,14 @@ from .forms import ShowcasePostForm, PostImageForm
 class ShowcaseView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+    @csrf_exempt
     def get(self, request, *args, **kwargs):
         posts = ShowcasePost.objects.all()
         serializer = ShowcasePostSerializer(posts, many=True)
         return Response(serializer.data)
 
     @transaction.atomic
+    @csrf_exempt
     def post(self, request, *args, **kwargs):
         if 'showcase_post_id' in request.data:
             # Handle like functionality
@@ -25,6 +28,7 @@ class ShowcaseView(APIView):
             # Handle post creation
             return self.create_post(request)
 
+    @csrf_exempt
     def create_post(self, request):
         post_form = ShowcasePostForm(request.data)
         image_form = PostImageForm(request.data, request.FILES)
@@ -46,6 +50,7 @@ class ShowcaseView(APIView):
             }
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @csrf_exempt
     def toggle_like(self, request):
         post_id = request.data.get('showcase_post_id')
         post = get_object_or_404(ShowcasePost, id=post_id)

@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from models import *
+from .models import ShowcasePost, Like, PostImage
 
 class ShowcasePostForm(ModelForm):
     class Meta:
@@ -14,6 +14,6 @@ class PostImageForm(ModelForm):
     )
     class Meta:
         model = PostImage
-        field = ["image"]
+        fields = ["image"]
 
 
