@@ -1,12 +1,14 @@
 // App.js
 import React from 'react';
 import './App.css';
-import RegisterBoxFix from '.pages/RegisterBoxFix';
+import RegisterBoxFix from './pages/RegisterBoxFix';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PickRole from './pages/PickRole';
 import FounderForm from './pages/FounderForm';
 import StartupType from './pages/StartupType';
-import StartupForm from '.pages/StartupForm';
+import StartupForm from './pages/StartupForm';
+import LoginBox from './pages/LoginBox';
+import Logout from './pages/Logout';
 function App() {
     return (
         <>
@@ -17,6 +19,8 @@ function App() {
                 <Route path="/founderForm" element={<FounderForm />} />
                 <Route path="/startupType" element={<StartupType />} />
                 <Route path="/startupForm" element={<StartupForm />} />
+                <Route path="/login" element={<LoginBox/>}/>
+                <Route path="/logout" element={<Logout />}/>
             </Routes>
         </BrowserRouter>
         </>
