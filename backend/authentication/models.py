@@ -5,7 +5,7 @@ from django.db import models
 
 # Create your models here.
 class UserModel(models.Model):
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     role = models.CharField(max_length=10)
     password = models.CharField()
     isVerified = models.BooleanField()
