@@ -45,7 +45,9 @@ const ShowcasePost = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await fetch('http://127.0.0.1:8000/showcase/'); // Adjust the URL based on your setup
+      const response = await fetch('http://127.0.0.1:8000/showcase/');
+      console.log (response);
+      console.log ("keambil kok");
       if (response.ok) {
         const data = await response.json();
         setPosts(data);

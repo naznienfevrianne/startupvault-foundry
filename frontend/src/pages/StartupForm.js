@@ -122,6 +122,7 @@ function StartupForm(props) {
         const pdfUrl = URL.createObjectURL(file)
         setPitchdeck(pdfUrl);
         setPitchdeckFile(file);
+        setPitchdeckFile(file);
         try {
             localStorage.setItem("pitchdeckFile", file);
             localStorage.setItem("pitchdeck", pdfUrl);
