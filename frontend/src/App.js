@@ -9,6 +9,7 @@ import StartupType from './pages/StartupType';
 import StartupForm from './pages/StartupForm';
 import LoginBox from './pages/LoginBox';
 import Logout from './pages/Logout';
+import Showcase from './pages/ShowcasePage';
 function App() {
     return (
         <>
