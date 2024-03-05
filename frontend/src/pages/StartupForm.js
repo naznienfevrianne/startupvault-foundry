@@ -188,17 +188,47 @@ function StartupForm(props) {
                   "website": localStorage.getItem("website"),
                   "linkedin": "https://linkedin.com" + localStorage.getItem("startupLinkedin")
               })
-          });
-  
-          if (!response.ok) {
-              const jsonData = await response.json();
-              console.log(jsonData);
-              throw new Error(jsonData.message);
+          })
+
+          if (response.ok) {
+            const data = await response.json();
+            alert("Submission successful!");
+            console.log(data);
+            const pk = data.id
+            // Perform fetch request
+            const responseFounder = await fetch("http://localhost:8000/auth/founder/", {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                
+                  "email": localStorage.getItem("email"),
+                  "role": "founder",
+                  "password": localStorage.getItem("password"),
+                  "isVerified": false,
+                  "image": supabaseUrl + "/storage/v1/object/public/userimg/" + fileName,
+                  "linkedin": "https://linkedin.com/" + localStorage.getItem("linkedin"),
+                  "name": localStorage.getItem("name"),
+                  "phoneNumber": localStorage.getItem("phoneNumber"),
+                  "startup": pk
+              })
+          })
+          if (!responseFounder.ok) {
+            const founderJsonData = await responseFounder.json();
+            console.log(founderJsonData);
           } else {
-              const data = response.json();
-              console.log(data);
-              alert("Submission successful!");
+            const founderJsonData = await responseFounder.json();
+            alert("Submission successful!");
+            console.log(founderJsonData);
+            navigate("/login")
           }
+              
+          } else {
+            const jsonData = await response.json();
+              console.log(jsonData);
+              
+          }  
       } catch (error) {
           console.error("Error:", error);
           alert("Error: " + error.message);
@@ -227,6 +257,7 @@ function StartupForm(props) {
     }
     
   return (
+    <>
     <div className="flex flex-col justify-center pb-4 bg-black">
       <div className="flex justify-center items-center px-32 py-6 w-full max-md:px-5 max-md:max-w-full">
         <div className="flex flex-col mt-0 mb-8 w-full max-w-[1120px] max-md:my-10 max-md:max-w-full">
@@ -576,6 +607,7 @@ function StartupForm(props) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 export default StartupForm;
