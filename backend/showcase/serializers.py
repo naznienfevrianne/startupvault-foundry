@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import ShowcasePost, PostImage
 
 class ShowcasePostSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.id')
+    user = serializers.ReadOnlyField(source='user.name')
     likes = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
 

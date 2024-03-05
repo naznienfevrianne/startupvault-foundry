@@ -1,5 +1,7 @@
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
+from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -50,21 +52,28 @@ class ShowcaseView(APIView):
             }
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @csrf_exempt
-    def toggle_like(self, request):
-        post_id = request.data.get('showcase_post_id')
+    @api_view(['POST'])
+    # @csrf_exempt
+    def toggle_like(request, post_id):
         post = get_object_or_404(ShowcasePost, id=post_id)
+        user = request.user  # Ensure you have a way to identify the requesting user
 
-        like, created = Like.objects.get_or_create(user=request.user, showcase_post=post)
-
-        if created:
-            message = "Liked successfully"
+        # Use the model methods for adding or removing a like
+        if post.likes.filter(user=user).exists():
+            unliked = post.unlike(user)
+            message = "Unliked successfully" if unliked else "Error in unliking"
         else:
-            like.delete()
-            message = "Unliked successfully"
+            liked = post.add_like(user)
+            message = "Liked successfully" if liked else "User has already liked"
 
-        return Response({"message": message}, status=status.HTTP_200_OK)
+        # Directly use the like_count property from the ShowcasePost model
+        likes_count = post.like_count
 
+        return JsonResponse({
+            "message": message,
+            "isLiked": not post.likes.filter(user=user).exists(),
+            "likesCount": likes_count
+        }, status=status.HTTP_200_OK)
 
 # from django.shortcuts import render
 # from rest_framework.generics import ListAPIView
