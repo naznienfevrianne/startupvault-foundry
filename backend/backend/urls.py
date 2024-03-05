@@ -7,5 +7,7 @@ from rest_framework import routers, serializers, viewsets
 urlpatterns = [
     path('', include('home.urls')),
     path('user/', include('user.urls')),
-    path('diaryEntries/', include('diaryentries.urls'))
+    path('diaryEntries/', include('diaryentries.urls')),
+    path('auth/', include('authentication.urls')
+    )
 ]
