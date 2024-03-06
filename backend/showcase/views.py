@@ -4,7 +4,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from .models import ShowcasePost, Like, PostImage
@@ -13,16 +14,24 @@ from .forms import ShowcasePostForm, PostImageForm
 
 class ShowcaseView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = ShowcasePost.objects.all()
 
-    @csrf_exempt
+    def get_queryset(self):
+        """
+        Optionally, this method can contain logic to filter or adjust
+        the queryset based on the request.
+        """
+        return self.queryset.all()
+
     def get(self, request, *args, **kwargs):
-        posts = ShowcasePost.objects.all()
+        posts = self.get_queryset()  # This ensures fresh data for each request.
         serializer = ShowcasePostSerializer(posts, many=True)
         return Response(serializer.data)
 
     @transaction.atomic
     @csrf_exempt
     def post(self, request, *args, **kwargs):
+        permission_classes = [IsAuthenticated]
         if 'showcase_post_id' in request.data:
             # Handle like functionality
             return self.toggle_like(request)
@@ -53,7 +62,7 @@ class ShowcaseView(APIView):
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
     @api_view(['POST'])
-    # @csrf_exempt
+    @csrf_exempt
     def toggle_like(request, post_id):
         post = get_object_or_404(ShowcasePost, id=post_id)
         user = request.user  # Ensure you have a way to identify the requesting user

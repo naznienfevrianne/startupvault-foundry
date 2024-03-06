@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { createClient } from "@supabase/supabase-js";
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import ShowcaseForm from './CreateShowcase.js'
 
 const NavbarItem = ({ children, href }) => (
   <div className="grow">
@@ -64,6 +65,7 @@ const ShowcasePost = () => {
     fetchPosts();
   }, []); // Empty dependency array to run the effect only once on component mount
 
+
  const Avatar = ({ avatar }) => { //itu avatarSrc belom tau jg
     const defaultAvatar = 'frontend/public/avatar.png'; // path icon avatar
     return (
@@ -101,7 +103,7 @@ const ImageWithDescription = ({ src, description }) => (
 
 const Image = ({ images }) => {
   return (
-    <div className="self-stretch mt-4 rounded-2xl border border-solid border-neutral-700 max-md:max-w-full">
+    <div className="self-stretch mt-6 rounded-2xl border border-solid border-neutral-700 max-md:max-w-full">
       <div className="flex gap-5 max-md:flex-col max-md:gap-0">
         {images.map((image, index) => (
           <div key={index} className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
@@ -163,6 +165,7 @@ const Likes = ({ postId, initialLikes, isInitiallyLiked }) => {
     setLikesCount(data.likesCount);
   };
 
+
   return (
     <div onClick={toggleLike} className="like-button flex items-center cursor-pointer text-neutral-400 flex mr-2 mt-4 text-base tracking-normal text-neutral-400">
       <img
@@ -199,7 +202,6 @@ const Likes = ({ postId, initialLikes, isInitiallyLiked }) => {
                 {post.images && post.images.length > 0 ? (
                                 <Image images={post.images} />
                  ) : null}
-                 console.log("ini yang orinya" + post.id)
                 <Likes postId={post.id} initialLikes={post.likes} isInitiallyLiked={false} />
               </div>
             </div>
@@ -222,7 +224,7 @@ const Icon = ({ src, alt }) => (
 
 function SearchBar() {
   return (
-    <div className="flex gap-3 p-4 bg-neutral-800 rounded-[30px] text-stone-300">
+    <div className="flex gap-3 p-4 bg-neutral-800 rounded-[30px] w-[338px] text-stone-300">
       <Icon src="https://cdn.builder.io/api/v1/image/assets/TEMP/a8de9e80e28547cce198c2cb75b90d7874d511934c8811781b742ab3a0fbfa3f?apiKey=50c5361058c6465f94eb30dfd5c845d1&" alt="Search Icon" />
       <p className="flex-auto">Search in showcase</p>
     </div>
@@ -259,14 +261,15 @@ const Showcase = () => (
   <main className="flex flex-col pb-12 bg-black">
     <Header />
     <section className="flex gap-5 pt-6">
-      <div className="w-2/3">
+      <div className="w-2/3 ml-28 mr-10">
+        <ShowcaseForm />
         <ShowcasePost />
       </div>
       <aside className="w-1/3">
-        <>
+        <div>
           <SearchBar/>
           <CategoriesSection/>
-        </>
+        </div>
       </aside>
     </section>
   </main>

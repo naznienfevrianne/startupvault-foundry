@@ -8,7 +8,7 @@ class ShowcasePostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ShowcasePost
-        fields = ['user', 'content', 'image', 'likes', 'date']
+        fields = ['id', 'user', 'content', 'image', 'likes', 'date']
 
     def get_likes(self, obj):
         return obj.like_count
