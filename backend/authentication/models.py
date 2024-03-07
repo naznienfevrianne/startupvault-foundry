@@ -27,7 +27,7 @@ class Startup(models.Model):
     linkedin = models.TextField()
 
 class Founder(UserModel):
-    phoneNumber = models.CharField(max_length=255)
+    phoneNumber = models.CharField(max_length =12)
     startup = models.OneToOneField(Startup, on_delete=models.CASCADE, related_name='founder')
     
 class Investor(UserModel):
