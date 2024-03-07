@@ -10,12 +10,15 @@ class DiaryEntriesListCreate(generics.ListCreateAPIView):
 
     # Read
     def get_queryset(self):
-        founderId = self.kwargs['founder']
+        sort_by = self.request.query_params.get("sort", "")
+        founderId = self.kwargs["founder"]
+        if sort_by:
+            return Entry.objects.all().filter(founder=founderId).order_by(sort_by)
         return Entry.objects.filter(founder=founderId)
 
     # Create
     def perform_create(self, serializer):
-        founderId = self.kwargs['founder']
+        founderId = self.kwargs["founder"]
         founder = Founder.objects.get(pk=founderId)
         serializer.save(founder=founder)  
 
