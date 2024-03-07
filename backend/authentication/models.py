@@ -2,12 +2,13 @@ from django.db import models
 
 # Create your models here.
 from django.db import models
+import jwt
 
 # Create your models here.
 class UserModel(models.Model):
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=10)
-    password = models.CharField()
+    password = models.CharField(max_length=255)
     isVerified = models.IntegerField()
     image = models.TextField()
     linkedin = models.URLField()
@@ -27,7 +28,7 @@ class Startup(models.Model):
     linkedin = models.TextField()
 
 class Founder(UserModel):
-    phoneNumber = models.CharField()
+    phoneNumber = models.CharField(max_length=12)
     startup = models.OneToOneField(Startup, on_delete=models.CASCADE, related_name='founder')
     
 class Investor(UserModel):
