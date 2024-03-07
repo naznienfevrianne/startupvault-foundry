@@ -1,7 +1,7 @@
 # example/urls.py
 from django.urls import path
 
-from .views import UserModelListCreate, PartnerListCreate, InvestorListCreate, StartupListCreate, FounderListCreate, login
+from .views import UserModelListCreate, PartnerListCreate, InvestorListCreate, StartupListCreate, FounderListCreate, login, check_email
 # from rest_framework_simplejwt import views as jwt_views
 urlpatterns = [
     path('user/', UserModelListCreate.as_view(), name="user-list-create"),
@@ -11,5 +11,6 @@ urlpatterns = [
     path("partner/", PartnerListCreate.as_view(), name="partner-list-create"),
     # path('api/token/', jwt_views.TokenObtainPairView.as_view(), name="token_obtain_pair"),
     # path("api/token/refresh", jwt_views.TokenRefreshView.as_view(), name="token_refresh"),
-    path("login/",login, name="login")
+    path("login/",login, name="login"),
+    path("checkEmail/", check_email, name="check-email")
 ]

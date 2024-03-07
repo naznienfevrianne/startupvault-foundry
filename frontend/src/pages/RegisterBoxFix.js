@@ -10,13 +10,42 @@ function RegisterBoxFix(props) {
     const [errorMessage, setErrorMessage] = useState(' ');
     const navigate = useNavigate();
 
-    function handleCreateAccount () {
-    // for debugging purpose
+    function checkEmail(email) {
+      // Regular expression for validating email addresses
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
     
+
+    const handleCreateAccount = async () => {
+    let isValidEmail = false
+    let emailIsUnique = false;
     let hasUppercase = false;
     let hasLowercase = false;
     let hasNumber = false;
+    const response = await fetch("http://localhost:8000/auth/checkEmail/", {
+      method:'POST',
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify ({
+        "email":email
+      })
+    })
+    console.log(response);
 
+    if (response.ok) {
+      emailIsUnique = true;
+    } else {
+      emailIsUnique = false;
+    }
+
+    if (checkEmail(email)) {
+      isValidEmail = true
+    } else {
+      isValidEmail = false
+    }
+    
     // Periksa setiap karakter dalam kata sandi
     for (let char of password) {
         if (char >= 'a' && char <= 'z') {
@@ -46,8 +75,16 @@ function RegisterBoxFix(props) {
         setErrorMessage('Password must be at least 8 characters');
         setPassword('');
     }
+    if (!emailIsUnique) {
+      setErrorMessage('The email address is already in use')
+    }
 
-    if (password.length >= 8 && hasLowercase && hasUppercase && hasNumber) {
+    if (!isValidEmail) {
+      setErrorMessage("Please enter a valid email address")
+    }
+
+
+    if (password.length >= 8 && hasLowercase && hasUppercase && hasNumber && emailIsUnique && isValidEmail) {
         localStorage.setItem('email', email);
         localStorage.setItem('password', password);
         console.log('Email:', email);
@@ -58,7 +95,8 @@ function RegisterBoxFix(props) {
   }
   return (
     <>
-    <div className="flex flex-col justify-center px-16 py-12 bg-black max-md:px-5">
+    <div class="flex flex-col justify-center min-h-screen bg-black">
+      <div class="mx-auto px-16 py-12 max-w-screen-xl">
       <div className="mt-1 mr-8 shadow-sm max-md:mt-10 max-md:mr-2.5 max-md:max-w-full">
        <form>
         <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:">
@@ -144,7 +182,7 @@ function RegisterBoxFix(props) {
               </div>
               {/* Error message */}
               {errorMessage && (
-              <div className="text-red-500 text-sm mb-2">{errorMessage}</div>
+              <div className="mt-1 text-red-500 text-sm mb-2">{errorMessage}</div>
               )}
               <div 
               className="justify-center self-center px-5 py-2 mt-3 text-xl font-semibold tracking-widest text-black bg-green-400 whitespace-nowrap rounded-3xl shadow-sm max-md:mt-10 hover:bg-green-500 cursor-pointer"
@@ -160,6 +198,7 @@ function RegisterBoxFix(props) {
           </div>
         </div>
        </form>
+      </div>
       </div>
     </div>
     </>

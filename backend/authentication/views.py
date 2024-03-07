@@ -79,5 +79,19 @@ def login(request):
         else:
 
             return JsonResponse({"status":"failed", "login":False,"message":"User not found"}, status=404)
+        
+
+@csrf_exempt
+def check_email(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        email_req = data.get('email')
+        user = UserModel.objects.filter(email=email_req).first()
+        if user is None:
+            return JsonResponse({"message":"success"}, status=200)
+        else:
+            return JsonResponse({"message":"Email already used"}, status=409)
+
+        
 
 
