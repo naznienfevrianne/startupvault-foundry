@@ -3,36 +3,59 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function FounderForm(props) {
+  const [errorMessage, setErrorMessage] = useState('');
   const storedName = localStorage.getItem("name") || '';
   const storedLinkedin = localStorage.getItem("linkedin") || '';
-  const storedFounderEmail = localStorage.getItem("founderEmail") || '';
   const storedPhoneNumber = localStorage.getItem("phoneNumber") || '';
   const storedProfilePicture = localStorage.getItem("profilePicture") || '';
   const [name, setName] = useState(storedName);
   const [linkedin, setLinkedin] = useState(storedLinkedin);
-  const [founderEmail, setFounderEmail] = useState(storedFounderEmail);
+  // const [founderEmail, setFounderEmail] = useState(storedFounderEmail);
   const [phoneNumber, setPhoneNumber] = useState(storedPhoneNumber);
   const [profilePicture, setProfilePicture] = useState(storedProfilePicture);
   const navigate = useNavigate();
   const handleProfilePictureChange = (e) => {
+    
     let file = e.target.files[0]
     const imageUrl = URL.createObjectURL(file)
     setProfilePicture(imageUrl);
     localStorage.setItem("profilePicture", imageUrl);
   }
 
+
   function handleFounderForm () {
+    
+    let phoneNumberValid = true
+    let linkedinValid = true
+    let profilePictureValid = true
+
+    if (!phoneNumber || phoneNumber.length < 11) {
+      phoneNumberValid = false
+      setErrorMessage("Please input valid phone number")
+    }
+    if (!linkedin || linkedin.length < 1) {
+      linkedinValid = false
+      setErrorMessage("Please input valid linkedin link")
+    } 
+    if (!profilePicture) {
+      profilePictureValid = false
+      setErrorMessage("Please upload a profile picture")
+    }
+
+    if (phoneNumber && linkedin && profilePicture) {
+      localStorage.setItem("name", name);
+      localStorage.setItem("linkedin", linkedin);
+      // localStorage.setItem("founderEmail", founderEmail);
+      localStorage.setItem("phoneNumber", phoneNumber);
+      navigate("/startupType")
+    }
     // jika udh divalidasi (duh males bikin casenya LOL)
-    localStorage.setItem("name", name);
-    localStorage.setItem("linkedin", linkedin);
-    localStorage.setItem("founderEmail", founderEmail);
-    localStorage.setItem("phoneNumber", phoneNumber);
-    navigate("/startupType")
+    
   }
   
   
   return (
-    <div className="flex flex-col justify-center bg-black">
+    <div className="flex flex-col justify-center min-h-screen bg-black">
       <div className="flex justify-center items-center px-32 py-6 w-full max-md:px-5 max-md:max-w-full">
         <div className="flex flex-col mt-0 mb-24 w-full max-w-[1120px] max-md:my-10 max-md:max-w-full">
           <div className="flex gap-5 justify-between w-full max-md:flex-wrap max-md:max-w-full">
@@ -102,14 +125,14 @@ function FounderForm(props) {
             onChange={(e) => setLinkedin(e.target.value)}
             className="flex-grow h-10 rounded-lg bg-neutral-800 text-white px-4 py-3" />
             </div>
-          <div className="mt-3 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
+          {/* <div className="mt-3 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
             Email
           </div>
           <input 
             type="email" 
             value={founderEmail}
             onChange={(e) => setFounderEmail(e.target.value)}
-            className="shrink-0 mt-1 h-8 rounded-lg bg-neutral-800 text-white px-4 py-2 max-md:max-w-full" />
+            className="shrink-0 mt-1 h-8 rounded-lg bg-neutral-800 text-white px-4 py-2 max-md:max-w-full" /> */}
          <div className="flex items-center mt-3 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
             Phone Number
           </div>
@@ -123,6 +146,10 @@ function FounderForm(props) {
             onChange={(e) => setPhoneNumber(e.target.value)}
             className="flex-grow h-10 rounded-lg bg-neutral-800 text-white px-4 py-3" />
             </div>
+
+          {errorMessage && (
+            <div className="mt-1 text-red-500 text-sm mb-2">{errorMessage}</div>
+            )}
           <div 
           onClick = {handleFounderForm}
           type="button"
