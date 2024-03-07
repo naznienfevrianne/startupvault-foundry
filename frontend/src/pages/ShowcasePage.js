@@ -118,20 +118,7 @@ const Image = ({ images }) => {
   );
 };
 
-const Icon = ({ src, alt, className }) => (
-  <img loading="lazy" src={src} alt={alt} className={className} />
-);
-
-//const Likes = ({ count }) => {
-//  return (
-//    <div className="flex mr-2 mt-4 text-base tracking-normal text-neutral-400">
-//      <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/f90fa44f5c875dc682630d4e52d5606c05c4a6cc35fc4b07a84d3cd0bba786b7?apiKey=50c5361058c6465f94eb30dfd5c845d1&" alt="Like Icon" className="w-5 aspect-square mr-1.5" />
-//      <div>{count} likes</div>
-//    </div>
-//  );
-//};
-
-const Likes = ({ postId, initialLikes, isInitiallyLiked }) => {
+const Likes = ({ LikedPost, user, initialLikes, isInitiallyLiked }) => {
   const [likesCount, setLikesCount] = useState(initialLikes);
   const [isLiked, setIsLiked] = useState(false);
 
@@ -142,28 +129,17 @@ const Likes = ({ postId, initialLikes, isInitiallyLiked }) => {
   }, [initialLikes, isInitiallyLiked]);
 
   const toggleLike = async () => {
-  console.log("ini loh" + postId);
-    // Assuming CSRF tokens are handled globally or not needed for this demo
-    const response = await fetch(`http://127.0.0.1:8000/showcase/toggle_like/${postId}/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        // Include headers for CSRF token if necessary
-        // 'X-CSRFToken': 'your-csrf-token-here',
-      },
-    });
-
-    if (!response.ok) {
-      console.error('Failed to toggle like');
-      return;
-    }
-
-    const data = await response.json();
-
-    // Update UI based on the response
-    setIsLiked(data.isLiked);
-    setLikesCount(data.likesCount);
-  };
+      const response = await fetch("http://127.0.0.1:8000/showcase/toggle_like", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        "post": LikedPost,
+                        "user": user,
+                        "date": new Date(),
+                    })
+      })
 
 
   return (
@@ -176,6 +152,7 @@ const Likes = ({ postId, initialLikes, isInitiallyLiked }) => {
       <span>{likesCount} likes</span>
     </div>
   );
+};
 };
 
    return (
@@ -193,7 +170,6 @@ const Likes = ({ postId, initialLikes, isInitiallyLiked }) => {
                   <Icon
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/124b5d5efd3e4196ebf083fa4f204a1199db6acebb70a317cbba4e5b973e8053?apiKey=50c5361058c6465f94eb30dfd5c845d1&"
                     alt="Verified Badge"
-                    className="w-5 aspect-square"
                   />
                   <time className="text-neutral-400">{countTimeStamp(post.date)}</time>
                 </header>
@@ -202,7 +178,7 @@ const Likes = ({ postId, initialLikes, isInitiallyLiked }) => {
                 {post.images && post.images.length > 0 ? (
                                 <Image images={post.images} />
                  ) : null}
-                <Likes postId={post.id} initialLikes={post.likes} isInitiallyLiked={false} />
+                <Likes LikedPost={post.id} user={post.user} initialLikes={post.likes} isInitiallyLiked={false} />
               </div>
             </div>
           </div>
@@ -210,13 +186,6 @@ const Likes = ({ postId, initialLikes, isInitiallyLiked }) => {
       </div>
     );
 };
-
-//function createPost = () => (
-//// pilih role dulu kalo dia partner bs langsung post
-//// input everything
-//// submitted
-////balikin ke state kosong lagi
-//)
 
 const Icon = ({ src, alt }) => (
   <img loading="lazy" src={src} alt={alt} className="w-5 aspect-square" />

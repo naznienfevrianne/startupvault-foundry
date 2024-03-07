@@ -63,8 +63,8 @@ class ShowcaseView(APIView):
 
     @api_view(['POST'])
     @csrf_exempt
-    def toggle_like(request, post_id):
-        post = get_object_or_404(ShowcasePost, id=post_id)
+    def toggle_like(self, request):
+        post = request.post
         user = request.user  # Ensure you have a way to identify the requesting user
 
         # Use the model methods for adding or removing a like
