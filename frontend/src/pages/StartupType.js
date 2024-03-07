@@ -19,7 +19,7 @@ function StartupType(props) {
 
 
   return (
-    <div className="flex flex-col justify-center bg-black">
+    <div className="flex flex-col justify-center bg-black min-h-screen">
       <div className="flex justify-center items-center px-20 py-3 w-full max-md:px-5 max-md:max-w-full">
         <div className="flex flex-col mt-1 mb-40 w-full max-w-[950px] max-md:my-10 max-md:max-w-full">
           <div className="flex gap-5 justify-between w-full max-md:flex-wrap max-md:max-w-full">

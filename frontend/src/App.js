@@ -11,12 +11,15 @@ import LoginBox from './pages/LoginBox';
 import Logout from './pages/Logout';
 import Showcase from './pages/ShowcasePage';
 //import GlobalStyle from './GlobalStyle';
+import CookieDisplay from './pages/CookieDisplay';
 
 function App() {
+    
     return (
         <>
         <BrowserRouter>
             <Routes>
+                <Route path="/" element={<CookieDisplay />} />
                 <Route path="/register" element={<RegisterBoxFix />} /> {/* Correct usage of Route */}
                 <Route path="/pickRole" element={<PickRole />} />
                 <Route path="/founderForm" element={<FounderForm />} />
@@ -27,6 +30,7 @@ function App() {
                 <Route path="/showcase" element={<Showcase />}/>
             </Routes>
         </BrowserRouter>
+
         </>
     );
 }
