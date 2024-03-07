@@ -5,10 +5,10 @@ from django.db import models
 
 # Create your models here.
 class UserModel(models.Model):
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     role = models.CharField(max_length=10)
-    password = models.CharField(max_length=12)
-    isVerified = models.BooleanField()
+    password = models.CharField(max_length=50)
+    isVerified = models.IntegerField()
     image = models.TextField()
     linkedin = models.URLField()
     name = models.CharField(max_length = 255)
@@ -20,10 +20,10 @@ class Startup(models.Model):
     location = models.TextField()
     sector = models.TextField(blank=True)
     desc = models.TextField()
-    pitchdeck = models.TextField()
+    pitchdeck = models.TextField(null=True)
     revenue = models.IntegerField()
     support = models.TextField()
-    website = models.URLField()
+    website = models.TextField()
     linkedin = models.TextField()
 
 class Founder(UserModel):

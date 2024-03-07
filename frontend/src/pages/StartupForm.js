@@ -38,6 +38,8 @@ function StartupForm(props) {
         ['Gaming and Entertainment', 'Food and Agriculture', 'Education and Self Development', 'Insurance', 'Travel'], // Column 2
         ['Mobility Tech (EV, ride-sharing, ride-hailing)', 'Human Resource', 'Human and Psychology', 'Gender and Society'] // Column 3
       ];
+    const [errorMessage, setErrorMessage] = useState(' ');
+
       function generateRandomString(length) {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let result = '';
@@ -139,69 +141,164 @@ function StartupForm(props) {
     }
 
     const handleSubmit = async () => {
-      try {
-          const fileName = localStorage.getItem("name") + "/" + generateRandomString(25)
-          // Upload user image
-          const userImgUrl = uploadUserImg(fileName);
-  
-          // Upload startup logo
-          const startupLogoUrl = uploadStartupImg(fileName);
-  
-          // Upload pitchdeck
-          const pitchdeckUrl = uploadPitchdeck(fileName);
-  
-          console.log("User Image URL:", userImgUrl);
-          console.log("Startup Logo URL:", startupLogoUrl);
-          console.log("Pitchdeck URL:", pitchdeckUrl);
+      let startupLogoValid = true
+      let startupNameValid = true
+      let locationValid = true
+      let sectorValid = true
+      let descValid = true
+      let pitchDeckValid = true
+      let revenueValid = true
+      let supportValid = true
+      let websiteValid = true
+      let startupLinkedinValid = true
 
-          console.log("AAAAAAAAAAAAAAAAA")
-          console.log(JSON.stringify({
-            "typ": localStorage.getItem("startupType"),
-            "image": supabaseUrl + "/storage/v1/object/public/startupimg/" + fileName,
-            "name": localStorage.getItem("startupName"),
-            "location": localStorage.getItem("location"),
-            "sector": localStorage.getItem("sector"),
-            "desc": localStorage.getItem("description"),
-            "pitchdeck": supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName,
-            "revenue": localStorage.getItem("revenue"),
-            "support": localStorage.getItem("support"),
-            "website": localStorage.getItem("website"),
-            "linkedin": "https://www.linkedin.com/" + localStorage.getItem("startupLinkedin")
-        }))
-          // Perform fetch request
-          const response = await fetch("http://localhost:8000/auth/startup/", {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                  "typ": localStorage.getItem("startupType"),
-                  "image": supabaseUrl + "/storage/v1/object/public/startupimg/" + fileName,
-                  "name": localStorage.getItem("startupName"),
-                  "location": localStorage.getItem("location"),
-                  "sector": localStorage.getItem("sector"),
-                  "desc": localStorage.getItem("description"),
-                  "pitchdeck": supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName,
-                  "revenue": localStorage.getItem("revenue"),
-                  "support": localStorage.getItem("support"),
-                  "website": localStorage.getItem("website"),
-                  "linkedin": "https://linkedin.com" + localStorage.getItem("startupLinkedin")
-              })
-          });
-  
-          if (!response.ok) {
-              const jsonData = await response.json();
-              console.log(jsonData);
-              throw new Error(jsonData.message);
-          } else {
-              const data = response.json();
-              console.log(data);
-              alert("Submission successful!");
-          }
-      } catch (error) {
-          console.error("Error:", error);
-          alert("Error: " + error.message);
+      if (!startupLinkedin || startupLinkedin < 1) {
+        startupLinkedinValid = false
+        setErrorMessage("Please input valid startup's linkedin link")
       }
+
+      if (!website || website < 4 || !website.includes(".")) {
+        websiteValid = false
+        setErrorMessage("Please input valid startup's website")
+      }
+
+      if (!support || support < 4 ) {
+        supportValid = false
+        setErrorMessage("Please input startup's support needs")
+      }
+
+      if (!revenue) {
+        revenueValid = false
+        setErrorMessage("Please pick startup's revenue")
+      }
+
+      if (!pitchdeck) {
+        pitchDeckValid = false
+        setErrorMessage("Please upload startup's pitchdeck")
+      }
+
+      if (!description || description < 4) {
+        descValid = false
+        setErrorMessage("Please input startup's description")
+      }
+
+      if (!sector) {
+        sectorValid = false
+        setErrorMessage("Please pick startup's sector")
+      }
+      if (!location || location.length < 1) {
+        locationValid = false
+        setErrorMessage("Please input startup's location")
+      } 
+
+      if (!startupName || startupName < 1) {
+        startupNameValid = false
+        setErrorMessage("Please input startup's name")
+      }
+
+      if (!startupLogo) {
+        startupLogoValid = false
+        setErrorMessage("Please upload startup's logo")
+      }
+
+      if ( startupLogoValid && startupNameValid && locationValid && sectorValid && descValid && pitchDeckValid 
+        && revenueValid && supportValid && websiteValid && startupLinkedinValid) {
+          setErrorMessage("")
+          localStorage.setItem("startupName", startupName)
+          localStorage.setItem("location", location)
+          localStorage.setItem("sector", sector)
+          localStorage.setItem("description", description)
+          localStorage.setItem("pitchdeck", pitchdeck)
+          localStorage.setItem("revenue", revenue)
+          localStorage.setItem("support", support)
+          localStorage.setItem("website", website)
+          localStorage.setItem("linkedin", startupLinkedin)
+          try {
+            const storedValue = localStorage.getItem("name");
+
+            // Remove all spaces from the stored value
+            const valueWithoutSpaces = storedValue.replace(/\s/g, '');
+
+            const fileName = valueWithoutSpaces + "/" + generateRandomString(25)
+  
+            console.log( JSON.stringify({
+              "typ": localStorage.getItem("startupType"),
+              "image": supabaseUrl + "/storage/v1/object/public/startupimg/" + fileName,
+              "name": localStorage.getItem("startupName"),
+              "location": localStorage.getItem("location"),
+              "sector": localStorage.getItem("sector"),
+              "desc": localStorage.getItem("description"),
+              "pitchdeck": supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName,
+              "revenue": localStorage.getItem("revenue"),
+              "support": localStorage.getItem("support"),
+              "website": localStorage.getItem("website"),
+              "linkedin": "https://linkedin.com" + localStorage.getItem("startupLinkedin")
+          }))
+            const response = await fetch("http://localhost:8000/auth/startup/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "typ": localStorage.getItem("startupType"),
+                    "image": supabaseUrl + "/storage/v1/object/public/startupimg/" + fileName,
+                    "name": localStorage.getItem("startupName"),
+                    "location": localStorage.getItem("location"),
+                    "sector": localStorage.getItem("sector"),
+                    "desc": localStorage.getItem("description"),
+                    "pitchdeck": supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName,
+                    "revenue": localStorage.getItem("revenue"),
+                    "support": localStorage.getItem("support"),
+                    "website": localStorage.getItem("website"),
+                    "linkedin": "https://linkedin.com" + localStorage.getItem("startupLinkedin")
+                })
+            })
+  
+            if (response.ok) {
+              const data = await response.json();
+              alert("Submission successful!");
+              console.log(data);
+              const pk = data.id
+              // Perform fetch request
+              const responseFounder = await fetch("http://localhost:8000/auth/founder/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  
+                    "email": localStorage.getItem("email"),
+                    "role": "founder",
+                    "password": localStorage.getItem("password"),
+                    "isVerified": 0,
+                    "image": supabaseUrl + "/storage/v1/object/public/userimg/" + fileName,
+                    "linkedin": "https://linkedin.com/" + localStorage.getItem("linkedin"),
+                    "name": localStorage.getItem("name"),
+                    "phoneNumber": localStorage.getItem("phoneNumber"),
+                    "startup": pk
+                })
+            })
+            if (!responseFounder.ok) {
+              const founderJsonData = await responseFounder.json();
+              console.log(founderJsonData);
+            } else {
+              const founderJsonData = await responseFounder.json();
+              alert("Submission successful!");
+              console.log(founderJsonData);
+              navigate("/login")
+            }
+                
+            } else {
+              const jsonData = await response.json();
+                console.log(jsonData);
+                
+            }  
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Error: " + error.message);
+        }
+        }
+      
   };
   
   
@@ -226,7 +323,8 @@ function StartupForm(props) {
     }
     
   return (
-    <div className="flex flex-col justify-center pb-4 bg-black">
+    <>
+    <div className="flex flex-col justify-center pb-4 bg-black min-h-screen">
       <div className="flex justify-center items-center px-32 py-6 w-full max-md:px-5 max-md:max-w-full">
         <div className="flex flex-col mt-0 mb-8 w-full max-w-[1120px] max-md:my-10 max-md:max-w-full">
           <div className="flex gap-5 justify-between w-full max-md:flex-wrap max-md:max-w-full">
@@ -548,6 +646,9 @@ function StartupForm(props) {
             onChange={(e) => setStartupLinkedin(e.target.value)}
             className="flex-grow h-10 rounded-lg bg-neutral-800 text-white px-4 py-3" />
             </div>
+            {errorMessage && (
+            <div className="mt-1 text-red-500 text-sm mb-2">{errorMessage}</div>
+            )}
           <div className="flex gap-5 justify-between mt-6 w-full text-l font-semibold tracking-widest whitespace-nowrap max-md:flex-wrap max-md:max-w-full">
             <div 
             onClick = {handlePrevious}
@@ -575,6 +676,7 @@ function StartupForm(props) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 export default StartupForm;

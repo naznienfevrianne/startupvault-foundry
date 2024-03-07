@@ -1,102 +1,61 @@
 import * as React from "react";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import { logout } from './Logout';
+function LoginBox(props) {
 
-function RegisterBoxFix(props) {
     const storedEmail = localStorage.getItem("email") || '';
     const storedPassword = localStorage.getItem("password") || '';
     const [email, setEmail] = useState(storedEmail);
     const [password, setPassword] = useState(storedPassword);
     const [errorMessage, setErrorMessage] = useState(' ');
-    const navigate = useNavigate();
+    const [cookies, setCookie] = useCookies()
+    const navigate = useNavigate("/")
 
-    function checkEmail(email) {
-      // Regular expression for validating email addresses
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(email);
-    }
-    
 
-    const handleCreateAccount = async () => {
-    let isValidEmail = false
-    let emailIsUnique = false;
-    let hasUppercase = false;
-    let hasLowercase = false;
-    let hasNumber = false;
-    const response = await fetch("http://localhost:8000/auth/checkEmail/", {
-      method:'POST',
-      headers: {
-        'Content-Type':'application/json'
-      },
-      body: JSON.stringify ({
-        "email":email
+    const handleLogin = async () => {
+      try {
+        console.log(JSON.stringify({
+          "email":email,
+          "password":password
+        }))
+        const response = await fetch("http://localhost:8000/auth/login/", {
+        method:'POST',
+        headers: {
+          'Content-Type':'application/json'
+        },
+        body: JSON.stringify({
+          "email":email,
+          "password":password
+        })
+        
       })
-    })
-    console.log(response);
-
-    if (response.ok) {
-      emailIsUnique = true;
-    } else {
-      emailIsUnique = false;
-    }
-
-    if (checkEmail(email)) {
-      isValidEmail = true
-    } else {
-      isValidEmail = false
-    }
-    
-    // Periksa setiap karakter dalam kata sandi
-    for (let char of password) {
-        if (char >= 'a' && char <= 'z') {
-            hasLowercase = true;
-        } else if (char >= 'A' && char <= 'Z') {
-            hasUppercase = true;
-        } else if (char >= '0' && char <= '9') {
-            hasNumber = true;
+        if (response.ok) {
+          const data = await response.json();
+          alert("Login successful!")
+          localStorage.clear()
+         // Set each key-value pair from the response JSON as a separate cookie
+          Object.keys(data).forEach(key => {
+            setCookie(key, data[key], { path: '/', expires:new Date(Date.now() + 60 * 60 * 1000)}); // Set cookie for each key-value pair
+          });
+          setCookie("login", true, {expires: new Date(Date.now() + 60 * 60 * 1000)});
+          console.log(cookies)
+          navigate("/")
+        } else {
+          const data = await response.json()
+          console.log(data)
+          alert("Error!")
         }
-    }
-
-    
-    
-    if (!hasNumber) {
-        setErrorMessage('Password must be include at least one number (0-9)');
-        setPassword('');
-    }
-    if (!hasUppercase) {
-        setErrorMessage('Password must be include at least one uppercase letter');
-        setPassword('');
-    }
-    if (!hasLowercase) {
-        setErrorMessage('Password must be include at least one lowercase letter');
-        setPassword('');
-    }
-    if (password.length < 8) {
-        setErrorMessage('Password must be at least 8 characters');
-        setPassword('');
-    }
-    if (!emailIsUnique) {
-      setErrorMessage('The email address is already in use')
-    }
-
-    if (!isValidEmail) {
-      setErrorMessage("Please enter a valid email address")
-    }
-
-
-    if (password.length >= 8 && hasLowercase && hasUppercase && hasNumber && emailIsUnique && isValidEmail) {
-        localStorage.setItem('email', email);
-        localStorage.setItem('password', password);
-        console.log('Email:', email);
-        console.log('Password:', password);
-        navigate("/pickRole");
+      } catch (error) {
+        console.error("Error:", error)
+        alert("Error: " + error.message)
+      }
     }
     
-  }
   return (
     <>
-    <div class="flex flex-col justify-center min-h-screen bg-black">
-      <div class="mx-auto px-16 py-12 max-w-screen-xl">
+    <div className="flex flex-col justify-center px-16 py-12 bg-black max-md:px-5 min-h-screen">
       <div className="mt-1 mr-8 shadow-sm max-md:mt-10 max-md:mr-2.5 max-md:max-w-full">
        <form>
         <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:">
@@ -118,7 +77,7 @@ function RegisterBoxFix(props) {
           <div className="flex flex-col ml-5 w-[43%] max-md:ml-0 max-md:w-full">
             <div className="flex flex-col grow max-md:mt-8 max-md:max-w-full">
               <div className="text-5xl font-semibold tracking-wider leading-[70.8px] text-stone-100 max-md:max-w-full max-md:text:4xl">
-                Sign up
+                Sign In
               </div>
               <div className="mt-4 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
                 Email Address
@@ -182,27 +141,26 @@ function RegisterBoxFix(props) {
               </div>
               {/* Error message */}
               {errorMessage && (
-              <div className="mt-1 text-red-500 text-sm mb-2">{errorMessage}</div>
+              <div className="text-red-500 text-sm mb-2">{errorMessage}</div>
               )}
               <div 
               className="justify-center self-center px-5 py-2 mt-3 text-xl font-semibold tracking-widest text-black bg-green-400 whitespace-nowrap rounded-3xl shadow-sm max-md:mt-10 hover:bg-green-500 cursor-pointer"
-              onClick= {handleCreateAccount}
+              onClick= {handleLogin}
               type="button">
                 CREATE ACCOUNT
               </div>
               <div className="flex gap-1 self-center mt-4 text-base tracking-normal whitespace-nowrap">
-                <div className="grow text-white">Already have an account?</div>
-                <div className="text-green-400 underline">Log in</div>
+                <div className="grow text-white">Don't have an account?</div>
+                <div className="text-green-400 underline">Sign Up</div>
               </div>
             </div>
           </div>
         </div>
        </form>
       </div>
-      </div>
     </div>
     </>
   );
 }
-export default RegisterBoxFix;
+export default LoginBox;
 
