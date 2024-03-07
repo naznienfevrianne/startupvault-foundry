@@ -1,9 +1,10 @@
 import * as React from "react";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { logout } from './Logout';
 function LoginBox(props) {
+
     const storedEmail = localStorage.getItem("email") || '';
     const storedPassword = localStorage.getItem("password") || '';
     const [email, setEmail] = useState(storedEmail);
@@ -11,6 +12,8 @@ function LoginBox(props) {
     const [errorMessage, setErrorMessage] = useState(' ');
     const [cookies, setCookie] = useCookies()
     const navigate = useNavigate("/")
+
+
     const handleLogin = async () => {
       try {
         console.log(JSON.stringify({
@@ -36,7 +39,7 @@ function LoginBox(props) {
           Object.keys(data).forEach(key => {
             setCookie(key, data[key], { path: '/', expires:new Date(Date.now() + 60 * 60 * 1000)}); // Set cookie for each key-value pair
           });
-          startInactivityTimer();
+          setCookie("login", true, {expires: new Date(Date.now() + 60 * 60 * 1000)});
           console.log(cookies)
           navigate("/")
         } else {
@@ -49,19 +52,10 @@ function LoginBox(props) {
         alert("Error: " + error.message)
       }
     }
-    const startInactivityTimer = () => {
-      let timeOutId;
-      const resetTimer = () => {
-        clearTimeout(timeOutId);
-        timeOutId = setTimeout(logout, 60*60*1000);
-      }
-    }
-    const logout = () => {
-      navigate("/logout")
-    }
+    
   return (
     <>
-    <div className="flex flex-col justify-center px-16 py-12 bg-black max-md:px-5">
+    <div className="flex flex-col justify-center px-16 py-12 bg-black max-md:px-5 min-h-screen">
       <div className="mt-1 mr-8 shadow-sm max-md:mt-10 max-md:mr-2.5 max-md:max-w-full">
        <form>
         <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:">

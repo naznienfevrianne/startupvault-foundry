@@ -9,11 +9,14 @@ import StartupType from './pages/StartupType';
 import StartupForm from './pages/StartupForm';
 import LoginBox from './pages/LoginBox';
 import Logout from './pages/Logout';
+import CookieDisplay from './pages/CookieDisplay';
 function App() {
+    
     return (
         <>
         <BrowserRouter>
             <Routes>
+                <Route path="/" element={<CookieDisplay />} />
                 <Route path="/register" element={<RegisterBoxFix />} /> {/* Correct usage of Route */}
                 <Route path="/pickRole" element={<PickRole />} />
                 <Route path="/founderForm" element={<FounderForm />} />
@@ -23,6 +26,7 @@ function App() {
                 <Route path="/logout" element={<Logout />}/>
             </Routes>
         </BrowserRouter>
+
         </>
     );
 }
