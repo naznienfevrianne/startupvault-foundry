@@ -1,35 +1,47 @@
 from django.shortcuts import render
 from diaryentries.models import Entry
-from .serializers import MetricSerializer
+from .serializers import MetricSerializer, FounderEntrySerializer
 from rest_framework import generics
-from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 from datetime import datetime, timedelta
 from django.utils import timezone
 
+# Read & Create Diary Entry by Founder
+class DiaryEntriesListCreate(generics.ListCreateAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = FounderEntrySerializer
 
-class MetricsRetrieve(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Entry.objects.all()
+    # Read
+    def get_queryset(self):
+        sort_by = self.request.query_params.get("sort", "")
+        founderId = self.kwargs["founder"]
+        if sort_by:
+            return Entry.objects.all().filter(founder=founderId).order_by(sort_by)
+        return Entry.objects.filter(founder=founderId)
+
+class MetricsRetrieve(generics.RetrieveAPIView):
+
     serializer_class = MetricSerializer
 
-    def get(self, request, *args, **kwargs): #only accepting argument self
-        instance = self.get_object()
+    def get_queryset(self):
+        founderId = self.kwargs["founder"]
+        instance = Entry.objects.filter(founder=founderId).order_by("-date").first()
 
-        date = instance.date #tanggal entry
+        instanceDate = instance.date #tanggal entry
         today = timezone.now().date() #tanggal hari ini
 
         start_of_week = today - timedelta(days=today.weekday()) #Today minus integer weekday hari ini (Mon=0, Sunday=6)
         end_of_week = start_of_week + timedelta(days=6)
 
-        data = self.get_serializer(instance).data
-
-        if (start_of_week <= date <= end_of_week):
-            data['date_within_week'] = date
-            return Response(data)            
+        if (start_of_week <= instanceDate <= end_of_week):
+            return Entry.objects.filter(founder=founderId)
         else:
-            return Response("No content available this week")
+            return Entry.objects.none()
     
-    
-
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.last() if queryset else None
+        return obj
         
 
 

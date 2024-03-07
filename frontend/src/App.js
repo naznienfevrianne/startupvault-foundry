@@ -12,6 +12,7 @@ import Logout from './pages/Logout';
 import CookieDisplay from './pages/CookieDisplay';
 import Showcase from './pages/ShowcasePage';
 //import GlobalStyle from './GlobalStyle';
+import FounderDashboard from './pages/FounderDashboard';
 
 function App() {
     
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/login" element={<LoginBox/>}/>
                 <Route path="/logout" element={<Logout />}/>
                 <Route path="/showcase" element={<Showcase />}/>
+                <Route path="/dashboard" element={<FounderDashboard />} />
             </Routes>
         </BrowserRouter>
 
