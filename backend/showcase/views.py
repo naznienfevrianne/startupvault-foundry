@@ -5,33 +5,36 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, AllowAny
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from .models import ShowcasePost, Like, PostImage
+from user.models import User
 from .serializers import ShowcasePostSerializer
 from .forms import ShowcasePostForm, PostImageForm
 
 class ShowcaseView(APIView):
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    queryset = ShowcasePost.objects.all()
+    # # Use AllowAny permission for GET requests to allow viewing posts without authentication
+    # def get_permissions(self):
+    #     if self.request.method == 'GET':
+    #         return [AllowAny()]
+    #     return [IsAuthenticated()]
+    permission_classes = [AllowAny]
 
     def get_queryset(self):
-        """
+        """xs
         Optionally, this method can contain logic to filter or adjust
         the queryset based on the request.
         """
-        return self.queryset.all()
+        return ShowcasePost.objects.all()
 
     def get(self, request, *args, **kwargs):
-        posts = self.get_queryset()  # This ensures fresh data for each request.
+        posts = self.get_queryset()
         serializer = ShowcasePostSerializer(posts, many=True)
         return Response(serializer.data)
 
     @transaction.atomic
-    @csrf_exempt
     def post(self, request, *args, **kwargs):
-        permission_classes = [IsAuthenticated]
         if 'showcase_post_id' in request.data:
             # Handle like functionality
             return self.toggle_like(request)
@@ -39,25 +42,27 @@ class ShowcaseView(APIView):
             # Handle post creation
             return self.create_post(request)
 
-    @csrf_exempt
     def create_post(self, request):
         post_form = ShowcasePostForm(request.data)
-        image_form = PostImageForm(request.data, request.FILES)
+        image_form = PostImageForm(request.data, request.FILES) if request.FILES else None
 
-        if post_form.is_valid() and image_form.is_valid():
+        if post_form.is_valid() and (image_form is None or image_form.is_valid()):
             showcase_post = post_form.save(commit=False)
-            showcase_post.user = request.user
+            user_id = request.data.get('user')
+            user = User.objects.get(id=user_id)
+            showcase_post.user = user  # Assuming `showcase_post` is an instance of your ShowcasePost model.
             showcase_post.save()
 
-            for image_data in request.FILES.getlist('image'):
-                PostImage.objects.create(post=showcase_post, image=image_data)
+            images_urls = request.data.get('images', [])
+            for url in images_urls:
+                PostImage.objects.create(post=showcase_post, image_url=url)
 
             serializer = ShowcasePostSerializer(showcase_post)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             errors = {
                 'post_errors': post_form.errors,
-                'image_errors': image_form.errors,
+                'image_errors': image_form.errors if image_form else {},
             }
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
