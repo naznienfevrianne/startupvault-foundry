@@ -10,6 +10,9 @@ import StartupForm from './pages/StartupForm';
 import LoginBox from './pages/LoginBox';
 import Logout from './pages/Logout';
 import CookieDisplay from './pages/CookieDisplay';
+import Showcase from './pages/ShowcasePage';
+//import GlobalStyle from './GlobalStyle';
+import FounderDiary from './pages/FoundersDiary';
 function App() {
     
     return (
@@ -24,6 +27,8 @@ function App() {
                 <Route path="/startupForm" element={<StartupForm />} />
                 <Route path="/login" element={<LoginBox/>}/>
                 <Route path="/logout" element={<Logout />}/>
+                <Route path="/showcase" element={<Showcase />}/>
+                <Route path="/diary" element={<FounderDiary />}/>
             </Routes>
         </BrowserRouter>
 
