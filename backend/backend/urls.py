@@ -10,5 +10,5 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('auth/', include('authentication.urls')),
     path('showcase/', include('showcase.urls')),
-    path('diary/', include('diaryentries.urls')),
+    path('diary/', include('diaryentries.urls'))
 ]

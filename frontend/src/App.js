@@ -13,6 +13,7 @@ import CookieDisplay from './pages/CookieDisplay';
 import Showcase from './pages/ShowcasePage';
 //import GlobalStyle from './GlobalStyle';
 import FounderDashboard from './pages/FounderDashboard';
+import FounderDiary from './pages/FoundersDiary';
 
 function App() {
     
@@ -30,6 +31,7 @@ function App() {
                 <Route path="/logout" element={<Logout />}/>
                 <Route path="/showcase" element={<Showcase />}/>
                 <Route path="/dashboard" element={<FounderDashboard />} />
+                <Route path="/diary" element={<FounderDiary />}/>
             </Routes>
         </BrowserRouter>
 
