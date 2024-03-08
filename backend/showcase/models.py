@@ -30,7 +30,7 @@ class ShowcasePost(models.Model):
 
 class PostImage(models.Model):
     post = models.ForeignKey(ShowcasePost, on_delete=models.CASCADE, related_name='images')
-    image_url = models.TextField() # Using URLField for image URLs
+    image = models.TextField() # Using URLField for image URLs
 
     def __str__(self):
         return f"Image for post {self.post.id}"

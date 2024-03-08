@@ -1,61 +1,39 @@
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.generics import ListAPIView, CreateAPIView, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, AllowAny
+from rest_framework import status, generics
 from django.db import transaction
-from django.shortcuts import get_object_or_404
 from .models import ShowcasePost, Like, PostImage
-from user.models import User
 from .serializers import ShowcasePostSerializer
 from .forms import ShowcasePostForm, PostImageForm
+from django.http import JsonResponse
+from rest_framework.permissions import AllowAny
+from user.models import User
 
-class ShowcaseView(APIView):
-    # # Use AllowAny permission for GET requests to allow viewing posts without authentication
-    # def get_permissions(self):
-    #     if self.request.method == 'GET':
-    #         return [AllowAny()]
-    #     return [IsAuthenticated()]
+
+class ShowcaseListView(ListAPIView):
+    queryset = ShowcasePost.objects.order_by('-date')
+    serializer_class = ShowcasePostSerializer
     permission_classes = [AllowAny]
 
-    def get_queryset(self):
-        """xs
-        Optionally, this method can contain logic to filter or adjust
-        the queryset based on the request.
-        """
-        return ShowcasePost.objects.all()
+class CreateShowcaseView(generics.ListCreateAPIView):
+    queryset = ShowcasePost.objects.all()
+    serializer_class = ShowcasePostSerializer
+    permission_classes = [AllowAny]
 
-    def get(self, request, *args, **kwargs):
-        posts = self.get_queryset()
-        serializer = ShowcasePostSerializer(posts, many=True)
-        return Response(serializer.data)
-
-    @transaction.atomic
     def post(self, request, *args, **kwargs):
-        if 'showcase_post_id' in request.data:
-            # Handle like functionality
-            return self.toggle_like(request)
-        else:
-            # Handle post creation
-            return self.create_post(request)
-
-    def create_post(self, request):
         post_form = ShowcasePostForm(request.data)
         image_form = PostImageForm(request.data, request.FILES) if request.FILES else None
 
         if post_form.is_valid() and (image_form is None or image_form.is_valid()):
             showcase_post = post_form.save(commit=False)
             user_id = request.data.get('user')
-            user = User.objects.get(id=user_id)
-            showcase_post.user = user  # Assuming `showcase_post` is an instance of your ShowcasePost model.
+            showcase_post.user_id = user_id  # Assuming `user_id` is a valid user ID
             showcase_post.save()
 
-            images_urls = request.data.get('images', [])
+            images_urls = request.data.get('image', [])
             for url in images_urls:
-                PostImage.objects.create(post=showcase_post, image_url=url)
+                PostImage.objects.create(post=showcase_post, image=url)
 
             serializer = ShowcasePostSerializer(showcase_post)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -66,82 +44,25 @@ class ShowcaseView(APIView):
             }
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @api_view(['POST'])
-    @csrf_exempt
-    def toggle_like(self, request):
-        post = request.post
-        user = request.user  # Ensure you have a way to identify the requesting user
 
-        # Use the model methods for adding or removing a like
+class ToggleLikeView(generics.GenericAPIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        post_id = request.data.get('post')
+        user_id = request.data.get('user')
+
+        post = get_object_or_404(ShowcasePost, id=post_id)
+        user = get_object_or_404(User, id=user_id)
+
         if post.likes.filter(user=user).exists():
-            unliked = post.unlike(user)
-            message = "Unliked successfully" if unliked else "Error in unliking"
+            success = post.unlike(user)
+            action = 'Like removed'
         else:
-            liked = post.add_like(user)
-            message = "Liked successfully" if liked else "User has already liked"
+            success = post.add_like(user)
+            action = 'Like added'
 
-        # Directly use the like_count property from the ShowcasePost model
-        likes_count = post.like_count
-
-        return JsonResponse({
-            "message": message,
-            "isLiked": not post.likes.filter(user=user).exists(),
-            "likesCount": likes_count
-        }, status=status.HTTP_200_OK)
-
-# from django.shortcuts import render
-# from rest_framework.generics import ListAPIView
-#
-# from .forms import ShowcasePostForm, PostImageForm
-# from .serializers import ShowcasePostSerializer
-# from django.shortcuts import get_object_or_404
-# from rest_framework.views import APIView
-# from rest_framework.response import Response
-# from rest_framework.permissions import IsAuthenticated
-# from rest_framework import status
-# from .models import ShowcasePost, Like, PostImage
-#
-#
-# class CreateShowcasePost(APIView):
-#     permission_classes = [IsAuthenticated]
-#
-#     def post(self, request, *args, **kwargs):
-#         post_form = ShowcasePostForm(request.data)
-#         image_form = PostImageForm(request.data, request.FILES)
-#
-#         if post_form.is_valid() and image_form.is_valid():
-#             showcase_post = post_form.save(commit=False)
-#             showcase_post.user = request.user
-#             showcase_post.save()
-#
-#             for image_data in request.FILES.getlist('image'):
-#                 PostImage.objects.create(post=showcase_post, image=image_data)
-#
-#             serializer = ShowcasePostSerializer(showcase_post)
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         else:
-#             return Response(post_form.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-# class ShowcasePostList(ListAPIView):
-#     queryset = ShowcasePost.objects.all()
-#     serializer_class = ShowcasePostSerializer
-#
-# class ToggleLikePost(APIView):
-#     permission_classes = [IsAuthenticated]
-#
-#     def post(self, request, *args, **kwargs):
-#         post_id = request.data.get('showcase_post_id')
-#         post = get_object_or_404(ShowcasePost, id=post_id)
-#
-#         like, created = Like.objects.get_or_create(user=request.user, showcase_post=post)
-#
-#         if created:
-#             message = "Liked successfully"
-#         else:
-#             like.delete()
-#             message = "Unliked successfully"
-#
-#         return Response({"message": message}, status=status.HTTP_200_OK)
-#
-#
-#
+        if success:
+            return Response({'message': action, 'likesCount': post.like_count}, status=status.HTTP_200_OK)
+        else:
+            return Response({'message': 'Action failed'}, status=status.HTTP_400_BAD_REQUEST)
