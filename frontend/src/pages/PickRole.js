@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function PickRole(props) {
     const navigate = useNavigate();
+    
     function handlePickRole (param) {
         if (param == 1) {
             localStorage.setItem("role", "founder");
@@ -17,9 +18,9 @@ function PickRole(props) {
     }
   return (
     <>
-    <div className="flex justify-center items-center px-16 py-12 bg-black max-md:px-5">
-      <div className="mt-5 w-full max-w-[1120px] max-md:mt-10 max-md:max-w-full">
-        <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:">
+    <div className="flex justify-center items-center min-h-screen bg-black">
+      <div className="mx-auto px-16 py-12 max-w-screen-xl">
+          <div className="flex gap-5">
           <div 
             type="button" 
             className="flex flex-col w-[33%] max-md:ml-0 max-md:w-full"

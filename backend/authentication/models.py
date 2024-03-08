@@ -7,8 +7,8 @@ from django.db import models
 class UserModel(models.Model):
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=10)
-    password = models.CharField(max_length =255)
-    isVerified = models.BooleanField()
+    password = models.CharField(max_length=255)
+    isVerified = models.IntegerField()
     image = models.TextField()
     linkedin = models.URLField()
     name = models.CharField(max_length = 255)
@@ -20,10 +20,10 @@ class Startup(models.Model):
     location = models.TextField()
     sector = models.TextField(blank=True)
     desc = models.TextField()
-    pitchdeck = models.TextField()
+    pitchdeck = models.TextField(null=True)
     revenue = models.IntegerField()
     support = models.TextField()
-    website = models.URLField()
+    website = models.TextField()
     linkedin = models.TextField()
 
 class Founder(UserModel):
@@ -38,12 +38,13 @@ class Investor(UserModel):
     ticket = models.IntegerField()
     stage=models.TextField()
     support=models.TextField()
-    website = models.URLField()
+    website = models.TextField()
         
 class Partner(UserModel):
     location = models.TextField()
     desc = models.TextField()
     interest = models.TextField()
-    website = models.URLField()
+    website = models.TextField()
+    mou = models.TextField(default="")
     
 
