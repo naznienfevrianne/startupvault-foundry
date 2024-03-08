@@ -20,7 +20,7 @@ class DiaryEntriesListCreate(generics.ListCreateAPIView):
         return Entry.objects.filter(founder=founderId)
 
 class MetricsRetrieve(generics.RetrieveAPIView):
-
+    permission_classes = [AllowAny]
     serializer_class = MetricSerializer
 
     def get_queryset(self):
