@@ -8,17 +8,10 @@ const MenuItem = ({ src, alt, children }) => (
 );
 
 const FounderDetails = () => {
-    // const [founderDetails, setFounderDetails] = useState({
-    //     name: entry.name,
-    //     email: entry.email,
-    //     linkedin: entry.linkedin,
-    //     phoneNumber: entry.phoneNumber
-    // });
+
     const [founderDetails, setFounderDetails] = useState("");
-    // const [founderName, setFounderName] = useState("");
-    // const [founderEmail, setFounderEmail] = useState("");
-    // const [founderLinkedIn, setFounderLinkedIn] = useState("");
-    // const [founderPhoneNumber, setFounderPhoneNumber] = useState("");
+    const profilePicture = localStorage.getItem("profilePicture") || '';
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -29,11 +22,7 @@ const FounderDetails = () => {
                 }
                 const entry = await response.json();
                 setFounderDetails(entry);
-                // setFounderDetails(entry);
-                // setFounderName(entry.name);
-                // setFounderEmail(entry.email);
-                // setFounderLinkedIn(entry.linkedin);
-                // setFounderPhoneNumber(entry.phoneNumber);
+
             } catch (error) {
                 console.error("Error:", error);
             }
@@ -44,14 +33,31 @@ const FounderDetails = () => {
 
     return (
         <section className="flex flex-col px-5 pt-9 pb-20 max-md:max-w-full">
-            <div className="flex flex-wrap gap-5 justify-between content-center pr-20 max-md:pr-5">
+            <a href="/founderEditForm" className="flex flex-wrap gap-5 justify-between content-center pr-20 max-md:pr-5">
                 <h1 className="text-5xl font-semibold tracking-wider leading-[54px] text-stone-100 max-md:text-4xl">Founder Details</h1>
-                <div className="flex gap-1.5 justify-center px-0.5 my-auto text-xl tracking-wide whitespace-nowrap text-neutral-400">
+                <div className="flex gap-1.5 justify-center px-0.5 my-auto text-xl tracking-wide whitespace-nowrap text-neutral-400" href="/FounderEditForm">
                     <div className="grow">edit details</div>
                     <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/04c641284d7871837890bdbbf518752e3d58158fa19f353bc7632662bcd27883?apiKey=9ff2a73e8144478896bce8206c80f3e2&" alt="Edit icon" className="shrink-0 aspect-square w-[23px]" />
                 </div>
+            </a>
+            <div className="flex gap-5 justify-between self-start mt-2">
+            {profilePicture ? (
+              <div className="flex flex-1 justify-center items-center">
+              <img
+                src={profilePicture}
+                loading="lazy"
+                className="bg-green-700 rounded-full aspect-square w-[180px]"
+                alt="profile avatar"
+              />
+              </div>
+            ) : (
+              <div className="flex flex-1 justify-center items-center">
+                <img loading="lazy" 
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/301d1c1baa7c888ca094c200e6628c0467efd8a91277c3e53073791219eac3ab?apiKey=9ff2a73e8144478896bce8206c80f3e2&" 
+                alt="Founder's portrait" className="mt-5 bg-green-700 rounded-full aspect-[0.99] h-[160px] w-[160px]" />
+              </div>
+            )}
             </div>
-            <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/301d1c1baa7c888ca094c200e6628c0467efd8a91277c3e53073791219eac3ab?apiKey=9ff2a73e8144478896bce8206c80f3e2&" alt="Founder's portrait" className="mt-5 bg-green-700 rounded-full aspect-[0.99] h-[74px] w-[74px]" />
             <h2 className="mt-5 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">Name</h2>
             <div className="justify-center items-start py-3.5 pr-16 pl-3 mt-2.5 text-sm tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-md:max-w-full">
                 {founderDetails.name}
