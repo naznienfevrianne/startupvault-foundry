@@ -10,13 +10,15 @@
     "chart": "^0.1.2",
     "chart.js": "^3.7.0",
     "date-fns": "^3.3.1",
+    "dayjs": "^1.11.10",
     "js-cookie": "^3.0.5",
     "node": "^21.7.0",
     "react": "^18.2.0",
     "react-cookie": "^7.1.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.2",
-    "react-scripts": "^5.0.1",
+    "react-scripts": "5.0.1",
+    "react-tailwindcss-datepicker": "^1.6.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

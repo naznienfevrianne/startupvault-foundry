@@ -7,7 +7,7 @@ from django.db import models
 class UserModel(models.Model):
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=10)
-    password = models.CharField(max_length = 255)
+    password = models.CharField(max_length=255)
     isVerified = models.IntegerField()
     image = models.TextField()
     linkedin = models.URLField()
