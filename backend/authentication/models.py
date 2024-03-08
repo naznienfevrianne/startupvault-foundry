@@ -38,12 +38,13 @@ class Investor(UserModel):
     ticket = models.IntegerField()
     stage=models.TextField()
     support=models.TextField()
-    website = models.URLField()
+    website = models.TextField()
         
 class Partner(UserModel):
     location = models.TextField()
     desc = models.TextField()
     interest = models.TextField()
-    website = models.URLField()
+    website = models.TextField()
+    mou = models.TextField(default="")
     
 
