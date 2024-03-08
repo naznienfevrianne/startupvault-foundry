@@ -1,45 +1,75 @@
 import * as React from "react";
 import Chart from "chart.js/auto";
+import{ Cookies } from 'react-cookie';
 
 
 function FounderDashboard(props) {
   
   const [entry, setEntry] = React.useState("");
   const [listEntry, setListEntry] = React.useState([]);
+  const [selectedChart, setSelectedChart] = React.useState('sales'); // sales is default
 
+  const myCookies = new Cookies();
+
+  const idFounder = myCookies.get('id')
 
   React.useEffect(() => {
     fetchDataMetrics();
     fetchDataAnalytics();
   }, []);
 
+ 
   React.useEffect(() => {
     if (listEntry.length > 0) {
-      const salesData = listEntry.map(entry => entry.sales);
+
+      let chartData = [];
+      let chartLabel = '';
   
-      const chartData = {
-        labels: salesData.map((_, index) => index.toString()),
+      switch (selectedChart) {
+        case 'sales':
+          chartData = listEntry.map(entry => entry.sales);
+          chartLabel = 'Sales';
+          break;
+        case 'revenue':
+          chartData = listEntry.map(entry => entry.revenue);
+          chartLabel = 'Revenue';
+          break;
+        case 'user':
+          chartData = listEntry.map(entry => entry.user);
+          chartLabel = 'User';
+          break;
+        default:
+          break;
+      }
+
+      const dates = listEntry.map(entry => entry.date);
+  
+      const chartConfig = {
+        labels: dates,
         datasets: [{
-          label: 'Sales',
-          data: salesData,
+          label: chartLabel,
+          data: chartData,
           backgroundColor: 'rgba(54, 162, 235, 0.2)',
           borderColor: 'rgba(54, 162, 235, 1)',
           borderWidth: 1
-        }]
+        }],  
       };
   
       const canvas = document.getElementById("lineChart");
       const ctx = canvas.getContext("2d");
   
       if (canvas.chart) {
-        canvas.chart.destroy(); // Destroy the existing chart
+        canvas.chart.destroy(); 
       }
   
       canvas.chart = new Chart(ctx, {
         type: 'line',
-        data: chartData,
+        data: chartConfig,
         options: {
           scales: {
+            x: {
+              display: false, 
+            },
             y: {
               beginAtZero: true
             }
@@ -47,16 +77,17 @@ function FounderDashboard(props) {
         }
       });
     } 
-  }, [listEntry]);
+  }, [listEntry, selectedChart]);
 
   const fetchDataMetrics = async () => {
     try {
-      const responseMetrics = await fetch("http://localhost:8000/diary/7");
+      const responseMetrics = await fetch("http://localhost:8000/diary/" + idFounder + "/");
       if (!responseMetrics.ok) {
         throw new Error("Failed to fetch data");
       }
       const entryMetrics = await responseMetrics.json();
       setEntry(entryMetrics);
+      console.log(entry)
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -64,18 +95,26 @@ function FounderDashboard(props) {
 
   const fetchDataAnalytics = async () => {
     try {
-      const responseAnalytics = await fetch("http://localhost:8000/diary/diaryEntries/founder/7?sort=-date");
+      const responseAnalytics = await fetch("http://localhost:8000/diary/diaryEntries/founder/" + idFounder + "?sort=date");
       if (!responseAnalytics.ok) {
         throw new Error("Failed to fetch data");
       }
       const entryAnalytics = await responseAnalytics.json();
       const first8Entries = entryAnalytics.slice(0, 8);
+     
       setListEntry(first8Entries);
+      console.log(listEntry)
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
   
+  
+
+  const handleChartButtonClick = (chartType) => {
+    setSelectedChart(chartType);
+  };
+
   
 
   return (
@@ -122,7 +161,7 @@ function FounderDashboard(props) {
           <div className="flex flex-col w-[74%] max-md:ml-0 max-md:w-full">
             <div className="max-md:mt-10 max-md:max-w-full">
               <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-                <div className="flex flex-col w-[33%] max-md:ml-0 max-md:w-full">
+                <div className="flex flex-col w-[25%] max-md:ml-0 max-md:w-full">
                   <div className="flex flex-col items-center self-stretch pb-2 mt-6 text-xl tracking-wide text-neutral-400">
                     <div className="flex gap-3 p-4 text-base tracking-normal bg-neutral-800 rounded-[30px] text-stone-300">
                       <img
@@ -194,7 +233,7 @@ function FounderDashboard(props) {
                               Sales
                             </div>
                             <div className="mt-4 text-2xl font-medium tracking-wide whitespace-nowrap text-stone-100">
-                              {entry.sales}
+                              {entry.sales ? entry.sales : '-'} unit(s)
                             </div>
                           </div>
                         </div>
@@ -211,7 +250,7 @@ function FounderDashboard(props) {
                               Revenue
                             </div>
                             <div className="mt-4 text-2xl font-medium tracking-wide text-stone-100">
-                              IDR {entry.revenue}
+                              IDR {entry.revenue ? entry.revenue : '-'}
                             </div>
                           </div>
                         </div>
@@ -228,7 +267,7 @@ function FounderDashboard(props) {
                               User
                             </div>
                             <div className="mt-4 text-2xl font-medium tracking-wide whitespace-nowrap text-stone-100">
-                              {entry.user} users
+                              {entry.user ? entry.user : '-'} user(s)
                             </div>
                           </div>
                         </div>
@@ -239,56 +278,26 @@ function FounderDashboard(props) {
                         Analytics
                       </div>
                       <div className="flex gap-3 text-base tracking-normal">
-                        <div className="grow justify-center px-4 py-2 text-green-400 rounded-3xl border border-green-400 border-solid bg-green-400 bg-opacity-20">
-                          Sales
-                        </div>
-                        <div className="grow justify-center px-4 py-2 rounded-3xl border border-solid border-neutral-400">
-                          Revenue
-                        </div>
-                        <div className="grow justify-center px-4 py-2 rounded-3xl border border-solid border-neutral-400">
-                          User
-                        </div>
+                      <button
+                        onClick={() => handleChartButtonClick('sales')}
+                        className={`grow justify-center px-4 py-2 ${selectedChart === 'sales' ? 'bg-green-400 bg-opacity-20 text-green-400 border border-green-400 border-solid rounded-3xl' : 'border border-solid border-neutral-400 rounded-3xl'}`}>
+                        Sales
+                      </button>
+                      <button
+                        onClick={() => handleChartButtonClick('revenue')}
+                        className={`grow justify-center px-4 py-2 ${selectedChart === 'revenue' ? 'bg-green-400 bg-opacity-20 text-green-400 border border-green-400 border-solid rounded-3xl' : 'border border-solid border-neutral-400 rounded-3xl'}`}>
+                        Revenue
+                      </button>
+                      <button
+                        onClick={() => handleChartButtonClick('user')}
+                        className={`grow justify-center px-4 py-2 ${selectedChart === 'user' ? 'bg-green-400 bg-opacity-20 text-green-400 border border-green-400 border-solid rounded-3xl' : 'border border-solid border-neutral-400 rounded-3xl'}`}>
+                        User
+                      </button>
                       </div>
                     </div>
                     <div>
                       <canvas id="lineChart" width="400" height="200"></canvas>
                     </div>
-                    {/* <div className="flex flex-col justify-center py-6 mt-6 text-base tracking-normal whitespace-nowrap rounded-lg bg-neutral-800 text-neutral-400 max-md:max-w-full">
-                      <div className="self-end mr-6 max-md:mr-2.5">
-                        Last updated on 11 Feb 2024
-                      </div>
-                      <div className="flex flex-col px-6 mt-6 max-md:px-5 max-md:max-w-full">
-                        <div className="flex gap-0 max-md:flex-wrap max-md:max-w-full">
-                          <div className="flex flex-col justify-between basis-0 max-md:hidden">
-                            <div>25k</div>
-                            <div className="mt-8">20k</div>
-                            <div className="mt-8">15k</div>
-                            <div className="mt-8">10k</div>
-                            <div className="mt-8 max-md:mr-2.5">5k</div>
-                            <div className="mt-8">0</div>
-                          </div>
-                          <img
-                            loading="lazy"
-                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/0d072e4991f336e8b0fba5a223cfd78bf1e9a05e31f6c088b24b0e58a7ee1659?"
-                            className="grow shrink-0 aspect-[2.17] basis-0 w-fit max-md:max-w-full"
-                          />
-                        </div>
-                        <div className="flex gap-5 justify-between pr-7 mt-6 max-md:flex-wrap max-md:pr-5">
-                          <div className="grow">Mar</div>
-                          <div>Apr</div>
-                          <div>May</div>
-                          <div>Jun</div>
-                          <div>Jul</div>
-                          <div>Aug</div>
-                          <div>Sep</div>
-                          <div>Oct</div>
-                          <div>Nov</div>
-                          <div>Dec</div>
-                          <div>Jan</div>
-                          <div className="grow">Feb</div>
-                        </div>
-                      </div>
-                    </div> */}
                   </div>
                 </div>
               </div>
