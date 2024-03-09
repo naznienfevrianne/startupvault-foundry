@@ -116,7 +116,7 @@ const FounderDetails = () => {
                       <img
                         src={profilePicture}
                         loading="lazy"
-                        className="bg-green-700 rounded-full aspect-square w-[250px]"
+                        className="bg-green-700 rounded-full aspect-square w-[160px]"
                         alt="profile avatar"
                       />
                       </div>
@@ -157,7 +157,8 @@ const FounderDetails = () => {
                     value={founderDetails.name}
                     onChange={(e) => setFounderDetails({ ...founderDetails, name: e.target.value })}
                     required
-                  /><div className="mt-5 text-xl font-medium tracking-wide text-stone-100">LinkedIn</div>
+                  />
+                  <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">LinkedIn</div>
                   <input
                     type="text"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
