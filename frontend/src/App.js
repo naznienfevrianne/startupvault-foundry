@@ -9,6 +9,7 @@ import StartupType from './pages/StartupType';
 import StartupForm from './pages/StartupForm';
 import FounderReadForm from './pages/FounderReadForm';
 import FounderEditForm from './pages/FounderEditForm';
+import StartupReadForm from './pages/StartupReadForm';
 import LoginBox from './pages/LoginBox';
 import Logout from './pages/Logout';
 import CookieDisplay from './pages/CookieDisplay';
@@ -26,7 +27,7 @@ function App() {
                 <Route path="/startupForm" element={<StartupForm />} />
                 <Route path="/founderReadForm" element={<FounderReadForm />} />
                 <Route path="/founderEditForm" element={<FounderEditForm />} />
-                <Route path="/founderEditForm/founderEditedForm" element={<FounderReadForm />} />
+                <Route path="/startupReadForm" element={<StartupReadForm />} />
                 <Route path="/login" element={<LoginBox/>}/>
                 <Route path="/logout" element={<Logout />}/>
             </Routes>
