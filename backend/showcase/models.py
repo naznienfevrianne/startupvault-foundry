@@ -26,7 +26,7 @@ class ShowcasePost(models.Model):
             like.delete()
             return True
         return False
-
+    
 class PostImage(models.Model):
     post = models.ForeignKey(ShowcasePost, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='showcase_images/')
@@ -44,3 +44,6 @@ class Like(models.Model):
 
     def __str__(self):
         return f"Like by {self.user.name} for post {self.showcase_post.id} on {self.date}"
+
+
+    
