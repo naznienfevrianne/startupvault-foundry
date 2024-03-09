@@ -156,8 +156,8 @@ def test_token(request):
 
         
 class FounderRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [JWTAuthentication] 
-    # permission_classes = [AllowAny]
+    # permission_classes = [JWTAuthentication] 
+    permission_classes = [AllowAny]
     serializer_class = FounderSerializer
 
     def get_queryset(self):
@@ -181,13 +181,8 @@ class FounderRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.data)
 
 class StartupRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-<<<<<<< 4479ff2d0797e5ce73f9b351815abadbf9a4c07b
     # permission_classes = [JWTAuthentication]
     permission_classes = [AllowAny]
-=======
-    permission_classes = [JWTAuthentication]
-    # permission_classes = [AllowAny]
->>>>>>> 9f67b3ce83796d92139c32ce611f0f875ff6df3e
     serializer_class = StartupSerializer
 
     def get_queryset(self):
