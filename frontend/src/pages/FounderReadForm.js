@@ -13,7 +13,8 @@ const FounderDetails = () => {
     const [founderDetails, setFounderDetails] = useState("");
     const profilePicture = localStorage.getItem("profilePicture") || '';
     const myCookies = new Cookies();
-    const idFounder = myCookies.get('id') !== undefined;
+    const idFounder = myCookies.get('id');
+    const token = myCookies.get('token');
 
     if(idFounder){
       console.log(myCookies.get('id'))
@@ -26,7 +27,14 @@ const FounderDetails = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:8000/auth/founder/${idFounder}");
+                const response = await fetch(`http://localhost:8000/auth/founder/${idFounder}/`,{
+                  method: "GET", 
+                  headers:{
+                      'Content-Type': 'application/json',
+                      'Authorization': 'Bearer ' + token
+                  }
+                  }
+                  );
                 if (!response.ok) {
                     throw new Error("Failed to fetch data");
                 }
@@ -34,7 +42,7 @@ const FounderDetails = () => {
                 setFounderDetails(entry);
 
             } catch (error) {
-                console.error("Error:", error);
+                console.log("Error:", error);
             }
         };
 

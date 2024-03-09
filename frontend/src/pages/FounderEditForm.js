@@ -24,7 +24,8 @@ const FounderDetails = () => {
     phoneNumber: ""
   });
   const myCookies = new Cookies();
-    const idFounder = myCookies.get('id') !== undefined;
+    const idFounder = myCookies.get('id');
+    const token = myCookies.get('token');
 
     if(idFounder){
       console.log(myCookies.get('id'))
@@ -39,14 +40,21 @@ const FounderDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const response = await fetch("http://localhost:8000/auth/founder/${idFounder}");
+            const response = await fetch(`http://localhost:8000/auth/founder/${idFounder}/`,{
+              method: "GET", 
+              headers:{
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer ' + token
+              }
+              }
+              );
             if (!response.ok) {
                 throw new Error("Failed to fetch data");
             }
             const entry = await response.json();
             setFounderDetails(entry);
         } catch (error) {
-            console.error("Error:", error);
+            console.log("Error:", error);
         }
     };
 
@@ -64,10 +72,11 @@ const FounderDetails = () => {
 
   const handleUpdate = async () => {
     try {
-        const response = await fetch("http://localhost:8000/auth/founder/${idFounder}", {
+        const response = await fetch(`http://localhost:8000/auth/founder/${idFounder}/`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + token
             },
             body: JSON.stringify(founderDetails),
         });
