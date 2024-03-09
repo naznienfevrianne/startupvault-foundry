@@ -249,7 +249,9 @@ function FounderDiary(props) {
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/27c36da114ed300adb9add9fce8d851f4c7b22802ffaf460c4b83dfdad7092bb?"
                       className="w-8 aspect-square"
                     />
-                    <div className="grow my-auto">Overview</div>
+                    <div className="grow my-auto">
+                        <a href="/dashboard/" className="grow my-auto">Overview</a>
+                      </div>
                   </div>
                 </div>
                 <div className="flex gap-5 justify-between pr-10 mt-10 text-xl font-medium tracking-wide text-green-400 max-md:pr-5">

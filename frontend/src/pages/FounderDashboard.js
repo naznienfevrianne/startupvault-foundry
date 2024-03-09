@@ -185,7 +185,9 @@ function FounderDashboard(props) {
                         src="https://cdn.builder.io/api/v1/image/assets/TEMP/3cef65a25dfa47f096a12f653a5687356c49974a2b901252287cba6ffe7f302d?"
                         className="shrink-0 w-8 aspect-square"
                       />
-                      <div className="grow my-auto">Weekly Updates</div>
+                      <div className="grow my-auto">
+                        <a href="/diary/" className="grow my-auto">Weekly Updates</a>
+                      </div>
                     </div>
                     <div className="flex gap-2 mt-12 whitespace-nowrap max-md:mt-10">
                       <img
