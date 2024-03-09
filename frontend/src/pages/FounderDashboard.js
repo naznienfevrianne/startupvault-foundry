@@ -293,7 +293,11 @@ function FounderDashboard(props) {
                       </div>
                     </div>
                     <div>
-                      <canvas id="lineChart" width="400" height="200"></canvas>
+                      {listEntry.length == 0 ? (
+                        <div style={{ color: 'white', opacity: '0.7', fontSize: '14px' }}>No entries available</div>
+                      ) : (
+                        <canvas id="lineChart" width="400" height="200"></canvas>
+                      )}
                     </div>
                   </div>
                 </div>
