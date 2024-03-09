@@ -294,11 +294,12 @@ function FounderDashboard(props) {
                     </div>
                     <div>
                       {listEntry.length == 0 ? (
-                        <div style={{ color: 'white', opacity: '0.7', fontSize: '14px' }}>No entries available</div>
+                        <div style={{ color: 'white', opacity: '0.5', fontSize: '14px', marginTop: '8px' }}>No entries available</div>
                       ) : (
                         <canvas id="lineChart" width="400" height="200"></canvas>
                       )}
                     </div>
+                    <div style={{ color: 'white', opacity: '0.6', fontSize: '14px', textAlign: 'right', marginTop: '8px' }} className="not-italic">{listEntry.length > 0 ? "Last updated: " + listEntry[listEntry.length - 1].date : ''}</div>
                   </div>
                 </div>
               </div>
