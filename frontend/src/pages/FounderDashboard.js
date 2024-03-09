@@ -12,6 +12,7 @@ function FounderDashboard(props) {
   const myCookies = new Cookies();
 
   const idFounder = myCookies.get('id')
+  const nameFounder = myCookies.get('name')
 
   React.useEffect(() => {
     fetchDataMetrics();
@@ -107,15 +108,11 @@ function FounderDashboard(props) {
     } catch (error) {
       console.error('Error fetching data:', error);
     }
-  };
-  
-  
+  }; 
 
   const handleChartButtonClick = (chartType) => {
     setSelectedChart(chartType);
   };
-
-  
 
   return (
     <div className="flex flex-col justify-center bg-black">
@@ -146,7 +143,7 @@ function FounderDashboard(props) {
               />
             </div>
             <div className="self-stretch my-auto text-xl font-medium tracking-wide text-stone-100">
-              Naznien
+              {nameFounder}
             </div>
             <img
               loading="lazy"
@@ -214,15 +211,15 @@ function FounderDashboard(props) {
                       <div className="flex-auto text-2xl font-semibold tracking-wide text-stone-100">
                         Metrics Overview
                       </div>
-                      <div className="flex-auto my-auto text-base tracking-normal text-neutral-400">
-                        Your metrics this week
+                      <div className="flex-auto text-right text-base tracking-normal text-neutral-400">
+                        {entry.date ? `Last updated ${entry.date}` : 'No new entry this week'}
                       </div>
                     </div>
                     <div className="mt-6 max-md:max-w-full">
                       <div className="flex gap-5 max-md:flex-col max-md:gap-0">
                         <div className="flex flex-col w-[33%] max-md:ml-0 max-md:w-full">
                           <div className="flex flex-col grow self-stretch py-6 pr-14 pl-6 w-full rounded-lg bg-neutral-800 max-md:px-5 max-md:mt-6">
-                            <div className="flex flex-col justify-center items-start py-3 pr-16 pl-3 rounded-3xl bg-green-400 bg-opacity-20 max-md:pr-5">
+                            <div className="flex flex-col bg-green w-10 h-10 rounded-full bg-green-400 bg-opacity-20 justify-center items-center">
                               <img
                                 loading="lazy"
                                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/0c79b536b24cf63fb0a0c726e9ebc73a79254f4a31be87e2067f6620b6adbceb?"
@@ -232,14 +229,14 @@ function FounderDashboard(props) {
                             <div className="mt-4 text-xl text-neutral-400">
                               Sales
                             </div>
-                            <div className="mt-4 text-2xl font-medium tracking-wide whitespace-nowrap text-stone-100">
-                              {entry.sales ? entry.sales : '-'} unit(s)
+                            <div className="mt-4 text-xl font-medium tracking-wide whitespace-nowrap text-stone-100">
+                              {entry.sales ? entry.sales.toLocaleString('id-ID') : '-'} unit(s)
                             </div>
                           </div>
                         </div>
                         <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
                           <div className="flex flex-col grow self-stretch px-6 py-7 w-full rounded-lg bg-neutral-800 max-md:px-5 max-md:mt-6">
-                            <div className="flex flex-col justify-center items-start py-3 pr-16 pl-3 rounded-3xl bg-green-400 bg-opacity-20 max-md:pr-5">
+                            <div className="flex flex-col bg-green w-10 h-10 rounded-full bg-green-400 bg-opacity-20 justify-center items-center">
                               <img
                                 loading="lazy"
                                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/3e5be6e4332bd1cbe13b731850cb50438dce43bb09882cdfbca08a8e688ac628?"
@@ -249,14 +246,14 @@ function FounderDashboard(props) {
                             <div className="mt-4 text-xl text-neutral-400">
                               Revenue
                             </div>
-                            <div className="mt-4 text-2xl font-medium tracking-wide text-stone-100">
-                              IDR {entry.revenue ? entry.revenue : '-'}
+                            <div className="mt-4 text-xl font-medium tracking-wide text-stone-100">
+                              IDR {entry.revenue ? entry.revenue.toLocaleString('id-ID') : '-'}
                             </div>
                           </div>
                         </div>
                         <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
                           <div className="flex flex-col grow self-stretch py-7 pr-16 pl-6 w-full rounded-lg bg-neutral-800 max-md:px-5 max-md:mt-6">
-                            <div className="flex flex-col justify-center items-start py-3 pr-16 pl-3 rounded-3xl bg-green-400 bg-opacity-20 max-md:pr-5">
+                            <div className="flex flex-col bg-green w-10 h-10 rounded-full bg-green-400 bg-opacity-20 justify-center items-center">
                               <img
                                 loading="lazy"
                                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/b43982b4ac927ef3fdc24af1bf25f4c1004ea4e3a456f7c5a94bd5587318cf3f?"
@@ -266,8 +263,8 @@ function FounderDashboard(props) {
                             <div className="mt-3 text-xl text-neutral-400">
                               User
                             </div>
-                            <div className="mt-4 text-2xl font-medium tracking-wide whitespace-nowrap text-stone-100">
-                              {entry.user ? entry.user : '-'} user(s)
+                            <div className="mt-4 text-xl font-medium tracking-wide whitespace-nowrap text-stone-100">
+                              {entry.user ? entry.user.toLocaleString('id-ID') : '-'} user(s)
                             </div>
                           </div>
                         </div>
