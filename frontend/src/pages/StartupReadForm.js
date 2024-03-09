@@ -1,19 +1,29 @@
 import React, { useState, useEffect } from 'react';
-
+import{ Cookies } from 'react-cookie';
 
 const StartupDetails = () => {
     const [startupDetails, setStartupDetails] = useState("");
+    const profilePicture = localStorage.getItem("profilePicture") || '';
+    const myCookies = new Cookies();
+    const idStartup = myCookies.get('startup');
+    const token = myCookies.get('token');
+
+    if(idStartup){
+      console.log(myCookies.get('startup'))
+    }else{
+      console.log("cookies does not exist.")
+    }
     
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 
-                const response = await fetch("http://localhost:8000/auth/startup/22",{
+                const response = await fetch(`http://localhost:8000/auth/startup/${idStartup}/`,{
                     method: "GET", 
                     headers:{
                         'Content-Type': 'application/json',
-                        // 'Authorization': 'Bearer' + token
+                        'Authorization': 'Bearer' + token
                     }
                     })
                 if (!response.ok) {
@@ -123,17 +133,13 @@ const StartupDetails = () => {
               <div className="flex flex-col ml-5 w-[76%] max-md:ml-0 max-md:w-full">
                 <div className="flex flex-col grow pt-6 pr-24 pl-5 max-md:max-w-full">
                   <div className="flex flex-wrap gap-5 justify-between content-center pr-52 w-full max-md:pr-5 max-md:max-w-full">
-                    <div className="text-5xl font-semibold tracking-wider leading-[54px] text-stone-100 max-md:text-4xl">
-                      Startup Details
-                    </div>
-                    <div className="flex gap-1.5 justify-center px-0.5 my-auto -ml-px text-xl tracking-wide whitespace-nowrap text-neutral-400">
-                      <div className="grow ml-2">edit details</div>
-                      <img
-                        loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/47a2b79e2cd2f53d4c64bb25cd7e75b71bc05669397f6a1b9fef848e83ac53a3?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-                        className="shrink-0 aspect-square w-[23px]"
-                      />
-                    </div>
+                    <a href="/startupEditForm" className="flex flex-wrap gap-5 justify-between content-center pr-20 max-md:pr-5">
+                        <h1 className="text-5xl font-semibold tracking-wider leading-[54px] text-stone-100 max-md:text-4xl">Startup Details</h1>
+                        <div className="flex gap-1.5 justify-center px-0.5 my-auto text-xl tracking-wide whitespace-nowrap text-neutral-400" href="/FounderEditForm">
+                            <div className="grow">edit details</div>
+                            <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/04c641284d7871837890bdbbf518752e3d58158fa19f353bc7632662bcd27883?apiKey=9ff2a73e8144478896bce8206c80f3e2&" alt="Edit icon" className="shrink-0 aspect-square w-[23px]" />
+                        </div>
+                    </a>
                   </div>
                   <div className="flex flex-col justify-center items-start px-8 py-8 mt-3.5 max-w-full bg-green-700 rounded-xl w-[146px] max-md:px-5">
                     <img
@@ -152,7 +158,7 @@ const StartupDetails = () => {
                         src="https://cdn.builder.io/api/v1/image/assets/TEMP/840292478f0d7f6090094a8c19cb25c0c63ead503920efdeec04b8e9651363db?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
                         className="shrink-0 aspect-[1.04] w-[23px]"
                       />
-                      <div className="flex-auto my-auto mr-6">{startupDetails.typ}Pre-seed</div>
+                      <div className="flex-auto my-auto mr-6">   {startupDetails.typ}</div>
                     </div>
                   </div>
                   <div className="mt-1.5 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
@@ -200,13 +206,25 @@ const StartupDetails = () => {
                     Revenue over the last 6 months
                   </div>
                   <div className="self-start mt-3 text-base font-semibold tracking-normal text-green-400">
-                  {startupDetails.revenue}
+                  USD {startupDetails.revenue}K
                   </div>
                   <div className="mt-3 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
                     What kind of support do you need in the StartupVault ecosystem?
                   </div>
                   <div className="justify-center items-start py-3.5 pr-16 pl-3 mt-3 text-sm tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-md:max-w-full">
                   {startupDetails.support}
+                  </div>
+                  <div className="mt-3 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
+                    Startup Website
+                  </div>
+                  <div className="justify-center items-start py-3.5 pr-16 pl-3 mt-3 text-sm tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-md:max-w-full">
+                  {startupDetails.website}
+                  </div>
+                  <div className="mt-3 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
+                  Startup LinkedIn
+                  </div>
+                  <div className="justify-center items-start py-3.5 pr-16 pl-3 mt-3 text-sm tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-md:max-w-full">
+                  {startupDetails.linkedin}
                   </div>
                 </div>
               </div>
