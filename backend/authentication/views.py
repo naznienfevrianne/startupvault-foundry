@@ -155,5 +155,58 @@ def test_token(request):
     return JsonResponse({"message": "pass"}, status=200)
 
         
+class FounderRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [JWTAuthentication] 
+    # permission_classes = [AllowAny]
+    serializer_class = FounderSerializer
+
+    def get_queryset(self):
+        # Only allow the authenticated user to retrieve and update their own startup information
+        # pake pas udah ada token login
+        # return Founder.objects.filter(user=self.request.user)
+        return Founder.objects.all()
+    
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+class StartupRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+<<<<<<< 4479ff2d0797e5ce73f9b351815abadbf9a4c07b
+    # permission_classes = [JWTAuthentication]
+    permission_classes = [AllowAny]
+=======
+    permission_classes = [JWTAuthentication]
+    # permission_classes = [AllowAny]
+>>>>>>> 9f67b3ce83796d92139c32ce611f0f875ff6df3e
+    serializer_class = StartupSerializer
+
+    def get_queryset(self):
+        # return Startup.objects.filter(user=self.request.user)
+        return Startup.objects.all()
+    
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
 
 
