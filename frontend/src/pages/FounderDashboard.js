@@ -9,13 +9,18 @@ function FounderDashboard(props) {
   const [listEntry, setListEntry] = React.useState([]);
   const [selectedChart, setSelectedChart] = React.useState('sales'); // sales is default
 
+  const [startupDetails, setStartupDetails] = React.useState("");
   const myCookies = new Cookies();
 
-  const idFounder = myCookies.get('id')
+  const idFounder = myCookies.get('id');
+  const nameFounder = myCookies.get('name');
+  const idStartup = myCookies.get('startup');
+  const token = myCookies.get('token');
 
   React.useEffect(() => {
     fetchDataMetrics();
     fetchDataAnalytics();
+    fetchDataFounder();
   }, []);
 
  
@@ -107,15 +112,31 @@ function FounderDashboard(props) {
     } catch (error) {
       console.error('Error fetching data:', error);
     }
-  };
-  
-  
+  }; 
 
   const handleChartButtonClick = (chartType) => {
     setSelectedChart(chartType);
   };
 
-  
+  const fetchDataFounder = async () => {
+    try {
+        const response = await fetch(`http://localhost:8000/auth/startup/${idStartup}/`,{
+          method: "GET", 
+          headers:{
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer' + token
+          }
+          }
+          );
+        if (!response.ok) {
+            throw new Error("Failed to fetch data");
+        }
+        const entry = await response.json();
+        setStartupDetails(entry);
+    } catch (error) {
+        console.log("Error:", error);
+    }
+};
 
   return (
     <div className="flex flex-col justify-center bg-black">
@@ -146,7 +167,7 @@ function FounderDashboard(props) {
               />
             </div>
             <div className="self-stretch my-auto text-xl font-medium tracking-wide text-stone-100">
-              Naznien
+              {nameFounder}
             </div>
             <img
               loading="lazy"
@@ -214,15 +235,15 @@ function FounderDashboard(props) {
                       <div className="flex-auto text-2xl font-semibold tracking-wide text-stone-100">
                         Metrics Overview
                       </div>
-                      <div className="flex-auto my-auto text-base tracking-normal text-neutral-400">
-                        Your metrics this week
+                      <div className="flex-auto text-right text-base tracking-normal text-neutral-400">
+                        {entry.date ? `Last updated ${entry.date}` : 'No new entry this week'}
                       </div>
                     </div>
                     <div className="mt-6 max-md:max-w-full">
                       <div className="flex gap-5 max-md:flex-col max-md:gap-0">
                         <div className="flex flex-col w-[33%] max-md:ml-0 max-md:w-full">
                           <div className="flex flex-col grow self-stretch py-6 pr-14 pl-6 w-full rounded-lg bg-neutral-800 max-md:px-5 max-md:mt-6">
-                            <div className="flex flex-col justify-center items-start py-3 pr-16 pl-3 rounded-3xl bg-green-400 bg-opacity-20 max-md:pr-5">
+                            <div className="flex flex-col bg-green w-10 h-10 rounded-full bg-green-400 bg-opacity-20 justify-center items-center">
                               <img
                                 loading="lazy"
                                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/0c79b536b24cf63fb0a0c726e9ebc73a79254f4a31be87e2067f6620b6adbceb?"
@@ -232,14 +253,14 @@ function FounderDashboard(props) {
                             <div className="mt-4 text-xl text-neutral-400">
                               Sales
                             </div>
-                            <div className="mt-4 text-2xl font-medium tracking-wide whitespace-nowrap text-stone-100">
-                              {entry.sales ? entry.sales : '-'} unit(s)
+                            <div className="mt-4 text-xl font-medium tracking-wide whitespace-nowrap text-stone-100">
+                              {entry.sales ? entry.sales.toLocaleString('id-ID') : '-'} unit(s)
                             </div>
                           </div>
                         </div>
                         <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
                           <div className="flex flex-col grow self-stretch px-6 py-7 w-full rounded-lg bg-neutral-800 max-md:px-5 max-md:mt-6">
-                            <div className="flex flex-col justify-center items-start py-3 pr-16 pl-3 rounded-3xl bg-green-400 bg-opacity-20 max-md:pr-5">
+                            <div className="flex flex-col bg-green w-10 h-10 rounded-full bg-green-400 bg-opacity-20 justify-center items-center">
                               <img
                                 loading="lazy"
                                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/3e5be6e4332bd1cbe13b731850cb50438dce43bb09882cdfbca08a8e688ac628?"
@@ -249,14 +270,14 @@ function FounderDashboard(props) {
                             <div className="mt-4 text-xl text-neutral-400">
                               Revenue
                             </div>
-                            <div className="mt-4 text-2xl font-medium tracking-wide text-stone-100">
-                              IDR {entry.revenue ? entry.revenue : '-'}
+                            <div className="mt-4 text-xl font-medium tracking-wide text-stone-100">
+                              IDR {entry.revenue ? entry.revenue.toLocaleString('id-ID') : '-'}
                             </div>
                           </div>
                         </div>
                         <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
                           <div className="flex flex-col grow self-stretch py-7 pr-16 pl-6 w-full rounded-lg bg-neutral-800 max-md:px-5 max-md:mt-6">
-                            <div className="flex flex-col justify-center items-start py-3 pr-16 pl-3 rounded-3xl bg-green-400 bg-opacity-20 max-md:pr-5">
+                            <div className="flex flex-col bg-green w-10 h-10 rounded-full bg-green-400 bg-opacity-20 justify-center items-center">
                               <img
                                 loading="lazy"
                                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/b43982b4ac927ef3fdc24af1bf25f4c1004ea4e3a456f7c5a94bd5587318cf3f?"
@@ -266,8 +287,8 @@ function FounderDashboard(props) {
                             <div className="mt-3 text-xl text-neutral-400">
                               User
                             </div>
-                            <div className="mt-4 text-2xl font-medium tracking-wide whitespace-nowrap text-stone-100">
-                              {entry.user ? entry.user : '-'} user(s)
+                            <div className="mt-4 text-xl font-medium tracking-wide whitespace-nowrap text-stone-100">
+                              {entry.user ? entry.user.toLocaleString('id-ID') : '-'} user(s)
                             </div>
                           </div>
                         </div>
@@ -296,8 +317,13 @@ function FounderDashboard(props) {
                       </div>
                     </div>
                     <div>
-                      <canvas id="lineChart" width="400" height="200"></canvas>
+                      {listEntry.length == 0 ? (
+                        <div style={{ color: 'white', opacity: '0.5', fontSize: '14px', marginTop: '8px' }}>No entries available</div>
+                      ) : (
+                        <canvas id="lineChart" width="400" height="200"></canvas>
+                      )}
                     </div>
+                    <div style={{ color: 'white', opacity: '0.6', fontSize: '14px', textAlign: 'right', marginTop: '8px' }} className="not-italic">{listEntry.length > 0 ? "Last updated: " + listEntry[listEntry.length - 1].date : ''}</div>
                   </div>
                 </div>
               </div>
@@ -309,25 +335,25 @@ function FounderDashboard(props) {
                 <div className="flex-auto text-2xl font-medium tracking-wide text-white">
                   My Startup
                 </div>
-                <div className="flex gap-1 justify-center my-auto text-sm tracking-normal whitespace-nowrap text-neutral-400">
+                <a href="/startupEditForm" className="flex gap-1 justify-center my-auto text-sm tracking-normal whitespace-nowrap text-neutral-400">
                   <div className="grow">Edit details</div>
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/ff531139fba3701d653303021c8a4f2f727855541856b2bf3f58981c305dcd5f?"
                     className="shrink-0 self-start w-4 aspect-square"
                   />
-                </div>
+                </a>
               </div>
               <div className="flex gap-5 justify-between mt-6">
                 <div className="flex flex-1 justify-center items-center py-5 pr-9 pl-4 rounded-md bg-green-400 bg-opacity-20 max-md:pr-5">
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/aee088f017d081eaad61108de32666c86f1ecfeb90c6d756d849b1ba7ce8133f?"
-                    className="aspect-[1.02] w-[46px]"
+                    className="aspect-[1.02] w-[45px] h-[45px]"
                   />
                 </div>
                 <div className="flex gap-2 self-start pr-2 text-4xl font-semibold tracking-wider leading-10 text-white whitespace-nowrap">
-                  <div className="grow">EduGrow</div>
+                  <div className="grow">{startupDetails.name}</div>
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/6417a1a8e6e4f317123380fe8fed9093f6b5dd538926f00e91d377d6f03966c5?"
@@ -355,7 +381,7 @@ function FounderDashboard(props) {
                 <div className="flex-auto my-auto">Location</div>
               </div>
               <div className="mt-2 text-xl font-medium tracking-wide text-white">
-                Jakarta, Indonesia
+                {startupDetails.location}
               </div>
               <div className="flex gap-2 justify-center mt-6 text-base tracking-wide whitespace-nowrap text-neutral-400">
                 <img
@@ -366,7 +392,7 @@ function FounderDashboard(props) {
                 <div className="flex-auto my-auto">Sector</div>
               </div>
               <div className="mt-2 text-xl font-medium tracking-wide text-white">
-                Education Technology
+              {startupDetails.sector}
               </div>
               <div className="flex gap-2 justify-center mt-6 text-base tracking-wide whitespace-nowrap text-neutral-400">
                 <img
@@ -377,7 +403,7 @@ function FounderDashboard(props) {
                 <div className="flex-auto my-auto">Website</div>
               </div>
               <div className="flex gap-3 justify-center px-10 py-2 mt-2 text-xl font-medium tracking-wide text-white whitespace-nowrap rounded-lg bg-neutral-700 max-md:px-5">
-                <div className="flex-auto">EduGrow.id</div>
+                <div className="flex-auto">{startupDetails.website}</div>
                 <img
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/0224ac84b32ad76b568287a3ea7b9360aa3be50f2415ddeaa0468b0b120b93b0?"
@@ -393,7 +419,7 @@ function FounderDashboard(props) {
                 <div className="flex-auto my-auto">LinkedIn</div>
               </div>
               <div className="flex gap-3 justify-center self-start px-4 py-2 mt-2 text-xl font-medium tracking-wide text-white whitespace-nowrap rounded-lg bg-neutral-700">
-                <div className="grow">LinkedIn/EduGrow.id</div>
+                <div className="grow">{startupDetails.linkedin}</div>
                 <img
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/0224ac84b32ad76b568287a3ea7b9360aa3be50f2415ddeaa0468b0b120b93b0?"
@@ -406,7 +432,7 @@ function FounderDashboard(props) {
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/00ef0af1e644c1bb102e817c9deeb66348c69aded2f176f8e4bf89a60f937ff5?"
                   className="shrink-0 w-8 aspect-square"
                 />
-                <div className="grow my-auto">View public profile</div>
+                <a href="/startupReadForm" className="grow my-auto">View public profile</a>
               </div>
             </div>
           </div>
