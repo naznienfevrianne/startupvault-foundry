@@ -11,3 +11,7 @@ class EntrySerializer(serializers.ModelSerializer):
         model = Entry
         fields = ["sales", "revenue", "user", "lessonLearned", "date"]
 
+class MetricSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Entry
+        fields = '__all__'

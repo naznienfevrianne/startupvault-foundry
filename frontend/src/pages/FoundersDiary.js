@@ -1,7 +1,8 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { format } from 'date-fns';
-import Datepicker from "react-tailwindcss-datepicker"; 
+import Datepicker from "react-tailwindcss-datepicker";
+import{ Cookies } from 'react-cookie';
 
 function FounderDiary(props) {
     const [sales, setSales] = useState("");
@@ -11,12 +12,13 @@ function FounderDiary(props) {
     const [listEntries, setListEntries] = useState([]);
     const [filledThisWeek, setFilledThisWeek] = useState(false);
     const [thisWeekEntryId, setThisWeekEntryId] = useState("");
-    // const [startDate, setStartDate] = useState("");
-    // const [endDate, setEndDate] = useState("");
     const [descending, setDescending] = useState(true);
     const [succesMsg, setSuccessMsg] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
     const todayDate = format(new Date(), 'd MMMM yyyy');
+
+    const myCookies = new Cookies();
+    const idFounder = myCookies.get('id')
 
     const characterCount = lessonLearned.length;
 
@@ -24,13 +26,9 @@ function FounderDiary(props) {
         fetchData();
     }, []);
 
-    // useEffect(() => {
-    //     handleFilter();
-    // }, [startDate, endDate]);
-    
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8000/diary/diaryEntries/founder/7?sort=-date");
+        const response = await fetch(`http://localhost:8000/diary/diaryEntries/founder/${idFounder}?sort=-date`);
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
@@ -42,20 +40,19 @@ function FounderDiary(props) {
         const sunday = getSunday(today);
 
         const currentWeekEntry = entry.find(entry => {
-          const entryDate = new Date(entry.date); // Assuming there's a 'date' field in your data
+          const entryDate = new Date(entry.date);
           return entryDate >= monday && entryDate <= sunday;
         });
 
         if (currentWeekEntry) {
-          // If an entry exists for the current week, prefill the form fields
           setUser(currentWeekEntry.user);
           setSales(currentWeekEntry.sales);
           setRevenue(currentWeekEntry.revenue);
           setLessonLearned(currentWeekEntry.lessonLearned);
           setThisWeekEntryId(currentWeekEntry.id);
-          setFilledThisWeek(true); // Hide the form since we're editing
+          setFilledThisWeek(true);
         } else {
-          setFilledThisWeek(false); // Show the form for adding a new entry
+          setFilledThisWeek(false);
         }
       } catch (error) {
         console.error("Error:", error);
@@ -77,7 +74,7 @@ function FounderDiary(props) {
       let method;
       let message;
       if (filledThisWeek){
-        endpoint = "http://localhost:8000/diary/diaryEntries/" + thisWeekEntryId; // add the id here
+        endpoint = "http://localhost:8000/diary/diaryEntries/" + thisWeekEntryId;
         data = {
           "sales": sales,
           "revenue": revenue,
@@ -87,13 +84,13 @@ function FounderDiary(props) {
         method = "PUT"
         message = "Successfully update this week entry!";
       } else{
-        endpoint = "http://localhost:8000/diary/diaryEntries/founder/7";
+        endpoint = "http://localhost:8000/diary/diaryEntries/founder/" + idFounder;
         data = {
           "sales": sales,
           "revenue": revenue,
           "user": user, 
           "lessonLearned": lessonLearned,
-          "founder": 7 // add the id here
+          "founder": idFounder
         };
         method = "POST"
         message = "Successfully create this week entry!";
@@ -171,7 +168,6 @@ function FounderDiary(props) {
     }); 
 
     const handleValueChange = async(newValue) => {
-      console.log("BARU NIH:", newValue); 
       setValue(newValue);
 
       try {

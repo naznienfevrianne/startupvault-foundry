@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('founder', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='entries', to='diaryentries.founder')),
             ],
         ),
-        migrations.DeleteModel(
-            name='Song',
-        ),
+        # migrations.DeleteModel(
+        #     name='Song',
+        # ),
     ]
