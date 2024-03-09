@@ -181,8 +181,8 @@ class FounderRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.data)
 
 class StartupRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [JWTAuthentication]
-    # permission_classes = [AllowAny]
+    # permission_classes = [JWTAuthentication]
+    permission_classes = [AllowAny]
     serializer_class = StartupSerializer
 
     def get_queryset(self):
