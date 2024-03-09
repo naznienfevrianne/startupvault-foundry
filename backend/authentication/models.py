@@ -4,7 +4,7 @@ from django.db import models
 from django.db import models
 import jwt
 
-# Create your models here.
+
 class UserModel(models.Model):
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=10)
@@ -21,8 +21,8 @@ class UserModel(models.Model):
             return f"[Accepted]: {self.email}"
         else:
             return f"[Rejected]: {self.email}"
-        
-    
+
+
 class Startup(models.Model):
     typ = models.CharField(max_length=10)
     image = models.TextField()
@@ -40,8 +40,9 @@ class Startup(models.Model):
         return self.name
 
 class Founder(UserModel):
-    phoneNumber = models.CharField(max_length =12)
+    phoneNumber = models.CharField(max_length=12)
     startup = models.OneToOneField(Startup, on_delete=models.CASCADE, related_name='founder')
+
 
 class Investor(UserModel):
     typ = models.CharField(max_length=10)
@@ -52,7 +53,8 @@ class Investor(UserModel):
     stage=models.TextField()
     support=models.TextField()
     website = models.TextField()
-        
+
+
 class Partner(UserModel):
     location = models.TextField()
     desc = models.TextField()
@@ -61,4 +63,3 @@ class Partner(UserModel):
     mou = models.TextField(default="")
 
     
-
