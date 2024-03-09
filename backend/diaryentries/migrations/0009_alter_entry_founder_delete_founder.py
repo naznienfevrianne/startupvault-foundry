@@ -12,12 +12,12 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='entry',
-            name='founder',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='entries', to='authentication.founder'),
-        ),
-        migrations.DeleteModel(
-            name='Founder',
-        ),
+        # migrations.AlterField(
+        #     model_name='entry',
+        #     name='founder',
+        #     field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='entries', to='authentication.founder'),
+        # ),
+        # migrations.DeleteModel(
+        #     name='Founder',
+        # ),
     ]
