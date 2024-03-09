@@ -11,7 +11,8 @@ from .views import (
     FounderRetrieveUpdateDestroy,  
     StartupRetrieveUpdateDestroy,
     login, 
-    check_email
+    check_email,
+    test_token
 )
 
 
