@@ -1,7 +1,43 @@
 import React, { useEffect, useState } from 'react';
-
+import { Cookies } from 'react-cookie';
 const CookieDisplay = () => {
+    const cookiesku = new Cookies();
+    
+    // Check if the cookie exists
+    const cookieExists = cookiesku.get('id') !== undefined;
+    const tryToken = async () => {
+        const response = await fetch("http://localhost:8000/auth/testToken/", {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + cookiesku.get('token')
+    }
+    })
+
+    if (response.ok) {
+        const data = await response.json();
+        alert("Submission successful!");
+        console.log(data);
+          
+      } else {
+        const jsonData =await  response.json();
+          console.log(jsonData);
+          
+      }  
+    }
+    
+
+
+    // Use the cookieExists variable as needed
+    if (cookieExists) {
+      console.log(cookiesku.get('id'))
+      tryToken()
+    } else {
+      console.log("Cookie 'cookieName' does not exist.");
+    }
+
     const [cookies, setCookies] = useState([]);
+
 
     useEffect(() => {
         // Function to get all cookies

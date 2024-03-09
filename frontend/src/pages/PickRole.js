@@ -10,7 +10,7 @@ function PickRole(props) {
             navigate("/founderForm");
         } else if (param == 2) {
             localStorage.setItem("role", "investor");
-            navigate("/investorForm");
+            navigate("/investorType");
         } else if (param == 3){
             localStorage.setItem("role", "partner");
             navigate("/partnerForm");
@@ -18,7 +18,7 @@ function PickRole(props) {
     }
   return (
     <>
-    <div className="flex justify-center items-center min-h-screen bg-black">
+    <div className="flex justify-center items-center min-h-screen min-w-screen bg-black">
       <div className="mx-auto px-16 py-12 max-w-screen-xl">
           <div className="flex gap-5">
           <div 

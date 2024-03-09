@@ -18,6 +18,7 @@ function FounderForm(props) {
     
     let file = e.target.files[0]
     const imageUrl = URL.createObjectURL(file)
+    console.log(imageUrl)
     setProfilePicture(imageUrl);
     localStorage.setItem("profilePicture", imageUrl);
   }

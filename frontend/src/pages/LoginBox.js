@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { logout } from './Logout';
+import { Cookies } from 'react-cookie';
 function LoginBox(props) {
 
     const storedEmail = localStorage.getItem("email") || '';
@@ -14,6 +15,9 @@ function LoginBox(props) {
     const navigate = useNavigate("/")
 
 
+    const cookiesku = new Cookies();
+    const token = cookiesku.get("token")
+    console.log(token);
     const handleLogin = async () => {
       try {
         console.log(JSON.stringify({
@@ -23,7 +27,7 @@ function LoginBox(props) {
         const response = await fetch("http://localhost:8000/auth/login/", {
         method:'POST',
         headers: {
-          'Content-Type':'application/json'
+          'Content-Type':'application/json',
         },
         body: JSON.stringify({
           "email":email,
@@ -147,7 +151,7 @@ function LoginBox(props) {
               className="justify-center self-center px-5 py-2 mt-3 text-xl font-semibold tracking-widest text-black bg-green-400 whitespace-nowrap rounded-3xl shadow-sm max-md:mt-10 hover:bg-green-500 cursor-pointer"
               onClick= {handleLogin}
               type="button">
-                CREATE ACCOUNT
+                LOG IN
               </div>
               <div className="flex gap-1 self-center mt-4 text-base tracking-normal whitespace-nowrap">
                 <div className="grow text-white">Don't have an account?</div>

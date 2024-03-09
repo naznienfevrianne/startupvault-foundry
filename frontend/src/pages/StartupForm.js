@@ -214,12 +214,23 @@ function StartupForm(props) {
           localStorage.setItem("website", website)
           localStorage.setItem("linkedin", startupLinkedin)
           try {
-            const storedValue = localStorage.getItem("name");
 
+
+            const storedValue = localStorage.getItem("name");
             // Remove all spaces from the stored value
             const valueWithoutSpaces = storedValue.replace(/\s/g, '');
-
             const fileName = valueWithoutSpaces + "/" + generateRandomString(25)
+            const userImgUrl = uploadUserImg(fileName);
+  
+            // Upload startup logo
+            const startupLogoUrl = uploadStartupImg(fileName);
+    
+            // Upload pitchdeck
+            const pitchdeckUrl = uploadPitchdeck(fileName);
+    
+            console.log("User Image URL:", userImgUrl);
+            console.log("Startup Logo URL:", startupLogoUrl);
+            console.log("Pitchdeck URL:", pitchdeckUrl);
   
             console.log( JSON.stringify({
               "typ": localStorage.getItem("startupType"),
@@ -232,7 +243,7 @@ function StartupForm(props) {
               "revenue": localStorage.getItem("revenue"),
               "support": localStorage.getItem("support"),
               "website": localStorage.getItem("website"),
-              "linkedin": "https://linkedin.com" + localStorage.getItem("startupLinkedin")
+              "linkedin": "https://linkedin.com/" + localStorage.getItem("startupLinkedin")
           }))
             const response = await fetch("http://localhost:8000/auth/startup/", {
                 method: 'POST',

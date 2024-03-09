@@ -21,6 +21,7 @@ from functools import wraps
 from rest_framework  import permissions
 from jwt.exceptions import InvalidTokenError, ExpiredSignatureError
 from rest_framework import exceptions
+import bcrypt
 
 
 class JWTAuthentication(permissions.BasePermission):
@@ -51,7 +52,7 @@ class JWTAuthentication(permissions.BasePermission):
             request.user = user
             print("here2")
             return True
-            # except jwt.DecodeError:
+            # except jwt.DecodeError
             #     raise exceptions.AuthenticationFailed("Invalid token")
             # except jwt.ExpiredSignatureError:
             #     raise exceptions.AuthenticationFailed("Token has expired")

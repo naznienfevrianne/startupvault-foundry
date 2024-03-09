@@ -10,6 +10,10 @@ import StartupForm from './pages/StartupForm';
 import LoginBox from './pages/LoginBox';
 import Logout from './pages/Logout';
 import CookieDisplay from './pages/CookieDisplay';
+import InvestorType from './pages/InvestorType';
+import InvestorForm from './pages/InvestorForm';
+import PartnerForm from './pages/PartnerForm';
+import MOUSubmission from './pages/MOUSubmission';
 function App() {
     
     return (
@@ -24,6 +28,10 @@ function App() {
                 <Route path="/startupForm" element={<StartupForm />} />
                 <Route path="/login" element={<LoginBox/>}/>
                 <Route path="/logout" element={<Logout />}/>
+                <Route path="/investorType" element={<InvestorType/>} />
+                <Route path="/investorForm" element={<InvestorForm/>} />
+                <Route path="/partnerForm" element={<PartnerForm/>} />
+                <Route path="/MOUSubmission" element={<MOUSubmission />} />
             </Routes>
         </BrowserRouter>
 
