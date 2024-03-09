@@ -1,8 +1,36 @@
+from django.shortcuts import render
+from diaryentries.models import Founder, Entry
+from .serializers import MetricSerializer, FounderEntrySerializer, EntrySerializer
 from rest_framework import generics
-from .models import Founder, Entry
-from .serializers import FounderEntrySerializer, EntrySerializer
 from rest_framework.permissions import AllowAny
+from datetime import datetime, timedelta
+from django.utils import timezone
 
+
+class MetricsRetrieve(generics.RetrieveAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = MetricSerializer
+
+    def get_queryset(self):
+        founderId = self.kwargs["founder"]
+        instance = Entry.objects.filter(founder=founderId).order_by("-date").first()
+
+        instanceDate = instance.date #tanggal entry
+        today = timezone.now().date() #tanggal hari ini
+
+        start_of_week = today - timedelta(days=today.weekday()) #Today minus integer weekday hari ini (Mon=0, Sunday=6)
+        end_of_week = start_of_week + timedelta(days=6)
+
+        if (start_of_week <= instanceDate <= end_of_week):
+            return Entry.objects.filter(founder=founderId)
+        else:
+            return Entry.objects.none()
+    
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.last() if queryset else None
+        return obj
+        
 # Read & Create Diary Entry by Founder
 class DiaryEntriesListCreate(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
@@ -35,15 +63,3 @@ class DiaryEntriesRetrieveUpdate(generics.RetrieveUpdateAPIView):
     queryset = Entry.objects.all()
     serializer_class = EntrySerializer
 
-# Read & Create Diary Entry by Founder
-class DiaryEntryFilterList(generics.ListAPIView):
-    permission_classes = [AllowAny]
-    serializer_class = FounderEntrySerializer
-
-    # Read
-    def get_queryset(self):
-        queryset = YourModel.objects.all()
-        start_date = self.request.query_params.get('start_date', None)
-        end_date = self.request.query_params.get('end_date', None)
-
-        return Entry.objects.all().filter(date_field__range=[start_date, end_date]).order_by("-date")
