@@ -7,6 +7,10 @@ import PickRole from './pages/PickRole';
 import FounderForm from './pages/FounderForm';
 import StartupType from './pages/StartupType';
 import StartupForm from './pages/StartupForm';
+import FounderReadForm from './pages/FounderReadForm';
+import FounderEditForm from './pages/FounderEditForm';
+import StartupReadForm from './pages/StartupReadForm';
+import StartupEditForm from './pages/StartupEditForm';
 import LoginBox from './pages/LoginBox';
 import Logout from './pages/Logout';
 import CookieDisplay from './pages/CookieDisplay';
@@ -14,6 +18,11 @@ import InvestorType from './pages/InvestorType';
 import InvestorForm from './pages/InvestorForm';
 import PartnerForm from './pages/PartnerForm';
 import MOUSubmission from './pages/MOUSubmission';
+import Showcase from './pages/ShowcasePage';
+//import GlobalStyle from './GlobalStyle';
+import FounderDashboard from './pages/FounderDashboard';
+import FounderDiary from './pages/FoundersDiary';
+
 function App() {
     
     return (
@@ -26,12 +35,19 @@ function App() {
                 <Route path="/founderForm" element={<FounderForm />} />
                 <Route path="/startupType" element={<StartupType />} />
                 <Route path="/startupForm" element={<StartupForm />} />
+                <Route path="/founderReadForm" element={<FounderReadForm />} />
+                <Route path="/founderEditForm" element={<FounderEditForm />} />
+                <Route path="/startupReadForm" element={<StartupReadForm />} />
+                <Route path="/startupEditForm" element={<StartupEditForm />} />
                 <Route path="/login" element={<LoginBox/>}/>
                 <Route path="/logout" element={<Logout />}/>
                 <Route path="/investorType" element={<InvestorType/>} />
                 <Route path="/investorForm" element={<InvestorForm/>} />
                 <Route path="/partnerForm" element={<PartnerForm/>} />
                 <Route path="/MOUSubmission" element={<MOUSubmission />} />
+                <Route path="/showcase" element={<Showcase />}/>
+                <Route path="/dashboard" element={<FounderDashboard />} />
+                <Route path="/diary" element={<FounderDiary />}/>
             </Routes>
         </BrowserRouter>
 

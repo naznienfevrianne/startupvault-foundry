@@ -78,3 +78,7 @@ $RECYCLE.BIN/
 *.lnk
 
 __pycache__
+
+.idea
+
+.pyc

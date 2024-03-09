@@ -45,7 +45,7 @@ function LoginBox(props) {
           });
           setCookie("login", true, {expires: new Date(Date.now() + 60 * 60 * 1000)});
           console.log(cookies)
-          navigate("/")
+          navigate("/dashboard")
         } else {
           const data = await response.json()
           console.log(data)
@@ -152,6 +152,7 @@ function LoginBox(props) {
               onClick= {handleLogin}
               type="button">
                 LOG IN
+                Login
               </div>
               <div className="flex gap-1 self-center mt-4 text-base tracking-normal whitespace-nowrap">
                 <div className="grow text-white">Don't have an account?</div>

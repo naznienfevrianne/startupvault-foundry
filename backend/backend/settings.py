@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-63lr3h+2ua7$xaqlh22mn#e6!$mgl_*7rh+w_r-^elh4f$n#bu
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', 'localhost', 'startupvault-foundry.vercel.app']
-CSRF_TRUSTED_ORIGINS = ['https://startupvault-foundry.vercel.app', 'https://localhost:8000']
+CSRF_TRUSTED_ORIGINS = ['https://startupvault-foundry.vercel.app', 'http://localhost:8000']
 WSGI_APPLICATION = 'backend.wsgi.app'
 
 
@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'home',
     'authentication',
     'diaryentries',
-    'showcase'
+    'showcase',
 ]
 
 MIDDLEWARE = [
