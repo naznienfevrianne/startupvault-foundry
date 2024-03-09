@@ -9,14 +9,18 @@ function FounderDashboard(props) {
   const [listEntry, setListEntry] = React.useState([]);
   const [selectedChart, setSelectedChart] = React.useState('sales'); // sales is default
 
+  const [startupDetails, setStartupDetails] = React.useState("");
   const myCookies = new Cookies();
 
-  const idFounder = myCookies.get('id')
-  const nameFounder = myCookies.get('name')
+  const idFounder = myCookies.get('id');
+  const nameFounder = myCookies.get('name');
+  const idStartup = myCookies.get('startup');
+  const token = myCookies.get('token');
 
   React.useEffect(() => {
     fetchDataMetrics();
     fetchDataAnalytics();
+    fetchDataFounder();
   }, []);
 
  
@@ -113,6 +117,26 @@ function FounderDashboard(props) {
   const handleChartButtonClick = (chartType) => {
     setSelectedChart(chartType);
   };
+
+  const fetchDataFounder = async () => {
+    try {
+        const response = await fetch(`http://localhost:8000/auth/startup/${idStartup}/`,{
+          method: "GET", 
+          headers:{
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer' + token
+          }
+          }
+          );
+        if (!response.ok) {
+            throw new Error("Failed to fetch data");
+        }
+        const entry = await response.json();
+        setStartupDetails(entry);
+    } catch (error) {
+        console.log("Error:", error);
+    }
+};
 
   return (
     <div className="flex flex-col justify-center bg-black">
@@ -313,25 +337,25 @@ function FounderDashboard(props) {
                 <div className="flex-auto text-2xl font-medium tracking-wide text-white">
                   My Startup
                 </div>
-                <div className="flex gap-1 justify-center my-auto text-sm tracking-normal whitespace-nowrap text-neutral-400">
+                <a href="/startupEditForm" className="flex gap-1 justify-center my-auto text-sm tracking-normal whitespace-nowrap text-neutral-400">
                   <div className="grow">Edit details</div>
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/ff531139fba3701d653303021c8a4f2f727855541856b2bf3f58981c305dcd5f?"
                     className="shrink-0 self-start w-4 aspect-square"
                   />
-                </div>
+                </a>
               </div>
               <div className="flex gap-5 justify-between mt-6">
                 <div className="flex flex-1 justify-center items-center py-5 pr-9 pl-4 rounded-md bg-green-400 bg-opacity-20 max-md:pr-5">
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/aee088f017d081eaad61108de32666c86f1ecfeb90c6d756d849b1ba7ce8133f?"
-                    className="aspect-[1.02] w-[46px]"
+                    className="aspect-[1.02] w-[45px] h-[45px]"
                   />
                 </div>
                 <div className="flex gap-2 self-start pr-2 text-4xl font-semibold tracking-wider leading-10 text-white whitespace-nowrap">
-                  <div className="grow">EduGrow</div>
+                  <div className="grow">{startupDetails.name}</div>
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/6417a1a8e6e4f317123380fe8fed9093f6b5dd538926f00e91d377d6f03966c5?"
@@ -359,7 +383,7 @@ function FounderDashboard(props) {
                 <div className="flex-auto my-auto">Location</div>
               </div>
               <div className="mt-2 text-xl font-medium tracking-wide text-white">
-                Jakarta, Indonesia
+                {startupDetails.location}
               </div>
               <div className="flex gap-2 justify-center mt-6 text-base tracking-wide whitespace-nowrap text-neutral-400">
                 <img
@@ -370,7 +394,7 @@ function FounderDashboard(props) {
                 <div className="flex-auto my-auto">Sector</div>
               </div>
               <div className="mt-2 text-xl font-medium tracking-wide text-white">
-                Education Technology
+              {startupDetails.sector}
               </div>
               <div className="flex gap-2 justify-center mt-6 text-base tracking-wide whitespace-nowrap text-neutral-400">
                 <img
@@ -381,7 +405,7 @@ function FounderDashboard(props) {
                 <div className="flex-auto my-auto">Website</div>
               </div>
               <div className="flex gap-3 justify-center px-10 py-2 mt-2 text-xl font-medium tracking-wide text-white whitespace-nowrap rounded-lg bg-neutral-700 max-md:px-5">
-                <div className="flex-auto">EduGrow.id</div>
+                <div className="flex-auto">{startupDetails.website}</div>
                 <img
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/0224ac84b32ad76b568287a3ea7b9360aa3be50f2415ddeaa0468b0b120b93b0?"
@@ -397,7 +421,7 @@ function FounderDashboard(props) {
                 <div className="flex-auto my-auto">LinkedIn</div>
               </div>
               <div className="flex gap-3 justify-center self-start px-4 py-2 mt-2 text-xl font-medium tracking-wide text-white whitespace-nowrap rounded-lg bg-neutral-700">
-                <div className="grow">LinkedIn/EduGrow.id</div>
+                <div className="grow">{startupDetails.linkedin}</div>
                 <img
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/0224ac84b32ad76b568287a3ea7b9360aa3be50f2415ddeaa0468b0b120b93b0?"
@@ -410,7 +434,7 @@ function FounderDashboard(props) {
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/00ef0af1e644c1bb102e817c9deeb66348c69aded2f176f8e4bf89a60f937ff5?"
                   className="shrink-0 w-8 aspect-square"
                 />
-                <div className="grow my-auto">View public profile</div>
+                <a href="/startupReadForm" className="grow my-auto">View public profile</a>
               </div>
             </div>
           </div>
