@@ -7,6 +7,9 @@ import PickRole from './pages/PickRole';
 import FounderForm from './pages/FounderForm';
 import StartupType from './pages/StartupType';
 import StartupForm from './pages/StartupForm';
+import FounderReadForm from './pages/FounderReadForm';
+import FounderEditForm from './pages/FounderEditForm';
+import StartupReadForm from './pages/StartupReadForm';
 import LoginBox from './pages/LoginBox';
 import Logout from './pages/Logout';
 import CookieDisplay from './pages/CookieDisplay';
@@ -14,7 +17,7 @@ import Showcase from './pages/ShowcasePage';
 //import GlobalStyle from './GlobalStyle';
 import FounderDashboard from './pages/FounderDashboard';
 import FounderDiary from './pages/FoundersDiary';
-//import GlobalStyle from './GlobalStyle';
+
 
 function App() {
     
@@ -28,6 +31,9 @@ function App() {
                 <Route path="/founderForm" element={<FounderForm />} />
                 <Route path="/startupType" element={<StartupType />} />
                 <Route path="/startupForm" element={<StartupForm />} />
+                <Route path="/founderReadForm" element={<FounderReadForm />} />
+                <Route path="/founderEditForm" element={<FounderEditForm />} />
+                <Route path="/startupReadForm" element={<StartupReadForm />} />
                 <Route path="/login" element={<LoginBox/>}/>
                 <Route path="/logout" element={<Logout />}/>
                 <Route path="/showcase" element={<Showcase />}/>
