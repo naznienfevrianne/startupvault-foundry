@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import{ Cookies } from 'react-cookie';
 
 // Reusable Image Component
 const ImageWithAlt = ({ src, alt, className }) => (
@@ -22,6 +23,15 @@ const FounderDetails = () => {
     linkedin: "",
     phoneNumber: ""
   });
+  const myCookies = new Cookies();
+    const idFounder = myCookies.get('id') !== undefined;
+
+    if(idFounder){
+      console.log(myCookies.get('id'))
+    }else{
+      console.log("cookies does not exist.")
+    }
+
   const [profilePicture, setProfilePicture] = useState(storedProfilePicture);
 
   const navigate = useNavigate();
@@ -29,7 +39,7 @@ const FounderDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const response = await fetch("http://localhost:8000/auth/founder/7/");
+            const response = await fetch("http://localhost:8000/auth/founder/${idFounder}");
             if (!response.ok) {
                 throw new Error("Failed to fetch data");
             }
@@ -54,7 +64,7 @@ const FounderDetails = () => {
 
   const handleUpdate = async () => {
     try {
-        const response = await fetch("http://localhost:8000/auth/founder/7/", {
+        const response = await fetch("http://localhost:8000/auth/founder/${idFounder}", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

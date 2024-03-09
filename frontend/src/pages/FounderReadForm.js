@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import{ Cookies } from 'react-cookie';
 
 const MenuItem = ({ src, alt, children }) => (
   <div className="flex gap-2 self-start mt-10 whitespace-nowrap max-md:ml-2.5">
@@ -11,12 +12,21 @@ const FounderDetails = () => {
 
     const [founderDetails, setFounderDetails] = useState("");
     const profilePicture = localStorage.getItem("profilePicture") || '';
+    const myCookies = new Cookies();
+    const idFounder = myCookies.get('id') !== undefined;
+
+    if(idFounder){
+      console.log(myCookies.get('id'))
+    }else{
+      console.log("cookies does not exist.")
+    }
+
 
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:8000/auth/founder/7/");
+                const response = await fetch("http://localhost:8000/auth/founder/${idFounder}");
                 if (!response.ok) {
                     throw new Error("Failed to fetch data");
                 }
