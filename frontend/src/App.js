@@ -14,6 +14,9 @@ import Showcase from './pages/ShowcasePage';
 //import GlobalStyle from './GlobalStyle';
 import FounderDashboard from './pages/FounderDashboard';
 import FounderDiary from './pages/FoundersDiary';
+import Showcase from './pages/ShowcasePage';
+//import GlobalStyle from './GlobalStyle';
+import CookieDisplay from './pages/CookieDisplay';
 
 function App() {
     
