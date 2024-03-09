@@ -12,6 +12,7 @@ class UserModel(models.Model):
     image = models.TextField()
     linkedin = models.URLField()
     name = models.CharField(max_length = 255)
+    rejectionNote = models.CharField(max_length = 255, null=True)
 
     def __str__(self):
         if (self.isVerified == 0):
