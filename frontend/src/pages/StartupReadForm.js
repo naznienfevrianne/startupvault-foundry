@@ -3,7 +3,8 @@ import{ Cookies } from 'react-cookie';
 
 const StartupDetails = () => {
     const [startupDetails, setStartupDetails] = useState("");
-    const profilePicture = localStorage.getItem("profilePicture") || '';
+    const startupLogo = localStorage.getItem("image") || '';
+    const pitchdeckFile = localStorage.getItem("pitchdeckFile") || '';
     const myCookies = new Cookies();
     const idStartup = myCookies.get('startup');
     const token = myCookies.get('token');
@@ -13,7 +14,14 @@ const StartupDetails = () => {
     }else{
       console.log("cookies does not exist.")
     }
-    
+
+    const [sectors, setSector] = useState("");
+    const sectorsArray = sectors ? sectors.split(',') : [];
+    console.log(sectors)
+    console.log(sectorsArray)
+    console.log(myCookies.get('startup'))
+    console.log(pitchdeckFile.name);
+    console.log(startupDetails.pitchdeck);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,6 +39,8 @@ const StartupDetails = () => {
                 }
                 const entry = await response.json();
                 setStartupDetails(entry);
+                setSector(startupDetails.sector);
+                console.log(pitchdeckFile.name);
 
             } catch (error) {
                 console.error("Error:", error);
@@ -151,16 +161,19 @@ const StartupDetails = () => {
                   <div className="mt-3.5 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
                     Stage
                   </div>
-                  <div className="flex flex-col justify-center py-1.5 pr-12 pl-3.5 mt-1.5 max-w-full text-sm font-light tracking-normal text-green-400 whitespace-nowrap rounded-2xl bg-zinc-700 w-[120px] max-md:px-5">
+                  <div className={`flex flex-col justify-center py-1.5 pr-12 pl-3.5 mt-1.5 max-w-full text-sm font-light tracking-normal text-green-400 whitespace-nowrap rounded-2xl bg-zinc-700 ${
+                    startupDetails.typ === 'idea' || startupDetails.typ === 'seed' ? 'w-[90px]' :
+                    startupDetails.typ === 'growth' ? 'w-[100px]' : ''
+                    } 'w-[120px]'`}>
                     <div className="flex gap-1.5">
-                      <img
+                        <img
                         loading="lazy"
                         src="https://cdn.builder.io/api/v1/image/assets/TEMP/840292478f0d7f6090094a8c19cb25c0c63ead503920efdeec04b8e9651363db?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
                         className="shrink-0 aspect-[1.04] w-[23px]"
-                      />
-                      <div className="flex-auto my-auto mr-6">   {startupDetails.typ}</div>
+                        />
+                        <div className="flex-auto my-auto mr-6">{startupDetails.typ}</div>
                     </div>
-                  </div>
+                    </div>
                   <div className="mt-1.5 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
                     Name
                   </div>
@@ -177,13 +190,13 @@ const StartupDetails = () => {
                     Sector
                   </div>
                   <div className="flex gap-2.5 py-3 pr-20 mt-3 text-base font-semibold tracking-normal rounded-md text-stone-100 max-md:flex-wrap max-md:pr-5">
-                    <div className="justify-center px-3 py-1.5 rounded-2xl border border-green-400 border-solid">
-                      belum
-                    </div>
-                    <div className="justify-center px-3 py-1.5 whitespace-nowrap rounded-2xl border border-green-400 border-solid">
-                      handle
-                    </div>
-                  </div>
+    {sectorsArray.map((sector, index) => (
+      <div key={index} className="justify-center px-3 py-1.5 rounded-2xl border border-green-400 border-solid">
+        {sector.trim()} {/* Trim to remove any leading or trailing whitespace */}
+      </div>
+    ))}
+  </div>
+
                   <div className="mt-3 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
                     Describe your startup in less than 50 words
                   </div>
@@ -193,15 +206,15 @@ const StartupDetails = () => {
                   <div className="mt-3 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
                     Startup Pitchdeck
                   </div>
-                  <div className="flex gap-2.5 self-start px-3 py-3 mt-3 text-base font-medium tracking-wide whitespace-nowrap rounded-lg border border-green-400 border-solid bg-green-400 bg-opacity-20 text-stone-100 max-md:px-5">
+                  <a href={startupDetails.pitchdeck} className="flex gap-2.5 self-start px-3 py-3 mt-3 text-base font-medium tracking-wide whitespace-nowrap rounded-lg border border-green-400 border-solid bg-green-400 bg-opacity-20 text-stone-100 max-md:px-5">
                     <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/cc2edde9f8ae8f079b56f3bbd090661b2694c068012ac8b9ab8b9a0a34ddb1d8?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
                       className="shrink-0 w-6 aspect-square"
                       href={startupDetails.pitchdeck}
                     />
-                    <div className="flex-auto my-auto">pitchdeck.pdf</div>
-                  </div>
+                    <div className="flex-auto my-auto">pitch deck file(.pdf)</div>
+                  </a>
                   <div className="self-start mt-3 text-base font-medium tracking-wide text-stone-100">
                     Revenue over the last 6 months
                   </div>
