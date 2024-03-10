@@ -22,6 +22,7 @@ const StartupDetails = () => {
     console.log(myCookies.get('startup'))
     console.log(pitchdeckFile.name);
     console.log(startupDetails.pitchdeck);
+    console.log(startupDetails.image);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -151,13 +152,29 @@ const StartupDetails = () => {
                         </div>
                     </a>
                   </div>
-                  <div className="flex flex-col justify-center items-start px-8 py-8 mt-3.5 max-w-full bg-green-700 rounded-xl w-[146px] max-md:px-5">
-                    <img
-                      loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/47ca398fa854e64d37677f75ca6a4dfad6cf6c9cad694afcabd944dce2397c1b?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-                      className="aspect-[1.01] w-[83px]"
-                    />
-                  </div>
+                  <div className="flex flex-col justify-center items-start px-8 py-8 mt-3.5 max-w-full rounded-xl w-[146px] h-[146px] max-md:px-5 bg-green-700"
+                    style={{ backgroundImage: `url(${startupDetails.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                        >
+                        {startupDetails.image ? (
+                            <div className="flex flex-1 justify-center items-center">
+                                <img
+                                    src={startupDetails.image}
+                                    loading="lazy"
+                                    className="rounded-xl w-[146px] h-[146px] object-cover object-center"
+                                    alt="logo startup"
+                                />
+                            </div>
+                        ) : (
+                            <div className="flex flex-1 justify-center items-center">
+                                <img
+                                    loading="lazy"
+                                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/47ca398fa854e64d37677f75ca6a4dfad6cf6c9cad694afcabd944dce2397c1b?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
+                                    className="object-cover object-center w-[83px] h-[83px] rounded-xl"
+                                    alt="Founder's portrait"
+                                />
+                            </div>
+                        )}
+                    </div>
                   <div className="mt-3.5 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
                     Stage
                   </div>
@@ -213,7 +230,7 @@ const StartupDetails = () => {
                       className="shrink-0 w-6 aspect-square"
                       href={startupDetails.pitchdeck}
                     />
-                    <div className="flex-auto my-auto">pitch deck file(.pdf)</div>
+                    <div className="flex-auto my-auto">pitch deck (.pdf)</div>
                   </a>
                   <div className="self-start mt-3 text-base font-medium tracking-wide text-stone-100">
                     Revenue over the last 6 months
