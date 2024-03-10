@@ -202,7 +202,7 @@ const StartupEditDetails = () => {
                         src={profilePicture}
                         loading="lazy"
                         className="aspect-[1.01] w-[160px] bg-green-700 rounded-xl"
-                        alt="profile avatar"
+                        alt="not found"
                         />
                     </div>
                     ) : (
