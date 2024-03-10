@@ -15,9 +15,8 @@ const StartupDetails = () => {
       console.log("cookies does not exist.")
     }
 
-    const [sectors, setSector] = useState("");
-    const sectorsArray = sectors ? sectors.split(',') : [];
-    console.log(sectors)
+    const sectorsArray = startupDetails.sector ? startupDetails.sector.split(',') : [];
+    console.log(startupDetails.sector);
     console.log(sectorsArray)
     console.log(myCookies.get('startup'))
     console.log(pitchdeckFile.name);
@@ -40,7 +39,6 @@ const StartupDetails = () => {
                 }
                 const entry = await response.json();
                 setStartupDetails(entry);
-                setSector(startupDetails.sector);
                 console.log(pitchdeckFile.name);
 
             } catch (error) {
@@ -236,8 +234,25 @@ const StartupDetails = () => {
                     Revenue over the last 6 months
                   </div>
                   <div className="self-start mt-3 text-base font-semibold tracking-normal text-green-400">
-                  USD {startupDetails.revenue}K
-                  </div>
+                    {(() => {
+                        switch (startupDetails.revenue) {
+                        case 1:
+                            return 'USD 0-50K';
+                        case 2:
+                            return 'USD 1-10K';
+                        case 3:
+                            return 'USD 11-50K';
+                        case 4:
+                            return 'USD 51-100K';
+                        case 5:
+                            return 'USD 101-500K';
+                        case 6:
+                            return 'USD 501+K';
+                        default:
+                            return 'N/A'; // Default case if the value is not in the specified range
+                        }
+                    })()}
+                    </div>
                   <div className="mt-3 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
                     What kind of support do you need in the StartupVault ecosystem?
                   </div>
