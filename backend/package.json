@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "dayjs": "^1.11.10",
-    "react-tailwindcss-datepicker": "^1.6.6"
-  }
-}
