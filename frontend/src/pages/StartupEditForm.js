@@ -34,7 +34,7 @@ const StartupEditDetails = () => {
     const navigate = useNavigate();
     const supabaseUrl= "https://yitzsihwzshujgebmdrg.supabase.co";
     const supabaseKey= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpdHpzaWh3enNodWpnZWJtZHJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc1MzQyMjYsImV4cCI6MjAyMzExMDIyNn0.vDEP-XQL4BKAww7l_QW1vsQ4dZCM5GknBPACrgPXfKA"
-    const supabase = createClient(supabaseUrl, supabaseKey);
+
     const options = [
         ['Technology and SaaS', 'E-commerce and Marketplaces', 'HealthTech and MedTech', 'FinTech', 'CleanTech and Sustainability'], // Column 1
         ['Gaming and Entertainment', 'Food and Agriculture', 'Education and Self Development', 'Insurance', 'Travel'], // Column 2
@@ -53,80 +53,80 @@ const StartupEditDetails = () => {
     console.log("cookies does not exist.")
     }
 
-    function generateRandomString(length) {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let result = '';
+    // function generateRandomString(length) {
+    //     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    //     let result = '';
       
-        for (let i = 0; i < length; i++) {
-          result += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
+    //     for (let i = 0; i < length; i++) {
+    //       result += characters.charAt(Math.floor(Math.random() * characters.length));
+    //     }
       
-        return result;
-      }
-      const uploadUserImg = (fileName) => {
-        fetch(localStorage.getItem("profilePicture"))
-        .then(response => response.blob())
-        .then(async blob => {
-        // Upload the image to Supabase Storage
-        const { data, error } = supabase.storage
-            .from('userimg')
-            .upload(fileName, blob);
+    //     return result;
+    //   }
+    //   const uploadUserImg = (fileName) => {
+    //     fetch(localStorage.getItem("profilePicture"))
+    //     .then(response => response.blob())
+    //     .then(async blob => {
+    //     // Upload the image to Supabase Storage
+    //     const { data, error } = supabase.storage
+    //         .from('userimg')
+    //         .upload(fileName, blob);
 
-        if (error) {
-            console.error('Error uploading profilePicture:', error.message);
-        } else {
-            console.log('Image uploaded successfully:', data);
+    //     if (error) {
+    //         console.error('Error uploading profilePicture:', error.message);
+    //     } else {
+    //         console.log('Image uploaded successfully:', data);
             
-            return supabaseUrl + "/storage/v1/object/public/userimg/" + fileName;
-        }
-        })
-        .catch(error => {
-        console.error('profilePicture fetching image from localhost:', error);
-        });
-      }
-      const uploadStartupImg = (fileName) => {
-        fetch(localStorage.getItem("startupLogo"))
-        .then(response => response.blob())
-        .then(async blob => {
-        // Upload the image to Supabase Storage
-        const { data, error } = supabase.storage
-            .from('startupimg')
-            .upload(fileName, blob);
+    //         return supabaseUrl + "/storage/v1/object/public/userimg/" + fileName;
+    //     }
+    //     })
+    //     .catch(error => {
+    //     console.error('profilePicture fetching image from localhost:', error);
+    //     });
+    //   }
+    //   const uploadStartupImg = (fileName) => {
+    //     fetch(localStorage.getItem("startupLogo"))
+    //     .then(response => response.blob())
+    //     .then(async blob => {
+    //     // Upload the image to Supabase Storage
+    //     const { data, error } = supabase.storage
+    //         .from('startupimg')
+    //         .upload(fileName, blob);
 
-        if (error) {
-            console.error('Error uploading startup logo:', error.message);
-        } else {
-          console.log('Image uploaded successfully:', data);
+    //     if (error) {
+    //         console.error('Error uploading startup logo:', error.message);
+    //     } else {
+    //       console.log('Image uploaded successfully:', data);
             
-          return supabaseUrl + "/storage/v1/object/public/startupimg/" + fileName;
-        }
-        })
-        .catch(error => {
-        console.error('startup logo fetching image from localhost:', error);
-        });
-      }
+    //       return supabaseUrl + "/storage/v1/object/public/startupimg/" + fileName;
+    //     }
+    //     })
+    //     .catch(error => {
+    //     console.error('startup logo fetching image from localhost:', error);
+    //     });
+    //   }
       
-      const uploadPitchdeck = (fileName) => {
-        fetch(localStorage.getItem("pitchdeck"))
-        .then(response => response.blob())
-        .then(async blob => {
-        // Upload the image to Supabase Storage
-        const { data, error } = supabase.storage
-            .from('pitchdeck')
-            .upload(fileName, blob);
+    //   const uploadPitchdeck = (fileName) => {
+    //     fetch(localStorage.getItem("pitchdeck"))
+    //     .then(response => response.blob())
+    //     .then(async blob => {
+    //     // Upload the image to Supabase Storage
+    //     const { data, error } = supabase.storage
+    //         .from('pitchdeck')
+    //         .upload(fileName, blob);
 
-        if (error) {
-            console.error('Error uploading pitchdeck:', error.message);
-        } else {
-          console.log('Image uploaded successfully:', data);
+    //     if (error) {
+    //         console.error('Error uploading pitchdeck:', error.message);
+    //     } else {
+    //       console.log('Image uploaded successfully:', data);
             
-          return supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName;
-        }
-        })
-        .catch(error => {
-        console.error('profilePicture fetching image from localhost:', error);
-        });
-    };
+    //       return supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName;
+    //     }
+    //     })
+    //     .catch(error => {
+    //     console.error('profilePicture fetching image from localhost:', error);
+    //     });
+    // };
 
     const handlePitchdeckChange = (e) => {
         let file = e.target.files[0];
@@ -225,6 +225,53 @@ const StartupEditDetails = () => {
         setErrorMessage("Please upload startup's logo")
       }
 
+    //   console.log(startupLogoValid);
+    //   console.log(startupNameValid);
+    //   console.log(locationValid);
+    //   console.log(sectorValid);
+    //   console.log(descValid);
+    //   console.log(pitchDeckValid);
+    //   console.log(revenueValid);
+    //   console.log(supportValid);
+    //   console.log(websiteValid);
+    //   console.log(startupLinkedinValid);
+
+      if(!startupLogoValid){
+        startupLogoValid = true
+        
+      }
+
+      if (!startupLogoValid || !startupNameValid || !locationValid || !sectorValid
+        || !descValid || !pitchDeckValid || !revenueValid || !supportValid
+        || !websiteValid || !startupLinkedinValid){
+        startupLogoValid = true
+        startupName = startupDetails.name;
+        startupNameValid = true
+        startupLogo = startupDetails.image;
+        locationValid = true
+        location = startupDetails.location;
+        sectorValid = true
+        descValid = true
+        pitchDeckValid = true
+        revenueValid = true
+        supportValid = true
+        websiteValid = true
+        startupLinkedinValid = true
+    
+      }
+
+      console.log(startupLogoValid);
+      console.log(startupNameValid);
+      console.log(locationValid);
+      console.log(sectorValid);
+      console.log(descValid);
+      console.log(pitchDeckValid);
+      console.log(revenueValid);
+      console.log(supportValid);
+      console.log(websiteValid);
+      console.log(startupLinkedinValid);
+
+
       if ( startupLogoValid && startupNameValid && locationValid && sectorValid && descValid && pitchDeckValid 
         && revenueValid && supportValid && websiteValid && startupLinkedinValid) {
           setErrorMessage("")
@@ -243,16 +290,18 @@ const StartupEditDetails = () => {
             // Remove all spaces from the stored value
             const valueWithoutSpaces = storedValue.replace(/\s/g, '');
 
-            const fileName = valueWithoutSpaces + "/" + generateRandomString(25)
+            // const fileName = valueWithoutSpaces + "/" + generateRandomString(25)
   
             console.log( JSON.stringify({
               "typ": localStorage.getItem("startupType"),
-              "image": supabaseUrl + "/storage/v1/object/public/startupimg/" + fileName,
+              "image": localStorage.getItem("startupLogo"),
+            //   "image": supabaseUrl + "/storage/v1/object/public/startupimg/" + fileName,
               "name": localStorage.getItem("startupName"),
               "location": localStorage.getItem("location"),
               "sector": localStorage.getItem("sector"),
               "desc": localStorage.getItem("description"),
-              "pitchdeck": supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName,
+              "pitchdeck": localStorage.getItem(storedPitchdeckFile),
+            //   "pitchdeck": supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName,
               "revenue": localStorage.getItem("revenue"),
               "support": localStorage.getItem("support"),
               "website": localStorage.getItem("website"),
@@ -263,17 +312,19 @@ const StartupEditDetails = () => {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                'Authorization': 'Bearer' + token
+                'Authorization': 'Bearer ' + token
             },
             body: JSON.stringify({
 
                 "typ": localStorage.getItem("startupType"),
-                "image": supabaseUrl + "/storage/v1/object/public/startupimg/" + fileName,
+                "image": localStorage.getItem("startupLogo"),
+                // "image": supabaseUrl + "/storage/v1/object/public/startupimg/" + fileName,
                 "name": localStorage.getItem("startupName"),
                 "location": localStorage.getItem("location"),
                 "sector": localStorage.getItem("sector"),
                 "desc": localStorage.getItem("description"),
-                "pitchdeck": supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName,
+                "pitchdeck": localStorage.getItem(storedPitchdeckFile),
+                // "pitchdeck": supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName,
                 "revenue": localStorage.getItem("revenue"),
                 "support": localStorage.getItem("support"),
                 "website": localStorage.getItem("website"),
@@ -349,7 +400,17 @@ const StartupEditDetails = () => {
                 }
                 const entry = await response.json();
                 setStartupDetails(entry);
-                setType(startupDetails.typ);
+                // setStartupName(startupDetails.name);
+                // setStartupLogo(startupDetails.image);
+                // setLocation(startupDetails.location);
+                // setType(startupDetails.typ);
+                // setDescription(startupDetails.desc);
+                // setRevenue(startupDetails.revenue);
+
+                console.log("revenue ", revenue);
+
+
+
             } catch (error) {
                 console.log("Error:", error);
             }
@@ -504,7 +565,7 @@ const StartupEditDetails = () => {
                             id="typ-idea"
                             name="typ"
                             value="idea"
-                            checked={typ === 'idea'}
+                            checked={typ === 'idea' || startupDetails.typ === 'idea'}
                             onChange={() => TypeRadioSelector('idea')}
                             className="hidden"
                             />
@@ -528,7 +589,7 @@ const StartupEditDetails = () => {
                             id="typ-seed"
                             name="typ"
                             value="seed"
-                            checked={typ === 'seed'}
+                            checked={typ === 'seed' || startupDetails.typ === 'seed'}
                             onChange={() => TypeRadioSelector('seed')}
                             className="hidden"
                             />
@@ -552,7 +613,7 @@ const StartupEditDetails = () => {
                             id="typ-growth"
                             name="typ"
                             value="growth"
-                            checked={typ === 'growth'}
+                            checked={typ === 'growth'|| startupDetails.typ === 'growth' }
                             onChange={() => TypeRadioSelector('growth')}
                             className="hidden"
                             />
@@ -579,8 +640,17 @@ const StartupEditDetails = () => {
                     type="text"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
                     placeholder=" "
-                    value={startupDetails.name}
-                    onChange={(e) => setStartupDetails({ ...startupDetails, name: e.target.value })}
+                    value={startupName|| startupDetails.name}
+                    onChange={(e) => setStartupName(e.target.value)}
+                    required
+                  />
+                <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Location</div>
+                  <input
+                    type="text"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    placeholder=" "
+                    value={location || startupDetails.location}
+                    onChange={(e) => setLocation(e.target.value)}
                     required
                   />
             <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Sector</div>
@@ -721,7 +791,7 @@ const StartupEditDetails = () => {
                             id="revenue-1"
                             name="revenue"
                             value="1"
-                            checked={revenue === '1'}
+                            checked={revenue === '1'|| startupDetails.revenue === '1'}
                             onChange={() => RevenueRadioSelector('1')}
                             className="hidden"
                             />
@@ -745,7 +815,7 @@ const StartupEditDetails = () => {
                             id="revenue-2"
                             name="revenue"
                             value="2"
-                            checked={revenue === '2'}
+                            checked={revenue === '2'|| startupDetails.revenue === '2'}
                             onChange={() => RevenueRadioSelector('2')}
                             className="hidden"
                             />
@@ -771,7 +841,7 @@ const StartupEditDetails = () => {
                             id="revenue-3"
                             name="revenue"
                             value="3"
-                            checked={revenue === '3'}
+                            checked={revenue === '3' || startupDetails.revenue === '3'}
                             onChange={() => RevenueRadioSelector('3')}
                             className="hidden"
                             />
@@ -794,7 +864,7 @@ const StartupEditDetails = () => {
                             id="revenue-4"
                             name="revenue"
                             value="4"
-                            checked={revenue === '4'}
+                            checked={revenue === '4' || startupDetails.revenue === '4'}
                             onChange={() => RevenueRadioSelector('4')}
                             className="hidden"
                             />
@@ -818,7 +888,7 @@ const StartupEditDetails = () => {
                             id="revenue-5"
                             name="revenue"
                             value="5"
-                            checked={revenue === '5'}
+                            checked={revenue === '5' || startupDetails.revenue === '5'}
                             onChange={() => RevenueRadioSelector('5')}
                             className="hidden"
                             />
@@ -845,7 +915,7 @@ const StartupEditDetails = () => {
                     type="text"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
                     placeholder=" "
-                    value={startupDetails.support}
+                    value={support || startupDetails.support}
                     onChange={(e) => setStartupDetails({ ...startupDetails, support: e.target.value })}
                     required
                   />
@@ -856,7 +926,7 @@ const StartupEditDetails = () => {
                     type="text"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
                     placeholder=" "
-                    value={startupDetails.website}
+                    value={website || startupDetails.website}
                     onChange={(e) => setStartupDetails({ ...startupDetails, website: e.target.value })}
                     required
                   />
@@ -867,7 +937,7 @@ const StartupEditDetails = () => {
                     type="text"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
                     placeholder="linkedin.com/in/"
-                    value={startupDetails.linkedin}
+                    value={startupLinkedin || startupDetails.linkedin}
                     onChange={(e) => setStartupDetails({ ...startupDetails, linkedin: e.target.value })}
                     required
                   />linkedin.com/in/
