@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import ShowcaseForm from './CreateShowcase.js';
 import { useCookies } from 'react-cookie';
 import DynamicImageGallery from './DynamicImageGallery';
+import{ Cookies } from 'react-cookie';
 
 const NavbarItem = ({ children, href }) => (
   <div className="grow">
@@ -286,13 +287,20 @@ const SearchBar = ({ setSearchTerm }) => { // Accept setSearchTerm as a prop
 };
 
 const Showcase = () => {
- const [searchTerm, setSearchTerm] = useState("");
-
+  const [searchTerm, setSearchTerm] = useState("");
+  const myCookies = new Cookies();
+  const rejectionNote = myCookies.get('rejectionNote');
+  
    return (
   <div className="flex flex-col h-screen bg-black"> {/* Ensures the main container takes up the full viewport height */}
     <Header />
     <div className="flex flex-1 overflow-hidden"> {/* This div becomes the flex container for your main content and aside */}
       <main className="flex-1 overflow-auto ml-[120px] mr-[40px]"> {/* Main content area that scrolls */}
+        {rejectionNote !== null && (
+          <div className="bg-red-500 text-white p-2 rounded mt-2 mb-4 opacity-70">
+            Sorry we can not verify your account: {rejectionNote}
+          </div>
+        )}
         <ShowcaseForm afterPostSuccess={fetchPosts}/>
         <ShowcasePost searchTerm={searchTerm}/>
       </main>
