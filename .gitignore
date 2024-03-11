@@ -79,4 +79,6 @@ $RECYCLE.BIN/
 
 .idea
 
-.pyc
+
+**/__pycache__/
+*.pyc
