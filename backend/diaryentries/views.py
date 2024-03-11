@@ -28,7 +28,7 @@ class MetricsRetrieve(generics.RetrieveAPIView):
     
     def get_object(self):
         queryset = self.get_queryset()
-        obj = queryset.last() if queryset else None
+        obj = queryset.order_by("-date").first() if queryset else None
         return obj
         
 # Read & Create Diary Entry by Founder

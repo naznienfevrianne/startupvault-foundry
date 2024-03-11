@@ -1,0 +1,316 @@
+import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
+import{ Cookies } from 'react-cookie';
+import { Link } from 'react-router-dom';
+
+
+// Reusable Image Component
+const ImageWithAlt = ({ src, alt, className }) => (
+  <img src={src} alt={alt} className={className} loading="lazy" />
+);
+
+// Reusable Icon Link Component
+const IconLink = ({ src, alt, label, className }) => (
+  <div className={`flex gap-2 items-center ${className}`}>
+    <ImageWithAlt src={src} alt={alt} className="shrink-0 w-8 aspect-square" />
+    <div className="grow my-auto">{label}</div>
+  </div>
+);
+
+const FounderDetails = () => {
+  const storedProfilePicture = localStorage.getItem("profilePicture") || '';
+  const [founderDetails, setFounderDetails] = useState({
+    email: "",
+    name: "",
+    linkedin: "",
+    phoneNumber: ""
+  });
+  const myCookies = new Cookies();
+    const idFounder = myCookies.get('id');
+    const token = myCookies.get('token');
+
+    if(idFounder){
+      console.log(myCookies.get('id'))
+    }else{
+      console.log("cookies does not exist.")
+    }
+
+  const [profilePicture, setProfilePicture] = useState(storedProfilePicture);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const response = await fetch(`http://localhost:8000/auth/founder/${idFounder}/`,{
+              method: "GET", 
+              headers:{
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer ' + token
+              }
+              }
+              );
+            if (!response.ok) {
+                throw new Error("Failed to fetch data");
+            }
+            const entry = await response.json();
+            setFounderDetails(entry);
+        } catch (error) {
+            console.log("Error:", error);
+        }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleProfilePictureChange = (e) => {
+    
+    let file = e.target.files[0]
+    const imageUrl = URL.createObjectURL(file)
+    setProfilePicture(imageUrl);
+    localStorage.setItem("profilePicture", imageUrl);
+  }
+
+
+  const handleUpdate = async () => {
+    try {
+        const response = await fetch(`http://localhost:8000/auth/founder/${idFounder}/`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify(founderDetails),
+        });
+        if (!response.ok) {
+            throw new Error("Failed to update data");
+        }
+        console.log("Data updated successfully");
+        console.log("Navigating to /founderReadForm...");
+        navigate('/founderReadForm');
+    } catch (error) {
+        console.error("Error:", error);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleUpdate();
+  };
+
+  return (
+      <section className="flex flex-col w-[77%] max-md:w-full">
+        <form onSubmit={handleSubmit}>
+          <div className="px-5 pt-9 pb-20">
+              <div className="flex flex-wrap gap-5 justify-between content-center self-start pr-14 text-stone-100 max-md:pr-5">
+                  <h2 className="text-5xl font-semibold tracking-wider leading-[54px]">Founder Details</h2>
+                  <button className="flex gap-1.5 justify-center px-3.5 py-1.5 my-auto text-xl tracking-wide rounded-xl border border-solid shadow-sm bg-neutral-400 bg-opacity-40 border-neutral-400">
+                      <span>editing mode</span>
+                      {/* Add your image component here */}
+                  </button>
+              </div>
+              {/* Add profile picture change section */}
+              <div className="mt-5 flex flex-col">
+                  {/* Replace the following divs with input fields for editing */}
+                  <div className="flex gap-4 self-start mt-5">
+                    {profilePicture ? (
+                      <div className="flex flex-1 justify-center items-center">
+                      <img
+                        src={profilePicture}
+                        loading="lazy"
+                        className="bg-green-700 rounded-full aspect-square w-[160px]"
+                        alt="profile avatar"
+                      />
+                      </div>
+                    ) : (
+                      <div className="flex flex-1 justify-center items-center">
+                        <img loading="lazy" 
+                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/ed1345ea404a723338ff721ac0a6577f3b2b779ec21cbe5039152ea32aaaf38f?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
+                        alt="Founder's portrait" className="mt-5 bg-green-700 rounded-full aspect-[0.99] h-[160px] w-[160px]" />
+                      </div>
+                          )}
+                        <div className="flex justify-center items-center mt-3 pl-6">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      id="profile-picture-upload"
+                      onChange={handleProfilePictureChange}
+                      style={{ display: "none" }} // Hide the file input
+                    />
+                    <label htmlFor="profile-picture-upload" className="cursor-pointer text-sm font-light tracking-wide text-blue-400 whitespace-nowrap">
+                      Change profile picture
+                    </label>
+                    </div>
+                  </div>
+                  <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Email</div>
+                  <input
+                    type="text"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    placeholder=" "
+                    value={founderDetails.email}
+                    onChange={(e) => setFounderDetails({ ...founderDetails, email: e.target.value })}
+                    required
+                  />
+                  <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Name</div>
+                  <input
+                    type="text"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    placeholder=" "
+                    value={founderDetails.name}
+                    onChange={(e) => setFounderDetails({ ...founderDetails, name: e.target.value })}
+                    required
+                  />
+                  <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">LinkedIn</div>
+                  <input
+                    type="text"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    placeholder=" "
+                    value={founderDetails.linkedin}
+                    onChange={(e) => setFounderDetails({ ...founderDetails, linkedin: e.target.value })}
+                    required
+                  />
+                  <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Phone Number</div>
+                  <input
+                    type="text"
+                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    placeholder=" "
+                    value={founderDetails.phoneNumber}
+                    onChange={(e) => {
+                        const inputValue = e.target.value;
+                        const numericValue = parseInt(inputValue);
+
+                        // Check if the input is not a number or if its length exceeds 12
+                        if (isNaN(numericValue) || inputValue.length > 12) {
+                            alert("Please enter a valid phone number with a maximum of 12 numbers.");
+                            return;
+                        }
+
+                        // Update the state only if it meets the criteria
+                        setFounderDetails({ ...founderDetails, phoneNumber: inputValue });
+                    }}
+                    required
+                  />
+              </div>
+              <div className="flex gap-2 mt-5 pr-20 text-xl font-semibold tracking-widest">
+                  <a type="button" href="/founderReadForm" className="px-4 py-2 rounded-2xl border border-solid border-stone-100 text-stone-100">cancel</a>
+                  <button className="px-5 py-2 text-black bg-green-400 rounded-2xl" type="submit">save</button>
+              </div>
+          </div>
+        </form>
+      </section>
+  );
+};
+
+function EditDetailsPage() {
+  // Data for navigation links
+  const navLinks = [
+    { label: 'Showcase', key: 'showcase' },
+    { label: 'Events', key: 'events' },
+    { label: 'Our Investors', key: 'our-investors' },
+    { label: 'Our Startups', key: 'our-startups' },
+  ]
+    
+  ;
+  const myCookies = new Cookies();
+  const idFounder = myCookies.get('id')
+  const nameFounder = myCookies.get('name')
+  const profilePicture = myCookies.get('image')
+  const idStartup = myCookies.get('startup')
+  const token = myCookies.get('token')
+
+  return (
+    <div className="flex flex-col justify-center bg-black min-h-screen px-20">
+    <header className="flex gap-5 justify-between px-20 py-6 w-full max-md:flex-wrap max-md:px-5 max-md:max-w-full">
+    <div className="flex gap-1 justify-between items-center self-start text-white max-md:flex-wrap max-md:max-w-full">
+        <div className="flex-auto text-l italic font-semibold tracking-wider leading-10">
+          startupvault.id
+          </div>
+        <nav className="flex gap-5 justify-between items-center px-8 my-auto text-l font-light max-md:flex-wrap max-md:px-5 max-md:max-w-full">
+          <div className="grow">Showcase</div>
+          <div>Events</div>
+          <div className="flex-auto">Our Investors</div>
+          <div className="grow whitespace-nowrap text-stone-100">Our Startups</div>
+        </nav>
+      </div>
+    
+      <div className="flex gap-2 rounded-[30px]">
+        <div className="grow justify-center px-3 py-2 text-l font-light text-green-400 whitespace-nowrap rounded-2xl bg-green-400 bg-opacity-20">My Dashboard</div>
+        <div className="flex gap-2 items-center px-2.5 py-2 bg-neutral-800 rounded-[30.497px]">
+          <div className="flex justify-center items-center self-stretch aspect-square">
+            <img loading="lazy"
+            srcSet={profilePicture} 
+            alt="User profile" 
+            className="rounded-full aspect-square bg-green-400 bg-opacity-20 w-[30px]" />
+          </div>
+          <div className="self-stretch my-auto text-l font-medium tracking-wide text-stone-100">{nameFounder}</div>
+          <img loading="lazy" 
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/081086ccfbd0bbab3badfd8655a0ab414aaf7a31d08fbc1f5199388c6bac11c8?apiKey=9ff2a73e8144478896bce8206c80f3e2&" 
+          alt="Settings icon" className="shrink-0 self-stretch my-auto aspect-square w-[18px]" />
+        </div>
+      </div>
+    </header>
+    <main className="px-px pb-20 w-full max-md:max-w-full">
+      <aside className="flex gap-5 max-md:flex-col max-md:gap-0">
+        <div className="flex flex-col w-[23%] max-md:ml-0 max-md:w-full">
+          <div className="flex flex-col self-stretch mt-6 text-l tracking-wide">
+            <div className="flex flex-col pr-7 pl-10 text-neutral-400 max-md:px-5">
+              <div className="flex gap-3 p-4 mr-0 -ml-px text-base tracking-normal bg-neutral-800 rounded-[30px] text-stone-300">
+                <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/92e705fdbc7d9eb92b8784a8c1ceb52df03c8aa7b6b8e5c590f04dd435f3a923?apiKey=9ff2a73e8144478896bce8206c80f3e2&" alt="Search icon" className="shrink-0 w-5 aspect-square" />
+                <div className="flex-auto -mr-0.5">Search in dashboard</div>
+              </div>
+              <div className="flex gap-2 self-start mt-10 ml-4 text-l tracking-wide whitespace-nowrap text-neutral-400 max-md:ml-2.5">
+                  <img
+                    loading="lazy"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/27c36da114ed300adb9add9fce8d851f4c7b22802ffaf460c4b83dfdad7092bb?"
+                    className="w-8 aspect-square"
+                  />
+                  <div className="grow my-auto"><Link to="/dashboard">Overview</Link></div>
+                </div>
+            </div>
+
+            <div className="flex gap-2 self-center mt-10 text-l tracking-wide whitespace-nowrap text-neutral-400">
+                <img
+                  loading="lazy"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/3cef65a25dfa47f096a12f653a5687356c49974a2b901252287cba6ffe7f302d?"
+                  className="w-8 aspect-square"
+                />
+
+
+                <div className="grow my-auto">                        
+                <Link to="/diary">Weekly Updates</Link>
+                </div>
+              </div>
+
+              <div className="flex gap-2 self-center mt-10 text-l tracking-wide whitespace-nowrap text-neutral-400">
+                <img
+                  loading="lazy"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/af603136276046e8322b35f550ed99cb4cb7f42f4be19979861c7f70c3f1a3ce?"
+                  className="w-8 aspect-square"
+                />
+
+
+                <div className="grow my-auto">                        
+                <Link to="/startupReadForm">Startup Details</Link>
+                </div>
+              </div>
+
+
+            <div className="flex gap-5 justify-between pr-10 mt-10 text-green-400 max-md:pr-5">
+              <div className="shrink-0 w-1 h-12 bg-green-400 rounded-none shadow-sm" />
+              <div className="flex gap-2 px-4 py-2 -mr-1 rounded-lg bg-green-400 bg-opacity-20">
+                <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/a0ac874774d74b16428095b5fd34e492283a512f4a7323a8d6634fc264f32384?apiKey=9ff2a73e8144478896bce8206c80f3e2&" alt="Founder details icon" className="shrink-0 w-8 aspect-square" />
+                <div className="grow my-auto">                       
+                     <Link to="/founderReadForm">Founder Details</Link>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+          <FounderDetails/>
+        </aside>
+      </main>
+    </div>
+  );
+}
+
+export default EditDetailsPage;
