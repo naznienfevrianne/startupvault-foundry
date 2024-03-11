@@ -253,12 +253,14 @@ function FounderDiary(props) {
                     />
                     <div className="flex-auto">Search in dashboard</div>
                   </div>
+                  
                   <div className="flex gap-2 self-start mt-10 ml-4 text-l tracking-wide whitespace-nowrap text-neutral-400 max-md:ml-2.5">
                     <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/27c36da114ed300adb9add9fce8d851f4c7b22802ffaf460c4b83dfdad7092bb?"
                       className="w-8 aspect-square"
                     />
+
                     <div className="grow my-auto"><Link to="/dashboard">Overview</Link></div>
                   </div>
                 </div>
@@ -270,6 +272,8 @@ function FounderDiary(props) {
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/24e60d617991b8b60b29d864ec77b569626e6840703c3541bfcb8b3681b8aa21?"
                       className="w-8 aspect-square"
                     />
+
+
                     <div className="flex-auto my-auto">                        
                     <Link to="/diary">Weekly Updates</Link>
                     </div>
@@ -281,6 +285,8 @@ function FounderDiary(props) {
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/af603136276046e8322b35f550ed99cb4cb7f42f4be19979861c7f70c3f1a3ce?"
                     className="w-8 aspect-square"
                   />
+
+
                   <div className="grow my-auto">                        
                   <Link to="/startupReadForm">Startup Details</Link>
                   </div>
@@ -291,6 +297,8 @@ function FounderDiary(props) {
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/f06c757951079842a9d6e5f08a6cb907c6632c2879d3daa3ad22a2e2979cd8c5?"
                     className="w-8 aspect-square"
                   />
+
+
                   <div className="grow my-auto">
                   <Link to="/founderReadForm">Founder Details</Link>
                   </div>

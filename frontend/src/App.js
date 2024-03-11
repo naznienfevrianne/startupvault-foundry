@@ -18,7 +18,6 @@ import Showcase from './pages/ShowcasePage';
 //import GlobalStyle from './GlobalStyle';
 import FounderDashboard from './pages/FounderDashboard';
 import FounderDiary from './pages/FoundersDiary';
-import PrivateRoute from './PrivateRoute';
 import { Cookies } from 'react-cookie';
 import { Navigate } from 'react-router-dom';
 function App() {
