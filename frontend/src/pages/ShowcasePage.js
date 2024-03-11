@@ -6,6 +6,11 @@ import { useState, useEffect } from 'react';
 import ShowcaseForm from './CreateShowcase.js';
 import { useCookies } from 'react-cookie';
 import DynamicImageGallery from './DynamicImageGallery';
+import{ Cookies } from 'react-cookie';
+
+const myCookies = new Cookies();
+const isLogin = myCookies.get('login')
+
 
 const NavbarItem = ({ children, href }) => (
   <div className="grow">
@@ -50,21 +55,33 @@ const NavigationBar = () => (
 
 const SignUpButton = () => (
   <div
-      className="justify-center self-center px-5 py-2 mt-3 text-xl font-semibold tracking-widest text-black bg-green-400 whitespace-nowrap rounded-3xl shadow-sm max-md:mt-10 hover:bg-green-500 cursor-pointer"
+      className="justify-center self-center px-5 py-2 mt-0 text-xl font-semibold tracking-widest text-black bg-green-400 whitespace-nowrap rounded-3xl shadow-sm max-md:mt-10 hover:bg-green-500 cursor-pointer"
       type="button">
-      SIGN UP
+       <Link to="/login">LOG IN</Link>
+  </div>
+);
+
+const LogOutButton = () => (
+  <div
+      className="justify-center self-center px-5 py-2 mt-0 text-xl font-semibold tracking-widest text-black bg-green-400 whitespace-nowrap rounded-3xl shadow-sm max-md:mt-10 hover:bg-green-500 cursor-pointer"
+      type="button">
+      <Link to="/logout">LOG OUT</Link>
   </div>
 );
 
 const Header = () => (
   <header className="flex gap-5 justify-between items-center px-20 py-6 w-full max-md:flex-wrap max-md:px-5 max-md:max-w-full">
     <div className="flex gap-5 justify-between items-center self-start text-white max-md:flex-wrap max-md:max-w-full">
-      <h1 className="flex-auto text-sm italic font-semibold tracking-wider leading-10">
+      <h1 className="flex-auto text-l italic font-semibold tracking-wider leading-10">
         startupvault.id
       </h1>
       <NavigationBar />
     </div>
-    <SignUpButton />
+    {isLogin ? (
+      <LogOutButton />
+    ):(
+      <SignUpButton />
+    )}
   </header>
 );
 
@@ -286,14 +303,23 @@ const SearchBar = ({ setSearchTerm }) => { // Accept setSearchTerm as a prop
 };
 
 const Showcase = () => {
- const [searchTerm, setSearchTerm] = useState("");
-
+  const [searchTerm, setSearchTerm] = useState("");
+  const myCookies = new Cookies();
+  const rejectionNote = myCookies.get('rejectionNote');
+  
    return (
-  <div className="flex flex-col h-screen bg-black"> {/* Ensures the main container takes up the full viewport height */}
+  <div className="flex flex-col h-screen bg-black min-h-screen"> {/* Ensures the main container takes up the full viewport height */}
     <Header />
     <div className="flex flex-1 overflow-hidden"> {/* This div becomes the flex container for your main content and aside */}
       <main className="flex-1 overflow-auto ml-[120px] mr-[40px]"> {/* Main content area that scrolls */}
-        <ShowcaseForm afterPostSuccess={fetchPosts}/>
+
+        {isLogin && rejectionNote !== null && (
+          <div className="bg-red-500 text-white p-2 rounded mt-2 mb-4 opacity-70">
+            Sorry we can not verify your account: {rejectionNote}
+          </div>
+        )}
+        
+        <ShowcaseForm afterPostSuccess={fetchPosts} />
         <ShowcasePost searchTerm={searchTerm}/>
       </main>
       <aside className="w-1/3 h-full overflow-auto sticky top-0"> {/* Aside section made sticky */}

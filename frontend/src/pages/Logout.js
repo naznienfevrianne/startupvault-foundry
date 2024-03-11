@@ -8,15 +8,19 @@ const Logout = () => {
     const logout = () => {
         Object.keys(cookies).forEach(key => {
             removeCookie(key);
-            console.log(cookies)
-            navigate("/")
-        
         });
+        navigate("/")
+        window.location.reload();
+        
     }
 
+    // Invoke logout function when component renders
     React.useEffect(() => {
-        logout()
-    }, []);
+        logout();
+    }, []); // Empty dependency array ensures the effect runs only once after initial render
+
+    // No need to return anything from this component
+    return null;
     
   }
   export default Logout;
