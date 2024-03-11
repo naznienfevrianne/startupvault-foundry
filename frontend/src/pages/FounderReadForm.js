@@ -100,6 +100,13 @@ const FounderDetails = () => {
 };
 
 function Dashboard() {
+  const myCookies = new Cookies();
+  const idFounder = myCookies.get('id')
+  const nameFounder = myCookies.get('name')
+  const profilePicture = myCookies.get('image')
+  const idStartup = myCookies.get('startup')
+  const token = myCookies.get('token')
+
   const menuItems = [
     { src: "https://cdn.builder.io/api/v1/image/assets/TEMP/27c36da114ed300adb9add9fce8d851f4c7b22802ffaf460c4b83dfdad7092bb?apiKey=9ff2a73e8144478896bce8206c80f3e2&", alt: "Overview icon", text: "Overview" },
     { src: "https://cdn.builder.io/api/v1/image/assets/TEMP/3cef65a25dfa47f096a12f653a5687356c49974a2b901252287cba6ffe7f302d?apiKey=9ff2a73e8144478896bce8206c80f3e2&", alt: "Updates icon", text: "Weekly Updates" },
@@ -107,26 +114,33 @@ function Dashboard() {
   ];
 
   return (
-    <div className="flex flex-col justify-center bg-black">
-      <header className="flex gap-5 justify-between py-6 pr-10 pl-20 w-full max-md:flex-wrap max-md:px-5 max-md:max-w-full">
-        <nav className="flex gap-5 justify-between text-white max-md:flex-wrap max-md:max-w-full">
-          <div className="flex-auto text-4xl italic font-semibold tracking-wider leading-10">startupvault.id</div>
-          <div className="flex gap-5 justify-between px-5 py-3 text-xl font-light max-md:flex-wrap max-md:px-5">
+    <div className="flex flex-col justify-center bg-black min-h-screen px-20">
+      <header className="flex gap-5 justify-between px-20 py-6 w-full max-md:flex-wrap max-md:px-5 max-md:max-w-full">
+      <div className="flex gap-1 justify-between items-center self-start text-white max-md:flex-wrap max-md:max-w-full">
+          <div className="flex-auto text-l italic font-semibold tracking-wider leading-10">
+            startupvault.id
+            </div>
+          <nav className="flex gap-5 justify-between items-center px-8 my-auto text-l font-light max-md:flex-wrap max-md:px-5 max-md:max-w-full">
             <div className="grow">Showcase</div>
             <div>Events</div>
             <div className="flex-auto">Our Investors</div>
             <div className="grow whitespace-nowrap text-stone-100">Our Startups</div>
-          </div>
-        </nav>
+          </nav>
+        </div>
+      
         <div className="flex gap-2 rounded-[30px]">
-          <div className="grow justify-center px-5 py-3 text-xl font-light text-green-400 whitespace-nowrap rounded-3xl bg-green-400 bg-opacity-20">My Dashboard</div>
+          <div className="grow justify-center px-3 py-2 text-l font-light text-green-400 whitespace-nowrap rounded-2xl bg-green-400 bg-opacity-20">My Dashboard</div>
           <div className="flex gap-2 items-center px-2.5 py-2 bg-neutral-800 rounded-[30.497px]">
-            <div className="flex justify-center items-center self-stretch basis-0">
-              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/ed1345ea404a723338ff721ac0a6577f3b2b779ec21cbe5039152ea32aaaf38f?apiKey=9ff2a73e8144478896bce8206c80f3e2&" alt="User profile" className="rounded-full aspect-square bg-green-400 bg-opacity-20 h-[30px] w-[30px]" />
+            <div className="flex justify-center items-center self-stretch aspect-square">
+              <img loading="lazy"
+              srcSet={profilePicture} 
+              alt="User profile" 
+              className="rounded-full aspect-square bg-green-400 bg-opacity-20 w-[30px]" />
             </div>
-            <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/ed1345ea404a723338ff721ac0a6577f3b2b779ec21cbe5039152ea32aaaf38f?apiKey=9ff2a73e8144478896bce8206c80f3e2&" alt="User icon" className="shrink-0 self-stretch my-auto aspect-square w-[30px]" />
-            <div className="self-stretch my-auto text-xl font-medium tracking-wide text-stone-100">Naznien</div>
-            <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/081086ccfbd0bbab3badfd8655a0ab414aaf7a31d08fbc1f5199388c6bac11c8?apiKey=9ff2a73e8144478896bce8206c80f3e2&" alt="Settings icon" className="shrink-0 self-stretch my-auto aspect-square w-[18px]" />
+            <div className="self-stretch my-auto text-l font-medium tracking-wide text-stone-100">{nameFounder}</div>
+            <img loading="lazy" 
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/081086ccfbd0bbab3badfd8655a0ab414aaf7a31d08fbc1f5199388c6bac11c8?apiKey=9ff2a73e8144478896bce8206c80f3e2&" 
+            alt="Settings icon" className="shrink-0 self-stretch my-auto aspect-square w-[18px]" />
           </div>
         </div>
       </header>

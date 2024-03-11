@@ -79,4 +79,4 @@ $RECYCLE.BIN/
 
 .idea
 
-.pyc
+*.pyc
