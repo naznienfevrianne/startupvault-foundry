@@ -1,7 +1,6 @@
 import * as React from "react";
 import Chart from "chart.js/auto";
 import{ Cookies } from 'react-cookie';
-import { Link } from 'react-router-dom';
 
 
 function FounderDashboard(props) {
@@ -9,20 +8,15 @@ function FounderDashboard(props) {
   const [entry, setEntry] = React.useState("");
   const [listEntry, setListEntry] = React.useState([]);
   const [selectedChart, setSelectedChart] = React.useState('sales'); // sales is default
-  const [startupData, setStartupData] = React.useState({});
+
   const myCookies = new Cookies();
 
   const idFounder = myCookies.get('id')
   const nameFounder = myCookies.get('name')
-  const profilePicture = myCookies.get('image')
-  const idStartup = myCookies.get('startup')
-  const token = myCookies.get('token')
-  
 
   React.useEffect(() => {
     fetchDataMetrics();
     fetchDataAnalytics();
-    fetchStartupData();
   }, []);
 
  
@@ -86,27 +80,6 @@ function FounderDashboard(props) {
     } 
   }, [listEntry, selectedChart]);
 
-  const fetchStartupData = async () => {
-    try {
-      const response = await fetch(`http://localhost:8000/auth/startup/${idStartup}/`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-          }
-      });
-
-      if (!response.ok) {
-          throw new Error("Failed to fetch startup data");
-      }
-
-      const data = await response.json();
-      setStartupData(data);
-  } catch (error) {
-      console.error('Error fetching startup data:', error);
-  }
-  }
-
   const fetchDataMetrics = async () => {
     try {
       const responseMetrics = await fetch("http://localhost:8000/diary/" + idFounder + "/");
@@ -142,34 +115,34 @@ function FounderDashboard(props) {
   };
 
   return (
-    <div className="flex flex-col justify-center bg-black min-h-screen px-20">
-    <header className="flex gap-5 justify-between items-center px-20 py-6 w-full max-md:flex-wrap max-md:px-5 max-md:max-w-full">
-    <div className="flex gap-1 justify-between items-center self-start text-white max-md:flex-wrap max-md:max-w-full">
-            <h1 className="flex-auto text-l italic font-semibold tracking-wider leading-10">
+    <div className="flex flex-col justify-center bg-black">
+      <div className="flex gap-5 justify-between py-6 pr-10 pl-20 w-full max-md:flex-wrap max-md:px-5 max-md:max-w-full">
+        <div className="flex gap-5 justify-between text-white max-md:flex-wrap max-md:max-w-full">
+          <div className="flex-auto text-4xl italic font-semibold tracking-wider leading-10">
             startupvault.id
-          </h1>
-          <nav className="flex gap-5 justify-between items-center px-8 my-auto text-l font-light max-md:flex-wrap max-md:px-5 max-md:max-w-full">
+          </div>
+          <div className="flex gap-5 justify-between px-5 py-3 text-xl font-light max-md:flex-wrap max-md:px-5">
             <div className="grow">Showcase</div>
             <div>Events</div>
             <div className="flex-auto">Our Investors</div>
             <div className="grow whitespace-nowrap text-stone-100">
               Our Startups
             </div>
-          </nav>
+          </div>
         </div>
         <div className="flex gap-2 rounded-[30px]">
-          <div className="grow justify-center px-3 py-2 text-l font-light text-green-400 whitespace-nowrap rounded-2xl bg-green-400 bg-opacity-20">
+          <div className="grow justify-center px-5 py-3 text-xl font-light text-green-400 whitespace-nowrap rounded-3xl bg-green-400 bg-opacity-20">
             My Dashboard
           </div>
           <div className="flex gap-2 items-center px-2.5 py-2 bg-neutral-800 rounded-[30.497px]">
-            <div className="flex justify-center items-center self-stretch aspect-square">
+            <div className="flex justify-center items-center self-stretch basis-0">
               <img
                 loading="lazy"
-                srcSet={profilePicture}
+                srcSet="..."
                 className="rounded-full aspect-square bg-green-400 bg-opacity-20 h-[30px] w-[30px]"
               />
             </div>
-            <div className="self-stretch my-auto text-l font-medium tracking-wide text-stone-100">
+            <div className="self-stretch my-auto text-xl font-medium tracking-wide text-stone-100">
               {nameFounder}
             </div>
             <img
@@ -179,14 +152,14 @@ function FounderDashboard(props) {
             />
           </div>
         </div>
-      </header>
+      </div>
       <div className="pb-20 w-full max-md:pr-5 max-md:max-w-full">
         <div className="flex gap-5 max-md:flex-col max-md:gap-0">
           <div className="flex flex-col w-[74%] max-md:ml-0 max-md:w-full">
             <div className="max-md:mt-10 max-md:max-w-full">
               <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-                <div className="flex flex-col w-[25%] max-md:ml-0 max-md:w-full pl-8">
-                  <div className="flex flex-col items-center self-stretch pb-2 mt-6 text- tracking-wide text-neutral-400">
+                <div className="flex flex-col w-[25%] max-md:ml-0 max-md:w-full">
+                  <div className="flex flex-col items-center self-stretch pb-2 mt-6 text-xl tracking-wide text-neutral-400">
                     <div className="flex gap-3 p-4 text-base tracking-normal bg-neutral-800 rounded-[30px] text-stone-300">
                       <img
                         loading="lazy"
@@ -197,15 +170,13 @@ function FounderDashboard(props) {
                     </div>
                     <div className="flex gap-5 justify-between self-stretch pr-10 mt-8 font-medium text-green-400 whitespace-nowrap max-md:pr-5">
                       <div className="shrink-0 w-1 h-12 bg-green-400 rounded-none shadow-sm" />
-                      <div className="flex gap-2 pr-12 pl-2 py-2 rounded-lg bg-green-400 bg-opacity-20">
+                      <div className="flex gap-2 px-4 py-2 rounded-lg bg-green-400 bg-opacity-20">
                         <img
                           loading="lazy"
                           src="https://cdn.builder.io/api/v1/image/assets/TEMP/f1487560442a58b51dcbec994221baf3cf665d63416908100ec5efda2c599f05?"
                           className="shrink-0 w-8 aspect-square"
                         />
-                        <div className="flex-auto my-auto">
-                          <Link to="/dashboard">Overview</Link>
-                        </div>
+                        <div className="flex-auto my-auto">Overview</div>
                       </div>
                     </div>
                     <div className="flex gap-2 mt-10 whitespace-nowrap">
@@ -214,9 +185,7 @@ function FounderDashboard(props) {
                         src="https://cdn.builder.io/api/v1/image/assets/TEMP/3cef65a25dfa47f096a12f653a5687356c49974a2b901252287cba6ffe7f302d?"
                         className="shrink-0 w-8 aspect-square"
                       />
-                      <div className="grow my-auto">
-                        <Link to="/diary">Weekly Updates</Link>
-                        </div>
+                      <div className="grow my-auto">Weekly Updates</div>
                     </div>
                     <div className="flex gap-2 mt-12 whitespace-nowrap max-md:mt-10">
                       <img
@@ -224,9 +193,7 @@ function FounderDashboard(props) {
                         src="https://cdn.builder.io/api/v1/image/assets/TEMP/af603136276046e8322b35f550ed99cb4cb7f42f4be19979861c7f70c3f1a3ce?"
                         className="shrink-0 w-8 aspect-square"
                       />
-                      <div className="grow my-auto">
-                        <Link to="/startupReadForm">Startup Details</Link>
-                        </div>
+                      <div className="grow my-auto">Startup Details</div>
                     </div>
                     <div className="flex gap-2 mt-12 whitespace-nowrap max-md:mt-10">
                       <img
@@ -234,13 +201,11 @@ function FounderDashboard(props) {
                         src="https://cdn.builder.io/api/v1/image/assets/TEMP/f06c757951079842a9d6e5f08a6cb907c6632c2879d3daa3ad22a2e2979cd8c5?"
                         className="shrink-0 w-8 aspect-square"
                       />
-                      <div className="grow my-auto">                       
-                       <Link to="/founderReadForm">Founder Details</Link>
-                    </div>
+                      <div className="grow my-auto">Founder Details</div>
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col ml-10 w-[67%] max-md:ml-0 max-md:w-full">
+                <div className="flex flex-col ml-5 w-[67%] max-md:ml-0 max-md:w-full">
                   <div className="flex flex-col grow justify-center pt-6 max-md:max-w-full">
                     <div className="flex gap-5 justify-between max-md:flex-wrap max-md:max-w-full">
                       <div className="flex-auto text-2xl font-semibold tracking-wide text-stone-100">
@@ -340,16 +305,14 @@ function FounderDashboard(props) {
               </div>
             </div>
           </div>
-          <div className="flex flex-col ml-8 w-[26%] max-md:ml-0 max-md:w-full">
+          <div className="flex flex-col ml-5 w-[26%] max-md:ml-0 max-md:w-full">
             <div className="flex flex-col p-6 mx-auto mt-6 w-full rounded-lg bg-neutral-800 max-md:px-5 max-md:mt-10">
               <div className="flex gap-5 justify-between w-full">
-                <div className="flex-auto text-l font-medium tracking-wide text-white">
+                <div className="flex-auto text-2xl font-medium tracking-wide text-white">
                   My Startup
                 </div>
                 <div className="flex gap-1 justify-center my-auto text-sm tracking-normal whitespace-nowrap text-neutral-400">
-                  <div className="grow">
-                    <Link to="/startupEditForm">Edit details</Link>
-                  </div>
+                  <div className="grow">Edit details</div>
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/ff531139fba3701d653303021c8a4f2f727855541856b2bf3f58981c305dcd5f?"
@@ -365,8 +328,8 @@ function FounderDashboard(props) {
                     className="aspect-[1.02] w-[46px]"
                   />
                 </div>
-                <div className="flex gap-2 self-start pr-2 text-2xl font-semibold tracking-wider leading-10 text-white whitespace-nowrap">
-                  <div className="grow">{startupData.name}</div>
+                <div className="flex gap-2 self-start pr-2 text-4xl font-semibold tracking-wider leading-10 text-white whitespace-nowrap">
+                  <div className="grow">EduGrow</div>
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/6417a1a8e6e4f317123380fe8fed9093f6b5dd538926f00e91d377d6f03966c5?"
@@ -382,7 +345,7 @@ function FounderDashboard(props) {
                 />
                 <div className="flex-auto my-auto">Followers</div>
               </div>
-              <div className="mt-2 text-l font-medium tracking-wide text-white">
+              <div className="mt-2 text-xl font-medium tracking-wide text-white">
                 127 Followers
               </div>
               <div className="flex gap-2 justify-center mt-6 text-base tracking-wide whitespace-nowrap text-neutral-400">
@@ -393,8 +356,8 @@ function FounderDashboard(props) {
                 />
                 <div className="flex-auto my-auto">Location</div>
               </div>
-              <div className="mt-2 text-l font-medium tracking-wide text-white">
-                {startupData.location}
+              <div className="mt-2 text-xl font-medium tracking-wide text-white">
+                Jakarta, Indonesia
               </div>
               <div className="flex gap-2 justify-center mt-6 text-base tracking-wide whitespace-nowrap text-neutral-400">
                 <img
@@ -404,8 +367,8 @@ function FounderDashboard(props) {
                 />
                 <div className="flex-auto my-auto">Sector</div>
               </div>
-              <div className="mt-2 text-l font-medium tracking-wide text-white">
-                {startupData.sector}
+              <div className="mt-2 text-xl font-medium tracking-wide text-white">
+                Education Technology
               </div>
               <div className="flex gap-2 justify-center mt-6 text-base tracking-wide whitespace-nowrap text-neutral-400">
                 <img
@@ -415,8 +378,8 @@ function FounderDashboard(props) {
                 />
                 <div className="flex-auto my-auto">Website</div>
               </div>
-              <div className="flex gap-3 justify-center px-10 py-2 mt-2 text-l font-medium tracking-wide text-white whitespace-nowrap rounded-lg bg-neutral-700 max-md:px-5">
-                <div className="flex-auto">{startupData.website}</div>
+              <div className="flex gap-3 justify-center px-10 py-2 mt-2 text-xl font-medium tracking-wide text-white whitespace-nowrap rounded-lg bg-neutral-700 max-md:px-5">
+                <div className="flex-auto">EduGrow.id</div>
                 <img
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/0224ac84b32ad76b568287a3ea7b9360aa3be50f2415ddeaa0468b0b120b93b0?"
@@ -431,15 +394,15 @@ function FounderDashboard(props) {
                 />
                 <div className="flex-auto my-auto">LinkedIn</div>
               </div>
-              <div className="flex gap-3 justify-center self-start px-4 py-2 mt-2 text-sm font-medium tracking-wide text-white whitespace-nowrap rounded-lg bg-neutral-700">
-                <div className="grow">{startupData.linkedin}</div>
+              <div className="flex gap-3 justify-center self-start px-4 py-2 mt-2 text-xl font-medium tracking-wide text-white whitespace-nowrap rounded-lg bg-neutral-700">
+                <div className="grow">LinkedIn/EduGrow.id</div>
                 <img
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/0224ac84b32ad76b568287a3ea7b9360aa3be50f2415ddeaa0468b0b120b93b0?"
                   className="shrink-0 w-6 aspect-square"
                 />
               </div>
-              <div className="flex gap-2.5 justify-center px-16 py-3 mt-6 text-l font-semibold tracking-widest text-black whitespace-nowrap rounded-lg bg-stone-100 max-md:px-5">
+              <div className="flex gap-2.5 justify-center px-16 py-3 mt-6 text-xl font-semibold tracking-widest text-black whitespace-nowrap rounded-lg bg-stone-100 max-md:px-5">
                 <img
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/00ef0af1e644c1bb102e817c9deeb66348c69aded2f176f8e4bf89a60f937ff5?"

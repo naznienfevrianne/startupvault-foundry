@@ -2,19 +2,15 @@ import React, { useState } from "react";
 import PartnerPage from "./PartnershipModal";
 import { createClient } from "@supabase/supabase-js";
 import { fetchPosts } from './ShowcasePage.js';
-import { useCookies, Cookies } from 'react-cookie';
+import { useCookies } from 'react-cookie';
 
 const Icon = ({ src, alt }) => (
   <img loading="lazy" src={src} alt={alt} className="rounded-full aspect-square bg-green-400 bg-opacity-20 w-[52px]" />
 );
 
-
-const myCookies = new Cookies();
-const isLogin = myCookies.get('login')
 const supabaseUrl= "https://yitzsihwzshujgebmdrg.supabase.co";
 const supabaseKey= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpdHpzaWh3enNodWpnZWJtZHJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc1MzQyMjYsImV4cCI6MjAyMzExMDIyNn0.vDEP-XQL4BKAww7l_QW1vsQ4dZCM5GknBPACrgPXfKA"
 const supabase = createClient(supabaseUrl, supabaseKey);
-const profilePicture = myCookies.get("image")
 
 const ShowcaseForm = ({ afterPostSuccess, userRequest, contentRequest, imagesRequest }) => {
   const [cookies] = useCookies();
@@ -173,49 +169,46 @@ const ShowcaseForm = ({ afterPostSuccess, userRequest, contentRequest, imagesReq
 
   return (
       <>
-
-      {isLogin && (
         <form onSubmit={handleSubmit} className="flex flex-col p-6 rounded-lg bg-neutral-800" style={{ minHeight: '149px' }}>
-        <div className="flex items-center gap-4">
-          <Avatar avatarSrc={profilePicture} />
-          <textarea
-                    value={content}
-                    onChange={(e) => {
-                      setContent(e.target.value);
-                      handleTextareaInput(e);
-                    }}
-                    className="textarea bg-transparent mb-4 flex-1 pt-1 text-base focus:outline-none text-[#F3F1ED] overflow-hidden resize-none"
-                    placeholder="Any thoughts, jobs, links you want to share?"
-                    style={{ minHeight: '43px' }} // Set initial minimum height
-          />
-        </div>
-        {/* Image Preview Section */}
-        {images.length > 0 && (
-          <div className="mb-4"> {/* Add margin-bottom to create space between the preview and buttons */}
-            <ImagePreview images={images} onRemove={handleImageRemove} />
-          </div>
-        )}
-        {/* Row for Image Upload and POST Button */}
-        <div className="flex items-center justify-between ml-12">
-          {/* Image Upload Button */}
-          <label htmlFor="image-upload" className="cursor-pointer flex items-center gap-4">
-            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/6fb975a2ee80526bf1c672d3b773278da2e66220e974b2a00c324524d3e639ee?" alt="Upload Icon" />
-            <input
-              type="file"
-              accept="image/*"
-              id="image-upload"
-              onChange={handleImageChange}
-              multiple
-              className="hidden"
+          <div className="flex items-center gap-4">
+            <Avatar avatarSrc={'https://yitzsihwzshujgebmdrg.supabase.co/storage/v1/object/public/userimg/avatar.png'} />
+            <textarea
+                      value={content}
+                      onChange={(e) => {
+                        setContent(e.target.value);
+                        handleTextareaInput(e);
+                      }}
+                      className="textarea bg-transparent mb-4 flex-1 pt-1 text-base focus:outline-none text-[#F3F1ED] overflow-hidden resize-none"
+                      placeholder="Any thoughts, jobs, links you want to share?"
+                      style={{ minHeight: '43px' }} // Set initial minimum height
             />
-          </label>
-          {/* POST Button */}
-          <button type="submit" className="flex items-center justify-center px-8 py-3 bg-green-400 rounded-3xl" onClick={handleButtonClick}>
-            POST
-          </button>
-        </div>
-      </form>
-      )}
+          </div>
+          {/* Image Preview Section */}
+          {images.length > 0 && (
+            <div className="mb-4"> {/* Add margin-bottom to create space between the preview and buttons */}
+              <ImagePreview images={images} onRemove={handleImageRemove} />
+            </div>
+          )}
+          {/* Row for Image Upload and POST Button */}
+          <div className="flex items-center justify-between ml-12">
+            {/* Image Upload Button */}
+            <label htmlFor="image-upload" className="cursor-pointer flex items-center gap-4">
+              <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/6fb975a2ee80526bf1c672d3b773278da2e66220e974b2a00c324524d3e639ee?" alt="Upload Icon" />
+              <input
+                type="file"
+                accept="image/*"
+                id="image-upload"
+                onChange={handleImageChange}
+                multiple
+                className="hidden"
+              />
+            </label>
+            {/* POST Button */}
+            <button type="submit" className="flex items-center justify-center px-8 py-3 bg-green-400 rounded-3xl" onClick={handleButtonClick}>
+              POST
+            </button>
+          </div>
+        </form>
         {isModalOpen && (
           <div className="modal">
             <PartnerPage />

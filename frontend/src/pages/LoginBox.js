@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCookies, Cookies } from 'react-cookie';
+import { useCookies } from 'react-cookie';
 import { logout } from './Logout';
 function LoginBox(props) {
 
@@ -12,8 +12,7 @@ function LoginBox(props) {
     const [errorMessage, setErrorMessage] = useState(' ');
     const [cookies, setCookie] = useCookies()
     const navigate = useNavigate("/")
-    const myCookies = new Cookies();
-    
+
 
     const handleLogin = async () => {
       try {
@@ -36,23 +35,13 @@ function LoginBox(props) {
           const data = await response.json();
           alert("Login successful!")
           localStorage.clear()
-          setCookie("login", true, {expires: new Date(Date.now() + 60 * 60 * 1000)});
          // Set each key-value pair from the response JSON as a separate cookie
           Object.keys(data).forEach(key => {
             setCookie(key, data[key], { path: '/', expires:new Date(Date.now() + 60 * 60 * 1000)}); // Set cookie for each key-value pair
           });
+          setCookie("login", true, {expires: new Date(Date.now() + 60 * 60 * 1000)});
           console.log(cookies)
-          const role = myCookies.get('role')
-          if (role == 'founder') {
-            console.log("sini")
-            navigate("/dashboard")
-            window.location.reload()
-          } else {
-            console.log("apa sini")
-            navigate("/")
-            window.location.reload()
-
-          }
+          navigate("/")
         } else {
           const data = await response.json()
           console.log(data)
@@ -158,7 +147,7 @@ function LoginBox(props) {
               className="justify-center self-center px-5 py-2 mt-3 text-xl font-semibold tracking-widest text-black bg-green-400 whitespace-nowrap rounded-3xl shadow-sm max-md:mt-10 hover:bg-green-500 cursor-pointer"
               onClick= {handleLogin}
               type="button">
-                LOG IN
+                CREATE ACCOUNT
               </div>
               <div className="flex gap-1 self-center mt-4 text-base tracking-normal whitespace-nowrap">
                 <div className="grow text-white">Don't have an account?</div>
