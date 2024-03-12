@@ -8,8 +8,8 @@ from .serializers import ShowcasePostSerializer
 from .forms import ShowcasePostForm, PostImageForm
 from django.http import JsonResponse
 from rest_framework.permissions import AllowAny
-from user.models import User
 from authentication.views import JWTAuthentication
+from authentication.models import UserModel
 
 
 class ShowcaseListView(ListAPIView):
@@ -54,7 +54,7 @@ class ToggleLikeView(generics.GenericAPIView):
         user_id = request.data.get('user')
 
         post = get_object_or_404(ShowcasePost, id=post_id)
-        user = get_object_or_404(User, id=user_id)
+        user = get_object_or_404(UserModel, id=user_id)
 
         if post.likes.filter(user=user).exists():
             success = post.unlike(user)
