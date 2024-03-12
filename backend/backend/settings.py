@@ -27,10 +27,11 @@ SECRET_KEY = 'django-insecure-63lr3h+2ua7$xaqlh22mn#e6!$mgl_*7rh+w_r-^elh4f$n#bu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', 'localhost', 'startupvault-foundry.vercel.app']
+ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', 'localhost', 'startupvault-foundry.vercel.app', 'http://localhost:3000',
+    'https://startupvault.vercel.app']
 CSRF_TRUSTED_ORIGINS = ['https://startupvault-foundry.vercel.app', 'http://localhost:8000']
 WSGI_APPLICATION = 'backend.wsgi.app'
-CORS_ALLOWED_ORIGINS = [
+CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'https://startupvault.vercel.app'
 ]
@@ -83,7 +84,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
