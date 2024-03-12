@@ -351,17 +351,27 @@ const StartupEditDetails = () => {
   
 
     const StartupSectorSelector = (option) => {
-        if (sector.includes(option)) {
-            setSector(sector.filter(item => item !== option));
+        const updatedSector = [...sector];
+
+         if (updatedSector.includes(option)) {
+        // Removing the option if it's already in the sector array
+            updatedSector.splice(updatedSector.indexOf(option), 1);
         } else {
-            setSector([...sector, option]);
+            // Adding the option if it's not already in the sector array
+            updatedSector.push(option);
         }
 
-        console.log(sector);
+        // Updating the state with the modified sector array
+        setSector(updatedSector);
+
+        // Updating startupDetails with the new sector value
         setStartupDetails({
             ...startupDetails,
-            sector: sector, // Update the image property with the new value
-          });
+            sector: updatedSector.join(","),
+        });
+
+    // Logging the updated sector
+        console.log(updatedSector);
 
     };
     const TypeRadioSelector = (option) => {
