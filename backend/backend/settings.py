@@ -30,7 +30,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', 'localhost', 'startupvault-foundry.vercel.app']
 CSRF_TRUSTED_ORIGINS = ['https://startupvault-foundry.vercel.app', 'http://localhost:8000']
 WSGI_APPLICATION = 'backend.wsgi.app'
-CORS_ALLOWED_ORIGINS = ["https://startupvault.vercel.app", "http://localhost:3000"]
 
 # Application definition
 
