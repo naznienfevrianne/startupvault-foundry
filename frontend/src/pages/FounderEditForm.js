@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import{ Cookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
-
+import NavBar from "../component/NavBar";
 
 // Reusable Image Component
 const ImageWithAlt = ({ src, alt, className }) => (
@@ -42,7 +42,7 @@ const FounderDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/auth/founder/${idFounder}/`,{
+            const response = await fetch(`https://startupvault-foundry.vercel.app/auth/founder/${idFounder}/`,{
               method: "GET", 
               headers:{
                   'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ const FounderDetails = () => {
 
   const handleUpdate = async () => {
     try {
-        const response = await fetch(`http://localhost:8000/auth/founder/${idFounder}/`, {
+        const response = await fetch(`https://startupvault-foundry.vercel.app/auth/founder/${idFounder}/`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -220,92 +220,63 @@ function EditDetailsPage() {
 
   return (
     <div className="flex flex-col justify-center bg-black min-h-screen px-20">
-    <header className="flex gap-5 justify-between px-20 py-6 w-full max-md:flex-wrap max-md:px-5 max-md:max-w-full">
-    <div className="flex gap-1 justify-between items-center self-start text-white max-md:flex-wrap max-md:max-w-full">
-        <div className="flex-auto text-l italic font-semibold tracking-wider leading-10">
-          startupvault.id
-          </div>
-        <nav className="flex gap-5 justify-between items-center px-8 my-auto text-l font-light max-md:flex-wrap max-md:px-5 max-md:max-w-full">
-          <div className="grow">Showcase</div>
-          <div>Events</div>
-          <div className="flex-auto">Our Investors</div>
-          <div className="grow whitespace-nowrap text-stone-100">Our Startups</div>
-        </nav>
-      </div>
-    
-      <div className="flex gap-2 rounded-[30px]">
-        <div className="grow justify-center px-3 py-2 text-l font-light text-green-400 whitespace-nowrap rounded-2xl bg-green-400 bg-opacity-20">My Dashboard</div>
-        <div className="flex gap-2 items-center px-2.5 py-2 bg-neutral-800 rounded-[30.497px]">
-          <div className="flex justify-center items-center self-stretch aspect-square">
-            <img loading="lazy"
-            srcSet={profilePicture} 
-            alt="User profile" 
-            className="rounded-full aspect-square bg-green-400 bg-opacity-20 w-[30px]" />
-          </div>
-          <div className="self-stretch my-auto text-l font-medium tracking-wide text-stone-100">{nameFounder}</div>
-          <img loading="lazy" 
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/081086ccfbd0bbab3badfd8655a0ab414aaf7a31d08fbc1f5199388c6bac11c8?apiKey=9ff2a73e8144478896bce8206c80f3e2&" 
-          alt="Settings icon" className="shrink-0 self-stretch my-auto aspect-square w-[18px]" />
-        </div>
-      </div>
-    </header>
-    <main className="px-px pb-20 w-full max-md:max-w-full">
+    <NavBar />
+    <main className="pb-20 w-full max-md:pr-5 max-md:max-w-full">
       <aside className="flex gap-5 max-md:flex-col max-md:gap-0">
-        <div className="flex flex-col w-[23%] max-md:ml-0 max-md:w-full">
-          <div className="flex flex-col self-stretch mt-6 text-l tracking-wide">
-            <div className="flex flex-col pr-7 pl-10 text-neutral-400 max-md:px-5">
-              <div className="flex gap-3 p-4 mr-0 -ml-px text-base tracking-normal bg-neutral-800 rounded-[30px] text-stone-300">
-                <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/92e705fdbc7d9eb92b8784a8c1ceb52df03c8aa7b6b8e5c590f04dd435f3a923?apiKey=9ff2a73e8144478896bce8206c80f3e2&" alt="Search icon" className="shrink-0 w-5 aspect-square" />
-                <div className="flex-auto -mr-0.5">Search in dashboard</div>
-              </div>
-              <div className="flex gap-2 self-start mt-10 ml-4 text-l tracking-wide whitespace-nowrap text-neutral-400 max-md:ml-2.5">
+      <div className="flex flex-col w-[17%] max-md:ml-0 max-md:w-full pl-0">
+              <div className="flex flex-col items-center self-stretch pb-2 mt-6 text- tracking-wide text-neutral-400">
+                <div className="flex gap-3 p-4 text-base tracking-normal bg-neutral-800 rounded-[30px] text-stone-300">
+                  <img
+                    loading="lazy"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/5141f2b3392732e7dceb2287d5276e2c7df22cecc85670302b617d425ec44b62?"
+                    className="shrink-0 w-5 aspect-square"
+                  />
+                  <div className="flex-auto">Search in dashboard</div>
+                </div>
+                <div className="flex gap-2 mt-5 whitespace-nowrap">
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/27c36da114ed300adb9add9fce8d851f4c7b22802ffaf460c4b83dfdad7092bb?"
-                    className="w-8 aspect-square"
+                    className="shrink-0 w-8 aspect-square"
                   />
-                  <div className="grow my-auto"><Link to="/dashboard">Overview</Link></div>
+                  <div className="grow my-auto">
+                  <Link to="/dashboard">Overview</Link>
+                    </div>
                 </div>
-            </div>
-
-            <div className="flex gap-2 self-center mt-10 text-l tracking-wide whitespace-nowrap text-neutral-400">
-                <img
-                  loading="lazy"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/3cef65a25dfa47f096a12f653a5687356c49974a2b901252287cba6ffe7f302d?"
-                  className="w-8 aspect-square"
-                />
-
-
-                <div className="grow my-auto">                        
-                <Link to="/diary">Weekly Updates</Link>
+                <div className="flex gap-2 mt-5 whitespace-nowrap">
+                      <img
+                        loading="lazy"
+                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/3cef65a25dfa47f096a12f653a5687356c49974a2b901252287cba6ffe7f302d?"
+                        className="shrink-0 w-8 aspect-square"
+                      />
+                      <div className="grow my-auto">
+                        <Link to="/diary">Weekly Updates</Link>
+                        </div>
+                    </div>
+                <div className="flex gap-2 mt-5 whitespace-nowrap max-md:mt-10">
+                  <img
+                    loading="lazy"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/af603136276046e8322b35f550ed99cb4cb7f42f4be19979861c7f70c3f1a3ce?"
+                    className="shrink-0 w-8 aspect-square"
+                  />
+                  <div className="grow my-auto">
+                    <Link to="/startupReadForm">Startup Details</Link>
+                    </div>
                 </div>
-              </div>
-
-              <div className="flex gap-2 self-center mt-10 text-l tracking-wide whitespace-nowrap text-neutral-400">
-                <img
-                  loading="lazy"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/af603136276046e8322b35f550ed99cb4cb7f42f4be19979861c7f70c3f1a3ce?"
-                  className="w-8 aspect-square"
-                />
-
-
-                <div className="grow my-auto">                        
-                <Link to="/startupReadForm">Startup Details</Link>
-                </div>
-              </div>
-
-
-            <div className="flex gap-5 justify-between pr-10 mt-10 text-green-400 max-md:pr-5">
-              <div className="shrink-0 w-1 h-12 bg-green-400 rounded-none shadow-sm" />
-              <div className="flex gap-2 px-4 py-2 -mr-1 rounded-lg bg-green-400 bg-opacity-20">
-                <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/a0ac874774d74b16428095b5fd34e492283a512f4a7323a8d6634fc264f32384?apiKey=9ff2a73e8144478896bce8206c80f3e2&" alt="Founder details icon" className="shrink-0 w-8 aspect-square" />
-                <div className="grow my-auto">                       
-                     <Link to="/founderReadForm">Founder Details</Link>
+                <div className="flex gap-5 justify-between self-stretch pr-10 mt-5 font-medium text-green-400 whitespace-nowrap max-md:pr-5">
+                  <div className="shrink-0 w-1 h-12 bg-green-400 rounded-none shadow-sm" />
+                  <div className="flex gap-2 pr-12 pl- py-2 rounded-lg bg-green-400 bg-opacity-20">
+                    <img
+                      loading="lazy"
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/a0ac874774d74b16428095b5fd34e492283a512f4a7323a8d6634fc264f32384?apiKey=9ff2a73e8144478896bce8206c80f3e2&"                      className="shrink-0 w-8 aspect-square"
+                    />
+                    <div className="flex-auto my-auto">
+                    <Link to="/founderReadForm">Founder Details</Link>
+                    </div>
                   </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
           <FounderDetails/>
         </aside>
       </main>
