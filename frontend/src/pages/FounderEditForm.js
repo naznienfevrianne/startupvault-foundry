@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import{ Cookies } from 'react-cookie';
+import { createClient } from "@supabase/supabase-js";
 
 // Reusable Image Component
 const ImageWithAlt = ({ src, alt, className }) => (
@@ -16,16 +17,21 @@ const IconLink = ({ src, alt, label, className }) => (
 );
 
 const FounderDetails = () => {
-  const storedProfilePicture = localStorage.getItem("profilePicture") || '';
+  const storedProfilePicture = localStorage.getItem("image") || '';
   const [founderDetails, setFounderDetails] = useState({
     email: "",
     name: "",
     linkedin: "",
-    phoneNumber: ""
+    phoneNumber: "",
+    image: ""
   });
   const myCookies = new Cookies();
     const idFounder = myCookies.get('id');
     const token = myCookies.get('token');
+
+    const supabaseUrl= "https://yitzsihwzshujgebmdrg.supabase.co";
+    const supabaseKey= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpdHpzaWh3enNodWpnZWJtZHJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc1MzQyMjYsImV4cCI6MjAyMzExMDIyNn0.vDEP-XQL4BKAww7l_QW1vsQ4dZCM5GknBPACrgPXfKA"
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
     if(idFounder){
       console.log(myCookies.get('id'))
@@ -44,7 +50,7 @@ const FounderDetails = () => {
               method: "GET", 
               headers:{
                   'Content-Type': 'application/json',
-                  'Authorization': 'Bearer' + token
+                  'Authorization': 'Bearer ' + token
               }
               }
               );
@@ -53,6 +59,8 @@ const FounderDetails = () => {
             }
             const entry = await response.json();
             setFounderDetails(entry);
+            setProfilePicture(entry.image);
+            console.log(profilePicture);
         } catch (error) {
             console.log("Error:", error);
         }
@@ -66,11 +74,66 @@ const FounderDetails = () => {
     let file = e.target.files[0]
     const imageUrl = URL.createObjectURL(file)
     setProfilePicture(imageUrl);
-    localStorage.setItem("profilePicture", imageUrl);
+    console.log(imageUrl);
+    console.log(founderDetails.image);
+
+
+    localStorage.setItem("image", imageUrl);
+    
   }
 
+  const uploadUserImg = async (fileName) => {
+    fetch(localStorage.getItem("image"))
+    .then(response => response.blob())
+    .then(async blob => {
+    // Upload the image to Supabase Storage
+    const { data, error } = supabase.storage
+        .from('userimg')
+        .upload(fileName, blob);
+
+    if (error) {
+        console.error('Error uploading profilePicture:', error.message);
+    } else {
+        console.log('Image uploaded successfully:', fileName);
+        
+        return supabaseUrl + "/storage/v1/object/public/userimg/" + fileName;
+    }
+    })
+    .catch(error => {
+    console.error('profilePicture fetching image from localhost:', error);
+    });
+  }
 
   const handleUpdate = async () => {
+    function generateRandomString(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+  
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+  
+    return result;
+  }
+  
+    const storedValue = founderDetails.name;
+
+    // Remove all spaces from the stored value
+    const valueWithoutSpaces = storedValue.replace(/\s/g, '');
+
+    const fileName = supabaseUrl + "/storage/v1/object/public/userimg/" + valueWithoutSpaces + "/" + generateRandomString(25)
+
+    const file = uploadUserImg(fileName);
+    const fileUrl = await uploadUserImg(file);
+
+  setFounderDetails({
+    ...founderDetails,
+    image: fileUrl,
+  });
+
+  console.log(fileName)
+    console.log(fileUrl)
+
     try {
         const response = await fetch(`http://localhost:8000/auth/founder/${idFounder}/`, {
             method: "PUT",
@@ -132,6 +195,8 @@ const FounderDetails = () => {
                       type="file"
                       accept="image/*"
                       id="profile-picture-upload"
+                      // value={founderDetails.image}
+                      // onChange={(e) => setFounderDetails({ ...founderDetails, image: e.target.files[0] })}
                       onChange={handleProfilePictureChange}
                       style={{ display: "none" }} // Hide the file input
                     />

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import{ Cookies } from 'react-cookie';
+// import { supabase } from './supabase';
 
 const MenuItem = ({ src, alt, children }) => (
   <div className="flex gap-2 self-start mt-10 whitespace-nowrap max-md:ml-2.5">
@@ -11,7 +12,8 @@ const MenuItem = ({ src, alt, children }) => (
 const FounderDetails = () => {
 
     const [founderDetails, setFounderDetails] = useState("");
-    const profilePicture = localStorage.getItem("profilePicture") || '';
+    const storedProfilePicture = localStorage.getItem("image") || '';
+    const [profilePicture, setProfilePicture] = useState(storedProfilePicture);
     const myCookies = new Cookies();
     const idFounder = myCookies.get('id');
     const token = myCookies.get('token');
@@ -40,6 +42,7 @@ const FounderDetails = () => {
                 }
                 const entry = await response.json();
                 setFounderDetails(entry);
+                setProfilePicture(entry.image);
 
             } catch (error) {
                 console.log("Error:", error);
