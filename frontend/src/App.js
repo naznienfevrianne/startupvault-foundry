@@ -50,9 +50,11 @@ function App() {
                 <Route path="/investorType" element={<InvestorType/>} />
                 {isAuthenticated && isVerified === 1 ? (
                     <React.Fragment>
-                    <Route path="/founderReadForm" element={<FounderReadForm />} /> 
-                    <Route path="/founderEditForm" element={<FounderEditForm />} /> 
-                    <Route path="/startupReadForm" element={<StartupReadForm />} /> 
+                    <Route path="/founderReadForm" element={<FounderReadForm />} />
+                    <Route path="/founderEditForm" element={<FounderEditForm />} />
+                    <Route path="/startupReadForm" element={<StartupReadForm />} />
+                    <Route path="/startupEditForm" element={<StartupEditForm />} />
+           
                     <Route path="/dashboard" element={<FounderDashboard />} />
                     <Route path="/diary" element={<FounderDiary />}/>
                     <Route path="/cookies" element={<CookieDisplay />} />
