@@ -90,7 +90,6 @@ const fetchPosts = async () => {
     try {
         const response = await fetch('https://startupvault-foundry.vercel.app/showcase/', {
           method:'GET',
-          mode:'no-cors',
           headers: {
             'Content-Type': 'application/json'
           }
