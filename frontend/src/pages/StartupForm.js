@@ -345,7 +345,7 @@ function StartupForm(props) {
           <div className="flex gap-5 justify-between w-full max-md:flex-wrap max-md:max-w-full">
             <div className="flex flex-col max-md:max-w-full">
               <div className="text-xs tracking-wide text-neutral-400 max-md:max-w-full">
-                To set up your startup’s public profile
+                To set up your startup's public profile
               </div>
               <div className="mt-0 text-5xl font-semibold tracking-wider leading-[70.8px] text-stone-100 max-md:max-w-full max-md:text-4xl">
                 TELL US MORE ABOUT YOUR STARTUP

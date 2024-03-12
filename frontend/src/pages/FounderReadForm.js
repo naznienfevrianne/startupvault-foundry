@@ -13,7 +13,8 @@ const MenuItem = ({ src, alt, children }) => (
 const FounderDetails = () => {
 
     const [founderDetails, setFounderDetails] = useState("");
-    const profilePicture = localStorage.getItem("profilePicture") || '';
+    const storedProfilePicture = localStorage.getItem("image") || '';
+    const [profilePicture, setProfilePicture] = useState(storedProfilePicture);
     const myCookies = new Cookies();
     const idFounder = myCookies.get('id');
     const token = myCookies.get('token');
@@ -42,6 +43,7 @@ const FounderDetails = () => {
                 }
                 const entry = await response.json();
                 setFounderDetails(entry);
+                setProfilePicture(entry.image);
 
             } catch (error) {
                 console.log("Error:", error);
