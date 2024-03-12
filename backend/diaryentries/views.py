@@ -5,10 +5,11 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from datetime import datetime, timedelta
 from django.utils import timezone
+from authentication.views import JWTAuthentication
 
 
 class MetricsRetrieve(generics.RetrieveAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication]
     serializer_class = MetricSerializer
 
     def get_queryset(self):
@@ -33,7 +34,7 @@ class MetricsRetrieve(generics.RetrieveAPIView):
         
 # Read & Create Diary Entry by Founder
 class DiaryEntriesListCreate(generics.ListCreateAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication]
     serializer_class = FounderEntrySerializer
 
     # Read
@@ -59,7 +60,7 @@ class DiaryEntriesListCreate(generics.ListCreateAPIView):
 
 # Read & Update Diary Entry by Id
 class DiaryEntriesRetrieveUpdate(generics.RetrieveUpdateAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication]
     queryset = Entry.objects.all()
     serializer_class = EntrySerializer
 

@@ -29,7 +29,7 @@ function FounderForm(props) {
     let linkedinValid = true
     let profilePictureValid = true
 
-    if (!phoneNumber || phoneNumber.length < 11) {
+    if (!phoneNumber || phoneNumber.length < 11 || phoneNumber.length>12) {
       phoneNumberValid = false
       setErrorMessage("Please input valid phone number")
     }
