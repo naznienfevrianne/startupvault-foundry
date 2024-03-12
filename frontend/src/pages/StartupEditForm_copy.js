@@ -233,7 +233,7 @@ const StartupEditDetails = () => {
               "linkedin": localStorage.getItem("startupLinkedin")
           }))
           
-          const response = await fetch(`http://localhost:8000/auth/startup/${idStartup}/`, {
+          const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -312,7 +312,7 @@ const StartupEditDetails = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/auth/startup/${idStartup}/`,{
+                const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`,{
                 method: "GET", 
                 headers:{
                     'Content-Type': 'application/json',

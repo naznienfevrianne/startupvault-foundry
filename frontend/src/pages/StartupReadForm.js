@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import{ Cookies } from 'react-cookie';
-import { Link } from 'react-router-dom';
+import NavBar from '../component/NavBar';
+import { Link } from 'react-router-dom'
 
 const StartupDetails = () => {
     const [startupDetails, setStartupDetails] = useState("");
@@ -28,11 +29,11 @@ const StartupDetails = () => {
         const fetchData = async () => {
             try {
                 
-                const response = await fetch(`http://localhost:8000/auth/startup/${idStartup}/`,{
+                const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`,{
                     method: "GET", 
                     headers:{
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer' + token
+                        'Authorization': 'Bearer ' + token
                     }
                     })
                 if (!response.ok) {

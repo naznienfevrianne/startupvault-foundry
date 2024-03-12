@@ -11,6 +11,8 @@ const Icon = ({ src, alt }) => (
 
 const myCookies = new Cookies();
 const isLogin = myCookies.get('login')
+const isVerified = myCookies.get('isVerified')
+const token = myCookies.get('token')
 const supabaseUrl= "https://yitzsihwzshujgebmdrg.supabase.co";
 const supabaseKey= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpdHpzaWh3enNodWpnZWJtZHJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc1MzQyMjYsImV4cCI6MjAyMzExMDIyNn0.vDEP-XQL4BKAww7l_QW1vsQ4dZCM5GknBPACrgPXfKA"
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -75,11 +77,12 @@ const ShowcaseForm = ({ afterPostSuccess, userRequest, contentRequest, imagesReq
     const uploadedUrls = await uploadPostImages(images);
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/showcase/create_post/", {
+        const response = await fetch("https://startupvault-foundry.vercel.app/showcase/create_post/", {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'Authorization': 'Bearer ' + token
             // Include other headers here as needed, such as authorization tokens
           },
           body: JSON.stringify({
@@ -174,7 +177,7 @@ const ShowcaseForm = ({ afterPostSuccess, userRequest, contentRequest, imagesReq
   return (
       <>
 
-      {isLogin && (
+      {isLogin && isVerified === 1 && (
         <form onSubmit={handleSubmit} className="flex flex-col p-6 rounded-lg bg-neutral-800" style={{ minHeight: '149px' }}>
         <div className="flex items-center gap-4">
           <Avatar avatarSrc={profilePicture} />

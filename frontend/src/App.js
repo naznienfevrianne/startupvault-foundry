@@ -20,10 +20,18 @@ import FounderDashboard from './pages/FounderDashboard';
 import FounderDiary from './pages/FoundersDiary';
 import { Cookies } from 'react-cookie';
 import { Navigate } from 'react-router-dom';
+import InvestorType from './pages/InvestorType';
+import InvestorForm from './pages/InvestorForm';
+import MOUSubmission from './pages/MOUSubmission';
+import PartnerForm from './pages/PartnerForm';
+import StartupEditDetails from './pages/StartupEditForm';
 function App() {
+
+
 
     const myCookies = new Cookies()
     const isAuthenticated = myCookies.get('login')
+    const isVerified = myCookies.get('isVerified')
     return (
         <>
         <BrowserRouter>
@@ -36,15 +44,21 @@ function App() {
                 <Route path="/startupForm" element={<StartupForm />} />
                 <Route path="/logout" element={<Logout />}/>
                 <Route path="/login" element={<LoginBox/>}/>
-                {isAuthenticated ? (
+                <Route path="/investorForm" element={<InvestorForm/>} />
+                <Route path="/partnerForm" element={<PartnerForm/>} />
+                <Route path="/MOUSubmission" element={<MOUSubmission />} />
+                <Route path="/investorType" element={<InvestorType/>} />
+                {isAuthenticated && isVerified === 1 ? (
                     <React.Fragment>
                     <Route path="/founderReadForm" element={<FounderReadForm />} />
                     <Route path="/founderEditForm" element={<FounderEditForm />} />
                     <Route path="/startupReadForm" element={<StartupReadForm />} />
                     <Route path="/startupEditForm" element={<StartupEditForm />} />
+           
                     <Route path="/dashboard" element={<FounderDashboard />} />
                     <Route path="/diary" element={<FounderDiary />}/>
                     <Route path="/cookies" element={<CookieDisplay />} />
+                    <Route path="/startupEditForm" element={<StartupEditDetails />} />
                     </React.Fragment>
                 ) : (
                     <React.Fragment>
@@ -53,6 +67,7 @@ function App() {
                     <Route path="/startupReadForm" element={<Navigate to="/login" replace />} />
                     <Route path="/founderReadForm" element={<Navigate to="/login" replace />} />
                     <Route path="/diary" element={<Navigate to="/login" replace />} />
+                    <Route path="/startupEditForm" element={<Navigate to="/login" replace />} />
                     </React.Fragment>
                 )}
 
