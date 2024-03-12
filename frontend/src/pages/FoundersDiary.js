@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { format } from 'date-fns';
 import Datepicker from "react-tailwindcss-datepicker";
 import{ Cookies } from 'react-cookie';
+import { Link } from 'react-router-dom';
 
 function FounderDiary(props) {
     const [sales, setSales] = useState("");
@@ -19,6 +20,10 @@ function FounderDiary(props) {
 
     const myCookies = new Cookies();
     const idFounder = myCookies.get('id')
+    const nameFounder = myCookies.get('name')
+    const profilePicture = myCookies.get('image')
+    const idStartup = myCookies.get('startup')
+    const token = myCookies.get('token')
 
     const characterCount = lessonLearned.length;
 
@@ -36,8 +41,10 @@ function FounderDiary(props) {
         setListEntries(entry);
 
         const today = new Date();
-        const monday = getMonday(today)
+        const monday = getMonday(today);
         const sunday = getSunday(today);
+
+        console.log(monday, sunday);
 
         const currentWeekEntry = entry.find(entry => {
           const entryDate = new Date(entry.date);
@@ -148,18 +155,21 @@ function FounderDiary(props) {
     };
 
     function getMonday(date){
-      const today = new Date(date);
-      const monday = new Date(today);
-      monday.setDate(today.getDate() - today.getDay() + 1); // Monday
-      return monday
+      let today = new Date(date)
+      
+      // set to "Sunday" for the previous week
+      today.setDate(today.getDate() - (today.getDay() || 7)) // if getDay is 0 (Sunday), take 7 days
+      return new Date(today.setDate(today.getDate() + 1))
     }
 
     function getSunday(date){
-      const today = new Date(date);
-      const sunday = new Date(today);
-      sunday.setDate(today.getDate() - today.getDay() + 7); // Sunday
+      let today = new Date(date)
+      let sunday
+      
+      // set to "Sunday" for the previous week
+      today.setDate(today.getDate() - (today.getDay() || 7)) // if getDay is 0 (Sunday), take 7 days
 
-      return sunday
+      return new Date(today.setDate(today.getDate() + 7))
     }
 
     const [value, setValue] = useState({ 
@@ -192,35 +202,35 @@ function FounderDiary(props) {
     } 
     
     return (
-        <div className="flex flex-col justify-center bg-black">
-        <div className="flex gap-5 justify-between py-6 pr-10 pl-20 w-full max-md:flex-wrap max-md:px-5 max-md:max-w-full">
-          <div className="flex gap-5 justify-between text-white max-md:flex-wrap max-md:max-w-full">
-            <div className="flex-auto text-4xl italic font-semibold tracking-wider leading-10">
+        <div className="flex flex-col justify-center bg-black min-h-screen px-20">
+        <div className="flex gap-5 justify-between items-center px-20 py-6 w-full max-md:flex-wrap max-md:px-5 max-md:max-w-full">
+        <div className="flex gap-1 justify-between items-center self-start text-white max-md:flex-wrap max-md:max-w-full">
+            <div className="flex-auto text-l italic font-semibold tracking-wider leading-10">
               startupvault.id
             </div>
-            <div className="flex gap-5 justify-between px-5 py-3 text-xl font-light max-md:flex-wrap max-md:px-5 max-md:max-w-full">
+            <nav className="flex gap-5 justify-between items-center px-8 my-auto text-l font-light max-md:flex-wrap max-md:px-5 max-md:max-w-full">
               <div className="grow">Showcase</div>
               <div>Events</div>
               <div className="flex-auto">Our Investors</div>
               <div className="grow whitespace-nowrap text-stone-100">
                 Our Startups
               </div>
-            </div>
+            </nav>
           </div>
           <div className="flex gap-2 justify-between rounded-[30px]">
-            <div className="grow justify-center px-5 py-3 text-xl font-light text-green-400 whitespace-nowrap rounded-3xl bg-green-400 bg-opacity-20">
+            <div className="grow justify-center px-3 py-2 text-l font-light text-green-400 whitespace-nowrap rounded-2xl bg-green-400 bg-opacity-20">
               My Dashboard
             </div>
             <div className="flex gap-2 items-center px-2.5 py-2 bg-neutral-800 rounded-[30.497px]">
               <div className="flex justify-center items-center self-stretch aspect-square">
                 <img
                   loading="lazy"
-                  srcSet="..."
+                  srcSet={profilePicture}
                   className="rounded-full aspect-square bg-green-400 bg-opacity-20 w-[30px]"
                 />
               </div>
-              <div className="self-stretch my-auto text-xl font-medium tracking-wide text-stone-100">
-                Naznien
+              <div className="self-stretch my-auto text-l font-medium tracking-wide text-stone-100">
+                {nameFounder}
               </div>
               <img
                 loading="lazy"
@@ -230,10 +240,10 @@ function FounderDiary(props) {
             </div>
           </div>
         </div>
-        <div className="w-full max-md:pr-5 max-md:max-w-full">
+        <div className="pb-20 w-full max-md:pr-5 max-md:max-w-full">
           <div className="flex gap-5 max-md:flex-col max-md:gap-0">
             <div className="flex flex-col w-[23%] max-md:ml-0 max-md:w-full">
-              <div className="flex flex-col self-stretch pb-2 mt-6">
+              <div className="flex flex-col self-stretch pb-2 mt-3">
                 <div className="flex flex-col px-10 max-md:px-5">
                   <div className="flex gap-3 justify-between p-4 text-base tracking-normal bg-neutral-800 rounded-[30px] text-stone-300">
                     <img
@@ -243,16 +253,18 @@ function FounderDiary(props) {
                     />
                     <div className="flex-auto">Search in dashboard</div>
                   </div>
-                  <div className="flex gap-2 self-start mt-10 ml-4 text-xl tracking-wide whitespace-nowrap text-neutral-400 max-md:ml-2.5">
+                  
+                  <div className="flex gap-2 self-start mt-10 ml-4 text-l tracking-wide whitespace-nowrap text-neutral-400 max-md:ml-2.5">
                     <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/27c36da114ed300adb9add9fce8d851f4c7b22802ffaf460c4b83dfdad7092bb?"
                       className="w-8 aspect-square"
                     />
-                    <div className="grow my-auto">Overview</div>
+
+                    <div className="grow my-auto"><Link to="/dashboard">Overview</Link></div>
                   </div>
                 </div>
-                <div className="flex gap-5 justify-between pr-10 mt-10 text-xl font-medium tracking-wide text-green-400 max-md:pr-5">
+                <div className="flex gap-5 justify-between pr-10 mt-10 text-l font-medium tracking-wide text-green-400 max-md:pr-5">
                   <div className="w-1 h-12 bg-green-400 rounded-none shadow-sm" />
                   <div className="flex gap-2 justify-between px-4 py-2 rounded-lg bg-green-400 bg-opacity-20">
                     <img
@@ -260,24 +272,36 @@ function FounderDiary(props) {
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/24e60d617991b8b60b29d864ec77b569626e6840703c3541bfcb8b3681b8aa21?"
                       className="w-8 aspect-square"
                     />
-                    <div className="flex-auto my-auto">Weekly Updates</div>
+
+
+                    <div className="flex-auto my-auto">                        
+                    <Link to="/diary">Weekly Updates</Link>
+                    </div>
                   </div>
                 </div>
-                <div className="flex gap-2 self-center mt-10 text-xl tracking-wide whitespace-nowrap text-neutral-400">
+                <div className="flex gap-2 self-center mt-10 text-l tracking-wide whitespace-nowrap text-neutral-400">
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/af603136276046e8322b35f550ed99cb4cb7f42f4be19979861c7f70c3f1a3ce?"
                     className="w-8 aspect-square"
                   />
-                  <div className="grow my-auto">Startup Details</div>
+
+
+                  <div className="grow my-auto">                        
+                  <Link to="/startupReadForm">Startup Details</Link>
+                  </div>
                 </div>
-                <div className="flex gap-2 self-center mt-12 text-xl tracking-wide whitespace-nowrap text-neutral-400 max-md:mt-10">
+                <div className="flex gap-2 self-center mt-12 text-l tracking-wide whitespace-nowrap text-neutral-400 max-md:mt-10">
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/f06c757951079842a9d6e5f08a6cb907c6632c2879d3daa3ad22a2e2979cd8c5?"
                     className="w-8 aspect-square"
                   />
-                  <div className="grow my-auto">Founder Details</div>
+
+
+                  <div className="grow my-auto">
+                  <Link to="/founderReadForm">Founder Details</Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -291,15 +315,15 @@ function FounderDiary(props) {
                 <div className="mt-2 mb-1.5 text-base tracking-normal text-neutral-400 max-md:max-w-full">
                   What happened this week?
                 </div>
-                {succesMsg && ( <div id="alert-2" class="flex items-center p-4 mt-4 rounded-lg bg-red-50 dark:bg-neutral-800" role="alert" >
-                    <svg class="flex-shrink-0 w-4 h-4 dark:text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                {succesMsg && ( <div id="alert-2" class="flex items-center p-4 mt-4 rounded-lg bg-neutral-800" role="alert" >
+                    <svg class="flex-shrink-0 w-4 h-4 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
                     </svg>
                     <span class="sr-only">Info</span>
-                    <div class="ms-3 text-sm font-medium text-gray-800 dark:text-gray-300">
+                    <div class="ms-3 text-sm font-medium text-gray-300">
                       {succesMsg}
                     </div>
-                    <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-gray-50 text-gray-500 rounded-lg focus:ring-2 focus:ring-gray-400 p-1.5 hover:bg-gray-200 inline-flex items-center justify-center h-8 w-8 dark:bg-neutral-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white" onClick={handleClose}>
+                    <button type="button" class="ms-auto -mx-1.5 -my-1.5 rounded-lg focus:ring-2 focus:ring-gray-400 p-1.5 inline-flex items-center justify-center h-8 w-8 bg-neutral-800 text-gray-300 hover:bg-gray-700 hover:text-white" onClick={handleClose}>
                       <span class="sr-only">Dismiss</span>
                       <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
@@ -310,18 +334,18 @@ function FounderDiary(props) {
                 <form onSubmit={handleSubmit}>
                 <div className="flex flex-col p-6 mt-2 rounded-lg bg-neutral-800 max-md:px-5 max-md:max-w-full">
                   <div className="flex gap-5 justify-between whitespace-nowrap max-md:flex-wrap max-md:max-w-full">
-                    <div className="text-3xl font-medium tracking-wide text-neutral-400">
+                    <div className="text-2xl font-medium tracking-wide text-white">
                       This Week Entry
                     </div>
                     <div className="justify-center self-start px-4 py-2 text-base tracking-normal rounded-lg bg-neutral-700 text-stone-100">
                       {todayDate}
                     </div>
                   </div>
-                  <div className="shrink-0 mt-6 h-px bg-neutral-400 max-md:max-w-full" />
-                  <div className="justify-center mt-6 max-md:px-5 max-md:max-w-full">
+                  <div className="shrink-0 mt-3 h-px bg-neutral-400 max-md:max-w-full" />
+                  <div className="justify-center mt-3 max-md:px-5 max-md:max-w-full">
                     <div className="flex gap-5 max-md:flex-col max-md:gap-0">
                       <div className="flex flex-col w-[33%] max-md:ml-0 max-md:w-full">
-                        <div className="flex flex-col grow self-stretch py-5 mx-auto w-full rounded-md bg-neutral-800 max-md:mt-6">
+                        <div className="flex flex-col grow self-stretch py-5 mx-auto w-full rounded-md bg-neutral-800 max-md:mt-3">
                           <div className="flex gap-3 justify-between py-1">
                             <div className="flex justify-center items-center px-2.5 w-9 h-9 rounded-2xl aspect-square bg-green-400 bg-opacity-20">
                               <img
@@ -330,15 +354,15 @@ function FounderDiary(props) {
                                 className="w-full aspect-square"
                               />
                             </div>
-                            <div className="flex-auto my-auto text-lg font-semibold tracking-wide text-stone-100">
+                            <div className="flex-auto my-auto text-l font-semibold tracking-wide text-stone-100">
                               Sales
                             </div>
                           </div>
-                          <input type="number" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer" placeholder=" " value={sales}onChange={(e) => setSales(e.target.value)} required />
+                          <input type="number" class="mt-3 block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer" placeholder=" " value={sales}onChange={(e) => setSales(e.target.value)} required />
                         </div>
                       </div>
                       <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
-                        <div className="flex flex-col grow self-stretch py-5 mx-auto w-full rounded-md bg-neutral-800 max-md:mt-6">
+                        <div className="flex flex-col grow self-stretch py-5 mx-auto w-full rounded-md bg-neutral-800 max-md:mt-3">
                           <div className="flex gap-3 justify-between py-1">
                             <div className="flex justify-center items-center px-2.5 w-9 h-9 rounded-2xl aspect-square bg-green-400 bg-opacity-20">
                               <img
@@ -347,7 +371,7 @@ function FounderDiary(props) {
                                 className="w-full aspect-square"
                               />
                             </div>
-                            <div className="flex-auto my-auto text-lg font-semibold tracking-wide text-stone-100">
+                            <div className="flex-auto my-auto text-l font-semibold tracking-wide text-stone-100">
                               Revenue
                             </div>
                           </div>
@@ -355,7 +379,7 @@ function FounderDiary(props) {
                         </div>
                       </div>
                       <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
-                        <div className="flex flex-col grow self-stretch py-5 mx-auto w-full rounded-md bg-neutral-800 max-md:mt-6">
+                        <div className="flex flex-col grow self-stretch py-5 mx-auto w-full rounded-md bg-neutral-800 max-md:mt-3">
                           <div className="flex gap-3 justify-between py-1">
                             <div className="flex justify-center items-center px-2.5 w-9 h-9 rounded-2xl aspect-square bg-green-400 bg-opacity-20">
                               <img
@@ -364,24 +388,24 @@ function FounderDiary(props) {
                                 className="w-full aspect-square"
                               />
                             </div>
-                            <div className="flex-auto my-auto text-lg font-semibold tracking-wide text-stone-100">
+                            <div className="flex-auto my-auto text-l font-semibold tracking-wide text-stone-100">
                               User Engagement
                             </div>
                           </div>
-                          <input type="number" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer" placeholder=" " value={user} onChange={(e) => setUser(e.target.value)} required />
+                          <input type="number" class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2  appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer" placeholder=" " value={user} onChange={(e) => setUser(e.target.value)} required />
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="mt-6 text-lg font-semibold tracking-wide text-stone-100 max-md:max-w-full">
+                  <div className="mt-3 text-l font-semibold tracking-wide text-stone-100 max-md:max-w-full">
                     Lesson Learned
                   </div>
-                  <textarea type="textarea" rows="4" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer" placeholder=" " value={lessonLearned} onChange={(e) => setLessonLearned(e.target.value)} required />
+                  <textarea type="textarea" rows="4" class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer" placeholder=" " value={lessonLearned} onChange={(e) => setLessonLearned(e.target.value)} required />
                   <div className="text-sm text-gray-500 ">{characterCount}/1000 characters</div>
                   <div class="flex justify-between items-end">
                     <div class="my-auto">
                       {errorMsg && (
-                            <p class="text-sm text-red-500 dark:text-red-400">{errorMsg}</p>
+                            <p class="text-sm text-red-400">{errorMsg}</p>
                       )}
                     </div>
                     <div>
@@ -442,11 +466,11 @@ function FounderDiary(props) {
                                 {format(new Date(item.date), 'd MMMM yyyy')}
                             </div>
                         </div>
-                        <div className="shrink-0 mt-6 h-px bg-neutral-400 max-md:max-w-full" />
-                        <div className="justify-center mt-6 max-md:px-5 max-md:max-w-full">
+                        <div className="shrink-0 mt-3 h-px bg-neutral-400 max-md:max-w-full" />
+                        <div className="justify-center mt-3 max-md:px-5 max-md:max-w-full">
                             <div className="flex gap-5 max-md:flex-col max-md:gap-0">
                             <div className="flex flex-col w-[33%] max-md:ml-0 max-md:w-full">
-                                <div className="flex flex-col grow self-stretch py-5 mx-auto w-full rounded-md bg-neutral-800 max-md:mt-6">
+                                <div className="flex flex-col grow self-stretch py-5 mx-auto w-full rounded-md bg-neutral-800 max-md:mt-3">
                                 <div className="flex gap-3 justify-between py-1">
                                     <div className="flex justify-center items-center px-2.5 w-9 h-9 rounded-2xl aspect-square bg-green-400 bg-opacity-20">
                                     <img
@@ -465,7 +489,7 @@ function FounderDiary(props) {
                                 </div>
                             </div>
                             <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
-                                <div className="flex flex-col grow self-stretch py-5 mx-auto w-full rounded-md bg-neutral-800 max-md:mt-6">
+                                <div className="flex flex-col grow self-stretch py-5 mx-auto w-full rounded-md bg-neutral-800 max-md:mt-3">
                                 <div className="flex gap-3 justify-between py-1">
                                     <div className="flex justify-center items-center px-2.5 w-9 h-9 rounded-2xl aspect-square bg-green-400 bg-opacity-20">
                                     <img
@@ -484,7 +508,7 @@ function FounderDiary(props) {
                                 </div>
                             </div>
                             <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
-                                <div className="flex flex-col grow self-stretch py-5 mx-auto w-full rounded-md bg-neutral-800 max-md:mt-6">
+                                <div className="flex flex-col grow self-stretch py-5 mx-auto w-full rounded-md bg-neutral-800 max-md:mt-3">
                                 <div className="flex gap-3 justify-between py-1">
                                     <div className="flex justify-center items-center px-2.5 w-9 h-9 rounded-2xl aspect-square bg-green-400 bg-opacity-20">
                                     <img
@@ -504,7 +528,7 @@ function FounderDiary(props) {
                             </div>
                             </div>
                         </div>
-                        <div className="mt-6 text-lg font-semibold tracking-wide text-stone-100 max-md:max-w-full">
+                        <div className="mt-3 text-lg font-semibold tracking-wide text-stone-100 max-md:max-w-full">
                             Lesson Learned
                         </div>
                         <div className="mt-4 text-base tracking-wide text-neutral-400 max-md:max-w-full">

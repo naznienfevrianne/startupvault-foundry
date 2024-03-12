@@ -2,38 +2,54 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import{ Cookies } from 'react-cookie';
 import { createClient } from "@supabase/supabase-js";
+import { Link } from 'react-router-dom';
 
 const StartupEditDetails = () => {
    
-    const [startupDetails, setStartupDetails] = useState("");
+    const [startupDetails, setStartupDetails] = useState({
+        typ: "",
+        image: "",
+        name: "",
+        location: "",
+        sector: "",
+        desc: "",
+        pitchdeck: "",
+        revenue: 0,
+        support: "",
+        website: "",
+        linkedin: ""
+
+    });
     const storedStartupLogo = localStorage.getItem("startupLogo") | "";
     const [startupLogo, setStartupLogo]= useState(storedStartupLogo);
-    const storedStartupName = localStorage.getItem("startupName") || "";
-    const [startupName, setStartupName] = useState(storedStartupName);
-    const storedLocation = localStorage.getItem("location") || "";
-    const [location, setLocation] = useState(storedLocation);
-    const storedSector = [];
-    const [sector, setSector] = useState([]);
-    const storedDescription = localStorage.getItem("description") || "";
-    const [description, setDescription] = useState(storedDescription);
-    const [descValid, setDescValid] = useState(true);
-    const [wordCount, setWordCount] = useState(0);
-    const storedRevenue = localStorage.getItem("revenue") || "";
-    const [revenue, setRevenue] = useState(storedRevenue);
-    const [typ, setType] = useState("");
-    const storedSupport = localStorage.getItem("support") || "";
-    const [support, setSupport] = useState(storedSupport);
-    const storedWebsite = localStorage.getItem("website") || "";
-    const [website, setWebsite] = useState(storedWebsite);
-    const storedStartupLinkedin = localStorage.getItem("startupLinkedin") || "";
-    const [startupLinkedin, setStartupLinkedin] = useState(storedStartupLinkedin);
     const storedPitchdeck = ""
     const [pitchdeck, setPitchdeck] = useState(storedPitchdeck) || "";
     const storedPitchdeckFile = ""
     const [pitchdeckFile, setPitchdeckFile] = useState(storedPitchdeckFile);
+    const [wordCount, setWordCount] = useState(0);
+    const [previousSector, setPreviousSector] = useState("");
+    const storedSector = [];
+    const [sector, setSector] = useState([]);
+    let descValid = true;
     const navigate = useNavigate();
     const supabaseUrl= "https://yitzsihwzshujgebmdrg.supabase.co";
     const supabaseKey= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpdHpzaWh3enNodWpnZWJtZHJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc1MzQyMjYsImV4cCI6MjAyMzExMDIyNn0.vDEP-XQL4BKAww7l_QW1vsQ4dZCM5GknBPACrgPXfKA"
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    function generateRandomString(length) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+          result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return result;
+      }
+    
+      const storedValue = startupDetails.name;
+      const valueWithoutSpaces = storedValue.replace(/\s/g, '');
+      const fileName = valueWithoutSpaces + "/" + generateRandomString(25);
+    
+      
 
     const options = [
         ['Technology and SaaS', 'E-commerce and Marketplaces', 'HealthTech and MedTech', 'FinTech', 'CleanTech and Sustainability'], // Column 1
@@ -53,82 +69,53 @@ const StartupEditDetails = () => {
     console.log("cookies does not exist.")
     }
 
-    // function generateRandomString(length) {
-    //     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    //     let result = '';
+    const handleStartupLogoChange = async (e) => {
+        
+        let file = e.target.files[0]
+        const imageUrl = URL.createObjectURL(file)
+        setStartupLogo(imageUrl);
+        console.log(imageUrl);
+        console.log(startupDetails.image);
+    
+    
+        localStorage.setItem("image", imageUrl);
+    
+        const photoUrl = await uploadUserImg(fileName);
+        console.log(photoUrl)
+        // const fileUrl = await uploadUserImg(file);
+    
       
-    //     for (let i = 0; i < length; i++) {
-    //       result += characters.charAt(Math.floor(Math.random() * characters.length));
-    //     }
+        setStartupDetails({
+          ...startupDetails,
+          image: photoUrl, // Update the image property with the new value
+        });
+        
+      }
+    
+      const uploadUserImg = async (fileName) => {
+        return fetch(localStorage.getItem("image"))
+          .then(response => response.blob())
+          .then(async blob => {
+            // Upload the image to Supabase Storage
+            const { data, error } = await supabase.storage
+              .from('startupimg')
+              .upload(fileName, blob);
       
-    //     return result;
-    //   }
-    //   const uploadUserImg = (fileName) => {
-    //     fetch(localStorage.getItem("profilePicture"))
-    //     .then(response => response.blob())
-    //     .then(async blob => {
-    //     // Upload the image to Supabase Storage
-    //     const { data, error } = supabase.storage
-    //         .from('userimg')
-    //         .upload(fileName, blob);
+            if (error) {
+              console.error('Error uploading profilePicture:', error.message);
+              throw error; // Throw the error to propagate it
+            } else {
+              console.log('Image uploaded successfully:', fileName);
+              return supabaseUrl + "/storage/v1/object/public/startupimg/" + fileName;
+            }
+          })
+          .catch(error => {
+            console.error('profilePicture fetching image from localhost:', error);
+            throw error; // Throw the error to propagate it
+          });
+      };
 
-    //     if (error) {
-    //         console.error('Error uploading profilePicture:', error.message);
-    //     } else {
-    //         console.log('Image uploaded successfully:', data);
-            
-    //         return supabaseUrl + "/storage/v1/object/public/userimg/" + fileName;
-    //     }
-    //     })
-    //     .catch(error => {
-    //     console.error('profilePicture fetching image from localhost:', error);
-    //     });
-    //   }
-    //   const uploadStartupImg = (fileName) => {
-    //     fetch(localStorage.getItem("startupLogo"))
-    //     .then(response => response.blob())
-    //     .then(async blob => {
-    //     // Upload the image to Supabase Storage
-    //     const { data, error } = supabase.storage
-    //         .from('startupimg')
-    //         .upload(fileName, blob);
-
-    //     if (error) {
-    //         console.error('Error uploading startup logo:', error.message);
-    //     } else {
-    //       console.log('Image uploaded successfully:', data);
-            
-    //       return supabaseUrl + "/storage/v1/object/public/startupimg/" + fileName;
-    //     }
-    //     })
-    //     .catch(error => {
-    //     console.error('startup logo fetching image from localhost:', error);
-    //     });
-    //   }
-      
-    //   const uploadPitchdeck = (fileName) => {
-    //     fetch(localStorage.getItem("pitchdeck"))
-    //     .then(response => response.blob())
-    //     .then(async blob => {
-    //     // Upload the image to Supabase Storage
-    //     const { data, error } = supabase.storage
-    //         .from('pitchdeck')
-    //         .upload(fileName, blob);
-
-    //     if (error) {
-    //         console.error('Error uploading pitchdeck:', error.message);
-    //     } else {
-    //       console.log('Image uploaded successfully:', data);
-            
-    //       return supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName;
-    //     }
-    //     })
-    //     .catch(error => {
-    //     console.error('profilePicture fetching image from localhost:', error);
-    //     });
-    // };
-
-    const handlePitchdeckChange = (e) => {
+    const handlePitchdeckChange = async (e) => {
         let file = e.target.files[0];
         const pdfUrl = URL.createObjectURL(file)
         setPitchdeck(pdfUrl);
@@ -139,7 +126,40 @@ const StartupEditDetails = () => {
         } catch (error) {
             console.error("Error reading file: ", error);
         }
+
+        const pitchdeckUrl = await uploadPitchDeck(fileName);
+        console.log(pitchdeckUrl)
+        // const fileUrl = await uploadUserImg(file);
+    
+      
+        setStartupDetails({
+          ...startupDetails,
+          pitchdeck: pitchdeckUrl, // Update the image property with the new value
+        });
     };
+
+    const uploadPitchDeck = async (fileName) => {
+        return fetch(localStorage.getItem("pitchdeck"))
+          .then(response => response.blob())
+          .then(async blob => {
+            // Upload the image to Supabase Storage
+            const { data, error } = await supabase.storage
+              .from('pitchdeck')
+              .upload(fileName, blob);
+      
+            if (error) {
+              console.error('Error uploading profilePicture:', error.message);
+              throw error; // Throw the error to propagate it
+            } else {
+              console.log('File pitchdeck uploaded successfully:', fileName);
+              return supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName;
+            }
+          })
+          .catch(error => {
+            console.error('File pitchdeck fetching pitchdeck from localhost:', error);
+            throw error; // Throw the error to propagate it
+          });
+      };
     
     const deletePitchdeck = () => {
     setPitchdeck(null);
@@ -151,79 +171,81 @@ const StartupEditDetails = () => {
 
     const handleDescriptionChange = (e) => {
         const newDescription = e.target.value;
-        setDescription(newDescription);
       
         // Validate description word count
         const wordCount = newDescription.trim().split(/\s+/).length;
         setWordCount(wordCount);
 
-        if (!description) {
-            setDescValid(false);
+        if (!startupDetails.desc) {
+            descValid = false;
             setErrorMessage("Please input startup's description")
         } else if (wordCount < 4 || wordCount > 50) {
-          setDescValid(false);
+            descValid = false;
           setErrorMessage('Please input a startup description between 4 and 50 words.');
-        } else {
-            setDescValid(true);
-            setErrorMessage('');
         }
+
+        setStartupDetails({
+            ...startupDetails,
+            desc: newDescription,
+        });
+        
       };
 
     const handleSubmit = async () => {
-      let startupLogoValid = true
-      let startupNameValid = true
-      let locationValid = true
-      let sectorValid = true
-      let descValid = true
-      let pitchDeckValid = true
-      let revenueValid = true
-      let supportValid = true
-      let websiteValid = true
-      let startupLinkedinValid = true
+    //   let startupLogoValid = true
+    //   let startupNameValid = true
+    //   let locationValid = true
+    //   let sectorValid = true
+    //   let descValid = true
+    //   let pitchDeckValid = true
+    //   let revenueValid = true
+    //   let supportValid = true
+    //   let websiteValid = true
+    //   let startupLinkedinValid = true
 
-      if (!startupLinkedin || startupLinkedin < 1) {
-        startupLinkedinValid = false
-        setErrorMessage("Please input valid startup's linkedin link")
-      }
+    //   if (!startupDetails.linkedin || startupDetails.linkedin < 1) {
+    //     startupLinkedinValid = false
+    //     setErrorMessage("Please input valid startup's linkedin link")
+    //   }
 
-      if (!website || website < 4 || !website.includes(".")) {
-        websiteValid = false
-        setErrorMessage("Please input valid startup's website")
-      }
+    //   if (!startupDetails.website || startupDetails.website < 4 || !startupDetails.website.includes(".")) {
+    //     websiteValid = false
+    //     setErrorMessage("Please input valid startup's website")
+    //   }
 
-      if (!support || support < 4 ) {
-        supportValid = false
-        setErrorMessage("Please input startup's support needs")
-      }
+    //   if (!startupDetails.support || startupDetails.support < 4 ) {
+    //     supportValid = false
+    //     setErrorMessage("Please input startup's support needs")
+    //   }
 
-      if (!revenue) {
-        revenueValid = false
-        setErrorMessage("Please pick startup's revenue")
-      }
+    //   if (!startupDetails.revenue) {
+    //     revenueValid = false
+    //     setErrorMessage("Please pick startup's revenue")
+    //   }
 
-      if (!pitchdeck) {
-        pitchDeckValid = false
-        setErrorMessage("Please upload startup's pitchdeck")
-      }
+    //   if (!startupDetails.pitchdeck) {
+    //     pitchDeckValid = false
+    //     setErrorMessage("Please upload startup's pitchdeck")
+    //   }
 
-      if (!sector) {
-        sectorValid = false
-        setErrorMessage("Please pick startup's sector")
-      }
-      if (!location || location.length < 1) {
-        locationValid = false
-        setErrorMessage("Please input startup's location")
-      } 
+    //   if (!startupDetails.sector) {
+    //     sectorValid = false
+    //     setErrorMessage("Please pick startup's sector")
+    //   }
+    //   if (!startupDetails.location) {
+    //     locationValid = false
+    //     setErrorMessage("Please input startup's location")
+    //   } 
 
-      if (!startupName || startupName < 1) {
-        startupNameValid = false
-        setErrorMessage("Please input startup's name")
-      }
+    //   if (!startupDetails.startupName) {
+    //     startupNameValid = false
+    //     setErrorMessage("Please input startup's name")
+    //   }
 
-      if (!startupLogo) {
-        startupLogoValid = false
-        setErrorMessage("Please upload startup's logo")
-      }
+    //   if (!startupDetails.startupLogo) {
+    //     startupLogoValid = false
+    //     setErrorMessage("Please upload startup's logo")
+    //   }
 
     //   console.log(startupLogoValid);
     //   console.log(startupNameValid);
@@ -236,77 +258,54 @@ const StartupEditDetails = () => {
     //   console.log(websiteValid);
     //   console.log(startupLinkedinValid);
 
-      if(!startupLogoValid){
-        startupLogoValid = true
+    //   if(!startupLogoValid){
+    //     startupLogoValid = true
         
-      }
+    //   }
 
-      if (!startupLogoValid || !startupNameValid || !locationValid || !sectorValid
-        || !descValid || !pitchDeckValid || !revenueValid || !supportValid
-        || !websiteValid || !startupLinkedinValid){
-        startupLogoValid = true
-        startupName = startupDetails.name;
-        startupNameValid = true
-        startupLogo = startupDetails.image;
-        locationValid = true
-        location = startupDetails.location;
-        sectorValid = true
-        descValid = true
-        pitchDeckValid = true
-        revenueValid = true
-        supportValid = true
-        websiteValid = true
-        startupLinkedinValid = true
+    //   if (!startupLogoValid || !startupNameValid || !locationValid || !sectorValid
+    //     || !descValid || !pitchDeckValid || !revenueValid || !supportValid
+    //     || !websiteValid || !startupLinkedinValid){
+    //     startupLogoValid = true
+    //     startupName = startupDetails.name;
+    //     startupNameValid = true
+    //     startupLogo = startupDetails.image;
+    //     locationValid = true
+    //     location = startupDetails.location;
+    //     sectorValid = true
+    //     descValid = true
+    //     pitchDeckValid = true
+    //     revenueValid = true
+    //     supportValid = true
+    //     websiteValid = true
+    //     startupLinkedinValid = true
     
-      }
+    //   }
 
-      console.log(startupLogoValid);
-      console.log(startupNameValid);
-      console.log(locationValid);
-      console.log(sectorValid);
-      console.log(descValid);
-      console.log(pitchDeckValid);
-      console.log(revenueValid);
-      console.log(supportValid);
-      console.log(websiteValid);
-      console.log(startupLinkedinValid);
+    //   console.log(startupLogoValid);
+    //   console.log(startupNameValid);
+    //   console.log(locationValid);
+    //   console.log(sectorValid);
+    //   console.log(descValid);
+    //   console.log(pitchDeckValid);
+    //   console.log(revenueValid);
+    //   console.log(supportValid);
+    //   console.log(websiteValid);
+    //   console.log(startupLinkedinValid);
 
 
-      if ( startupLogoValid && startupNameValid && locationValid && sectorValid && descValid && pitchDeckValid 
-        && revenueValid && supportValid && websiteValid && startupLinkedinValid) {
-          setErrorMessage("")
-          localStorage.setItem("startupName", startupName)
-          localStorage.setItem("location", location)
-          localStorage.setItem("sector", sector)
-          localStorage.setItem("description", description)
-          localStorage.setItem("pitchdeck", pitchdeck)
-          localStorage.setItem("revenue", revenue)
-          localStorage.setItem("support", support)
-          localStorage.setItem("website", website)
-          localStorage.setItem("linkedin", startupLinkedin)
+    //   if ( startupLogoValid && startupNameValid && locationValid && sectorValid && descValid && pitchDeckValid 
+    //     && revenueValid && supportValid && websiteValid && startupLinkedinValid) {
+
           try {
-            const storedValue = localStorage.getItem("name");
+            // const storedValue = localStorage.getItem("name");
 
-            // Remove all spaces from the stored value
-            const valueWithoutSpaces = storedValue.replace(/\s/g, '');
+            // // Remove all spaces from the stored value
+            // const valueWithoutSpaces = storedValue.replace(/\s/g, '');
 
             // const fileName = valueWithoutSpaces + "/" + generateRandomString(25)
   
-            console.log( JSON.stringify({
-              "typ": localStorage.getItem("startupType"),
-              "image": localStorage.getItem("startupLogo"),
-            //   "image": supabaseUrl + "/storage/v1/object/public/startupimg/" + fileName,
-              "name": localStorage.getItem("startupName"),
-              "location": localStorage.getItem("location"),
-              "sector": localStorage.getItem("sector"),
-              "desc": localStorage.getItem("description"),
-              "pitchdeck": localStorage.getItem(storedPitchdeckFile),
-            //   "pitchdeck": supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName,
-              "revenue": localStorage.getItem("revenue"),
-              "support": localStorage.getItem("support"),
-              "website": localStorage.getItem("website"),
-              "linkedin": localStorage.getItem("startupLinkedin")
-          }))
+            console.log( JSON.stringify(startupDetails))
           
           const response = await fetch(`http://localhost:8000/auth/startup/${idStartup}/`, {
             method: "PUT",
@@ -314,26 +313,14 @@ const StartupEditDetails = () => {
                 "Content-Type": "application/json",
                 'Authorization': 'Bearer ' + token
             },
-            body: JSON.stringify({
-
-                "typ": localStorage.getItem("startupType"),
-                "image": localStorage.getItem("startupLogo"),
-                // "image": supabaseUrl + "/storage/v1/object/public/startupimg/" + fileName,
-                "name": localStorage.getItem("startupName"),
-                "location": localStorage.getItem("location"),
-                "sector": localStorage.getItem("sector"),
-                "desc": localStorage.getItem("description"),
-                "pitchdeck": localStorage.getItem(storedPitchdeckFile),
-                // "pitchdeck": supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName,
-                "revenue": localStorage.getItem("revenue"),
-                "support": localStorage.getItem("support"),
-                "website": localStorage.getItem("website"),
-                "linkedin": "https://linkedin.com" + localStorage.getItem("startupLinkedin")
-            
-                }),
+            body: JSON.stringify(startupDetails),
             });
             if (!response.ok) {
+                console.log("data not updated");
                 throw new Error("Failed to update data");
+                
+            }else{
+                console.log("data updated");
             }
             console.log("Data updated successfully");
             console.log("Navigating to /startupReadForm...");
@@ -352,22 +339,16 @@ const StartupEditDetails = () => {
             }  
         } catch (error) {
             console.error("Error:", error);
+            console.log("tes error1");
             alert("Error: " + error.message);
+            console.log("tes error");
         }
-        }
+
 
       
   };
   
 
-    async function handleStartupLogoChange (e) {
-
-        let file = e.target.files[0]
-        const imageUrl = URL.createObjectURL(file)
-        setStartupLogo(imageUrl);
-        localStorage.setItem("startupLogo", imageUrl);
-        
-    };
     const StartupSectorSelector = (option) => {
         if (sector.includes(option)) {
             setSector(sector.filter(item => item !== option));
@@ -377,11 +358,19 @@ const StartupEditDetails = () => {
     };
     const TypeRadioSelector = (option) => {
         console.log('Selected:', option);
-        setType(option);
+        setStartupDetails({
+            ...startupDetails,
+            typ: option,
+        });
+
     };
 
     const RevenueRadioSelector = (option) => {
-        setRevenue(option);
+        setStartupDetails({
+            ...startupDetails,
+            revenue: option,
+        });
+
     };
     
     useEffect(() => {
@@ -391,7 +380,7 @@ const StartupEditDetails = () => {
                 method: "GET", 
                 headers:{
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer' + token
+                    'Authorization': 'Bearer ' + token
                 }
                 }
                 );
@@ -400,6 +389,7 @@ const StartupEditDetails = () => {
                 }
                 const entry = await response.json();
                 setStartupDetails(entry);
+                setPreviousSector(entry.sector);
                 // setStartupName(startupDetails.name);
                 // setStartupLogo(startupDetails.image);
                 // setLocation(startupDetails.location);
@@ -407,7 +397,7 @@ const StartupEditDetails = () => {
                 // setDescription(startupDetails.desc);
                 // setRevenue(startupDetails.revenue);
 
-                console.log("revenue ", revenue);
+                // console.log("revenue ", revenue);
 
 
 
@@ -421,95 +411,7 @@ const StartupEditDetails = () => {
     
     
     return (
-        <div className="flex flex-col justify-center pb-20 bg-black">
-          <div className="flex gap-5 justify-between py-6 pr-10 pl-20 w-full max-md:flex-wrap max-md:px-5 max-md:max-w-full">
-            <div className="flex gap-5 justify-between text-white max-md:flex-wrap max-md:max-w-full">
-              <div className="flex-auto text-4xl italic font-semibold tracking-wider leading-10">
-                startupvault.id
-              </div>
-              <div className="flex gap-5 justify-between px-5 py-3 text-xl font-light max-md:flex-wrap max-md:px-5">
-                <div className="grow">Showcase</div>
-                <div>Events</div>
-                <div className="flex-auto">Our Investors</div>
-                <div className="grow whitespace-nowrap text-stone-100">
-                  Our Startups
-                </div>
-              </div>
-            </div>
-            <div className="flex gap-2 rounded-[30px]">
-              <div className="grow justify-center px-5 py-3 text-xl font-light text-green-400 whitespace-nowrap rounded-3xl bg-green-400 bg-opacity-20">
-                My Dashboard
-              </div>
-              <div className="flex gap-2 items-center px-2.5 py-2 bg-neutral-800 rounded-[30.497px]">
-                <div className="flex justify-center items-center self-stretch basis-0">
-                  <img
-                    loading="lazy"
-                    srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/ed1345ea404a723338ff721ac0a6577f3b2b779ec21cbe5039152ea32aaaf38f?apiKey=9ff2a73e8144478896bce8206c80f3e2&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/ed1345ea404a723338ff721ac0a6577f3b2b779ec21cbe5039152ea32aaaf38f?apiKey=9ff2a73e8144478896bce8206c80f3e2&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/ed1345ea404a723338ff721ac0a6577f3b2b779ec21cbe5039152ea32aaaf38f?apiKey=9ff2a73e8144478896bce8206c80f3e2&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/ed1345ea404a723338ff721ac0a6577f3b2b779ec21cbe5039152ea32aaaf38f?apiKey=9ff2a73e8144478896bce8206c80f3e2&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/ed1345ea404a723338ff721ac0a6577f3b2b779ec21cbe5039152ea32aaaf38f?apiKey=9ff2a73e8144478896bce8206c80f3e2&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/ed1345ea404a723338ff721ac0a6577f3b2b779ec21cbe5039152ea32aaaf38f?apiKey=9ff2a73e8144478896bce8206c80f3e2&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/ed1345ea404a723338ff721ac0a6577f3b2b779ec21cbe5039152ea32aaaf38f?apiKey=9ff2a73e8144478896bce8206c80f3e2&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/ed1345ea404a723338ff721ac0a6577f3b2b779ec21cbe5039152ea32aaaf38f?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-                    className="rounded-full aspect-square bg-green-400 bg-opacity-20 h-[30px] w-[30px]"
-                  />
-                </div>
-                <div className="self-stretch my-auto text-xl font-medium tracking-wide text-stone-100">
-                  Naznien
-                </div>
-                <img
-                  loading="lazy"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/081086ccfbd0bbab3badfd8655a0ab414aaf7a31d08fbc1f5199388c6bac11c8?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-                  className="shrink-0 self-stretch my-auto aspect-square w-[18px]"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="w-full max-md:max-w-full">
-            <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-              <div className="flex flex-col w-[24%] max-md:ml-0 max-md:w-full">
-                <div className="flex flex-col grow self-stretch pt-6 pb-20 text-xl tracking-wide rounded-lg text-neutral-400">
-                  <div className="flex flex-col px-8 max-md:px-5">
-                    <div className="flex gap-3 px-5 py-4 text-base tracking-normal bg-neutral-800 rounded-[30px] text-stone-300">
-                      <img
-                        loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/92e705fdbc7d9eb92b8784a8c1ceb52df03c8aa7b6b8e5c590f04dd435f3a923?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-                        className="shrink-0 w-5 aspect-square"
-                      />
-                      <div className="flex-auto">Search in dashboard</div>
-                    </div>
-                    <div className="flex gap-2 self-start mt-10 ml-8 whitespace-nowrap max-md:ml-2.5">
-                      <img
-                        loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/27c36da114ed300adb9add9fce8d851f4c7b22802ffaf460c4b83dfdad7092bb?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-                        className="shrink-0 w-8 aspect-square"
-                      />
-                      <div className="grow my-auto">Overview</div>
-                    </div>
-                    <div className="flex gap-2 self-center pr-5 mt-12 whitespace-nowrap max-md:mt-10">
-                      <img
-                        loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/3cef65a25dfa47f096a12f653a5687356c49974a2b901252287cba6ffe7f302d?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-                        className="shrink-0 w-8 aspect-square"
-                      />
-                      <div className="grow my-auto">Weekly Updates</div>
-                    </div>
-                  </div>
-                  <div className="flex gap-5 justify-between pr-6 mt-10 text-green-400 max-md:pr-5">
-                    <div className="shrink-0 w-1 h-12 bg-green-400 rounded-none shadow-sm" />
-                    <div className="flex flex-auto gap-2 px-5 py-2 rounded-lg bg-green-400 bg-opacity-20">
-                      <img
-                        loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/dbfe1e3b28c84ff800a8172798e7a2d18a3c86aff8fc82df5ba2d6080962d15a?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-                        className="shrink-0 w-8 aspect-square"
-                      />
-                      <div className="flex-auto my-auto">Startup Details</div>
-                    </div>
-                  </div>
-                  <div className="flex gap-2 self-center pr-5 mt-8 whitespace-nowrap">
-                    <img
-                      loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/f06c757951079842a9d6e5f08a6cb907c6632c2879d3daa3ad22a2e2979cd8c5?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-                      className="shrink-0 w-8 aspect-square"
-                    />
-                    <div className="grow my-auto">Founder Details</div>
-                  </div>
-                </div>
-              </div>
+        
               <form onSubmit={handleSubmit}>
               <div className="flex flex-col grow pt-6 pr-28 pl-5 max-md:max-w-full">
                 <div className="flex flex-wrap gap-5 justify-between content-center pr-20 w-full text-stone-100 max-md:pr-5 max-md:max-w-full">
@@ -565,19 +467,19 @@ const StartupEditDetails = () => {
                             id="typ-idea"
                             name="typ"
                             value="idea"
-                            checked={typ === 'idea' || startupDetails.typ === 'idea'}
+                            checked={startupDetails.typ === 'idea'}
                             onChange={() => TypeRadioSelector('idea')}
                             className="hidden"
                             />
                             <label
                             htmlFor="typ-idea"
                             className={`flex gap-2 items-center cursor-pointer ${
-                                typ === 'idea' ? 'text-green-400' : 'text-white'
+                                startupDetails.typ === 'idea' ? 'text-green-400' : 'text-white'
                             }`}
                             >
                             <div
                                 className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
-                                typ === 'idea' ? 'bg-green-400 border-green-400' : ''
+                                startupDetails.typ === 'idea' ? 'bg-green-400 border-green-400' : ''
                                 }`}
                             ></div>
                             <div>Idea</div>
@@ -589,19 +491,19 @@ const StartupEditDetails = () => {
                             id="typ-seed"
                             name="typ"
                             value="seed"
-                            checked={typ === 'seed' || startupDetails.typ === 'seed'}
+                            checked={startupDetails.typ === 'seed'}
                             onChange={() => TypeRadioSelector('seed')}
                             className="hidden"
                             />
                             <label
                             htmlFor="typ-seed"
                             className={`flex gap-2 items-center cursor-pointer ${
-                                typ === 'seed' ? 'text-green-400' : 'text-white'
+                                startupDetails.typ === 'seed' ? 'text-green-400' : 'text-white'
                             }`}
                             >
                             <div
                                 className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
-                                typ === 'seed' ? 'bg-green-400 border-green-400' : ''
+                                startupDetails.typ === 'seed' ? 'bg-green-400 border-green-400' : ''
                                 }`}
                             ></div>
                             <div>Seed</div>
@@ -613,19 +515,19 @@ const StartupEditDetails = () => {
                             id="typ-growth"
                             name="typ"
                             value="growth"
-                            checked={typ === 'growth'|| startupDetails.typ === 'growth' }
+                            checked={startupDetails.typ === 'growth' }
                             onChange={() => TypeRadioSelector('growth')}
                             className="hidden"
                             />
                             <label
                             htmlFor="typ-growth"
                             className={`flex gap-2 items-center cursor-pointer ${
-                                typ === 'growth' ? 'text-green-400' : 'text-white'
+                                startupDetails.typ === 'growth' ? 'text-green-400' : 'text-white'
                             }`}
                             >
                             <div
                                 className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
-                                typ === 'growth' ? 'bg-green-400 border-green-400' : ''
+                                startupDetails.typ === 'growth' ? 'bg-green-400 border-green-400' : ''
                                 }`}
                             ></div>
                             <div>Growth</div>
@@ -640,8 +542,8 @@ const StartupEditDetails = () => {
                     type="text"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
                     placeholder=" "
-                    value={startupName|| startupDetails.name}
-                    onChange={(e) => setStartupName(e.target.value)}
+                    value={startupDetails.name}
+                    onChange={(e) => setStartupDetails({ ...startupDetails, name: e.target.value })}
                     required
                   />
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Location</div>
@@ -649,8 +551,8 @@ const StartupEditDetails = () => {
                     type="text"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
                     placeholder=" "
-                    value={location || startupDetails.location}
-                    onChange={(e) => setLocation(e.target.value)}
+                    value={startupDetails.location}
+                    onChange={(e) => setStartupDetails({ ...startupDetails, location: e.target.value })}
                     required
                   />
             <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Sector</div>
@@ -687,6 +589,9 @@ const StartupEditDetails = () => {
                     ))}
                 </div>
             </div>
+            <div className="mt-5 text-xs font-medium tracking-wide text-green-400">
+                Previous Selection : {previousSector}
+            </div>
             <div>
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">
                     Describe your startup in less than 50 words
@@ -697,7 +602,7 @@ const StartupEditDetails = () => {
                 <textarea
                 className={`block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer`}
                 placeholder=""
-                value={description || startupDetails.desc}
+                value={startupDetails.desc}
                 onChange={handleDescriptionChange}
                 rows={3} // Set the number of rows
                 required
@@ -768,19 +673,19 @@ const StartupEditDetails = () => {
                             id="revenue-0"
                             name="revenue"
                             value="0"
-                            checked={revenue === '0'}
-                            onChange={() => RevenueRadioSelector('0')}
+                            checked={startupDetails.revenue === 0}
+                            onChange={() => RevenueRadioSelector(0)}
                             className="hidden"
                             />
                             <label
                             htmlFor="revenue-0"
                             className={`flex gap-2 items-center cursor-pointer ${
-                                revenue === '0' ? 'text-green-400' : 'text-white'
+                                startupDetails.revenue === 0 ? 'text-green-400' : 'text-white'
                             }`}
                             >
                             <div
                             className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
-                                revenue === '0' ? 'bg-green-400 border-green-400' : ''
+                                startupDetails.revenue === 0 ? 'bg-green-400 border-green-400' : ''
                             }`}
                             ></div>                <div>USD 0-50K</div>
                             </label>
@@ -791,19 +696,19 @@ const StartupEditDetails = () => {
                             id="revenue-1"
                             name="revenue"
                             value="1"
-                            checked={revenue === '1'|| startupDetails.revenue === '1'}
-                            onChange={() => RevenueRadioSelector('1')}
+                            checked={startupDetails.revenue === 1}
+                            onChange={() => RevenueRadioSelector(1)}
                             className="hidden"
                             />
                             <label
                             htmlFor="revenue-1"
                             className={`flex gap-2 items-center cursor-pointer ${
-                                revenue === '1' ? 'text-green-400' : 'text-white'
+                                startupDetails.revenue === 1 ? 'text-green-400' : 'text-white'
                             }`}
                             >
                             <div
                             className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
-                                revenue === '1' ? 'bg-green-400 border-green-400' : ''
+                                startupDetails.revenue === 1 ? 'bg-green-400 border-green-400' : ''
                             }`}
                             ></div>              
                             <div>USD 1-10K </div>
@@ -815,19 +720,19 @@ const StartupEditDetails = () => {
                             id="revenue-2"
                             name="revenue"
                             value="2"
-                            checked={revenue === '2'|| startupDetails.revenue === '2'}
-                            onChange={() => RevenueRadioSelector('2')}
+                            checked={startupDetails.revenue === 2}
+                            onChange={() => RevenueRadioSelector(2)}
                             className="hidden"
                             />
                             <label
                             htmlFor="revenue-2"
                             className={`flex gap-2 items-center cursor-pointer ${
-                                revenue === '2' ? 'text-green-400' : 'text-white'
+                                startupDetails.revenue === 2 ? 'text-green-400' : 'text-white'
                             }`}
                             >
                             <div
                             className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
-                                revenue === '2' ? 'bg-green-400 border-green-400' : ''
+                                startupDetails.revenue === 2 ? 'bg-green-400 border-green-400' : ''
                             }`}
                             ></div>                <div>USD 11-50K</div>
                             </label>
@@ -841,19 +746,19 @@ const StartupEditDetails = () => {
                             id="revenue-3"
                             name="revenue"
                             value="3"
-                            checked={revenue === '3' || startupDetails.revenue === '3'}
-                            onChange={() => RevenueRadioSelector('3')}
+                            checked={startupDetails.revenue === 3}
+                            onChange={() => RevenueRadioSelector(3)}
                             className="hidden"
                             />
                             <label
                             htmlFor="revenue-3"
                             className={`flex gap-2 items-center cursor-pointer ${
-                                revenue === '3' ? 'text-green-400' : 'text-white'
+                                startupDetails.revenue === 3 ? 'text-green-400' : 'text-white'
                             }`}
                             >
                 <div
                             className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
-                                revenue === '3' ? 'bg-green-400 border-green-400' : ''
+                                startupDetails.revenue === 3 ? 'bg-green-400 border-green-400' : ''
                             }`}
                             ></div>                <div>USD 51-100K</div>
                             </label>
@@ -864,19 +769,19 @@ const StartupEditDetails = () => {
                             id="revenue-4"
                             name="revenue"
                             value="4"
-                            checked={revenue === '4' || startupDetails.revenue === '4'}
-                            onChange={() => RevenueRadioSelector('4')}
+                            checked={startupDetails.revenue === 4}
+                            onChange={() => RevenueRadioSelector(4)}
                             className="hidden"
                             />
                             <label
                             htmlFor="revenue-4"
                             className={`flex gap-2 items-center cursor-pointer ${
-                                revenue === '4' ? 'text-green-400' : 'text-white'
+                                startupDetails.revenue === 4 ? 'text-green-400' : 'text-white'
                             }`}
                             >
                 <div
                             className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
-                                revenue === '4' ? 'bg-green-400 border-green-400' : ''
+                                startupDetails.revenue === 4 ? 'bg-green-400 border-green-400' : ''
                             }`}
                             ></div>                
                             <div>USD 101-500k</div>
@@ -888,19 +793,19 @@ const StartupEditDetails = () => {
                             id="revenue-5"
                             name="revenue"
                             value="5"
-                            checked={revenue === '5' || startupDetails.revenue === '5'}
-                            onChange={() => RevenueRadioSelector('5')}
+                            checked={startupDetails.revenue === 5}
+                            onChange={() => RevenueRadioSelector(5)}
                             className="hidden"
                             />
                             <label
                             htmlFor="revenue-5"
                             className={`flex gap-2 items-center cursor-pointer ${
-                                revenue === '5' ? 'text-green-400' : 'text-white'
+                                startupDetails.revenue === 5 ? 'text-green-400' : 'text-white'
                             }`}
                             >
                 <div
                             className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
-                                revenue === '5' ? 'bg-green-400 border-green-400' : ''
+                                startupDetails.revenue === 5 ? 'bg-green-400 border-green-400' : ''
                             }`}
                             ></div>                <div>USD 501+K</div>
                             </label>
@@ -915,7 +820,7 @@ const StartupEditDetails = () => {
                     type="text"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
                     placeholder=" "
-                    value={support || startupDetails.support}
+                    value={startupDetails.support}
                     onChange={(e) => setStartupDetails({ ...startupDetails, support: e.target.value })}
                     required
                   />
@@ -926,7 +831,7 @@ const StartupEditDetails = () => {
                     type="text"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
                     placeholder=" "
-                    value={website || startupDetails.website}
+                    value={startupDetails.website}
                     onChange={(e) => setStartupDetails({ ...startupDetails, website: e.target.value })}
                     required
                   />
@@ -937,7 +842,7 @@ const StartupEditDetails = () => {
                     type="text"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
                     placeholder="linkedin.com/in/"
-                    value={startupLinkedin || startupDetails.linkedin}
+                    value={startupDetails.linkedin}
                     onChange={(e) => setStartupDetails({ ...startupDetails, linkedin: e.target.value })}
                     required
                   />linkedin.com/in/
@@ -947,12 +852,119 @@ const StartupEditDetails = () => {
                 </div>
                 </div>
               </form>
-            </div>
-          </div>
-        </div>
+            
       );
   
 }
 
 
-export default StartupEditDetails;
+function EditStartupDetailsPage() {
+    const myCookies = new Cookies();
+    const idFounder = myCookies.get('id')
+    const nameFounder = myCookies.get('name')
+    const profilePicture = myCookies.get('image')
+    const idStartup = myCookies.get('startup')
+    const token = myCookies.get('token')
+  
+    const menuItems = [
+      { src: "https://cdn.builder.io/api/v1/image/assets/TEMP/27c36da114ed300adb9add9fce8d851f4c7b22802ffaf460c4b83dfdad7092bb?apiKey=9ff2a73e8144478896bce8206c80f3e2&", alt: "Overview icon", text: "Overview" },
+      { src: "https://cdn.builder.io/api/v1/image/assets/TEMP/3cef65a25dfa47f096a12f653a5687356c49974a2b901252287cba6ffe7f302d?apiKey=9ff2a73e8144478896bce8206c80f3e2&", alt: "Updates icon", text: "Weekly Updates" },
+      { src: "https://cdn.builder.io/api/v1/image/assets/TEMP/af603136276046e8322b35f550ed99cb4cb7f42f4be19979861c7f70c3f1a3ce?apiKey=9ff2a73e8144478896bce8206c80f3e2&", alt: "Details icon", text: "Startup Details" },
+    ];
+  
+    return (
+      <div className="flex flex-col justify-center bg-black min-h-screen px-20">
+        <header className="flex gap-5 justify-between px-20 py-6 w-full max-md:flex-wrap max-md:px-5 max-md:max-w-full">
+        <div className="flex gap-1 justify-between items-center self-start text-white max-md:flex-wrap max-md:max-w-full">
+            <div className="flex-auto text-l italic font-semibold tracking-wider leading-10">
+              startupvault.id
+              </div>
+            <nav className="flex gap-5 justify-between items-center px-8 my-auto text-l font-light max-md:flex-wrap max-md:px-5 max-md:max-w-full">
+              <div className="grow">Showcase</div>
+              <div>Events</div>
+              <div className="flex-auto">Our Investors</div>
+              <div className="grow whitespace-nowrap text-stone-100">Our Startups</div>
+            </nav>
+          </div>
+        
+          <div className="flex gap-2 rounded-[30px]">
+            <div className="grow justify-center px-3 py-2 text-l font-light text-green-400 whitespace-nowrap rounded-2xl bg-green-400 bg-opacity-20">My Dashboard</div>
+            <div className="flex gap-2 items-center px-2.5 py-2 bg-neutral-800 rounded-[30.497px]">
+              <div className="flex justify-center items-center self-stretch aspect-square">
+                <img loading="lazy"
+                srcSet={profilePicture} 
+                alt="User profile" 
+                className="rounded-full aspect-square bg-green-400 bg-opacity-20 w-[30px]" />
+              </div>
+              <div className="self-stretch my-auto text-l font-medium tracking-wide text-stone-100">{nameFounder}</div>
+              <img loading="lazy" 
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/081086ccfbd0bbab3badfd8655a0ab414aaf7a31d08fbc1f5199388c6bac11c8?apiKey=9ff2a73e8144478896bce8206c80f3e2&" 
+              alt="Settings icon" className="shrink-0 self-stretch my-auto aspect-square w-[18px]" />
+            </div>
+          </div>
+        </header>
+        <main className="px-px pb-20 w-full max-md:max-w-full">
+          <aside className="flex gap-5 max-md:flex-col max-md:gap-0">
+            <div className="flex flex-col w-[23%] max-md:ml-0 max-md:w-full">
+              <div className="flex flex-col self-stretch mt-6 text-l tracking-wide">
+                <div className="flex flex-col pr-7 pl-10 text-neutral-400 max-md:px-5">
+                  <div className="flex gap-3 p-4 mr-0 -ml-px text-base tracking-normal bg-neutral-800 rounded-[30px] text-stone-300">
+                    <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/92e705fdbc7d9eb92b8784a8c1ceb52df03c8aa7b6b8e5c590f04dd435f3a923?apiKey=9ff2a73e8144478896bce8206c80f3e2&" alt="Search icon" className="shrink-0 w-5 aspect-square" />
+                    <div className="flex-auto -mr-0.5">Search in dashboard</div>
+                  </div>
+                  <div className="flex gap-2 self-start mt-10 ml-4 text-l tracking-wide whitespace-nowrap text-neutral-400 max-md:ml-2.5">
+                      <img
+                        loading="lazy"
+                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/27c36da114ed300adb9add9fce8d851f4c7b22802ffaf460c4b83dfdad7092bb?"
+                        className="w-8 aspect-square"
+                      />
+                      <div className="grow my-auto"><Link to="/dashboard">Overview</Link></div>
+                    </div>
+                </div>
+  
+                <div className="flex gap-2 self-center mt-10 text-l tracking-wide whitespace-nowrap text-neutral-400">
+                    <img
+                      loading="lazy"
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/3cef65a25dfa47f096a12f653a5687356c49974a2b901252287cba6ffe7f302d?"
+                      className="w-8 aspect-square"
+                    />
+  
+  
+                    <div className="grow my-auto">                        
+                    <Link to="/diary">Weekly Updates</Link>
+                    </div>
+                  </div>
+  
+                  <div className="flex gap-2 self-center mt-10 text-l tracking-wide whitespace-nowrap text-neutral-400">
+                    <img
+                      loading="lazy"
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/af603136276046e8322b35f550ed99cb4cb7f42f4be19979861c7f70c3f1a3ce?"
+                      className="w-8 aspect-square"
+                    />
+  
+  
+                    <div className="grow my-auto">                        
+                    <Link to="/startupReadForm">Startup Details</Link>
+                    </div>
+                  </div>
+  
+  
+                <div className="flex gap-5 justify-between pr-10 mt-10 text-green-400 max-md:pr-5">
+                  <div className="shrink-0 w-1 h-12 bg-green-400 rounded-none shadow-sm" />
+                  <div className="flex gap-2 px-4 py-2 -mr-1 rounded-lg bg-green-400 bg-opacity-20">
+                    <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/a0ac874774d74b16428095b5fd34e492283a512f4a7323a8d6634fc264f32384?apiKey=9ff2a73e8144478896bce8206c80f3e2&" alt="Founder details icon" className="shrink-0 w-8 aspect-square" />
+                    <div className="grow my-auto">                       
+                         <Link to="/founderReadForm">Founder Details</Link>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <StartupEditDetails/>
+          </aside>
+        </main>
+      </div>
+    );
+  }
+  
+export default EditStartupDetailsPage;
