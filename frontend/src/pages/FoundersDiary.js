@@ -140,7 +140,7 @@ function FounderDiary(props) {
       try {
         let response;
         if(descending){ // if udah descending bakal manggil yg ascending
-            response = await fetch("https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/7?sort=date", {
+            response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${idFounder}?sort=date`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -148,7 +148,7 @@ function FounderDiary(props) {
               }
             });
         } else{
-            response = await fetch("https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/7?sort=-date", {
+            response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${idFounder}?sort=-date`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -207,7 +207,7 @@ function FounderDiary(props) {
           return;
         }
 
-        response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/7?sort=-date&startDate=${newValue.startDate}&endDate=${newValue.endDate}`, {
+        response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${idFounder}?sort=-date&startDate=${newValue.startDate}&endDate=${newValue.endDate}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
