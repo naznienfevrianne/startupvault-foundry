@@ -13,6 +13,7 @@ const myCookies = new Cookies();
 const isLogin = myCookies.get('login')
 const isVerified = myCookies.get('isVerified')
 const token = myCookies.get('token')
+const idCookies = myCookies.get('id')
 const supabaseUrl= "https://yitzsihwzshujgebmdrg.supabase.co";
 const supabaseKey= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpdHpzaWh3enNodWpnZWJtZHJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc1MzQyMjYsImV4cCI6MjAyMzExMDIyNn0.vDEP-XQL4BKAww7l_QW1vsQ4dZCM5GknBPACrgPXfKA"
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -86,7 +87,7 @@ const ShowcaseForm = ({ afterPostSuccess, userRequest, contentRequest, imagesReq
             // Include other headers here as needed, such as authorization tokens
           },
           body: JSON.stringify({
-            "user": cookieId,
+            "user": idCookies,
             "content": content,
             "image": uploadedUrls, // Make sure this is the correct format expected by your backend
           }),
@@ -104,6 +105,7 @@ const ShowcaseForm = ({ afterPostSuccess, userRequest, contentRequest, imagesReq
           setContent("");
           setImages([]);
           afterPostSuccess();
+          window.location.reload()
         } else {
           // Handle other statuses or general error
           console.error("Submission failed with status:", response.status);
