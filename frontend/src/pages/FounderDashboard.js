@@ -154,6 +154,26 @@ function FounderDashboard(props) {
     setSelectedChart(chartType);
   };
 
+  const fetchDataFounder = async () => {
+    try {
+        const response = await fetch(`http://localhost:8000/auth/startup/${idStartup}/`,{
+          method: "GET", 
+          headers:{
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer' + token
+          }
+          }
+          );
+        if (!response.ok) {
+            throw new Error("Failed to fetch data");
+        }
+        const entry = await response.json();
+        setStartupData(entry);
+    } catch (error) {
+        console.log("Error:", error);
+    }
+};
+
   return (
     <div className="flex flex-col justify-center bg-black min-h-screen px-20">
    <NavBar />
@@ -423,7 +443,7 @@ function FounderDashboard(props) {
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/00ef0af1e644c1bb102e817c9deeb66348c69aded2f176f8e4bf89a60f937ff5?"
                   className="shrink-0 w-8 aspect-square"
                 />
-                <div className="grow my-auto">View public profile</div>
+                <a href="/startupReadForm" className="grow my-auto">View public profile</a>
               </div>
             </div>
           </div>

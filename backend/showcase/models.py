@@ -1,10 +1,10 @@
 from django.core.validators import URLValidator
 from django.db import models
 from django.utils import timezone
-from user.models import User
+from authentication.models import *
 
 class ShowcasePost(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='showcase_posts')
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='showcase_posts')
     content = models.TextField(blank=False, null=False)
     date = models.DateTimeField(auto_now_add=True)
 
@@ -37,7 +37,7 @@ class PostImage(models.Model):
 
 class Like(models.Model):
     showcase_post = models.ForeignKey(ShowcasePost, on_delete=models.CASCADE, related_name='likes')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='liked_posts')
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='liked_posts')
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
