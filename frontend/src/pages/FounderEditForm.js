@@ -209,7 +209,7 @@ const FounderDetails = () => {
                   <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Email</div>
                   <input
                     type="text"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
                     placeholder=" "
                     value={founderDetails.email}
                     onChange={(e) => setFounderDetails({ ...founderDetails, email: e.target.value })}
@@ -218,7 +218,7 @@ const FounderDetails = () => {
                   <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Name</div>
                   <input
                     type="text"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
                     placeholder=" "
                     value={founderDetails.name}
                     onChange={(e) => setFounderDetails({ ...founderDetails, name: e.target.value })}
@@ -227,7 +227,7 @@ const FounderDetails = () => {
                   <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">LinkedIn</div>
                   <input
                     type="text"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
                     placeholder=" "
                     value={founderDetails.linkedin}
                     onChange={(e) => setFounderDetails({ ...founderDetails, linkedin: e.target.value })}
@@ -236,7 +236,7 @@ const FounderDetails = () => {
                   <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Phone Number</div>
                   <input
                     type="text"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
                     placeholder=" "
                     value={founderDetails.phoneNumber}
                     onChange={(e) => {
