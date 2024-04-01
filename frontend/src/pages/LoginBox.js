@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCookies, Cookies } from 'react-cookie';
 import { logout } from './Logout';
+import { Link } from 'react-router-dom';
 function LoginBox(props) {
 
     const storedEmail = localStorage.getItem("email") || '';
@@ -21,7 +22,7 @@ function LoginBox(props) {
           "email":email,
           "password":password
         }))
-        const response = await fetch("http://localhost:8000/auth/login/", {
+        const response = await fetch("https://startupvault-foundry.vercel.app/auth/login/", {
         method:'POST',
         headers: {
           'Content-Type':'application/json'
@@ -43,7 +44,8 @@ function LoginBox(props) {
           });
           console.log(cookies)
           const role = myCookies.get('role')
-          if (role == 'founder') {
+          const isVerified = myCookies.get('isVerified')
+          if (role == 'founder' && isVerified == 1) {
             console.log("sini")
             navigate("/dashboard")
             window.location.reload()
@@ -55,8 +57,7 @@ function LoginBox(props) {
           }
         } else {
           const data = await response.json()
-          console.log(data)
-          alert("Error!")
+          setErrorMessage(data.message)
         }
       } catch (error) {
         console.error("Error:", error)
@@ -162,7 +163,7 @@ function LoginBox(props) {
               </div>
               <div className="flex gap-1 self-center mt-4 text-base tracking-normal whitespace-nowrap">
                 <div className="grow text-white">Don't have an account?</div>
-                <div className="text-green-400 underline">Sign Up</div>
+                <div className="text-green-400 underline"><Link to="/register">Sign Up</Link></div>
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function RegisterBoxFix(props) {
     const storedEmail = localStorage.getItem("email") || '';
@@ -23,7 +24,7 @@ function RegisterBoxFix(props) {
     let hasUppercase = false;
     let hasLowercase = false;
     let hasNumber = false;
-    const response = await fetch("http://localhost:8000/auth/checkEmail/", {
+    const response = await fetch("https://startupvault-foundry.vercel.app/auth/checkEmail/", {
       method:'POST',
       headers: {
         'Content-Type':'application/json'
@@ -192,7 +193,7 @@ function RegisterBoxFix(props) {
               </div>
               <div className="flex gap-1 self-center mt-4 text-base tracking-normal whitespace-nowrap">
                 <div className="grow text-white">Already have an account?</div>
-                <div className="text-green-400 underline">Log in</div>
+                <div className="text-green-400 underline"><Link to="/login">Log in</Link></div>
               </div>
             </div>
           </div>

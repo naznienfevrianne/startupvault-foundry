@@ -10,6 +10,8 @@ import{ Cookies } from 'react-cookie';
 
 const myCookies = new Cookies();
 const isLogin = myCookies.get('login')
+const token = myCookies.get('token')
+const idCookies = myCookies.get('id')
 
 
 const NavbarItem = ({ children, href }) => (
@@ -44,8 +46,8 @@ const PostCount = () => {
 };
 
 const NavigationBar = () => (
-  <nav className="flex gap-5 justify-between items-center px-8 my-auto text-xl font-light max-md:flex-wrap max-md:px-5 max-md:max-w-full">
-    <NavbarItem href="/showcase">Showcase</NavbarItem>
+  <nav className="flex gap-5 justify-between items-center px-8 my-auto text-l font-light max-md:flex-wrap max-md:px-5 max-md:max-w-full">
+    <NavbarItem href="/">Showcase</NavbarItem>
     <NavbarItem href="/events">Events</NavbarItem>
     <NavbarItem href="/investors">Our Investors</NavbarItem>
     <NavbarItem href="/startups">Our Startups</NavbarItem>
@@ -72,8 +74,8 @@ const LogOutButton = () => (
 const Header = () => (
   <header className="flex gap-5 justify-between items-center px-20 py-6 w-full max-md:flex-wrap max-md:px-5 max-md:max-w-full">
     <div className="flex gap-5 justify-between items-center self-start text-white max-md:flex-wrap max-md:max-w-full">
-      <h1 className="flex-auto text-l italic font-semibold tracking-wider leading-10">
-        startupvault.id
+      <h1 className="flex-auto text-xl italic font-semibold tracking-wider leading-10">
+        STARTUPVAULT.ID
       </h1>
       <NavigationBar />
     </div>
@@ -87,7 +89,12 @@ const Header = () => (
 
 const fetchPosts = async () => {
     try {
-        const response = await fetch('http://127.0.0.1:8000/showcase/');
+        const response = await fetch('https://startupvault-foundry.vercel.app/showcase/', {
+          method:'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch posts');
         }
@@ -185,14 +192,19 @@ const Likes = ({ LikedPost, user, initialLikes, isInitiallyLiked }) => {
   }, [initialLikes, isInitiallyLiked]);
 
   const toggleLike = async () => {
-    const response = await fetch("http://127.0.0.1:8000/showcase/toggle_like/", {
+    console.log(JSON.stringify({
+      "post": LikedPost,  // Assuming this is the ID of the post to be liked/unliked
+      "user": idCookies,  // Assuming this is the ID of the user performing the action
+    }))
+    const response = await fetch("https://startupvault-foundry.vercel.app/showcase/toggle_like/", {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
         "post": LikedPost,  // Assuming this is the ID of the post to be liked/unliked
-        "user": user,  // Assuming this is the ID of the user performing the action
+        "user": idCookies,  // Assuming this is the ID of the user performing the action
       })
     });
 
@@ -306,6 +318,7 @@ const Showcase = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const myCookies = new Cookies();
   const rejectionNote = myCookies.get('rejectionNote');
+  const isVerified = myCookies.get('isVerified');
   
    return (
   <div className="flex flex-col h-screen bg-black min-h-screen"> {/* Ensures the main container takes up the full viewport height */}
@@ -313,12 +326,16 @@ const Showcase = () => {
     <div className="flex flex-1 overflow-hidden"> {/* This div becomes the flex container for your main content and aside */}
       <main className="flex-1 overflow-auto ml-[120px] mr-[40px]"> {/* Main content area that scrolls */}
 
-        {isLogin && rejectionNote !== null && (
+        {isLogin && isVerified === 2 && (
           <div className="bg-red-500 text-white p-2 rounded mt-2 mb-4 opacity-70">
             Sorry we can not verify your account: {rejectionNote}
           </div>
         )}
-        
+         {isLogin && isVerified === 0 && (
+          <div className="bg-blue-500 text-white p-2 rounded mt-2 mb-4 opacity-70">
+           Your registration is still being processed and is waiting to be approved by the admin
+          </div>
+        )}
         <ShowcaseForm afterPostSuccess={fetchPosts} />
         <ShowcasePost searchTerm={searchTerm}/>
       </main>

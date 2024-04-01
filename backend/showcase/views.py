@@ -8,7 +8,8 @@ from .serializers import ShowcasePostSerializer
 from .forms import ShowcasePostForm, PostImageForm
 from django.http import JsonResponse
 from rest_framework.permissions import AllowAny
-from user.models import User
+from authentication.views import JWTAuthentication
+from authentication.models import UserModel
 
 
 class ShowcaseListView(ListAPIView):
@@ -19,7 +20,7 @@ class ShowcaseListView(ListAPIView):
 class CreateShowcaseView(generics.ListCreateAPIView):
     queryset = ShowcasePost.objects.all()
     serializer_class = ShowcasePostSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication]
 
     def post(self, request, *args, **kwargs):
         post_form = ShowcasePostForm(request.data)
@@ -46,14 +47,14 @@ class CreateShowcaseView(generics.ListCreateAPIView):
 
 
 class ToggleLikeView(generics.GenericAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication]
 
     def post(self, request, *args, **kwargs):
         post_id = request.data.get('post')
         user_id = request.data.get('user')
 
         post = get_object_or_404(ShowcasePost, id=post_id)
-        user = get_object_or_404(User, id=user_id)
+        user = get_object_or_404(UserModel, id=user_id)
 
         if post.likes.filter(user=user).exists():
             success = post.unlike(user)

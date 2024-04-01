@@ -172,7 +172,7 @@ function StartupForm(props) {
         setErrorMessage("Please pick startup's revenue")
       }
 
-      if (!pitchdeck) {
+      if (!pitchdeck && localStorage.getItem("startupType") !== 'idea') {
         pitchDeckValid = false
         setErrorMessage("Please upload startup's pitchdeck")
       }
@@ -212,7 +212,7 @@ function StartupForm(props) {
           localStorage.setItem("revenue", revenue)
           localStorage.setItem("support", support)
           localStorage.setItem("website", website)
-          localStorage.setItem("linkedin", startupLinkedin)
+          localStorage.setItem("startupLinkedin", startupLinkedin)
           try {
             const storedValue = localStorage.getItem("name");
 
@@ -220,7 +220,17 @@ function StartupForm(props) {
             const valueWithoutSpaces = storedValue.replace(/\s/g, '');
 
             const fileName = valueWithoutSpaces + "/" + generateRandomString(25)
+            const pitchdeckURL = uploadPitchdeck(fileName)
+            const userimgURL = uploadUserImg(fileName)
+            const startupimgURL = uploadStartupImg(fileName)
+            console.log("User Image URL:", userimgURL);
+            console.log("Startup Logo URL:", startupimgURL);
+            console.log("Pitchdeck URL:", pitchdeckURL);
+            console.log("user img in local ", localStorage.getItem("profilePicture"))
+            console.log("startup logo in local", localStorage.getItem("startupLogo"))
+            console.log("pitchdeck in local", localStorage.getItem("pitchdeck"))
   
+            console.log("AAAAAAAAAAAAAAAAA")
             console.log( JSON.stringify({
               "typ": localStorage.getItem("startupType"),
               "image": supabaseUrl + "/storage/v1/object/public/startupimg/" + fileName,
@@ -232,9 +242,13 @@ function StartupForm(props) {
               "revenue": localStorage.getItem("revenue"),
               "support": localStorage.getItem("support"),
               "website": localStorage.getItem("website"),
-              "linkedin": "https://linkedin.com" + localStorage.getItem("startupLinkedin")
+              "linkedin": "https://linkedin.com/" + localStorage.getItem("startupLinkedin")
           }))
-            const response = await fetch("http://localhost:8000/auth/startup/", {
+          let urlPitchdeck = supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName
+          if (localStorage.getItem("startupType") == "idea") {
+            urlPitchdeck = null
+          }
+            const response = await fetch("https://startupvault-foundry.vercel.app/auth/startup/", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -246,11 +260,11 @@ function StartupForm(props) {
                     "location": localStorage.getItem("location"),
                     "sector": localStorage.getItem("sector"),
                     "desc": localStorage.getItem("description"),
-                    "pitchdeck": supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName,
+                    "pitchdeck": urlPitchdeck,
                     "revenue": localStorage.getItem("revenue"),
                     "support": localStorage.getItem("support"),
                     "website": localStorage.getItem("website"),
-                    "linkedin": "https://linkedin.com" + localStorage.getItem("startupLinkedin")
+                    "linkedin": "https://linkedin.com/" + localStorage.getItem("startupLinkedin")
                 })
             })
   
@@ -260,7 +274,7 @@ function StartupForm(props) {
               console.log(data);
               const pk = data.id
               // Perform fetch request
-              const responseFounder = await fetch("http://localhost:8000/auth/founder/", {
+              const responseFounder = await fetch("https://startupvault-foundry.vercel.app/auth/founder/", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -285,6 +299,7 @@ function StartupForm(props) {
               const founderJsonData = await responseFounder.json();
               alert("Submission successful!");
               console.log(founderJsonData);
+              localStorage.clear()
               navigate("/login")
             }
                 
@@ -330,7 +345,7 @@ function StartupForm(props) {
           <div className="flex gap-5 justify-between w-full max-md:flex-wrap max-md:max-w-full">
             <div className="flex flex-col max-md:max-w-full">
               <div className="text-xs tracking-wide text-neutral-400 max-md:max-w-full">
-                To set up your startup’s public profile
+                To set up your startup's public profile
               </div>
               <div className="mt-0 text-5xl font-semibold tracking-wider leading-[70.8px] text-stone-100 max-md:max-w-full max-md:text-4xl">
                 TELL US MORE ABOUT YOUR STARTUP
@@ -422,11 +437,12 @@ function StartupForm(props) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className="shrink-0 mt-1 h-8 rounded-lg bg-neutral-800 text-white px-4 py-2 max-md:max-w-full" />
-        
+       {localStorage.getItem("startupType") !== 'idea' && (
         <div className="self-start mt-3 text-base font-medium tracking-wide text-stone-100">
-        Startup Pitchdeck
-      </div>
-      {!pitchdeck ? (
+          Startup Pitchdeck
+        </div>
+      )}
+      {localStorage.getItem("startupType") !== 'idea' && !pitchdeck ? (
         <div className="flex gap-2.5 self-start px-3 py-3 mt-2 text-m font-semibold tracking-widest text-black rounded bg-stone-100 hover:border-green-600 border-solid cursor-pointer">
           <img
             loading="lazy"
@@ -444,7 +460,8 @@ function StartupForm(props) {
             />
           </div>
         </div>
-      ) : (
+      ) : null}
+      {localStorage.getItem("startupType") !== 'idea' && pitchdeck ? (
         <div className="flex gap-2.5 self-start px-3 py-3 mt-3 text-base font-medium tracking-wide whitespace-nowrap rounded-lg border border-solid bg-green-400 bg-opacity-20 border-[color:var(--brand,#64EB8B)] text-stone-100">
           <img
             loading="lazy"
@@ -461,8 +478,7 @@ function StartupForm(props) {
             className="w-6 aspect-square cursor-pointer"
           />
         </div>
-      )}
-      {/* <div> */}
+      ) : null}
 
          
 <div className="self-start mt-3 text-base font-medium tracking-wide text-stone-100">
