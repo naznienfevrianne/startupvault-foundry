@@ -76,3 +76,13 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+.idea
+
+
+**/__pycache__/
+*.pyc
+
+backend/backend/__pycache__/
+backend/user/__pycache__/
+

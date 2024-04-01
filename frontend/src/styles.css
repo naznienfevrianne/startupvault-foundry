@@ -1,0 +1,13 @@
+/* styles.css */
+input[type="checkbox"]:checked + label:before {
+  border-color: #10B981 !important; /* Define your desired green color */
+  background-color: #10B981 !important; /* Define your desired green color */
+}
+
+input[type="checkbox"] + label:before {
+  border-color: #6B7280 !important; /* Define your desired default color */
+}
+
+input[type="checkbox"]:checked + label:after {
+  background-color: #10B981 !important; /* Define your desired green color */
+}
