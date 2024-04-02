@@ -3,6 +3,7 @@ from django.urls import path
 # from rest_framework_simplejwt import views as jwt_views
 
 from .views import (
+    InvestorRetrieve,
     UserModelListCreate, 
     PartnerListCreate, 
     InvestorListCreate, 
@@ -28,5 +29,6 @@ urlpatterns = [
     # path("api/token/refresh", jwt_views.TokenRefreshView.as_view(), name="token_refresh"),
     path("login/",login, name="login"),
     path("checkEmail/", check_email, name="check-email"),
-    path("testToken/", test_token, name="test-token")
+    path("testToken/", test_token, name="test-token"),
+    path('investor/<int:pk>/', InvestorRetrieve.as_view(), name="investor-detail"), 
 ]
