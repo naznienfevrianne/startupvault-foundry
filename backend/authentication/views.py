@@ -203,5 +203,13 @@ class StartupRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         serializer.save()
         return Response(serializer.data)
 
+class TopStartupRetriever(generics.RetrieveUpdateDestroyAPIView):
+    # permission_classes = [JWTAuthentication]
+    permission_classes = [AllowAny]
+    serializer_class = StartupSerializer
+
+    def get_queryset(self):
+        return Startup.objects.all()
+
 
 
