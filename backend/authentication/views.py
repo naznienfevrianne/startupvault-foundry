@@ -203,7 +203,7 @@ class StartupRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         serializer.save()
         return Response(serializer.data)
 
-class InvestorRetrieve(generics.RetrieveUpdateDestroyAPIView):
+class InvestorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     # permission_classes = [JWTAuthentication]
     permission_classes = [AllowAny]
     serializer_class = InvestorSerializer
