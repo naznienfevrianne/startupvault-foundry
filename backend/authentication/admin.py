@@ -9,6 +9,7 @@ admin.site.register(Founder)
 admin.site.register(Investor)
 admin.site.register(Partner)
 
+# Form create Top 10 Startup List
 class Top10StartupForm(forms.ModelForm):
     class Meta:
         model = Startup
@@ -16,7 +17,7 @@ class Top10StartupForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Filter the queryset for the startup field based on verified attribute
+        # Filter startup with a verified founder
         self.fields['rank1'].queryset = Startup.objects.filter(founder__isVerified=1)
         self.fields['rank2'].queryset = Startup.objects.filter(founder__isVerified=1)
         self.fields['rank3'].queryset = Startup.objects.filter(founder__isVerified=1)
