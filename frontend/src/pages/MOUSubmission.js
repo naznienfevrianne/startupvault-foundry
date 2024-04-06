@@ -87,7 +87,28 @@ function MOUSubmission(props) {
         });
       }
     
-    
+      const uploadUserImg = (fileName) => {
+        fetch(localStorage.getItem("profilePicture"))
+        .then(response => response.blob())
+        .then(async blob => {
+        // Upload the image to Supabase Storage
+        const { data, error } = supabase.storage
+            .from('userimg')
+            .upload(fileName, blob);
+
+        if (error) {
+            console.error('Error uploading profilePicture:', error.message);
+        } else {
+            console.log('Image uploaded successfully:', data);
+            
+            return supabaseUrl + "/storage/v1/object/public/userimg/" + fileName;
+        }
+        })
+        .catch(error => {
+        console.error('profilePicture fetching image from localhost:', error);
+        });
+      }
+      
     const handleSubmit = async () => {
         if(!MOU) {
             setErrorMessage("Please upload your MOU")
@@ -100,39 +121,31 @@ function MOUSubmission(props) {
     
                 const partnerLogoUrl = uploadPartnerImg(fileName)
                 const partnerMOUUrl = uploadPartnerMOU(fileName)
-    
-                console.log( JSON.stringify({
-                    "email":localStorage.getItem("email"),
-                    "role":localStorage.getItem("role"),
-                    "password":localStorage.getItem("password"),
-                    "isVerified":0,
-                    "image": supabaseUrl + "/storage/v1/object/public/partnerimg/" + fileName,
-                    "mou": supabaseUrl + "/storage/v1/object/public/partnermou/" + fileName,
-                    "linkedin": "https://linkedin.com/in/" + localStorage.getItem("partnerLinkedin"),
-                    "name": localStorage.getItem("partnerName"),
-                    "location": localStorage.getItem("partnerLocation"),
-                    "desc": localStorage.getItem("partnerDescription"),
-                    "interest": localStorage.getItem("partnerInterest"),
-                    "website": localStorage.getItem("partnerWebsite"),
+                const userimgURL = uploadUserImg(fileName)
+                console.log(JSON.stringify({
+                  "location": localStorage.getItem("partnerLocation"),
+                  "desc": localStorage.getItem("partnerDescription"),
+                  "interest": localStorage.getItem("partnerInterest"),
+                  "website": localStorage.getItem("partnerWebsite"),
+                  "mou": supabaseUrl + "/storage/v1/object/public/partnermou/" + fileName,
+                  "linkedin": "https://linkedin.com/in/" + localStorage.getItem("partnerLinkedin"),
+                  "logo": supabaseUrl + "/storage/v1/object/public/partnerimg/" + fileName,
+                  "name": localStorage.getItem("partnerName"),
               }))
-                const response = await fetch("https://startupvault-foundry.vercel.app/auth/partner/", {
+                const response = await fetch("http://localhost:8000/auth/partnerorg/", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        "email":localStorage.getItem("email"),
-                        "role":localStorage.getItem("role"),
-                        "password":localStorage.getItem("password"),
-                        "isVerified":0,
-                        "image": supabaseUrl + "/storage/v1/object/public/partnerimg/" + fileName,
-                        "mou": supabaseUrl + "/storage/v1/object/public/partnermou/" + fileName,
-                        "linkedin": "https://linkedin.com/in/" + localStorage.getItem("partnerLinkedin"),
-                        "name": localStorage.getItem("partnerName"),
                         "location": localStorage.getItem("partnerLocation"),
                         "desc": localStorage.getItem("partnerDescription"),
                         "interest": localStorage.getItem("partnerInterest"),
                         "website": localStorage.getItem("partnerWebsite"),
+                        "mou": supabaseUrl + "/storage/v1/object/public/partnermou/" + fileName,
+                        "linkedin": "https://linkedin.com/in/" + localStorage.getItem("partnerLinkedin"),
+                        "logo": supabaseUrl + "/storage/v1/object/public/partnerimg/" + fileName,
+                        "name": localStorage.getItem("partnerName"),
                     })
                 })
       
@@ -140,8 +153,34 @@ function MOUSubmission(props) {
                   const data = await response.json();
                   alert("Submission successful!");
                   console.log(data);
-                  navigate("/login")
-                    
+                  const pk = data.id
+                  const responsePartner = await fetch("http://localhost:8000/auth/partner/", {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({
+                          "email": localStorage.getItem("email"),
+                          "role": "partner",
+                          "password": localStorage.getItem("password"),
+                          "isVerified": 0,
+                          "image": supabaseUrl + "/storage/v1/object/public/userimg/" + fileName, // profile picture
+                          "linkedin": "https://linkedin.com/" + localStorage.getItem("linkedin"),
+                          "name": localStorage.getItem("name"),
+                          "phoneNumber": localStorage.getItem("phoneNumber"),
+                          "partnerOrganization": pk
+                      })
+                  })
+                  if (!responsePartner.ok) {
+                    const partnerJsonData = await responsePartner.json();
+                    console.log(partnerJsonData);
+                  } else {
+                    const partnerJsonData = await responsePartner.json();
+                    alert("Submission successful!");
+                    console.log(partnerJsonData);
+                    localStorage.clear()
+                    navigate("/login")
+                  }
                 } else {
                   const jsonData = await response.json();
                     console.log(jsonData);
