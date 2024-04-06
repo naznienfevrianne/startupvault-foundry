@@ -75,7 +75,10 @@ class Top10Startup(models.Model):
     rank9 = models.ForeignKey(Startup, related_name="rank9", on_delete=models.CASCADE)
     rank10 = models.ForeignKey(Startup, related_name="rank10", on_delete=models.CASCADE)
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['rank1', 'rank2', 'rank3', 'rank4', 'rank5', 'rank6', 'rank7', 'rank8', 'rank9', 'rank10'], name='unique_attributes')
-    ]
+    def save(self, *args, **kwargs):
+        # Check for duplicate startups in ranks
+        startup_ranks = [self.rank1, self.rank2, self.rank3, self.rank4, self.rank5, self.rank6, self.rank7, self.rank8, self.rank9, self.rank10]
+        if len(startup_ranks) != len(set(startup_ranks)):
+            raise ValueError("Duplicate startups are not allowed in the ranks.")
+
+        super().save(*args, **kwargs)
