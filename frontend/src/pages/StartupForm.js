@@ -230,25 +230,11 @@ function StartupForm(props) {
             console.log("startup logo in local", localStorage.getItem("startupLogo"))
             console.log("pitchdeck in local", localStorage.getItem("pitchdeck"))
   
-            console.log("AAAAAAAAAAAAAAAAA")
-            console.log( JSON.stringify({
-              "typ": localStorage.getItem("startupType"),
-              "image": supabaseUrl + "/storage/v1/object/public/startupimg/" + fileName,
-              "name": localStorage.getItem("startupName"),
-              "location": localStorage.getItem("location"),
-              "sector": localStorage.getItem("sector"),
-              "desc": localStorage.getItem("description"),
-              "pitchdeck": supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName,
-              "revenue": localStorage.getItem("revenue"),
-              "support": localStorage.getItem("support"),
-              "website": localStorage.getItem("website"),
-              "linkedin": "https://linkedin.com/" + localStorage.getItem("startupLinkedin")
-          }))
           let urlPitchdeck = supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName
           if (localStorage.getItem("startupType") == "idea") {
             urlPitchdeck = null
           }
-            const response = await fetch("https://startupvault-foundry.vercel.app/auth/startup/", {
+            const response = await fetch("http://localhost:8000/auth/startup/", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -274,7 +260,7 @@ function StartupForm(props) {
               console.log(data);
               const pk = data.id
               // Perform fetch request
-              const responseFounder = await fetch("https://startupvault-foundry.vercel.app/auth/founder/", {
+              const responseFounder = await fetch("http://localhost:8000/auth/founder/", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -285,7 +271,7 @@ function StartupForm(props) {
                     "role": "founder",
                     "password": localStorage.getItem("password"),
                     "isVerified": 0,
-                    "image": supabaseUrl + "/storage/v1/object/public/userimg/" + fileName,
+                    "image": supabaseUrl + "/storage/v1/object/public/userimg/" + fileName, // profile picture
                     "linkedin": "https://linkedin.com/" + localStorage.getItem("linkedin"),
                     "name": localStorage.getItem("name"),
                     "phoneNumber": localStorage.getItem("phoneNumber"),
