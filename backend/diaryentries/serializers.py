@@ -15,3 +15,10 @@ class MetricSerializer(serializers.ModelSerializer):
     class Meta:
         model = Entry
         fields = '__all__'
+
+class FollowedFounderEntrySerializer(serializers.ModelSerializer):
+    startup = serializers.CharField(source='founder.startup.name', read_only=True)
+    startup_type = serializers.CharField(source='founder.startup.typ', read_only=True)
+    class Meta:
+        model = Entry
+        fields = ["id", "sales", "revenue", "user", "lessonLearned", "founder", "date", "startup", "startup_type"]
