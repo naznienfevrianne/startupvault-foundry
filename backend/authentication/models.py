@@ -63,4 +63,19 @@ class Partner(UserModel):
     website = models.TextField()
     mou = models.TextField(default="")
 
-    
+class Top10Startup(models.Model):
+    rank1 = models.ForeignKey(Startup, related_name="rank1", on_delete=models.CASCADE)
+    rank2 = models.ForeignKey(Startup, related_name="rank2", on_delete=models.CASCADE)
+    rank3 = models.ForeignKey(Startup, related_name="rank3", on_delete=models.CASCADE)
+    rank4 = models.ForeignKey(Startup, related_name="rank4", on_delete=models.CASCADE)
+    rank5 = models.ForeignKey(Startup, related_name="rank5", on_delete=models.CASCADE)
+    rank6 = models.ForeignKey(Startup, related_name="rank6", on_delete=models.CASCADE)
+    rank7 = models.ForeignKey(Startup, related_name="rank7", on_delete=models.CASCADE)
+    rank8 = models.ForeignKey(Startup, related_name="rank8", on_delete=models.CASCADE)
+    rank9 = models.ForeignKey(Startup, related_name="rank9", on_delete=models.CASCADE)
+    rank10 = models.ForeignKey(Startup, related_name="rank10", on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['rank1', 'rank2', 'rank3', 'rank4', 'rank5', 'rank6', 'rank7', 'rank8', 'rank9', 'rank10'], name='unique_attributes')
+    ]
