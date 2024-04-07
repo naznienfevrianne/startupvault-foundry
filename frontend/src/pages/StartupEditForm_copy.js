@@ -563,7 +563,7 @@ const StartupEditDetails = () => {
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Name</div>
                   <input
                     type="text"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
                     placeholder=" "
                     value={startupName|| startupDetails.name}
                     onChange={(e) => setStartupName(e.target.value)}
@@ -572,7 +572,7 @@ const StartupEditDetails = () => {
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Location</div>
                   <input
                     type="text"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2  appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
                     placeholder=" "
                     value={location || startupDetails.location}
                     onChange={(e) => setLocation(e.target.value)}
@@ -620,7 +620,7 @@ const StartupEditDetails = () => {
                     </span>
                 </div>
                 <textarea
-                className={`block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer`}
+                className={`block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2  appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0  peer`}
                 placeholder=""
                 value={description || startupDetails.desc}
                 onChange={handleDescriptionChange}
@@ -838,7 +838,7 @@ const StartupEditDetails = () => {
                 </div>
                   <input
                     type="text"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    className="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2  appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0  peer"
                     placeholder=" "
                     value={support || startupDetails.support}
                     onChange={(e) => setStartupDetails({ ...startupDetails, support: e.target.value })}
@@ -849,7 +849,7 @@ const StartupEditDetails = () => {
                 </div>
                   <input
                     type="text"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
                     placeholder=" "
                     value={website || startupDetails.website}
                     onChange={(e) => setStartupDetails({ ...startupDetails, website: e.target.value })}
@@ -860,7 +860,7 @@ const StartupEditDetails = () => {
                 </div>
                   <input
                     type="text"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    className="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2  appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
                     placeholder="linkedin.com/in/"
                     value={startupLinkedin || startupDetails.linkedin}
                     onChange={(e) => setStartupDetails({ ...startupDetails, linkedin: e.target.value })}
