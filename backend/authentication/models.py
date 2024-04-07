@@ -6,14 +6,15 @@ import jwt
 
 
 class UserModel(models.Model):
-    email = models.EmailField(unique=True)
-    role = models.CharField(max_length=10)
-    password = models.CharField(max_length=255)
-    isVerified = models.IntegerField()
-    image = models.TextField()
-    linkedin = models.URLField()
+    email = models.EmailField(unique=True) # awal
+    role = models.CharField(max_length=10) # milih di awal
+    password = models.CharField(max_length=255) # awal
+    isVerified = models.IntegerField() # in backend
+    image = models.TextField() # profile picture
     name = models.CharField(max_length = 255)
-    rejectionNote = models.CharField(max_length = 255, null=True, blank=True)
+    linkedin = models.URLField()
+    phoneNumber = models.CharField(max_length=12, default="")
+    rejectionNote = models.CharField(max_length = 255, blank=True, default="")
 
     def __str__(self):
         if (self.isVerified == 0):
@@ -40,13 +41,10 @@ class Startup(models.Model):
     def __str__(self):
         return self.name
 
-class Founder(UserModel):
-    phoneNumber = models.CharField(max_length=12)
-    startup = models.OneToOneField(Startup, on_delete=models.CASCADE, related_name='founder')
-
-
-class Investor(UserModel):
-    typ = models.CharField(max_length=10)
+class InvestorOrganization(models.Model):
+    typ = models.CharField(max_length=10) # dr sblmnya
+    logo = models.TextField(default="")
+    name = models.CharField(max_length=255, default="")
     location = models.TextField()
     desc = models.TextField()
     sector = models.TextField()
@@ -54,14 +52,33 @@ class Investor(UserModel):
     stage=models.TextField()
     support=models.TextField()
     website = models.TextField()
-
-
-class Partner(UserModel):
+    linkedin = models.TextField(default="")
+    
+    def __str__(self):
+        return self.name
+    
+class PartnerOrganization(models.Model):
+    logo = models.TextField(default="")
+    name = models.CharField(max_length=255, default="")
     location = models.TextField()
     desc = models.TextField()
     interest = models.TextField()
     website = models.TextField()
+    linkedin = models.TextField(default="")
     mou = models.TextField(default="")
+    
+    def __str__(self):
+        return self.name
+
+class Founder(UserModel):
+    startup = models.OneToOneField(Startup, on_delete=models.CASCADE, related_name='founder', default="")
+
+
+class Investor(UserModel):
+    investorOrganization = models.OneToOneField(InvestorOrganization, on_delete=models.CASCADE, related_name='investor', default="")
+
+class Partner(UserModel):
+    partnerOrganization = models.OneToOneField(PartnerOrganization, on_delete=models.CASCADE, related_name='partner', default="")
 
 class Top10Startup(models.Model):
     rank1 = models.ForeignKey(Startup, related_name="rank1", on_delete=models.CASCADE)

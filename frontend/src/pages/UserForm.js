@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function FounderForm(props) {
+function UserForm(props) {
   const [errorMessage, setErrorMessage] = useState('');
   const storedName = localStorage.getItem("name") || '';
   const storedLinkedin = localStorage.getItem("linkedin") || '';
@@ -23,7 +23,7 @@ function FounderForm(props) {
   }
 
 
-  function handleFounderForm () {
+  function handleUserForm () {
     
     let phoneNumberValid = true
     let linkedinValid = true
@@ -47,7 +47,13 @@ function FounderForm(props) {
       localStorage.setItem("linkedin", linkedin);
       // localStorage.setItem("founderEmail", founderEmail);
       localStorage.setItem("phoneNumber", phoneNumber);
-      navigate("/startupType")
+      if (localStorage.getItem("role") == "founder") {
+        navigate("/startupType")
+      } else if (localStorage.getItem("role") == "investor") {
+        navigate("/investorType")
+      } else if (localStorage.getItem("role") == "partner") {
+        navigate("/partnerForm")
+      }
     }
     // jika udh divalidasi (duh males bikin casenya LOL)
     
@@ -151,7 +157,7 @@ function FounderForm(props) {
             <div className="mt-1 text-red-500 text-sm mb-2">{errorMessage}</div>
             )}
           <div 
-          onClick = {handleFounderForm}
+          onClick = {handleUserForm}
           type="button"
           className="flex gap-2.5 justify-center self-end px-2 py-2 mt-4 max-w-full text-xl font-semibold tracking-widest text-black whitespace-nowrap bg-green-400 rounded-3xl w-[106px] hover:border-green-600 border-solid cursor-pointer">
             <div>NEXT</div>
@@ -161,5 +167,5 @@ function FounderForm(props) {
     </div>
   );
 }
-export default FounderForm;
+export default UserForm;
 
