@@ -313,4 +313,3 @@ class StartupRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.data)
 
 
-
