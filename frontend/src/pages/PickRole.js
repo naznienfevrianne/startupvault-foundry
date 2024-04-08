@@ -7,13 +7,13 @@ function PickRole(props) {
     function handlePickRole (param) {
         if (param == 1) {
             localStorage.setItem("role", "founder");
-            navigate("/founderForm");
+            navigate("/userForm");
         } else if (param == 2) {
             localStorage.setItem("role", "investor");
-            navigate("/investorType");
+            navigate("/userForm");
         } else if (param == 3){
             localStorage.setItem("role", "partner");
-            navigate("/partnerForm");
+            navigate("/userForm");
         }
     }
   return (

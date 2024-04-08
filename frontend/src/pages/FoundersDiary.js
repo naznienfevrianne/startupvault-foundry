@@ -140,7 +140,7 @@ function FounderDiary(props) {
       try {
         let response;
         if(descending){ // if udah descending bakal manggil yg ascending
-            response = await fetch("https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/7?sort=date", {
+            response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${idFounder}?sort=date`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -148,7 +148,7 @@ function FounderDiary(props) {
               }
             });
         } else{
-            response = await fetch("https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/7?sort=-date", {
+            response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${idFounder}?sort=-date`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -207,7 +207,7 @@ function FounderDiary(props) {
           return;
         }
 
-        response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/7?sort=-date&startDate=${newValue.startDate}&endDate=${newValue.endDate}`, {
+        response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${idFounder}?sort=-date&startDate=${newValue.startDate}&endDate=${newValue.endDate}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -341,7 +341,7 @@ function FounderDiary(props) {
                               Sales
                             </div>
                           </div>
-                          <input type="number" class="mt-3 block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer" placeholder=" " value={sales}onChange={(e) => setSales(e.target.value)} required />
+                          <input type="number" class="mt-3 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer" placeholder=" " value={sales}onChange={(e) => setSales(e.target.value)} required />
                         </div>
                       </div>
                       <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
@@ -358,7 +358,7 @@ function FounderDiary(props) {
                               Revenue
                             </div>
                           </div>
-                          <input type="number" class="mt-3 block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer" placeholder=" " value={revenue} onChange={(e) => setRevenue(e.target.value)} required />
+                          <input type="number" class="mt-3 block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer" placeholder=" " value={revenue} onChange={(e) => setRevenue(e.target.value)} required />
                         </div>
                       </div>
                       <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">

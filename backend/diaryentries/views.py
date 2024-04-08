@@ -46,7 +46,7 @@ class DiaryEntriesListCreate(generics.ListCreateAPIView):
         end_date = self.request.query_params.get('endDate', None)
 
         if (sort_by is not None) and (start_date is not None) and (end_date is not None):
-            return Entry.objects.all().filter(date__range=[start_date, end_date]).order_by(sort_by)
+            return Entry.objects.all().filter(founder=founderId, date__range=[start_date, end_date]).order_by(sort_by)
         elif (sort_by is not None):    
             return Entry.objects.all().filter(founder=founderId).order_by(sort_by)
 
