@@ -82,11 +82,11 @@ class FollowedFounderDiaryEntriesList(generics.ListAPIView):
         startups = FollowTable.objects.filter(investor=investor_id).values_list('startup', flat=True)
         startups_founders = Founder.objects.filter(startup__in=startups).values_list('id', flat=True)
 
-        if (sort_by is not None) and (start_date is not None) and (end_date is not None) and (startup_name is not None):
+        if (start_date is not None) and (end_date is not None) and (startup_name is not None):
             return Entry.objects.all().filter(founder__in=startups_founders, date__range=[start_date, end_date], founder__startup__name__icontains=startup_name).order_by(sort_by)
-        elif (sort_by is not None) and (startup_name is not None):    
+        elif (start_date is not None) and (end_date is not None):    
+            return Entry.objects.all().filter(founder__in=startups_founders, date__range=[start_date, end_date]).order_by(sort_by)
+        elif (startup_name is not None):
             return Entry.objects.all().filter(founder__in=startups_founders, founder__startup__name__icontains=startup_name).order_by(sort_by)
-        elif (sort_by is not None):
-            return Entry.objects.all().filter(founder__in=startups_founders).order_by(sort_by)
-
-        return Entry.objects.filter(founder__in=startups_founders)
+        else:
+            return Entry.objects.filter(founder__in=startups_founders).order_by(sort_by)
