@@ -312,26 +312,4 @@ class StartupRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         serializer.save()
         return Response(serializer.data)
 
-class InvestorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [JWTAuthentication]
-    permission_classes = [AllowAny]
-    serializer_class = InvestorSerializer
-
-    def get_queryset(self):
-        return Investor.objects.all()
-    
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
-
-    def partial_update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
-
 
