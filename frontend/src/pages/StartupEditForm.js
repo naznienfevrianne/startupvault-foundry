@@ -63,15 +63,12 @@ const StartupEditDetails = () => {
     const myCookies = new Cookies();
     const idStartup = myCookies.get('startup');
     const token = myCookies.get('token');
-    console.log(myCookies);
 
     if(idStartup){
     console.log(myCookies.get('startup'))
     }else{
     console.log("cookies does not exist.")
     }
-
-    
 
     const handleStartupLogoChange = async (e) => {
         
@@ -195,213 +192,176 @@ const StartupEditDetails = () => {
         
       };
 
-//     const handleSubmit = async () => {
-//     //   let startupLogoValid = true
-//     //   let startupNameValid = true
-//     //   let locationValid = true
-//     //   let sectorValid = true
-//     //   let descValid = true
-//     //   let pitchDeckValid = true
-//     //   let revenueValid = true
-//     //   let supportValid = true
-//     //   let websiteValid = true
-//     //   let startupLinkedinValid = true
+    const handleSubmit = async () => {
+    //   let startupLogoValid = true
+    //   let startupNameValid = true
+    //   let locationValid = true
+    //   let sectorValid = true
+    //   let descValid = true
+    //   let pitchDeckValid = true
+    //   let revenueValid = true
+    //   let supportValid = true
+    //   let websiteValid = true
+    //   let startupLinkedinValid = true
 
-//     //   if (!startupDetails.linkedin || startupDetails.linkedin < 1) {
-//     //     startupLinkedinValid = false
-//     //     setErrorMessage("Please input valid startup's linkedin link")
-//     //   }
+    //   if (!startupDetails.linkedin || startupDetails.linkedin < 1) {
+    //     startupLinkedinValid = false
+    //     setErrorMessage("Please input valid startup's linkedin link")
+    //   }
 
-//     //   if (!startupDetails.website || startupDetails.website < 4 || !startupDetails.website.includes(".")) {
-//     //     websiteValid = false
-//     //     setErrorMessage("Please input valid startup's website")
-//     //   }
+    //   if (!startupDetails.website || startupDetails.website < 4 || !startupDetails.website.includes(".")) {
+    //     websiteValid = false
+    //     setErrorMessage("Please input valid startup's website")
+    //   }
 
-//     //   if (!startupDetails.support || startupDetails.support < 4 ) {
-//     //     supportValid = false
-//     //     setErrorMessage("Please input startup's support needs")
-//     //   }
+    //   if (!startupDetails.support || startupDetails.support < 4 ) {
+    //     supportValid = false
+    //     setErrorMessage("Please input startup's support needs")
+    //   }
 
-//     //   if (!startupDetails.revenue) {
-//     //     revenueValid = false
-//     //     setErrorMessage("Please pick startup's revenue")
-//     //   }
+    //   if (!startupDetails.revenue) {
+    //     revenueValid = false
+    //     setErrorMessage("Please pick startup's revenue")
+    //   }
 
-//     //   if (!startupDetails.pitchdeck) {
-//     //     pitchDeckValid = false
-//     //     setErrorMessage("Please upload startup's pitchdeck")
-//     //   }
+    //   if (!startupDetails.pitchdeck) {
+    //     pitchDeckValid = false
+    //     setErrorMessage("Please upload startup's pitchdeck")
+    //   }
 
-//     //   if (!startupDetails.sector) {
-//     //     sectorValid = false
-//     //     setErrorMessage("Please pick startup's sector")
-//     //   }
-//     //   if (!startupDetails.location) {
-//     //     locationValid = false
-//     //     setErrorMessage("Please input startup's location")
-//     //   } 
+    //   if (!startupDetails.sector) {
+    //     sectorValid = false
+    //     setErrorMessage("Please pick startup's sector")
+    //   }
+    //   if (!startupDetails.location) {
+    //     locationValid = false
+    //     setErrorMessage("Please input startup's location")
+    //   } 
 
-//     //   if (!startupDetails.startupName) {
-//     //     startupNameValid = false
-//     //     setErrorMessage("Please input startup's name")
-//     //   }
+    //   if (!startupDetails.startupName) {
+    //     startupNameValid = false
+    //     setErrorMessage("Please input startup's name")
+    //   }
 
-//     //   if (!startupDetails.startupLogo) {
-//     //     startupLogoValid = false
-//     //     setErrorMessage("Please upload startup's logo")
-//     //   }
+    //   if (!startupDetails.startupLogo) {
+    //     startupLogoValid = false
+    //     setErrorMessage("Please upload startup's logo")
+    //   }
 
-//     //   console.log(startupLogoValid);
-//     //   console.log(startupNameValid);
-//     //   console.log(locationValid);
-//     //   console.log(sectorValid);
-//     //   console.log(descValid);
-//     //   console.log(pitchDeckValid);
-//     //   console.log(revenueValid);
-//     //   console.log(supportValid);
-//     //   console.log(websiteValid);
-//     //   console.log(startupLinkedinValid);
+    //   console.log(startupLogoValid);
+    //   console.log(startupNameValid);
+    //   console.log(locationValid);
+    //   console.log(sectorValid);
+    //   console.log(descValid);
+    //   console.log(pitchDeckValid);
+    //   console.log(revenueValid);
+    //   console.log(supportValid);
+    //   console.log(websiteValid);
+    //   console.log(startupLinkedinValid);
 
-//     //   if(!startupLogoValid){
-//     //     startupLogoValid = true
+    //   if(!startupLogoValid){
+    //     startupLogoValid = true
         
-//     //   }
+    //   }
 
-//     //   if (!startupLogoValid || !startupNameValid || !locationValid || !sectorValid
-//     //     || !descValid || !pitchDeckValid || !revenueValid || !supportValid
-//     //     || !websiteValid || !startupLinkedinValid){
-//     //     startupLogoValid = true
-//     //     startupName = startupDetails.name;
-//     //     startupNameValid = true
-//     //     startupLogo = startupDetails.image;
-//     //     locationValid = true
-//     //     location = startupDetails.location;
-//     //     sectorValid = true
-//     //     descValid = true
-//     //     pitchDeckValid = true
-//     //     revenueValid = true
-//     //     supportValid = true
-//     //     websiteValid = true
-//     //     startupLinkedinValid = true
+    //   if (!startupLogoValid || !startupNameValid || !locationValid || !sectorValid
+    //     || !descValid || !pitchDeckValid || !revenueValid || !supportValid
+    //     || !websiteValid || !startupLinkedinValid){
+    //     startupLogoValid = true
+    //     startupName = startupDetails.name;
+    //     startupNameValid = true
+    //     startupLogo = startupDetails.image;
+    //     locationValid = true
+    //     location = startupDetails.location;
+    //     sectorValid = true
+    //     descValid = true
+    //     pitchDeckValid = true
+    //     revenueValid = true
+    //     supportValid = true
+    //     websiteValid = true
+    //     startupLinkedinValid = true
     
-//     //   }
+    //   }
 
-//     //   console.log(startupLogoValid);
-//     //   console.log(startupNameValid);
-//     //   console.log(locationValid);
-//     //   console.log(sectorValid);
-//     //   console.log(descValid);
-//     //   console.log(pitchDeckValid);
-//     //   console.log(revenueValid);
-//     //   console.log(supportValid);
-//     //   console.log(websiteValid);
-//     //   console.log(startupLinkedinValid);
+    //   console.log(startupLogoValid);
+    //   console.log(startupNameValid);
+    //   console.log(locationValid);
+    //   console.log(sectorValid);
+    //   console.log(descValid);
+    //   console.log(pitchDeckValid);
+    //   console.log(revenueValid);
+    //   console.log(supportValid);
+    //   console.log(websiteValid);
+    //   console.log(startupLinkedinValid);
 
 
-//     //   if ( startupLogoValid && startupNameValid && locationValid && sectorValid && descValid && pitchDeckValid 
-//     //     && revenueValid && supportValid && websiteValid && startupLinkedinValid) {
+    //   if ( startupLogoValid && startupNameValid && locationValid && sectorValid && descValid && pitchDeckValid 
+    //     && revenueValid && supportValid && websiteValid && startupLinkedinValid) {
 
-//           try {
-//             // const storedValue = localStorage.getItem("name");
+          try {
+            // const storedValue = localStorage.getItem("name");
 
-//             // // Remove all spaces from the stored value
-//             // const valueWithoutSpaces = storedValue.replace(/\s/g, '');
+            // // Remove all spaces from the stored value
+            // const valueWithoutSpaces = storedValue.replace(/\s/g, '');
 
-//             // const fileName = valueWithoutSpaces + "/" + generateRandomString(25)
+            // const fileName = valueWithoutSpaces + "/" + generateRandomString(25)
   
-//             console.log("before: ", startupDetails)
-//             console.log( JSON.stringify(startupDetails))
+            console.log( JSON.stringify(startupDetails))
           
-//           const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`, {
-//             method: "PUT",
-//             headers: {
-//                 "Content-Type": "application/json",
-//                 'Authorization': 'Bearer ' + token,
-//                 "Host": "startupvault-foundry.vercel.app",
-//             },
-//             body: JSON.stringify(startupDetails),
-//             });
-//             if (!response.ok) {
-//                 console.log("data not updated");
-//                 throw new Error("Failed to update data");
-                
-//             }else{
-//                 console.log("data updated");
-//             }
-//             console.log("Data updated successfully");
-//             console.log("Navigating to /startupReadForm...");
-//             navigate('/startupReadForm');
-                
-    
-//             if (response.ok) {
-//               const data = await response.json();
-//               alert("Submission successful!");
-//               console.log(data);
-              
-//             } else {
-//               const jsonData = await response.json();
-//                 console.log(jsonData);
-                
-//             }  
-//         } catch (error) {
-//             console.error("Error:", error);
-//             console.log("tes error1");
-//             alert("Error: " + error.message);
-//             console.log("tes error");
-//         }
-
-
-      
-//   };
-const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
-    try {
-        const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`, {
+          const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                'Authorization': `Bearer ${token}`,
+                'Authorization': 'Bearer ' + token
             },
             body: JSON.stringify(startupDetails),
-        });
-
-        if (!response.ok) {
-            const errorData = await response.text(); // Or response.json() if the server responds with JSON
-            throw new Error(`Failed to update data: ${response.status} ${response.statusText} - ${errorData}`);
+            });
+            if (!response.ok) {
+                console.log("data not updated");
+                throw new Error("Failed to update data");
+                
+            }else{
+                console.log("data updated");
+            }
+            console.log("Data updated successfully");
+            console.log("Navigating to /startupReadForm...");
+            navigate('/startupReadForm');
+                
+    
+            if (response.ok) {
+              const data = await response.json();
+              alert("Submission successful!");
+              console.log(data);
+              
+            } else {
+              const jsonData = await response.json();
+                console.log(jsonData);
+                
+            }  
+        } catch (error) {
+            console.error("Error:", error);
+            console.log("tes error1");
+            alert("Error: " + error.message);
+            console.log("tes error");
         }
 
-        console.log("Data updated successfully");
-        navigate('/startupReadForm');
-    } catch (error) {
-        console.error("Error during fetch operation:", error);
-        alert("Error: " + error.message);
-    }
-};
 
+      
+  };
   
 
     const StartupSectorSelector = (option) => {
-        const updatedSector = [...sector];
-
-         if (updatedSector.includes(option)) {
-        // Removing the option if it's already in the sector array
-            updatedSector.splice(updatedSector.indexOf(option), 1);
+        if (sector.includes(option)) {
+            setSector(sector.filter(item => item !== option));
         } else {
-            // Adding the option if it's not already in the sector array
-            updatedSector.push(option);
+            setSector([...sector, option]);
         }
 
-        // Updating the state with the modified sector array
-        setSector(updatedSector);
-
-        // Updating startupDetails with the new sector value
+        console.log(sector);
         setStartupDetails({
             ...startupDetails,
-            sector: updatedSector.join(","),
-        });
-
-    // Logging the updated sector
-        console.log(updatedSector);
+            sector: sector, // Update the image property with the new value
+          });
 
     };
     const TypeRadioSelector = (option) => {

@@ -11,6 +11,7 @@ import{ Cookies } from 'react-cookie';
 const myCookies = new Cookies();
 const isLogin = myCookies.get('login')
 const token = myCookies.get('token')
+const idCookies = myCookies.get('id')
 
 
 const NavbarItem = ({ children, href }) => (
@@ -191,6 +192,10 @@ const Likes = ({ LikedPost, user, initialLikes, isInitiallyLiked }) => {
   }, [initialLikes, isInitiallyLiked]);
 
   const toggleLike = async () => {
+    console.log(JSON.stringify({
+      "post": LikedPost,  // Assuming this is the ID of the post to be liked/unliked
+      "user": idCookies,  // Assuming this is the ID of the user performing the action
+    }))
     const response = await fetch("https://startupvault-foundry.vercel.app/showcase/toggle_like/", {
       method: 'POST',
       headers: {
@@ -199,7 +204,7 @@ const Likes = ({ LikedPost, user, initialLikes, isInitiallyLiked }) => {
       },
       body: JSON.stringify({
         "post": LikedPost,  // Assuming this is the ID of the post to be liked/unliked
-        "user": user,  // Assuming this is the ID of the user performing the action
+        "user": idCookies,  // Assuming this is the ID of the user performing the action
       })
     });
 

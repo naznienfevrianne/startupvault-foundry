@@ -133,8 +133,7 @@ const FounderDetails = () => {
   
   const handleUpdate = async () => {
  
-    console.log( JSON.stringify(founderDetails))
-
+    console.log("before: ", founderDetails)
     
     try {
         const response = await fetch(`https://startupvault-foundry.vercel.app/auth/founder/${idFounder}/`, {
