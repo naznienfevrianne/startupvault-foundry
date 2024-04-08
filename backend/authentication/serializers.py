@@ -26,3 +26,15 @@ class StartupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Startup
         fields = '__all__'
+        
+class InvestorOrganizationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InvestorOrganization
+        fields = '__all__'
+        
+class PartnerOrganizationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PartnerOrganization
+        fields = '__all__'
+        
+        
