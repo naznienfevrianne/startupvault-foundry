@@ -24,6 +24,7 @@ import InvestorForm from './pages/InvestorForm';
 import MOUSubmission from './pages/MOUSubmission';
 import PartnerForm from './pages/PartnerForm';
 import StartupEditDetails from './pages/StartupEditForm';
+import InvestorDashboard from './pages/InvestorDashboard';
 import UserForm from './pages/UserForm';
 import InvestorDetails from './pages/InvestorDetails';
 
@@ -50,6 +51,7 @@ function App() {
                 <Route path="/partnerForm" element={<PartnerForm/>} />
                 <Route path="/MOUSubmission" element={<MOUSubmission />} />
                 <Route path="/investorType" element={<InvestorType/>} />
+                <Route path="/dashboardInvestor" element={<InvestorDashboard/>} />
                 {isAuthenticated && isVerified === 1 ? (
                     <React.Fragment>
                     <Route path="/founderReadForm" element={<FounderReadForm />} />
