@@ -26,6 +26,8 @@ import PartnerForm from './pages/PartnerForm';
 import StartupEditDetails from './pages/StartupEditForm';
 import InvestorDashboard from './pages/InvestorDashboard';
 import UserForm from './pages/UserForm';
+import InvestorDetails from './pages/InvestorDetails';
+
 function App() {
 
 
@@ -56,11 +58,11 @@ function App() {
                     <Route path="/founderEditForm" element={<FounderEditForm />} />
                     <Route path="/startupReadForm" element={<StartupReadForm />} />
                     <Route path="/startupEditForm" element={<StartupEditForm />} />
-           
                     <Route path="/dashboard" element={<FounderDashboard />} />
                     <Route path="/diary" element={<FounderDiary />}/>
                     <Route path="/cookies" element={<CookieDisplay />} />
                     <Route path="/startupEditForm" element={<StartupEditDetails />} />
+                    <Route path="/investorDetails" element={<InvestorDetails />} />
                     </React.Fragment>
                 ) : (
                     <React.Fragment>
