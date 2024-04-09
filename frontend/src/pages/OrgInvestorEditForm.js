@@ -2,34 +2,70 @@ import * as React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createClient } from "@supabase/supabase-js";
+import NavBar from "../component/NavBar";
+import { useCookies, Cookies } from 'react-cookie';
+import { useEffect } from "react";
 
 
-function InvestorForm(props) {
-    
-    const storedInvestorLogo = localStorage.getItem("investorLogo") | "";
-    const [investorLogo, setInvestorLogo]= useState(storedInvestorLogo);
-    const storedInvestorName = localStorage.getItem("investorName") || "";
-    const [investorName, setInvestorName] = useState(storedInvestorName);
-    const storedInvestorLocation = localStorage.getItem("investorLocation") || "";
-    const [investorLocation, setInvestorLocation] = useState(storedInvestorLocation);
-    const storedInvestorDescription = localStorage.getItem("investorDescription") || "";
-    const [investorDescription, setInvestorDescription] = useState(storedInvestorDescription);
-    const storedInvestorSector = [];
-    const [investorSector, setInvestorSector] = useState([]);
-    const storedTicketSize = localStorage.getItem("ticketSize")
-    const [ticketSize, setTicketSize] = useState(storedTicketSize)
-    const storedStage = [];
-    const [stage, setStage] = useState([])
-    const storedInvestorSupport = []
-    const [investorSupport, setInvestorSupport] = useState([])
-    const storedInvestorWebsite = localStorage.getItem("investorWebsite") || "";
-    const [investorWebsite, setInvestorWebsite] = useState(storedInvestorWebsite);
-    const storedInvestorLinkedin = localStorage.getItem("investorLinkedin") || "";
-    const [investorLinkedin, setInvestorLinkedin] = useState(storedInvestorLinkedin);
-    const navigate = useNavigate();
-    const supabaseUrl= "https://yitzsihwzshujgebmdrg.supabase.co";
+function OrgInvestorEditForm(props) {
+  const myCookies = new Cookies();
+  console.log(myCookies)
+  const investorOrganization = myCookies.get('investorOrganization')
+  const [investorLogo, setInvestorLogo] = useState('');
+  const [investorName, setInvestorName] = useState('');
+  const [logoUrl, setLogoUrl] = useState('');
+  const [investorLocation, setInvestorLocation] = useState('');
+  const [investorDescription, setInvestorDescription] = useState('');
+  const [investorSector, setInvestorSector] = useState([]);
+  const [ticketSize, setTicketSize] = useState('');
+  const [stage, setStage] = useState([]);
+  const [investorSupport, setInvestorSupport] = useState([]);
+  const [investorWebsite, setInvestorWebsite] = useState('');
+  const [investorLinkedin, setInvestorLinkedin] = useState('');
+  const navigate = useNavigate();
+  const supabaseUrl= "https://yitzsihwzshujgebmdrg.supabase.co";
     const supabaseKey= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpdHpzaWh3enNodWpnZWJtZHJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc1MzQyMjYsImV4cCI6MjAyMzExMDIyNn0.vDEP-XQL4BKAww7l_QW1vsQ4dZCM5GknBPACrgPXfKA"
-    const supabase = createClient(supabaseUrl, supabaseKey);
+  const supabase = createClient(supabaseUrl, supabaseKey);
+  let logoChanged = false
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/auth/investororg/' + investorOrganization, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const jsonData = await response.json();
+        console.log(jsonData)
+
+        const sectors = jsonData.sector ? jsonData.sector.split(',').map(item => item.trim()) : [];
+        const stages = jsonData.stage ? jsonData.stage.split(',').map(item => item.trim()) : [];
+        const support = jsonData.support ? jsonData.support.split(',').map(item => item.trim()) : [];
+        // Set the fetched data to state
+        
+        setInvestorLogo(jsonData.logo);
+        setInvestorName(jsonData.name || '');
+        setInvestorLocation(jsonData.location || '');
+        setInvestorDescription(jsonData.desc || '');
+        setInvestorSector(sectors);
+        setTicketSize(jsonData.ticket || '');
+        setStage(stages);
+        setInvestorSupport(support);
+        setInvestorWebsite(jsonData.website || '');
+        setInvestorLinkedin(jsonData.linkedin || '');
+        setLogoUrl(jsonData.logo)
+      } catch (error) {
+        alert(error.message)
+      }
+    };
+    fetchData();
+  }, [investorOrganization]);
+
     
     const options = [
         ['Technology and SaaS', 'E-commerce and Marketplaces', 'HealthTech and MedTech', 'FinTech', 'CleanTech and Sustainability'], // Column 1
@@ -71,8 +107,11 @@ function InvestorForm(props) {
         if (error) {
             console.error('Error uploading profilePicture:', error.message);
         } else {
+
             console.log('Image uploaded successfully:', data);
-            
+            alert("SUCCESS! " + logoUrl)
+            console.log("blob ", logoUrl)
+            console.log("investor logo in local INI DIA", localStorage.getItem("investorLogo"))
             return supabaseUrl + "/storage/v1/object/public/investorlogo/" + fileName;
         }
         })
@@ -81,27 +120,7 @@ function InvestorForm(props) {
         });
       }
 
-      const uploadUserImg = (fileName) => {
-        fetch(localStorage.getItem("profilePicture"))
-        .then(response => response.blob())
-        .then(async blob => {
-        // Upload the image to Supabase Storage
-        const { data, error } = supabase.storage
-            .from('userimg')
-            .upload(fileName, blob);
-
-        if (error) {
-            console.error('Error uploading profilePicture:', error.message);
-        } else {
-            console.log('Image uploaded successfully:', data);
-            
-            return supabaseUrl + "/storage/v1/object/public/userimg/" + fileName;
-        }
-        })
-        .catch(error => {
-        console.error('profilePicture fetching image from localhost:', error);
-        });
-      }
+      
     const handleSubmit = async () => {
       let investorLogoValid = true
       let investorNameValid = true
@@ -166,7 +185,6 @@ function InvestorForm(props) {
       if ( investorLogoValid && investorNameValid && investorLocationValid && investorDescriptionValid &&
          investorSectorValid && stageValid && supportValid && investorWebsiteValid && investorLinkedinValid) {
           setErrorMessage("")
-          localStorage.setItem("investorLogo", investorLogo)
           localStorage.setItem("investorName", investorName)
           localStorage.setItem("investorLocation", investorLocation)
           localStorage.setItem("investorDescription", investorDescription)
@@ -178,20 +196,9 @@ function InvestorForm(props) {
           localStorage.setItem("investorLinkedin", investorLinkedin)
           try {
 
-
-            const storedValue = localStorage.getItem("investorName");
-            // Remove all spaces from the stored value
-            const valueWithoutSpaces = storedValue.replace(/\s/g, '');
-            const fileName = valueWithoutSpaces + "/" + generateRandomString(25)
-
-            const investorLogoUrl = uploadInvestorImg(fileName)
-            const userimgURL = uploadUserImg(fileName)
-            console.log("User Image URL:", userimgURL);
-            console.log("investor Logo URL:", investorLogoUrl);
             console.log("user img in local ", localStorage.getItem("profilePicture"))
             console.log("investor logo in local", localStorage.getItem("investorLogo"))
             console.log(JSON.stringify({
-              "typ": localStorage.getItem("investorType"),
               "location": localStorage.getItem("investorLocation"),
               "desc": localStorage.getItem("investorDescription"),
               "sector": localStorage.getItem("investorSector"),
@@ -200,16 +207,15 @@ function InvestorForm(props) {
               "support": localStorage.getItem("investorSupport"),
               "website": localStorage.getItem("investorWebsite"),
               "linkedin": localStorage.getItem("investorLinkedin"),
-              "logo": supabaseUrl + "/storage/v1/object/public/investorlogo/" + fileName,
+              "logo": logoUrl,
               "name": localStorage.getItem("investorName")
           }))
-            const response = await fetch("http://localhost:8000/auth/investororg/", {
-                method: 'POST',
+            const response = await fetch("http://localhost:8000/auth/investororg/" + investorOrganization, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    "typ": localStorage.getItem("investorType"),
                     "location": localStorage.getItem("investorLocation"),
                     "desc": localStorage.getItem("investorDescription"),
                     "sector": localStorage.getItem("investorSector"),
@@ -218,7 +224,7 @@ function InvestorForm(props) {
                     "support": localStorage.getItem("investorSupport"),
                     "website": localStorage.getItem("investorWebsite"),
                     "linkedin": localStorage.getItem("investorLinkedin"),
-                    "logo": supabaseUrl + "/storage/v1/object/public/investorlogo/" + fileName,
+                    "logo": logoUrl,
                     "name": localStorage.getItem("investorName")
                 })
             })
@@ -226,36 +232,7 @@ function InvestorForm(props) {
             if (response.ok) {
               const data = await response.json();
               alert("Submission successful!");
-              console.log(data);
-              const pk = data.id
-              const responseInvestor = await fetch("http://localhost:8000/auth/investor/", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                  
-                    "email": localStorage.getItem("email"),
-                    "role": "investor",
-                    "password": localStorage.getItem("password"),
-                    "isVerified": 0,
-                    "image": supabaseUrl + "/storage/v1/object/public/userimg/" + fileName, // profile picture
-                    "linkedin": "https://linkedin.com/" + localStorage.getItem("linkedin"),
-                    "name": localStorage.getItem("name"),
-                    "phoneNumber": localStorage.getItem("phoneNumber"),
-                    "investorOrganization": pk
-                })
-            })
-            if (!responseInvestor.ok) {
-              const investorJsonData = await responseInvestor.json();
-              console.log(investorJsonData);
-            } else {
-              const investorJsonData = await responseInvestor.json();
-              alert("Submission successful!");
-              console.log(investorJsonData);
-              localStorage.clear()
-              navigate("/login")
-            }
+              navigate("/orgInvestorReadForm")
             } else {
               const jsonData = await response.json();
                 console.log(jsonData);
@@ -271,15 +248,15 @@ function InvestorForm(props) {
   
   
 
-    async function handleInvestorLogoChange (e) {
-
+    const handleInvestorLogoChange = async (e) => {
         let file = e.target.files[0]
         const imageUrl = URL.createObjectURL(file)
-        console.log("ini imagenya")
-        console.log(imageUrl)
         setInvestorLogo(imageUrl);
-        localStorage.setItem("investorLogo", imageUrl);
-        
+        const valueWithoutSpaces = investorName.replace(/\s/g, '');
+        const fileName = valueWithoutSpaces + "/" + generateRandomString(25)
+        localStorage.setItem("investorLogo", imageUrl)
+        setLogoUrl(supabaseUrl + "/storage/v1/object/public/investorlogo/" + fileName)
+        const url = await uploadInvestorImg(fileName);
     };
     const InvestorSectorSelector = (option) => {
         if (investorSector.includes(option)) {
@@ -309,22 +286,15 @@ function InvestorForm(props) {
     
   return (
     <>
-    <div className="flex flex-col justify-center pb-4 bg-black min-h-screen">
-      <div className="flex justify-center items-center px-32 py-6 w-full max-md:px-5 max-md:max-w-full">
+    <div className="flex flex-col justify-center pb-4 bg-black min-h-screen px-20">
+      <NavBar />
+      <div className="flex justify-center items-center px-0 py-6 w-full max-md:px-5 max-md:max-w-full">
         <div className="flex flex-col mt-0 mb-8 w-full max-w-[1120px] max-md:my-10 max-md:max-w-full">
           <div className="flex gap-5 justify-between w-full max-md:flex-wrap max-md:max-w-full">
             <div className="flex flex-col max-md:max-w-full">
-              <div className="text-xs tracking-wide text-neutral-400 max-md:max-w-full">
-                To set up your organization’s public profile
+              <div className="mt-0 text-3xl font-semibold tracking-wider leading-[70.8px] text-stone-100 max-md:max-w-full max-md:text-4xl">
+               Public profile
               </div>
-              <div className="mt-0 text-5xl font-semibold tracking-wider leading-[70.8px] text-stone-100 max-md:max-w-full max-md:text-4xl">
-                TELL US MORE ABOUT YOUR ORGANIZATION
-              </div>
-            </div>
-            <div className="flex gap-2.5 my-auto">
-              <div className="w-3.5 bg-green-900 rounded-full h-[15px] stroke-[1px]" />
-              <div className="w-3.5 bg-green-900 rounded-full h-[15px] stroke-[1px]" />
-              <div className="w-3.5 bg-green-400 rounded-full h-[15px] stroke-[1px]" />
             </div>
           </div>
           <div className="flex gap-5 justify-between self-start mt-2">
@@ -484,17 +454,6 @@ function InvestorForm(props) {
             )}
           <div className="flex gap-5 justify-between mt-6 w-full text-l font-semibold tracking-widest whitespace-nowrap max-md:flex-wrap max-md:max-w-full">
             <div 
-            onClick = {handlePrevious}
-            type="button"
-            className="flex gap-2.5 justify-between px-3 py-2 rounded-3xl border-solid border-[1.048px] border-[color:var(--secondary-button-outline,#F3F1ED)] text-stone-100 hover:border-green-600 border-solid cursor-pointer">
-              <img
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/1490109502cde58f41daf764ada1e96816a28eb0bdf60fae2f6faa1f38c7c09d?apiKey=b1a4c3002d354a0a9e5d1136f5930ee4&"
-                className="w-6 aspect-square"
-              />
-              <div>PREV</div>
-            </div>
-            <div 
             onClick = {handleSubmit}
             type="button"
             className="flex gap-2.5 justify-between px-3 py-2 text-black bg-green-400 rounded-3xl hover:border-green-600 border-solid cursor-pointer">
@@ -512,4 +471,5 @@ function InvestorForm(props) {
     </>
   );
 }
-export default InvestorForm;
+export default OrgInvestorEditForm;
+
