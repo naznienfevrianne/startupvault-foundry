@@ -27,6 +27,8 @@ import StartupEditDetails from './pages/StartupEditForm';
 import InvestorDashboard from './pages/InvestorDashboard';
 import UserForm from './pages/UserForm';
 import InvestorDetails from './pages/InvestorDetails';
+import UpdateInvestorDetails from './pages/UpdateInvestorDetails';
+
 
 function App() {
 
@@ -63,6 +65,7 @@ function App() {
                     <Route path="/cookies" element={<CookieDisplay />} />
                     <Route path="/startupEditForm" element={<StartupEditDetails />} />
                     <Route path="/investorDetails" element={<InvestorDetails />} />
+                    <Route path="/updateInvestorDetails" element={<UpdateInvestorDetails />} />
                     </React.Fragment>
                 ) : (
                     <React.Fragment>
