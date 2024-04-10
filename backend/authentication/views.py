@@ -81,6 +81,16 @@ class StartupListCreate(generics.ListCreateAPIView):
     queryset = Startup.objects.all()
     serializer_class = StartupSerializer
     
+class InvestorOrganizationListCreate(generics.ListCreateAPIView):
+    permission_classes = [AllowAny]
+    queryset = InvestorOrganization.objects.all()
+    serializer_class = InvestorOrganizationSerializer
+    
+class PartnerOrganizationListCreate(generics.ListCreateAPIView):
+    permission_classes = [AllowAny]
+    queryset = PartnerOrganization.objects.all()
+    serializer_class = PartnerOrganizationSerializer
+    
 @csrf_exempt
 def login(request):
     if request.method == 'POST':
@@ -154,6 +164,105 @@ def test_token(request):
         print("Invalid token")
     return JsonResponse({"message": "pass"}, status=200)
 
+class InvestorOrganizationRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    # permission_classes = [JWTAuthentication] 
+    permission_classes = [AllowAny]
+    serializer_class = InvestorOrganizationSerializer
+
+    def get_queryset(self):
+        # Only allow the authenticated user to retrieve and update their own startup information
+        # pake pas udah ada token login
+        # return Founder.objects.filter(user=self.request.user)
+        return InvestorOrganization.objects.all()
+    
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    
+class PartnerOrganizationRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    # permission_classes = [JWTAuthentication] 
+    permission_classes = [AllowAny]
+    serializer_class = PartnerOrganizationSerializer
+
+    def get_queryset(self):
+        # Only allow the authenticated user to retrieve and update their own startup information
+        # pake pas udah ada token login
+        # return Founder.objects.filter(user=self.request.user)
+        return PartnerOrganization.objects.all()
+    
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+class InvestorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    # permission_classes = [JWTAuthentication] 
+    permission_classes = [AllowAny]
+    serializer_class = InvestorSerializer
+
+    def get_queryset(self):
+        # Only allow the authenticated user to retrieve and update their own startup information
+        # pake pas udah ada token login
+        # return Founder.objects.filter(user=self.request.user)
+        return Investor.objects.all()
+    
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+class PartnerOrganizationRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    # permission_classes = [JWTAuthentication] 
+    permission_classes = [AllowAny]
+    serializer_class = PartnerSerializer
+
+    def get_queryset(self):
+        # Only allow the authenticated user to retrieve and update their own startup information
+        # pake pas udah ada token login
+        # return Founder.objects.filter(user=self.request.user)
+        return Partner.objects.all()
+    
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
         
 class FounderRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     # permission_classes = [JWTAuthentication] 
@@ -210,6 +319,5 @@ class TopStartupRetriever(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Startup.objects.all()
-
 
 
