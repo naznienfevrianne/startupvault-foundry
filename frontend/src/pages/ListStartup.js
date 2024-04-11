@@ -94,13 +94,28 @@ const ListStartup = () => {
           <div className="flex flex-col p-6 mt-6 max-w-full rounded-lg bg-neutral-800 w-[822px] max-md:px-5">
             <div className="flex gap-5 justify-between w-full max-md:flex-wrap max-md:max-w-full">
               <div className="flex gap-5 justify-between">
-                <div className="flex justify-center items-center px-4 py-3.5 rounded-md bg-green-400 bg-opacity-20 h-[69px] w-[69px]">
+                {/* <div className="flex justify-center items-center px-4 py-3.5 rounded-md bg-green-400 bg-opacity-20 h-[69px] w-[69px]">
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/4fe89fd4bfc24bd6fe10001ef6745d29dfc88ea91b8b532ed8089fdbeaaa7558?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
                     className="aspect-square w-[39px]"
+                    default image
                   />
+                </div> */} 
+                { startup.image? (
+                <div className="flex justify-center items-center px-4 py-3.5 rounded-md bg-green-400 bg-opacity-20 h-[69px] w-[69px]"
+                style={{ backgroundImage: `url(${startup.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                >
+                    </div>
+                 ) : (
+                <div className="flex justify-center items-center px-4 py-3.5 rounded-md bg-green-400 bg-opacity-20 h-[69px] w-[69px]">
+                <img
+                    loading="lazy"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/4fe89fd4bfc24bd6fe10001ef6745d29dfc88ea91b8b532ed8089fdbeaaa7558?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
+                    className="aspect-square w-[39px]"
+                />
                 </div>
+                )}
                 <div className="flex flex-col whitespace-nowrap">
                   <div className="flex gap-1 pr-3.5 text-2xl font-semibold tracking-wide text-stone-100">
                     <div>{startup.name}</div>
@@ -163,7 +178,7 @@ const ListStartup = () => {
                     Industry
                   </div>
                 </div>
-                <div className="mt-2 text-lg tracking-wide text-ellipsis text-neutral-400">
+                <div className="mt-2 text-base tracking-wide text-ellipsis text-neutral-400">
                 {startup.sector}
                 </div>
               </div>
