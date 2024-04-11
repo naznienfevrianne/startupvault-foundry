@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Founder, Entry
+from .models import Founder, Entry, FollowTable
 
 class FounderEntrySerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,3 +23,9 @@ class FollowedFounderEntrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Entry
         fields = ["id", "sales", "revenue", "user", "lessonLearned", "founder", "date", "startup", "startup_type", "startup_image"]
+
+class FollowTableSer(serializers.ModelSerializer):
+    startup_name = serializers.CharField(source='startup.name', read_only=True)
+    class Meta:
+        model = FollowTable
+        fields = ["startup_name"]
