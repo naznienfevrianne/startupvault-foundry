@@ -27,9 +27,10 @@ import StartupEditDetails from './pages/StartupEditForm';
 import InvestorDashboard from './pages/InvestorDashboard';
 import UserForm from './pages/UserForm';
 import InvestorDetails from './pages/InvestorDetails';
+import UpdateInvestorDetails from './pages/UpdateInvestorDetails';
+import Follow from './pages/Follow';
 
 function App() {
-
 
 
     const myCookies = new Cookies()
@@ -63,6 +64,8 @@ function App() {
                     <Route path="/cookies" element={<CookieDisplay />} />
                     <Route path="/startupEditForm" element={<StartupEditDetails />} />
                     <Route path="/investorDetails" element={<InvestorDetails />} />
+                    <Route path="/updateInvestorDetails" element={<UpdateInvestorDetails />} />
+                    <Route path="/follow" element={<Follow />} />
                     </React.Fragment>
                 ) : (
                     <React.Fragment>

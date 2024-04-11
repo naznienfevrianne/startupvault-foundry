@@ -1,12 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from rest_framework.views import APIView
+
 from .models import Founder, Entry, FollowTable, Startup
 from .serializers import MetricSerializer, FounderEntrySerializer, EntrySerializer, FollowedFounderEntrySerializer, FollowTableSer
-from rest_framework import generics, filters
-from rest_framework.permissions import AllowAny
+from rest_framework import generics, filters, status
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from datetime import datetime, timedelta
 from django.utils import timezone
+from rest_framework.response import Response
 from authentication.views import JWTAuthentication
 import django_filters
+from authentication.models import UserModel
+from authentication.models import Investor
 
 
 class MetricsRetrieve(generics.RetrieveAPIView):
@@ -102,3 +107,54 @@ class FollowingList(generics.ListAPIView):
         investorId = self.kwargs["investor"]
 
         return FollowTable.objects.filter(investor_id=investorId)
+class ToggleFollowView(APIView):
+    permission_classes = [AllowAny]
+
+    def get_serializer_class(self):
+        # Workaround to satisfy DRF requirements without using a serializer
+        return None
+
+    def post(self, request, *args, **kwargs):
+        startup_id = request.data.get('startup')
+        investor_id = request.data.get('investor')
+
+        print("Received startup_id:", request.data.get('startup'))  # Debugging line
+        print("Received investor_id:", request.data.get('investor'))  # Debugging line
+        # The rest of your method...
+
+        startup = get_object_or_404(Startup, id=startup_id)
+        investor = get_object_or_404(Investor, id=investor_id)
+
+        if FollowTable.objects.filter(startup=startup, investor=investor).exists():
+            # Unfollow
+            follow = FollowTable.objects.get(startup=startup, investor=investor)
+            follow.delete()
+            action = 'Unfollowed'
+        else:
+            # Follow
+            FollowTable.objects.create(startup=startup, investor=investor)
+            action = 'Followed'
+
+        total_followers = FollowTable.objects.filter(startup_id=startup_id).count()
+
+        return Response({'message': f'{action} the startup.', 'follow_status': action, 'total_followers': total_followers}, status=status.HTTP_200_OK)
+class TotalFollowersView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, startup_id):
+        total_followers = FollowTable.objects.filter(startup_id=startup_id).count()
+        return Response({'total_followers': total_followers})
+
+class CheckFollowView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        startup_id = request.query_params.get('startup_id')
+        investor_id = request.query_params.get('investor_id')
+
+        if not startup_id or not investor_id:
+            return Response({'error': 'Startup ID and Investor ID are required'}, status=400)
+
+        # Assuming startup_id and investor_id are valid and exist
+        is_following = FollowTable.objects.filter(startup_id=startup_id, investor_id=investor_id).exists()
+
+        return Response({'is_following': is_following})
