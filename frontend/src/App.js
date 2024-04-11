@@ -27,6 +27,7 @@ import StartupEditDetails from './pages/StartupEditForm';
 import ListStartup from './pages/ListStartup';
 import UserForm from './pages/UserForm';
 import InvestorDetails from './pages/InvestorDetails';
+import StartupDetails from './pages/ReadStartupDetails';
 
 function App() {
 
@@ -58,6 +59,7 @@ function App() {
                     <Route path="/startupReadForm" element={<StartupReadForm />} />
                     <Route path="/startupEditForm" element={<StartupEditForm />} />
                     <Route path="/listStartup" element={<ListStartup />} />
+                    <Route path="/startupDetails/:idStartup" element={<StartupDetails />} />
            
                     <Route path="/dashboard" element={<FounderDashboard />} />
                     <Route path="/diary" element={<FounderDiary />}/>

@@ -13,7 +13,7 @@ class UserModel(models.Model):
     image = models.TextField() # profile picture
     name = models.CharField(max_length = 255)
     linkedin = models.URLField()
-    phoneNumber = models.CharField(max_length=12, default="")
+    phoneNumber = models.CharField(max_length=16, default="")
     rejectionNote = models.CharField(max_length = 255, blank=True, default="")
 
     def __str__(self):

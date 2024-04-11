@@ -3,20 +3,10 @@ import{ Cookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import NavBar from '../component/NavBar';
 
-const MenuItem = ({ src, alt, children }) => (
-  <div className="flex gap-2 self-start mt-10 whitespace-nowrap max-md:ml-2.5">
-    <img loading="lazy" src={src} alt={alt} className="shrink-0 w-8 aspect-square" />
-    <div className="grow my-auto">{children}</div>
-  </div>
-);
-
 const ListStartup = () => {
 
-    // const [founderDetails, setFounderDetails] = useState("");
-    // const storedProfilePicture = localStorage.getItem("image") || '';
-    // const [profilePicture, setProfilePicture] = useState(storedProfilePicture);
     const myCookies = new Cookies();
-    // const idFounder = myCookies.get('id');
+    
     const token = myCookies.get('token');
     const [startups, setStartups] = useState([]);
     console.log(startups);
@@ -58,7 +48,7 @@ const ListStartup = () => {
       <main className="px-px pb-20 w-full max-md:max-w-full">
       <aside className="flex gap-5 max-md:flex-col max-md:gap-0">
         <div className="flex flex-col grow items-end pt-6 pr-5 pl-20 max-md:pl-5 max-md:max-w-full">
-          <div className="flex gap-4 justify-between py-2 max-w-full w-[822px] max-md:flex-wrap">
+          <div className="flex gap-4 justify-between py-2 max-w-full w-[940px] max-md:flex-wrap">
             <div className="my-auto text-xl text-neutral-400">
             {startups.length} startups found
             </div>
@@ -91,7 +81,7 @@ const ListStartup = () => {
           </div>
 
           {startups.map((startup) => (
-          <div className="flex flex-col p-6 mt-6 max-w-full rounded-lg bg-neutral-800 w-[822px] max-md:px-5">
+          <div className="flex flex-col p-6 mt-6 max-w-full rounded-lg bg-neutral-800 w-[930px] max-md:px-5">
             <div className="flex gap-5 justify-between w-full max-md:flex-wrap max-md:max-w-full">
               <div className="flex gap-5 justify-between">
                 {/* <div className="flex justify-center items-center px-4 py-3.5 rounded-md bg-green-400 bg-opacity-20 h-[69px] w-[69px]">
@@ -118,7 +108,11 @@ const ListStartup = () => {
                 )}
                 <div className="flex flex-col whitespace-nowrap">
                   <div className="flex gap-1 pr-3.5 text-2xl font-semibold tracking-wide text-stone-100">
-                    <div>{startup.name}</div>
+                    <div key={startup.id}>
+                      <Link to={`/startupDetails/${startup.id}`}>
+                          <div>{startup.name}</div>
+                      </Link>
+                    </div>
                     <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/cc7a09571d7d489237a89ec6890870aee5974013125aa7ff1c55b8dd7dbf46e2?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
