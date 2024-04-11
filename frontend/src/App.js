@@ -24,7 +24,7 @@ import InvestorForm from './pages/InvestorForm';
 import MOUSubmission from './pages/MOUSubmission';
 import PartnerForm from './pages/PartnerForm';
 import StartupEditDetails from './pages/StartupEditForm';
-import ListOurStartup from './pages/listOurStartup';
+import ListStartup from './pages/ListStartup';
 import UserForm from './pages/UserForm';
 import InvestorDetails from './pages/InvestorDetails';
 
@@ -57,7 +57,7 @@ function App() {
                     <Route path="/founderEditForm" element={<FounderEditForm />} />
                     <Route path="/startupReadForm" element={<StartupReadForm />} />
                     <Route path="/startupEditForm" element={<StartupEditForm />} />
-                    <Route path="/listOurStartup" element={<ListOurStartup />} />
+                    <Route path="/listStartup" element={<ListStartup />} />
            
                     <Route path="/dashboard" element={<FounderDashboard />} />
                     <Route path="/diary" element={<FounderDiary />}/>
