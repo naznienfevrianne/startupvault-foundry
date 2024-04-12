@@ -1,5 +1,5 @@
 from django.db import models
-from authentication.models import Founder
+from authentication.models import Founder, Startup, Investor
 
 # Create your models here.
 class Entry(models.Model):
@@ -12,4 +12,17 @@ class Entry(models.Model):
 
     def __str__(self):
         return f"{self.founder.name} [{self.date}]"
+
+class FollowTable(models.Model):
+    startup = models.ForeignKey(Startup, related_name="followed", on_delete=models.CASCADE)
+    investor = models.ForeignKey(Investor, related_name="following", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.investor.name} follow {self.startup.name}"
+
+
+# class Follow(models.Model):
+#     followed_startup = models.ForeignKey(Startup, on_delete=models.CASCADE, related_name='followed_startup')
+#     following_investor = models.ForeignKey(Investor, on_delete=models.CASCADE, related_name='following_investor')
+#     date = models.DateTimeField(auto_now_add=True)
 
