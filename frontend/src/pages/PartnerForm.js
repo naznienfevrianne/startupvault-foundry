@@ -44,28 +44,6 @@ function PartnerForm(props) {
         navigate("/partnerType")
     }
 
-    const uploadPartnerImg = (fileName) => {
-        fetch(localStorage.getItem("partnerLogo"))
-        .then(response => response.blob())
-        .then(async blob => {
-        // Upload the image to Supabase Storage
-        const { data, error } = supabase.storage
-            .from('partnerimg')
-            .upload(fileName, blob);
-
-        if (error) {
-            console.error('Error uploading profilePicture:', error.message);
-        } else {
-            console.log('Image uploaded successfully:', data);
-            
-            return supabaseUrl + "/storage/v1/object/public/partnerimg/" + fileName;
-        }
-        })
-        .catch(error => {
-        console.error('profilePicture fetching image from localhost:', error);
-        });
-      }
-
     const handleSubmit = async () => {
       let partnerLogoValid = true
       let partnerNameValid = true
