@@ -212,7 +212,7 @@ class PartnerOrganizationRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPI
         return Response(serializer.data)
 
 class InvestorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [JWTAuthentication] 
+     # permission_classes = [JWTAuthentication] 
     permission_classes = [AllowAny]
     serializer_class = InvestorSerializer
 
@@ -224,19 +224,16 @@ class InvestorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data)
+        partial = request.method == 'PUT'  # Check if request method is PUT
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
 
     def partial_update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
+        return self.update(request, *args, **kwargs)
 
-class PartnerOrganizationRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+class PartnerRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     # permission_classes = [JWTAuthentication] 
     permission_classes = [AllowAny]
     serializer_class = PartnerSerializer

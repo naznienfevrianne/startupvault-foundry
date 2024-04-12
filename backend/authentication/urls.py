@@ -14,6 +14,8 @@ from .views import (
     InvestorOrganizationListCreate,
     PartnerOrganizationRetrieveUpdateDestroy,
     InvestorOrganizationRetrieveUpdateDestroy,
+    InvestorRetrieveUpdateDestroy,
+    PartnerRetrieveUpdateDestroy,
     login, 
     check_email,
     test_token
@@ -32,6 +34,8 @@ urlpatterns = [
     path("partnerorg/<int:pk>", PartnerOrganizationRetrieveUpdateDestroy.as_view(), name="partner-organization-detail"),
     path("investororg/", InvestorOrganizationListCreate.as_view(), name="investor-organization-list-create"),
     path("investororg/<int:pk>", InvestorOrganizationRetrieveUpdateDestroy.as_view(), name="investor-organization-detail"),
+    path("investor/<int:pk>", InvestorRetrieveUpdateDestroy.as_view(), name="investor-detail"),
+    path("partner/<int:pk>", PartnerRetrieveUpdateDestroy.as_view(), name="partner-detail"),
     # path('api/token/', jwt_views.TokenObtainPairView.as_view(), name="token_obtain_pair"),
     # path("api/token/refresh", jwt_views.TokenRefreshView.as_view(), name="token_refresh"),
     path("login/",login, name="login"),
