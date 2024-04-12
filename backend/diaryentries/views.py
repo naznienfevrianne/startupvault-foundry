@@ -70,9 +70,9 @@ class DiaryEntriesRetrieveUpdate(generics.RetrieveUpdateAPIView):
     queryset = Entry.objects.all()
     serializer_class = EntrySerializer
 
-# Read & Create Diary Entry by Followed Founder
+# Read Diary Entry by Followed Founder
 class FollowedFounderDiaryEntriesList(generics.ListAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication]
     serializer_class = FollowedFounderEntrySerializer
 
     # Read
@@ -99,7 +99,7 @@ class FollowedFounderDiaryEntriesList(generics.ListAPIView):
             return Entry.objects.filter(founder__in=startups_founders).order_by(sort_by)
 
 class FollowingList(generics.ListAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication]
     serializer_class = FollowTableSer
     
     # Read
