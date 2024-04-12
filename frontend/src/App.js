@@ -24,6 +24,7 @@ import InvestorForm from './pages/InvestorForm';
 import MOUSubmission from './pages/MOUSubmission';
 import PartnerForm from './pages/PartnerForm';
 import StartupEditDetails from './pages/StartupEditForm';
+import ListStartup from './pages/ListStartup';
 import InvestorDashboard from './pages/InvestorDashboard';
 import UserForm from './pages/UserForm';
 import InvestorDetails from './pages/InvestorDetails';
@@ -59,6 +60,8 @@ function App() {
                     <Route path="/founderEditForm" element={<FounderEditForm />} />
                     <Route path="/startupReadForm" element={<StartupReadForm />} />
                     <Route path="/startupEditForm" element={<StartupEditForm />} />
+                    <Route path="/listStartup" element={<ListStartup />} />
+           
                     <Route path="/dashboard" element={<FounderDashboard />} />
                     <Route path="/diary" element={<FounderDiary />}/>
                     <Route path="/cookies" element={<CookieDisplay />} />
