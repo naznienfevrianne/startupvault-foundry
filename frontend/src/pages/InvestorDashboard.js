@@ -17,6 +17,11 @@ function InvestorDashboard(props){
 		const [startupList, setStartupList] = useState([]);
 		const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
+		const myCookies = new Cookies();
+    const idInvestor = myCookies.get('id')
+    const token = myCookies.get('token')
+
+
     const toggleDropdown = () => {
       setIsDropdownOpen(!isDropdownOpen);
     };
@@ -34,20 +39,20 @@ function InvestorDashboard(props){
 			let endpoint;
 
 			if(value.startDate != null && value.endDate != null && searchTerm.length != 0){
-				endpoint = `http://localhost:8000/diary/diaryEntries/investor/43?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}&startup_name=`
+				endpoint = `http://localhost:8000/diary/diaryEntries/investor/${idInvestor}?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}&startup_name=`
 
 				for(let i = 0; i < searchTerm.length; i++){
 					endpoint += `${searchTerm[i]},`
 				}
 			} else if (value.startDate != null && value.endDate != null){
-				endpoint = `http://localhost:8000/diary/diaryEntries/investor/43?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}`
+				endpoint = `http://localhost:8000/diary/diaryEntries/investor/${idInvestor}?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}`
 			} else if (searchTerm.length != 0){
-				endpoint = `http://localhost:8000/diary/diaryEntries/investor/43?sort=${sort}&startup_name=`
+				endpoint = `http://localhost:8000/diary/diaryEntries/investor/${idInvestor}?sort=${sort}&startup_name=`
 				for(let i = 0; i < searchTerm.length; i++){
 					endpoint += `${searchTerm[i]},`
 				}
 			} else{
-				endpoint = `http://localhost:8000/diary/diaryEntries/investor/43?sort=${sort}`
+				endpoint = `http://localhost:8000/diary/diaryEntries/investor/${idInvestor}?sort=${sort}`
 			} 
 
       try {
@@ -55,7 +60,7 @@ function InvestorDashboard(props){
           method:"GET",
           headers: {
             'Content-Type': 'application/json',
-            // 'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
           }
         });
         if (!response.ok) {
@@ -76,7 +81,7 @@ function InvestorDashboard(props){
 
 		const fetchFollowing = async() => {
 			try {
-        const response = await fetch('http://localhost:8000/diary/following/43', {
+        const response = await fetch(`http://localhost:8000/diary/following/${idInvestor}`, {
           method:"GET",
           headers: {
             'Content-Type': 'application/json',
