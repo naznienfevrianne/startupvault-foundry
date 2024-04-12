@@ -23,6 +23,11 @@ import StartupEditDetails from './pages/StartupEditForm';
 import UserForm from './pages/UserForm';
 import OrgInvestorEditForm from './pages/OrgInvestorEditForm';
 import OrgInvestorReadForm from './pages/OrgInvestorReadForm';
+import InvestorDashboard from './pages/InvestorDashboard';
+import InvestorDetails from './pages/OrgInvestorReadForm';
+import UpdateInvestorDetails from './pages/UpdateInvestorDetails';
+import Follow from './pages/Follow';
+import StartupList from './pages/StartupList';
 import { Cookies } from 'react-cookie';
 
 function App() {
@@ -46,7 +51,6 @@ function App() {
                 <Route path="/partnerForm" element={<PartnerForm />} />
                 <Route path="/MOUSubmission" element={<MOUSubmission />} />
                 <Route path="/investorType" element={<InvestorType/>} />
-                <Route path="/dashboardInvestor" element={<InvestorDashboard/>} />
                 {isAuthenticated && isVerified === 1 ? (
                     <React.Fragment>
                     <Route path="/founderReadForm" element={<FounderReadForm />} />
@@ -63,6 +67,7 @@ function App() {
                     <Route path="/startupList" element={<StartupList />} />
                     <Route path="/orgInvestorReadForm" element={<OrgInvestorReadForm />} />
                     <Route path="/orgInvestorEditForm" element={<OrgInvestorEditForm />} />
+                    <Route path="/dashboardInvestor" element={<InvestorDashboard/>} />
                     </React.Fragment>
                 ) : (
                     <React.Fragment>
