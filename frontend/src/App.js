@@ -61,6 +61,8 @@ function App() {
                     <Route path="/updateInvestorDetails" element={<UpdateInvestorDetails />} />
                     <Route path="/follow" element={<Follow />} />
                     <Route path="/startupList" element={<StartupList />} />
+                    <Route path="/orgInvestorReadForm" element={<OrgInvestorReadForm />} />
+                    <Route path="/orgInvestorEditForm" element={<OrgInvestorEditForm />} />
                     </React.Fragment>
                 ) : (
                     <React.Fragment>

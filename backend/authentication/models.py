@@ -66,24 +66,7 @@ class PartnerOrganization(models.Model):
     website = models.TextField()
     linkedin = models.TextField(default="")
     mou = models.TextField(default="")
-<<<<<<< b3318f4036e8eb88ff216ea91da4ed0e42e64900
-    
-    def __str__(self):
-        return self.name
 
-class Founder(UserModel):
-    startup = models.OneToOneField(Startup, on_delete=models.CASCADE, related_name='founder', default="")
-
-
-class Investor(UserModel):
-    investorOrganization = models.OneToOneField(InvestorOrganization, on_delete=models.CASCADE, related_name='investor', default="")
-
-class Partner(UserModel):
-    partnerOrganization = models.OneToOneField(PartnerOrganization, on_delete=models.CASCADE, related_name='partner', default="")
-
-=======
->>>>>>> e35f2dc2ba94df3db2f320c6d9fe65f9585e8a2a
-    
     def __str__(self):
         return self.name
 

@@ -1,4 +1,3 @@
-# serializers.py
 from rest_framework import serializers
 from .models import *
 
@@ -36,8 +35,7 @@ class PartnerOrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = PartnerOrganization
         fields = '__all__'
-<<<<<<< b3318f4036e8eb88ff216ea91da4ed0e42e64900
-=======
+
 
 class Top10StartupSerializer(serializers.ModelSerializer):
     rank1 = StartupSerializer()
@@ -54,6 +52,3 @@ class Top10StartupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Top10Startup
         fields = '__all__'
->>>>>>> e35f2dc2ba94df3db2f320c6d9fe65f9585e8a2a
-        
-        
