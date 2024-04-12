@@ -4,6 +4,7 @@ from django.urls import path
 
 from .views import (
     InvestorRetrieveUpdateDestroy,
+    TopStartupRetriever,
     UserModelListCreate, 
     PartnerListCreate, 
     InvestorListCreate, 
@@ -34,6 +35,7 @@ urlpatterns = [
     path("partnerorg/<int:pk>", PartnerOrganizationRetrieveUpdateDestroy.as_view(), name="partner-organization-detail"),
     path("investororg/", InvestorOrganizationListCreate.as_view(), name="investor-organization-list-create"),
     path("investororg/<int:pk>", InvestorOrganizationRetrieveUpdateDestroy.as_view(), name="investor-organization-detail"),
+    path("startup/top10", TopStartupRetriever.as_view(), name="top-startup-retriever"),
     # path('api/token/', jwt_views.TokenObtainPairView.as_view(), name="token_obtain_pair"),
     # path("api/token/refresh", jwt_views.TokenRefreshView.as_view(), name="token_refresh"),
     path("login/",login, name="login"),

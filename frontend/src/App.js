@@ -24,12 +24,14 @@ import InvestorForm from './pages/InvestorForm';
 import MOUSubmission from './pages/MOUSubmission';
 import PartnerForm from './pages/PartnerForm';
 import StartupEditDetails from './pages/StartupEditForm';
-import ListStartup from './pages/ListStartup';
+import ListStartup from './pages/StartupList';
 import InvestorDashboard from './pages/InvestorDashboard';
 import UserForm from './pages/UserForm';
 import InvestorDetails from './pages/InvestorDetails';
 import UpdateInvestorDetails from './pages/UpdateInvestorDetails';
 import Follow from './pages/Follow';
+import StartupList from './pages/StartupList';
+
 
 function App() {
 
@@ -59,9 +61,7 @@ function App() {
                     <Route path="/founderReadForm" element={<FounderReadForm />} />
                     <Route path="/founderEditForm" element={<FounderEditForm />} />
                     <Route path="/startupReadForm" element={<StartupReadForm />} />
-                    <Route path="/startupEditForm" element={<StartupEditForm />} />
-                    <Route path="/listStartup" element={<ListStartup />} />
-           
+                    <Route path="/startupEditForm" element={<StartupEditForm />} />           
                     <Route path="/dashboard" element={<FounderDashboard />} />
                     <Route path="/diary" element={<FounderDiary />}/>
                     <Route path="/cookies" element={<CookieDisplay />} />
@@ -69,6 +69,7 @@ function App() {
                     <Route path="/investorDetails" element={<InvestorDetails />} />
                     <Route path="/updateInvestorDetails" element={<UpdateInvestorDetails />} />
                     <Route path="/follow" element={<Follow />} />
+                    <Route path="/startupList" element={<StartupList />} />
                     </React.Fragment>
                 ) : (
                     <React.Fragment>
