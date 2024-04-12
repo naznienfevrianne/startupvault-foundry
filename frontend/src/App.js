@@ -30,6 +30,8 @@ import UserForm from './pages/UserForm';
 import InvestorDetails from './pages/InvestorDetails';
 import UpdateInvestorDetails from './pages/UpdateInvestorDetails';
 import Follow from './pages/Follow';
+import StartupList from './pages/StartupList';
+
 
 function App() {
 
@@ -69,6 +71,7 @@ function App() {
                     <Route path="/investorDetails" element={<InvestorDetails />} />
                     <Route path="/updateInvestorDetails" element={<UpdateInvestorDetails />} />
                     <Route path="/follow" element={<Follow />} />
+                    <Route path="/startupList" element={<StartupList />} />
                     </React.Fragment>
                 ) : (
                     <React.Fragment>

@@ -36,5 +36,21 @@ class PartnerOrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = PartnerOrganization
         fields = '__all__'
+
+class Top10StartupSerializer(serializers.ModelSerializer):
+    rank1 = StartupSerializer()
+    rank2 = StartupSerializer()
+    rank3 = StartupSerializer()
+    rank4 = StartupSerializer()
+    rank5 = StartupSerializer()
+    rank6 = StartupSerializer()
+    rank7 = StartupSerializer()
+    rank8 = StartupSerializer()
+    rank9 = StartupSerializer()
+    rank10 = StartupSerializer()
+
+    class Meta:
+        model = Top10Startup
+        fields = '__all__'
         
         
