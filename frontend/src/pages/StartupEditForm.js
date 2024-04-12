@@ -311,8 +311,8 @@ const StartupEditDetails = () => {
           const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json",
-                'Authorization': 'Bearer ' + token
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(startupDetails),
             });
@@ -387,8 +387,8 @@ const StartupEditDetails = () => {
                 const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`,{
                 method: "GET", 
                 headers:{
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
                 }
                 }
                 );
