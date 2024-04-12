@@ -178,7 +178,8 @@ function InvestorDashboard(props){
 												<div className="text-green-400 text- font-medium item-center tracking-tight my-auto">Overview</div>
 											</div>
 										</div>
-										<div className="pr-15 justify-start items-center inline-flex pl-6 whitespace-nowrap">
+										<Link to="/investorDetails">
+										<div className="pr-15 justify-start items-center inline-flex pl-0 whitespace-nowrap">
 											<div className="justify-start items-center gap-2 flex">
 												<img
 													loading="lazy"
@@ -188,6 +189,7 @@ function InvestorDashboard(props){
 												<div className="text-neutral-400 text- font-normal item-center tracking-tight">Investor details</div>
 											</div>
 										</div>
+										</Link>
 									</div>
 								</aside>
 								{/* title */}
