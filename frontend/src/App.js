@@ -45,43 +45,31 @@ function App() {
                 <Route path="/investorForm" element={<InvestorForm />} />
                 <Route path="/partnerForm" element={<PartnerForm />} />
                 <Route path="/MOUSubmission" element={<MOUSubmission />} />
-                <Route path="/investorType" element={<InvestorType />} />
-                <Route path="/orgInvestorReadForm" element={<OrgInvestorReadForm />} />
-                <Route path="/orgInvestorEditForm" element={<OrgInvestorEditForm />} />
-                {isAuthenticated && isVerified === '1' && role === 'founder' && (
+                <Route path="/investorType" element={<InvestorType/>} />
+                <Route path="/dashboardInvestor" element={<InvestorDashboard/>} />
+                {isAuthenticated && isVerified === 1 ? (
                     <React.Fragment>
-                        <Route path="/founderReadForm" element={<FounderReadForm />} />
-                        <Route path="/founderEditForm" element={<FounderEditForm />} />
-                        <Route path="/startupReadForm" element={<StartupReadForm />} />
-                        <Route path="/startupEditForm" element={<StartupEditForm />} />
-                        <Route path="/dashboard" element={<FounderDashboard />} />
-                        <Route path="/diary" element={<FounderDiary />} />
-                        <Route path="/cookies" element={<CookieDisplay />} />
-                        <Route path="/startupEditForm" element={<StartupEditDetails />} />
+                    <Route path="/founderReadForm" element={<FounderReadForm />} />
+                    <Route path="/founderEditForm" element={<FounderEditForm />} />
+                    <Route path="/startupReadForm" element={<StartupReadForm />} />
+                    <Route path="/startupEditForm" element={<StartupEditForm />} />           
+                    <Route path="/dashboard" element={<FounderDashboard />} />
+                    <Route path="/diary" element={<FounderDiary />}/>
+                    <Route path="/cookies" element={<CookieDisplay />} />
+                    <Route path="/startupEditForm" element={<StartupEditDetails />} />
+                    <Route path="/investorDetails" element={<InvestorDetails />} />
+                    <Route path="/updateInvestorDetails" element={<UpdateInvestorDetails />} />
+                    <Route path="/follow" element={<Follow />} />
+                    <Route path="/startupList" element={<StartupList />} />
                     </React.Fragment>
-                )}
-                {isAuthenticated && isVerified === '1' && role === 'investor' && (
+                ) : (
                     <React.Fragment>
-                        <Route path="/orgInvestorReadForm" element={<OrgInvestorReadForm />} />
-                        <Route path="/orgInvestorEditForm" element={<OrgInvestorEditForm />} />
-                        <Route path="/founderReadForm" element={<Navigate to="/" replace />} />
-                        <Route path="/founderEditForm" element={<Navigate to="/" replace />} />
-                        <Route path="/startupReadForm" element={<Navigate to="/" replace />} />
-                        <Route path="/startupEditForm" element={<Navigate to="/" replace />} />
-                        <Route path="/dashboard" element={<Navigate to="/" replace />} />
-                        <Route path="/diary" element={<Navigate to="/" replace />} />
-                        <Route path="/cookies" element={<CookieDisplay />} />
-                        <Route path="/startupEditForm" element={<Navigate to="/" replace />} />
-                    </React.Fragment>
-                )}
-                {!isAuthenticated || isVerified !== '1' && (
-                    <React.Fragment>
-                        <Route path="/dashboard" element={<Navigate to="/" replace />} />
-                        <Route path="/founderEditForm" element={<Navigate to="/" replace />} />
-                        <Route path="/startupReadForm" element={<Navigate to="/" replace />} />
-                        <Route path="/founderReadForm" element={<Navigate to="/" replace />} />
-                        <Route path="/diary" element={<Navigate to="/" replace />} />
-                        <Route path="/startupEditForm" element={<Navigate to="/" replace />} />
+                    <Route path="/dashboard" element={<Navigate to="/login" replace />} />
+                    <Route path="/founderEditForm" element={<Navigate to="/login" replace />} />
+                    <Route path="/startupReadForm" element={<Navigate to="/login" replace />} />
+                    <Route path="/founderReadForm" element={<Navigate to="/login" replace />} />
+                    <Route path="/diary" element={<Navigate to="/login" replace />} />
+                    <Route path="/startupEditForm" element={<Navigate to="/login" replace />} />
                     </React.Fragment>
                 )}
             </Routes>

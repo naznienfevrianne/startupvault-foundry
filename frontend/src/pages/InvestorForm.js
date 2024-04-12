@@ -200,7 +200,11 @@ function InvestorForm(props) {
               "support": localStorage.getItem("investorSupport"),
               "website": localStorage.getItem("investorWebsite"),
               "linkedin": localStorage.getItem("investorLinkedin"),
+<<<<<<< b3318f4036e8eb88ff216ea91da4ed0e42e64900
               "logo": supabaseUrl + "/storage/v1/object/public/investorlogo/" + fileName,
+=======
+              "logo": supabaseUrl + "/storage/v1/object/public/investorimg/" + fileName,
+>>>>>>> e35f2dc2ba94df3db2f320c6d9fe65f9585e8a2a
               "name": localStorage.getItem("investorName")
           }))
             const response = await fetch("http://localhost:8000/auth/investororg/", {
@@ -218,7 +222,11 @@ function InvestorForm(props) {
                     "support": localStorage.getItem("investorSupport"),
                     "website": localStorage.getItem("investorWebsite"),
                     "linkedin": localStorage.getItem("investorLinkedin"),
+<<<<<<< b3318f4036e8eb88ff216ea91da4ed0e42e64900
                     "logo": supabaseUrl + "/storage/v1/object/public/investorlogo/" + fileName,
+=======
+                    "logo": supabaseUrl + "/storage/v1/object/public/investorimg/" + fileName,
+>>>>>>> e35f2dc2ba94df3db2f320c6d9fe65f9585e8a2a
                     "name": localStorage.getItem("investorName")
                 })
             })
