@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
 
 from .models import Founder, Entry, FollowTable, Startup
-from .serializers import MetricSerializer, FounderEntrySerializer, EntrySerializer, FollowedFounderEntrySerializer
+from .serializers import MetricSerializer, FounderEntrySerializer, EntrySerializer, FollowedFounderEntrySerializer, FollowTableSer
 from rest_framework import generics, filters, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from datetime import datetime, timedelta
@@ -83,19 +83,30 @@ class FollowedFounderDiaryEntriesList(generics.ListAPIView):
         start_date = self.request.query_params.get('startDate', None)
         end_date = self.request.query_params.get('endDate', None)
         startup_name = self.request.query_params.get('startup_name', None)
-
+        
         startups = FollowTable.objects.filter(investor=investor_id).values_list('startup', flat=True)
         startups_founders = Founder.objects.filter(startup__in=startups).values_list('id', flat=True)
 
         if (start_date is not None) and (end_date is not None) and (startup_name is not None):
-            return Entry.objects.all().filter(founder__in=startups_founders, date__range=[start_date, end_date], founder__startup__name__icontains=startup_name).order_by(sort_by)
+            startup_name_list = startup_name.split(",")
+            return Entry.objects.all().filter(founder__in=startups_founders, date__range=[start_date, end_date], founder__startup__name__in=startup_name_list).order_by(sort_by)
         elif (start_date is not None) and (end_date is not None):    
             return Entry.objects.all().filter(founder__in=startups_founders, date__range=[start_date, end_date]).order_by(sort_by)
         elif (startup_name is not None):
-            return Entry.objects.all().filter(founder__in=startups_founders, founder__startup__name__icontains=startup_name).order_by(sort_by)
+            startup_name_list = startup_name.split(",")
+            return Entry.objects.all().filter(founder__in=startups_founders, founder__startup__name__in=startup_name_list).order_by(sort_by)
         else:
             return Entry.objects.filter(founder__in=startups_founders).order_by(sort_by)
 
+class FollowingList(generics.ListAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = FollowTableSer
+    
+    # Read
+    def get_queryset(self):
+        investorId = self.kwargs["investor"]
+
+        return FollowTable.objects.filter(investor_id=investorId)
 class ToggleFollowView(APIView):
     permission_classes = [AllowAny]
 

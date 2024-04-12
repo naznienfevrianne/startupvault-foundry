@@ -9,27 +9,43 @@ import NavBar from "../component/NavBar";
 function InvestorDashboard(props){
     const [listEntries, setListEntries] = useState([]);
 		const [sort, setSort] = useState("-date");
-		const [currentPage, setCurrentPage] = useState(1);
-    const entriesPerPage = 10;
 		const [value, setValue] = useState({ 
 			startDate: null,
 			endDate: null 
 		});
-		const [searchTerm,setSearchTerm] = useState("");
+		const [searchTerm,setSearchTerm] = useState([]);
+		const [startupList, setStartupList] = useState([]);
+		const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+
+    const toggleDropdown = () => {
+      setIsDropdownOpen(!isDropdownOpen);
+    };
 
     useEffect(() => {
         fetchData();
     }, [sort, value, searchTerm]);
 
+		useEffect(() => {
+        fetchFollowing();
+    }, []);
+
+
     const fetchData = async () => {
 			let endpoint;
 
-			if(value.startDate != null && value.endDate != null && searchTerm != ""){
-				endpoint = `http://localhost:8000/diary/diaryEntries/investor/43?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}&startup_name=${searchTerm}`
+			if(value.startDate != null && value.endDate != null && searchTerm.length != 0){
+				endpoint = `http://localhost:8000/diary/diaryEntries/investor/43?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}&startup_name=`
+
+				for(let i = 0; i < searchTerm.length; i++){
+					endpoint += `${searchTerm[i]},`
+				}
 			} else if (value.startDate != null && value.endDate != null){
 				endpoint = `http://localhost:8000/diary/diaryEntries/investor/43?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}`
-			} else if (searchTerm != ""){
-				endpoint = `http://localhost:8000/diary/diaryEntries/investor/43?sort=${sort}&startup_name=${searchTerm}`
+			} else if (searchTerm.length != 0){
+				endpoint = `http://localhost:8000/diary/diaryEntries/investor/43?sort=${sort}&startup_name=`
+				for(let i = 0; i < searchTerm.length; i++){
+					endpoint += `${searchTerm[i]},`
+				}
 			} else{
 				endpoint = `http://localhost:8000/diary/diaryEntries/investor/43?sort=${sort}`
 			} 
@@ -48,12 +64,36 @@ function InvestorDashboard(props){
         const entry = await response.json();
         setListEntries(entry);
 
-				console.log(listEntries)
+				// const startup_name = entry.map(item => item.startup);
+				// const unique_startup = [...new Set(startup_name)]
+				// setStartupList(unique_startup)
+				// console.log(startupList)
 
       } catch (error) {
         console.error("Error:", error);
       }
     };
+
+		const fetchFollowing = async() => {
+			try {
+        const response = await fetch('http://localhost:8000/diary/following/43', {
+          method:"GET",
+          headers: {
+            'Content-Type': 'application/json',
+            // 'Authorization': `Bearer ${token}`
+          }
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const followingList = await response.json();
+				setStartupList(followingList)
+				console.log("nih", startupList)
+
+      } catch (error) {
+        console.error("Error:", error);
+      }
+		};
 
 		const handleSort = () => {
 			if(sort === "-date"){
@@ -72,6 +112,16 @@ function InvestorDashboard(props){
 				fetchData();
 			});
     }
+
+		const handleCheckboxChange = (event, item) => {
+			if (event.target.checked) {
+				// If checkbox is checked, add the item to the checkedItems list
+				setSearchTerm(prevCheckedItems => [...prevCheckedItems, item]);
+			} else {
+				// If checkbox is unchecked, remove the item from the checkedItems list
+				setSearchTerm(prevCheckedItems => prevCheckedItems.filter(checkedItem => checkedItem !== item));
+			}
+		};
 
 		function getMonday(date){
       let today = new Date(date)
@@ -130,7 +180,7 @@ function InvestorDashboard(props){
 													src="https://cdn.builder.io/api/v1/image/assets/TEMP/af603136276046e8322b35f550ed99cb4cb7f42f4be19979861c7f70c3f1a3ce?"
 													className="shrink-0 w-8 aspect-square self-center"
 												/>
-												<div className="text-neutral-400 text- font-normal item-center tracking-tight">Organization details</div>
+												<div className="text-neutral-400 text- font-normal item-center tracking-tight">Investor details</div>
 											</div>
 										</div>
 									</div>
@@ -141,12 +191,12 @@ function InvestorDashboard(props){
 									<div className="justify-between items-center inline-flex">
 											<div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">Following Updates</div>
 											<div className="justify-start items-center gap-3 flex">
-												<button onClick={handleSort} className="pl-4 pr-4 py-2 rounded-[25px] border text-stone-100 border-neutral-400 justify-center items-center gap-1 flex">
+												<button onClick={handleSort} className="pl-4 pr-5 py-2 rounded-[25px] border text-stone-100 border-neutral-400 justify-center items-center gap-1 inline-flex w-[140px]">
 													{sort === "-date" ? (
 														<>
 															<img
 															loading="lazy"
-															src="https://cdn.builder.io/api/v1/image/assets/TEMP/09336f1e86e0673713128171ba8064262d4bd1188b3c06a9a1927d3fb0833bd3?"
+															src="https://cdn.builder.io/api/v1/image/assets/TEMP/3e3ec73880ece29d00f20e4db0e4b5475499af7b473b69d767d47b11119c4c98?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
 															className="self-center w-8 aspect-square"
 															/>
 															<div>Oldest</div>
@@ -155,7 +205,7 @@ function InvestorDashboard(props){
 														<>
 															<img
 															loading="lazy"
-															src="https://cdn.builder.io/api/v1/image/assets/TEMP/0dbf444f4ed2068ea13b4fa12b9927d011b42ce3f3eae40a73704f2c533c26ce?"
+															src="https://cdn.builder.io/api/v1/image/assets/TEMP/f17953187a4d2276470cd675c51584dad8f4c8e4316cd91c37a457aba3eac469?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
 															className="self-center w-8 aspect-square"
 															/>
 															<div>Latest</div>
@@ -163,16 +213,50 @@ function InvestorDashboard(props){
 													)}
 												</button>
 												<Datepicker
-													inputClassName="w-full pl-3 pr-3 py-2 rounded-[25px] border font-normal text-stone-100 border-neutral-400 bg-black" 
+													inputClassName="w-full pl-10 pr-3 py-2 placeholder-stone-100 rounded-[25px] focus:outline-none border font-normal text-stone-100 border-neutral-400 bg-black" 
 													value={value} 
 													onChange={handleValueChange}
 													useRange={false}
 													readOnly={true}  
 													primaryColor={"emerald"}
 													placeholder="Date" 
+													toggleClassName="absolute left-0 h-full px-3 text-neutral-400 focus:outline-none" 
+
 												/> 
-												<div className="pl-4 pr-4 py-2 rounded-[25px] border border-neutral-400 justify-center items-center gap-1 flex">
-													<>
+												<div className = "relative">
+													<div className="flex gap-2 items-center pl-3 px-9 py-2 rounded-[25px] cursor-pointer text-stone-100 border border-neutral-400 bg-black" onClick={toggleDropdown}>
+														<img
+															loading="lazy"
+															src="https://cdn.builder.io/api/v1/image/assets/TEMP/6d76cf3614b32963b92e88a154791fc3155040149c7434c183fa1c89fcdd0239?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
+															className="self-center w-8 aspect-square"
+															/>
+														Startup
+													</div>
+													{isDropdownOpen && (
+														<div className="absolute right-0 mt-2">
+																<div className="flex gap-2 items-right px-2 py-2 bg-neutral-900 rounded-[10px] cursor-pointer w-[250px]">
+																		<ul className="px-3 self-stretch overflow-y-auto text-sm flex flex-col gap-2.5">
+																		{startupList.map((item, index) => (
+																			<li key={index}>
+																				<div className="flex items-center rounded">
+																					<input id={`checkbox-item-${index}`}
+																						type="checkbox" value={item.startup_name} 
+																						className="w-4 h-4 accent-green-400 rounded"
+																						onChange={(event) => handleCheckboxChange(event, item.startup_name)}
+																						checked={searchTerm.includes(item.startup_name)}
+																					></input>
+																					<label htmlFor={`checkbox-item-${index}`} className="w-full hover:text-green-400 ms-2 text-sm font-medium text-stone-100 rounded">{item.startup_name}</label>
+																				</div>
+																			</li>
+																		))}
+																		</ul>
+																</div>
+														</div>
+													)}
+
+												</div>
+
+													{/* <>
 													<img
 															loading="lazy"
 															src="https://cdn.builder.io/api/v1/image/assets/TEMP/05c363040cc2ed7eb073d542d2cdc515d11e022240c5cedb019f596e03556fde?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
@@ -188,8 +272,7 @@ function InvestorDashboard(props){
 																		fetchData();});
 															}}>
 														</input>
-													</>
-												</div>
+													</> */}
 											</div>
 									</div>
 									{/* card */}
