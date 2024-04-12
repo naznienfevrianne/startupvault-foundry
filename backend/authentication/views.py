@@ -318,7 +318,7 @@ class TopStartupRetriever(generics.RetrieveAPIView):
     serializer_class = Top10StartupSerializer
 
     def get_queryset(self):
-        return Top10Startup.objects.all()
+        return Top10Startup.objects.all().order_by('-id')
 
     def get_object(self):
         queryset = self.get_queryset()
