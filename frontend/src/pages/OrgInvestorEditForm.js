@@ -467,7 +467,7 @@ function OrgInvestorEditForm(props) {
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/1490109502cde58f41daf764ada1e96816a28eb0bdf60fae2f6faa1f38c7c09d?apiKey=b1a4c3002d354a0a9e5d1136f5930ee4&"
                 className="w-6 aspect-square"
               />
-              <div>PREV</div>
+              <div>CANCEL</div>
             </div>
             <div 
             onClick = {handleSubmit}

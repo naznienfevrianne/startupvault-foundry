@@ -35,45 +35,11 @@ function InvestorDetails(props) {
   };
 
   return (
-    <div className="flex flex-col pb-20 bg-black">
-      <div className="flex gap-5 justify-between py-6 pr-10 pl-20 w-full max-md:flex-wrap max-md:px-5 max-md:max-w-full">
-        <div className="flex gap-5 justify-between text-white max-md:flex-wrap max-md:max-w-full">
-          <div className="text-4xl italic font-semibold tracking-wider leading-10">
-            startupvault.id
-          </div>
-          <div className="flex gap-5 justify-center px-5 py-3 text-xl font-light max-md:flex-wrap max-md:px-5">
-            <div>Showcase</div>
-            <div>Events</div>
-            <div>Our Investors</div>
-            <div className="text-stone-100">Our Startups</div>
-          </div>
-        </div>
-        <div className="flex gap-2 rounded-[30px]">
-          <div className="justify-center px-5 py-2 text-xl font-light text-green-400 rounded-3xl bg-green-400 bg-opacity-20">
-            My Dashboard
-          </div>
-          <div className="flex gap-2 items-center py-2 pr-3 pl-2 bg-neutral-800 rounded-[30.497px]">
-            <div className="flex justify-center items-center self-stretch">
-              <img
-                loading="lazy"
-                srcSet="..."
-                className="rounded-full aspect-square bg-green-400 bg-opacity-20 h-[30px] w-[30px]"
-              />
-            </div>
-            <div className="self-stretch my-auto text-xl font-medium tracking-wide text-stone-100">
-              Naznien
-            </div>
-            <img
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/d3037ca457875e4d12293bd650e7c90ca95f4b4173a966fed9d00ec84228efb5?"
-              className="shrink-0 self-stretch my-auto aspect-square w-[18px]"
-            />
-          </div>
-        </div>
-      </div>
+    <div className="flex flex-col pb-20 px-20 bg-black min-h-screen">
+      <NavBar />
       <div className="z-10 mt-0 w-full max-md:max-w-full">
         <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-          <div className="flex flex-col w-[23%] max-md:ml-0 max-md:w-full">
+          {/* <div className="flex flex-col w-[23%] max-md:ml-0 max-md:w-full">
             <div className="flex flex-col self-stretch mt-8 max-md:mt-10">
               <div className="flex flex-col px-10 max-md:px-5">
                 <div className="flex gap-3 p-4 text-base tracking-normal bg-neutral-800 rounded-[30px] text-stone-300">
@@ -105,7 +71,44 @@ function InvestorDetails(props) {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
+          <aside className=" flex w-[23%px] flex-col justify-start mt-6">
+            <div className="h-[50px] flex-col justify-start items-center gap-3 flex">
+              <div className="flex gap-3 p-4 text-base tracking-normal bg-neutral-800 rounded-[30px] text-stone-300">
+                <img
+                  loading="lazy"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/5141f2b3392732e7dceb2287d5276e2c7df22cecc85670302b617d425ec44b62?"
+                  className="shrink-0 w-5 aspect-square"
+                />
+                <div className="flex-auto">Search in dashboard</div>
+              </div>
+              <Link to="/dashboardInvestor">
+              <div className="pr-15 mt-5 justify-start items-center inline-flex pl-0 whitespace-nowrap">
+                <div className="justify-start items-center gap-2 flex pr-40 pl-12">
+                  <img
+                    loading="lazy"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/27c36da114ed300adb9add9fce8d851f4c7b22802ffaf460c4b83dfdad7092bb?"
+                    className="shrink-0 w-8 aspect-square self-center"
+                  />
+                  <div className="text-neutral-400 text- font-normal item-center tracking-tight">Overview</div>
+                </div>
+              </div>
+              </Link>
+              <Link to="/investorDetails">
+              <div className="flex gap-5 font-medium items-center text-green-400 whitespace-nowrap max-md:pr-5">
+                <div className="w-1 self-stretch bg-green-400 rounded-tr-[10px] rounded-br-[10px] shadow" />
+                <div className="h-12 flex pr-20 gap-2 bg-green-400 bg-opacity-20 rounded-lg">
+                  <img
+                    loading="lazy"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/6a5577d29bac61b16c070200e8b671c8672d78decbbc90ab7b4e8000d208cade?"
+                    className="shrink-0 w-8 aspect-square self-center ml-3"
+                  />
+                  <div className="text-green-400 text- font-medium item-center tracking-tight my-auto">Investor Details</div>
+                </div>
+              </div>
+              </Link>
+            </div>
+          </aside>
           <div className="flex flex-col ml-5 w-[77%] max-md:ml-0 max-md:w-full">
             <div className="flex flex-col grow px-5 pt-9 pb-20 max-md:mt-5 max-md:max-w-full">
               <div className="flex flex-wrap gap-0 content-center pr-20 max-md:pr-5">
@@ -143,7 +146,7 @@ function InvestorDetails(props) {
                 </div>
                 {investorData.linkedin && (
                 <div className="my-auto font-light tracking-normal text-neutral-400 max-md:max-w-full">
-                  {investorData.linkedin.replace("https://linkedin.com/", "")}
+                  {investorData.linkedin.replace("https://linkedin.com/in/", "")}
                 </div>
                 )}
               </div>
