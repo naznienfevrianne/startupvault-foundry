@@ -41,7 +41,7 @@ function InvestorDashboard(props){
 				}
 			} else if (value.startDate != null && value.endDate != null){
 				endpoint = `http://localhost:8000/diary/diaryEntries/investor/43?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}`
-			} else if (searchTerm != ""){
+			} else if (searchTerm.length != 0){
 				endpoint = `http://localhost:8000/diary/diaryEntries/investor/43?sort=${sort}&startup_name=`
 				for(let i = 0; i < searchTerm.length; i++){
 					endpoint += `${searchTerm[i]},`
