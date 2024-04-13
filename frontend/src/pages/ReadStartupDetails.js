@@ -19,8 +19,8 @@ const StartupDetails = () => {
   const [founder, setFounder] = useState("");
   const [entry, setEntry] = useState("");
   const [listEntry, setListEntry] = useState([]);
-  // const [showCanvas, setShowCanvas] = useState(false);
-  const [selectedChart, setSelectedChart] = useState("");
+
+  const [selectedChart, setSelectedChart] = useState("sales");
   const [activeTab, setActiveTab] = useState('summary');
   const [listEntries, setListEntries] = useState([]);
   const [descending, setDescending] = useState(true);
@@ -338,6 +338,9 @@ useEffect(() => {
     const SummaryTab = () => {
       return (
         <>
+        <div className="mb-2 mt-12 text-3xl max-w-full w-[930px] font-semibold tracking-wide text-stone-100 max-md:max-w-full">
+            About
+            </div>
           <div className="justify-center p-6 mt-4 max-w-full text-lg tracking-normal rounded-lg bg-neutral-800 text-stone-100 max-w-full w-[930px] max-md:flex-wrap">
           <div className="text-xl text-neutral-400">Description</div>
           <div className="mt-3 text-xl text-stone-100">{startup.desc}</div>
@@ -492,7 +495,7 @@ useEffect(() => {
             <div className="mb-2 mt-10 text-3xl font-semibold tracking-wide text-stone-100 max-md:max-w-full">
             Metrics Overview
             </div>
-            <div className="flex gap-5 justify-between mt-5 w-full whitespace-nowrap text-stone-100 max-md:flex-wrap max-md:max-w-full h-[40px]">
+            <div className="flex gap-5 justify-between mt-5 w-full whitespace-nowrap text-stone-100 max-md:flex-wrap max-md:max-w-full h-[42px]">
               <div className="flex gap-3 text-base tracking-normal">
               <button
                 onClick={() => handleChartButtonClick('sales')}
