@@ -24,7 +24,7 @@ import UserForm from './pages/UserForm';
 import OrgInvestorEditForm from './pages/OrgInvestorEditForm';
 import OrgInvestorReadForm from './pages/OrgInvestorReadForm';
 import InvestorDashboard from './pages/InvestorDashboard';
-import InvestorDetails from './pages/OrgInvestorReadForm';
+import InvestorDetails from './pages/InvestorDetails';
 import UpdateInvestorDetails from './pages/UpdateInvestorDetails';
 import Follow from './pages/Follow';
 import StartupList from './pages/StartupList';
