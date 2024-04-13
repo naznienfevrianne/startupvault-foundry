@@ -71,7 +71,7 @@ function UpdateInvestorDetails(props) {
 
       if (fileExists) { // Update existing file
         const { data, error } = await supabase.storage
-          .from('investorimg')
+          .from('userimg')
           .update(filePath, blob);
           if (error) {
             console.error('Error updating image:', error.message);
@@ -80,7 +80,7 @@ function UpdateInvestorDetails(props) {
           }
       } else { // Upload as a new file
         const { data, error } = await supabase.storage
-          .from('investorimg')
+          .from('userimg')
           .upload(filePath, blob);
           if (error) {
             console.error('Error uploading image:', error.message);
@@ -147,7 +147,7 @@ function UpdateInvestorDetails(props) {
       [name]: value
     }));
   
-    if (value && value.startsWith("https://linkedin.com/")){
+    if (value && value.startsWith("https://www.linkedin.com/in/")){
       setLinkedinValid(true); 
     } else {
       setLinkedinValid(false); 
@@ -302,7 +302,7 @@ function UpdateInvestorDetails(props) {
                     className="justify-center items-start px-3 py-3.5 mt-2.5 text-sm tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-w-[800px]"
                   />
                 { !isLinkedinValid && (
-                  <div className="text-red-500 text-sm mt-2">The link should start with https://linkedin.com</div>
+                  <div className="text-red-500 text-sm mt-2">The link should start with https://www.linkedin.com/in/</div>
                 )}
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">
                   Email

@@ -142,11 +142,11 @@ function InvestorDetails(props) {
               </div>
               <div className="flex gap-2.5 py-1.5 mt-2.5 text-sm whitespace-nowrap rounded-md max-w-[800px] bg-neutral-800 max-md:flex-wrap">
                 <div className="justify-center ml-2 p-2 tracking-normal text-white rounded-md bg-neutral-700">
-                  linkedin.com/in/
+                linkedin.com/in/
                 </div>
                 {investorData.linkedin && (
                 <div className="my-auto font-light tracking-normal text-neutral-400 max-md:max-w-full">
-                  {investorData.linkedin.replace("https://linkedin.com/in/", "")}
+                  {investorData.linkedin.replace("https://www.linkedin.com/in/", "")}
                 </div>
                 )}
               </div>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import NavBar from "../component/NavBar";
 
 
-function InvestorDetails(props) {
+function OrgInvestorReadForm(props) {
   const [investorData, setInvestorEntry] = React.useState({});
   const [contactData, setContactEntry] = React.useState({});
   const myCookies = new Cookies();
@@ -409,4 +409,4 @@ function InvestorDetails(props) {
 
 
 
-export default InvestorDetails;
+export default OrgInvestorReadForm;
