@@ -20,6 +20,7 @@ import InvestorForm from './pages/InvestorForm';
 import MOUSubmission from './pages/MOUSubmission';
 import PartnerForm from './pages/PartnerForm';
 import StartupEditDetails from './pages/StartupEditForm';
+import ListStartup from './pages/ListStartup';
 import UserForm from './pages/UserForm';
 import OrgInvestorEditForm from './pages/OrgInvestorEditForm';
 import OrgInvestorReadForm from './pages/OrgInvestorReadForm';
@@ -30,6 +31,7 @@ import Follow from './pages/Follow';
 import StartupList from './pages/StartupList';
 import { Cookies } from 'react-cookie';
 import InvestorDetails from './pages/InvestorDetails';
+import StartupDetails from './pages/ReadStartupDetails';
 import InvestorDashboard from './pages/InvestorDashboard';
 import StartupList from './pages/StartupList';
 import Follow from './pages/Follow';
@@ -62,6 +64,10 @@ function App() {
                     <Route path="/founderReadForm" element={<FounderReadForm />} />
                     <Route path="/founderEditForm" element={<FounderEditForm />} />
                     <Route path="/startupReadForm" element={<StartupReadForm />} />
+                    <Route path="/startupEditForm" element={<StartupEditForm />} />
+                    <Route path="/listStartup" element={<ListStartup />} />
+                    <Route path="/startupDetails/:idStartup" element={<StartupDetails />} />
+           
                     <Route path="/startupEditForm" element={<StartupEditForm />} />           
                     <Route path="/dashboard" element={<FounderDashboard />} />
                     <Route path="/diary" element={<FounderDiary />}/>

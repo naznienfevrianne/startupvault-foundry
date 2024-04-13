@@ -1,9 +1,12 @@
 from django.urls import path
-from .views import DiaryEntriesListCreate, DiaryEntriesRetrieveUpdate, MetricsRetrieve, FollowedFounderDiaryEntriesList, \
+
+from .views import DiaryEntriesListCreate, DiaryEntriesRetrieveUpdate, MetricsRetrieve, DiaryEntriesListRead, DiaryEntriesListRead, FollowedFounderDiaryEntriesList, \
     ToggleFollowView, TotalFollowersView, CheckFollowView, FollowingList
 
 urlpatterns = [
     path('diaryEntries/founder/<int:founder>/', DiaryEntriesListCreate.as_view(), name='diary-entry-list'),
+    path('diaryEntriesRead/founder/<int:founder>', DiaryEntriesListRead.as_view(), name='diary-entry-list-read'),
+    path('diaryEntriesRead/founder/<int:founder>', DiaryEntriesListRead.as_view(), name='diary-entry-list-read'),
     path('diaryEntries/<int:pk>/', DiaryEntriesRetrieveUpdate.as_view(), name='diary-entry-update'),
     path('<int:founder>/', MetricsRetrieve.as_view(), name='retrieve-metrics'),
     path('diaryEntries/investor/<int:investor>', FollowedFounderDiaryEntriesList.as_view(), name='followed-entry-list'),
