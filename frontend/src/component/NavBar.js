@@ -23,7 +23,9 @@ function NavBar(props) {
             <div>Events</div>
             <div className="flex-auto">Our Investors</div>
             <div className="grow whitespace-nowrap text-stone-100">
+            <Link to="/startupList">
               Our Startups
+            </Link>   
             </div>
           </nav>
         </div>
