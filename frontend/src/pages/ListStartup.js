@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import{ Cookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import NavBar from '../component/NavBar';
+import Follow from './Follow';
 
 const ListStartup = () => {
 
@@ -231,8 +232,8 @@ const ListStartup = () => {
             <div className="mt-6 text-lg tracking-normal text-stone-100 max-md:max-w-full">
               {startup.desc}
             </div>
-            <div className="justify-center self-end px-5 py-3 mt-6 text-xl font-semibold tracking-widest text-black whitespace-nowrap bg-green-400 rounded-lg">
-              Follow
+            <div className="justify-center self-end">
+              <Follow page="list" />
             </div>
           </div>
           ))}

@@ -30,12 +30,8 @@ import UpdateInvestorDetails from './pages/UpdateInvestorDetails';
 import Follow from './pages/Follow';
 import StartupList from './pages/StartupList';
 import { Cookies } from 'react-cookie';
-import InvestorDetails from './pages/InvestorDetails';
 import StartupDetails from './pages/ReadStartupDetails';
-import InvestorDashboard from './pages/InvestorDashboard';
-import StartupList from './pages/StartupList';
-import Follow from './pages/Follow';
-import UpdateInvestorDetails from './pages/UpdateInvestorDetails';
+
 
 function App() {
     const myCookies = new Cookies();
