@@ -150,7 +150,7 @@ function SideBarContact() {
   
     return (
     <div className="flex flex-col items-start py-6 pr-20 pl-3 max-md:pr-5 max-md:max-w-full">
-      <div className="flex gap-3 p-4 text-base tracking-normal bg-neutral-800 w-[340px] rounded-[30px] text-stone-300">
+      <div className="flex gap-3 p-4 text-base tracking-normal bg-neutral-800 w-[360px] rounded-[30px] text-stone-300">
         <img
           loading="lazy"
           src="https://cdn.builder.io/api/v1/image/assets/TEMP/6cb446593643fc5888a09f9076f1b9a6893981e0397365468e85765b7a309812?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
@@ -158,7 +158,7 @@ function SideBarContact() {
         />
         <div>Search in Startup Details</div>
       </div>
-      <div className="flex flex-col p-7 mt-6 max-w-full rounded-lg bg-neutral-800 w-[340px] max-md:px-5">
+      <div className="flex flex-col p-7 mt-6 max-w-full rounded-lg bg-neutral-800 w-[360px] max-md:px-5">
       <div className="flex gap-1 pr-8 text-2xl font-medium tracking-wide whitespace-nowrap text-stone-100 max-md:pr-5">
         <div>{startup.name}</div>
 
@@ -193,12 +193,12 @@ function SideBarContact() {
 
           )}
         </div>
-      <div className="flex gap-2 justify-center mt-6 text-xl text-stone-100 w-[340px]">
+      <div className="flex gap-2 justify-center mt-10 text-xl text-stone-100 w-[360px]">
         <div className="flex-1">Contact 
         <span className="text-xl font-semibold"> {startup.name}</span></div>
         <div className="flex-1 shrink-0 my-auto h-px border border-solid bg-neutral-400 border-neutral-400" />
       </div>
-      <div className="flex gap-4 p-4 mt-6 text-xl font-medium tracking-wide whitespace-nowrap rounded-lg bg-neutral-800 text-stone-100 w-[340px]">
+      <div className="flex gap-4 p-4 mt-6 text-xl font-medium tracking-wide whitespace-nowrap rounded-lg bg-neutral-800 text-stone-100 w-[360px]">
         <img
           loading="lazy"
           src="https://cdn.builder.io/api/v1/image/assets/TEMP/c1395c447d349c52211298177bdfc474d8036628e1c8b9d4d8650f731b9465d3?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
@@ -206,8 +206,8 @@ function SideBarContact() {
         />
         <div className="flex-1">{founder.phoneNumber}</div>
         <button
-        onClick={() => copyToClipboard(founder.email)}
-        title="Copy Email"  // Providing a title for accessibility and usability
+        onClick={() => copyToClipboard(founder.phoneNumber)}
+        title="Copy phoneNumber"  // Providing a title for accessibility and usability
         >
         <img
           loading="lazy"
@@ -216,7 +216,7 @@ function SideBarContact() {
         />
         </button>
       </div>
-      <div className="flex gap-4 p-4 mt-4 text-xl font-medium tracking-wide whitespace-nowrap rounded-lg bg-neutral-800 text-stone-100 w-[340px]">
+      <div className="flex gap-4 p-4 mt-4 text-xl font-medium tracking-wide whitespace-nowrap rounded-lg bg-neutral-800 text-stone-100 w-[360px]">
         <img
           loading="lazy"
           src="https://cdn.builder.io/api/v1/image/assets/TEMP/daf72df48e17d81b24803c12cb158348c64ab6ee45505db07c4fc1e23121f601?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
@@ -229,8 +229,9 @@ function SideBarContact() {
         >
             <img
             loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/c785140e93ef7df38c896c220a92fe3ee37b702cce118ddcfe7a5eba277bdf6a?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-            className="shrink-0 w-6 h-6"  // Ensure your image fits well in the button
+            // src="https://cdn.builder.io/api/v1/image/assets/TEMP/c785140e93ef7df38c896c220a92fe3ee37b702cce118ddcfe7a5eba277bdf6a?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/9ffae47cb816d5ac5b57e512113910e3a80652aebbaabf17304aa8d64e019d5d?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
+            className="shrink-0 w-6"  // Ensure your image fits well in the button
             alt="Copy Icon"  // Important for accessibility
             />
         </button>
