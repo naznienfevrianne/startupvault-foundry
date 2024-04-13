@@ -64,3 +64,23 @@ class DiaryEntriesRetrieveUpdate(generics.RetrieveUpdateAPIView):
     queryset = Entry.objects.all()
     serializer_class = EntrySerializer
 
+# Read Diary Entry by Investor
+class DiaryEntriesListRead(generics.ListCreateAPIView):
+    permission_classes = [JWTAuthentication]
+    serializer_class = FounderEntrySerializer
+    
+    # Read
+    def get_queryset(self):
+        sort_by = self.request.query_params.get("sort", None)
+        founderId = self.kwargs["founder"]
+
+        start_date = self.request.query_params.get('startDate', None)
+        end_date = self.request.query_params.get('endDate', None)
+
+        if (sort_by is not None) and (start_date is not None) and (end_date is not None):
+            return Entry.objects.all().filter(founder=founderId, date__range=[start_date, end_date]).order_by(sort_by)
+        elif (sort_by is not None):    
+            return Entry.objects.all().filter(founder=founderId).order_by(sort_by)
+
+        return Entry.objects.filter(founder=founderId)
+
