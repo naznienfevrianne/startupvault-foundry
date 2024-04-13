@@ -65,7 +65,7 @@ function InvestorForm(props) {
         .then(async blob => {
         // Upload the image to Supabase Storage
         const { data, error } = supabase.storage
-            .from('investorimg')
+            .from('investorlogo')
             .upload(fileName, blob);
 
         if (error) {
@@ -73,7 +73,7 @@ function InvestorForm(props) {
         } else {
             console.log('Image uploaded successfully:', data);
             
-            return supabaseUrl + "/storage/v1/object/public/investorimg/" + fileName;
+            return supabaseUrl + "/storage/v1/object/public/investorlogo/" + fileName;
         }
         })
         .catch(error => {
@@ -199,9 +199,6 @@ function InvestorForm(props) {
               "stage": localStorage.getItem("stage"),
               "support": localStorage.getItem("investorSupport"),
               "website": localStorage.getItem("investorWebsite"),
-              "linkedin": localStorage.getItem("investorLinkedin"),
-              "logo": supabaseUrl + "/storage/v1/object/public/investorimg/" + fileName,
-              "name": localStorage.getItem("investorName")
           }))
             const response = await fetch("http://localhost:8000/auth/investororg/", {
                 method: 'POST',
@@ -217,9 +214,6 @@ function InvestorForm(props) {
                     "stage": localStorage.getItem("stage"),
                     "support": localStorage.getItem("investorSupport"),
                     "website": localStorage.getItem("investorWebsite"),
-                    "linkedin": localStorage.getItem("investorLinkedin"),
-                    "logo": supabaseUrl + "/storage/v1/object/public/investorimg/" + fileName,
-                    "name": localStorage.getItem("investorName")
                 })
             })
   
@@ -513,4 +507,3 @@ function InvestorForm(props) {
   );
 }
 export default InvestorForm;
-

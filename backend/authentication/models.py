@@ -66,7 +66,7 @@ class PartnerOrganization(models.Model):
     website = models.TextField()
     linkedin = models.TextField(default="")
     mou = models.TextField(default="")
-    
+
     def __str__(self):
         return self.name
 
@@ -80,4 +80,21 @@ class Investor(UserModel):
 class Partner(UserModel):
     partnerOrganization = models.OneToOneField(PartnerOrganization, on_delete=models.CASCADE, related_name='partner', default="")
 
-    
+class Top10Startup(models.Model):
+    rank1 = models.ForeignKey(Startup, related_name="rank1", on_delete=models.CASCADE)
+    rank2 = models.ForeignKey(Startup, related_name="rank2", on_delete=models.CASCADE)
+    rank3 = models.ForeignKey(Startup, related_name="rank3", on_delete=models.CASCADE)
+    rank4 = models.ForeignKey(Startup, related_name="rank4", on_delete=models.CASCADE)
+    rank5 = models.ForeignKey(Startup, related_name="rank5", on_delete=models.CASCADE)
+    rank6 = models.ForeignKey(Startup, related_name="rank6", on_delete=models.CASCADE)
+    rank7 = models.ForeignKey(Startup, related_name="rank7", on_delete=models.CASCADE)
+    rank8 = models.ForeignKey(Startup, related_name="rank8", on_delete=models.CASCADE)
+    rank9 = models.ForeignKey(Startup, related_name="rank9", on_delete=models.CASCADE)
+    rank10 = models.ForeignKey(Startup, related_name="rank10", on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        startup_ranks = [self.rank1, self.rank2, self.rank3, self.rank4, self.rank5, self.rank6, self.rank7, self.rank8, self.rank9, self.rank10]
+        if len(startup_ranks) != len(set(startup_ranks)): # check is the len of startup_ranks equal to set startup_ranks
+            raise ValueError("Duplicate startups are not allowed in the ranks.")
+
+        super().save(*args, **kwargs)
