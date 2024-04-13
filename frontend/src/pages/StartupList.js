@@ -55,7 +55,7 @@ const StartupList = () => {
           <div className="my-auto text-xl text-neutral-400">
           {startups.length} startups found
           </div>
-          <div className="flex gap-3 text-base tracking-normal whitespace-nowrap text-stone-100">
+          {/* <div className="flex gap-3 text-base tracking-normal whitespace-nowrap text-stone-100">
             <div className="flex gap-2.5 justify-center py-2 pr-4 pl-3 rounded-3xl border border-solid border-neutral-400">
               <img
                 loading="lazy"
@@ -80,7 +80,7 @@ const StartupList = () => {
               />
               <div>Sort</div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {startups.map((startup) => (
@@ -234,8 +234,22 @@ const StartupList = () => {
           <div className="mt-6 text-lg tracking-normal text-stone-100 max-md:max-w-full">
             {startup.desc}
           </div>
-          <div className="justify-center self-end">
+          {/* <div className="justify-center self-end">
             <Follow page="list" />
+          </div> */}
+          <div className="justify-center self-end">
+          <button
+            className="flex justify-center items-center px-5 py-3 mt-4 text-xl font-semibold tracking-widest text-black whitespace-nowrap rounded-lg text-stone-100"
+          >
+            <Link to={`/startupDetails/${startup.id}`} className="flex items-center">
+              <span class="no-underline hover:underline">Detail</span>
+              <img
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/49463c4251f731eb4e4194f66cb420745ba1bedb7fd5dd9886ca785663d467b0?apiKey=9ff2a73e8144478896bce8206c80f3e2&width=100"
+                className="w-8 h-8 ml-2 rounded-full aspect-square bg-green-200 bg-opacity-20"
+              />
+            </Link>
+          </button>
           </div>
         </div>
         ))}
