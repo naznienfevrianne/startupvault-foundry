@@ -673,7 +673,7 @@ useEffect(() => {
       <div className="flex flex-col grow items-end py-6 pr-5 max-md:pl-5 max-md:max-w-full">
       <div className="flex gap-2 self-start ml-10 text-xl text-neutral-400 max-md:ml-2.5">
         <div>
-            <Link to="/listStartup" className="cursor-pointer">Our Startups</Link>
+            <Link to="/startupList" className="cursor-pointer">Our Startups</Link>
         </div>
         <img
           loading="lazy"
