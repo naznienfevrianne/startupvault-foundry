@@ -40,9 +40,9 @@ function FounderDiary(props) {
       let endpoint;
 
       if(value.startDate != null && value.endDate != null){
-        endpoint = `http://localhost:8000/diary/diaryEntries/founder/${idFounder}?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}`
+        endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${idFounder}?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}`
       } else{
-        endpoint = `http://localhost:8000/diary/diaryEntries/founder/${idFounder}?sort=${sort}`
+        endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${idFounder}?sort=${sort}`
       }
 
       try {
@@ -106,7 +106,7 @@ function FounderDiary(props) {
       let method;
       let message;
       if (filledThisWeek){
-        endpoint = "http://localhost:8000/diary/diaryEntries/" + thisWeekEntryId;
+        endpoint = "https://startupvault-foundry.vercel.app/diary/diaryEntries/" + thisWeekEntryId;
         data = {
           "sales": sales,
           "revenue": revenue,
@@ -117,7 +117,7 @@ function FounderDiary(props) {
         message = "Successfully update this week entry!";
         console.log("masuk ga")
       } else{
-        endpoint = "http://localhost:8000/diary/diaryEntries/founder/" + idFounder;
+        endpoint = "https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/" + idFounder;
         data = {
           "sales": sales,
           "revenue": revenue,
