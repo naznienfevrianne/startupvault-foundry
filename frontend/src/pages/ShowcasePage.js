@@ -50,7 +50,7 @@ const NavigationBar = () => (
     <NavbarItem href="/">Showcase</NavbarItem>
     <NavbarItem href="/events">Events</NavbarItem>
     <NavbarItem href="/investors">Our Investors</NavbarItem>
-    <NavbarItem href="/startups">Our Startups</NavbarItem>
+    <NavbarItem href="/startupList">Our Startups</NavbarItem>
   </nav>
 );
 

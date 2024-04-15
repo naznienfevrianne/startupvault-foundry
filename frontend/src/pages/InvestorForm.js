@@ -65,7 +65,7 @@ function InvestorForm(props) {
         .then(async blob => {
         // Upload the image to Supabase Storage
         const { data, error } = supabase.storage
-            .from('investorimg')
+            .from('investorlogo')
             .upload(fileName, blob);
 
         if (error) {
@@ -73,7 +73,7 @@ function InvestorForm(props) {
         } else {
             console.log('Image uploaded successfully:', data);
             
-            return supabaseUrl + "/storage/v1/object/public/investorimg/" + fileName;
+            return supabaseUrl + "/storage/v1/object/public/investorlogo/" + fileName;
         }
         })
         .catch(error => {
@@ -81,6 +81,27 @@ function InvestorForm(props) {
         });
       }
 
+      const uploadUserImg = (fileName) => {
+        fetch(localStorage.getItem("profilePicture"))
+        .then(response => response.blob())
+        .then(async blob => {
+        // Upload the image to Supabase Storage
+        const { data, error } = supabase.storage
+            .from('userimg')
+            .upload(fileName, blob);
+
+        if (error) {
+            console.error('Error uploading profilePicture:', error.message);
+        } else {
+            console.log('Image uploaded successfully:', data);
+            
+            return supabaseUrl + "/storage/v1/object/public/userimg/" + fileName;
+        }
+        })
+        .catch(error => {
+        console.error('profilePicture fetching image from localhost:', error);
+        });
+      }
     const handleSubmit = async () => {
       let investorLogoValid = true
       let investorNameValid = true
@@ -154,7 +175,7 @@ function InvestorForm(props) {
           localStorage.setItem("stage", stage)
           localStorage.setItem("investorSupport", investorSupport)
           localStorage.setItem("investorWebsite", investorWebsite)
-          localStorage.setItem("investorlinkedin", investorLinkedin)
+          localStorage.setItem("investorLinkedin", investorLinkedin)
           try {
 
 
@@ -164,15 +185,12 @@ function InvestorForm(props) {
             const fileName = valueWithoutSpaces + "/" + generateRandomString(25)
 
             const investorLogoUrl = uploadInvestorImg(fileName)
-
-            console.log( JSON.stringify({
-              "email":localStorage.getItem("email"),
-              "role":localStorage.getItem("role"),
-              "password":localStorage.getItem("password"),
-              "isVerified":0,
-              "image": supabaseUrl + "/storage/v1/object/public/investorimg/" + fileName,
-              "linkedin": "https://linkedin.com/in/" + localStorage.getItem("investorLinkedin"),
-              "name": localStorage.getItem("investorName"),
+            const userimgURL = uploadUserImg(fileName)
+            console.log("User Image URL:", userimgURL);
+            console.log("investor Logo URL:", investorLogoUrl);
+            console.log("user img in local ", localStorage.getItem("profilePicture"))
+            console.log("investor logo in local", localStorage.getItem("investorLogo"))
+            console.log(JSON.stringify({
               "typ": localStorage.getItem("investorType"),
               "location": localStorage.getItem("investorLocation"),
               "desc": localStorage.getItem("investorDescription"),
@@ -182,19 +200,12 @@ function InvestorForm(props) {
               "support": localStorage.getItem("investorSupport"),
               "website": localStorage.getItem("investorWebsite"),
           }))
-            const response = await fetch("https://startupvault-foundry.vercel.app/auth/investor/", {
+            const response = await fetch("http://localhost:8000/auth/investororg/", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    "email":localStorage.getItem("email"),
-                    "role":localStorage.getItem("role"),
-                    "password":localStorage.getItem("password"),
-                    "isVerified":0,
-                    "image": supabaseUrl + "/storage/v1/object/public/investorimg/" + fileName,
-                    "linkedin": "https://linkedin.com/in/" + localStorage.getItem("investorLinkedin"),
-                    "name": localStorage.getItem("investorName"),
                     "typ": localStorage.getItem("investorType"),
                     "location": localStorage.getItem("investorLocation"),
                     "desc": localStorage.getItem("investorDescription"),
@@ -210,8 +221,35 @@ function InvestorForm(props) {
               const data = await response.json();
               alert("Submission successful!");
               console.log(data);
+              const pk = data.id
+              const responseInvestor = await fetch("http://localhost:8000/auth/investor/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  
+                    "email": localStorage.getItem("email"),
+                    "role": "investor",
+                    "password": localStorage.getItem("password"),
+                    "isVerified": 0,
+                    "image": supabaseUrl + "/storage/v1/object/public/userimg/" + fileName, // profile picture
+                    "linkedin": "https://linkedin.com/" + localStorage.getItem("linkedin"),
+                    "name": localStorage.getItem("name"),
+                    "phoneNumber": localStorage.getItem("phoneNumber"),
+                    "investorOrganization": pk
+                })
+            })
+            if (!responseInvestor.ok) {
+              const investorJsonData = await responseInvestor.json();
+              console.log(investorJsonData);
+            } else {
+              const investorJsonData = await responseInvestor.json();
+              alert("Submission successful!");
+              console.log(investorJsonData);
+              localStorage.clear()
               navigate("/login")
-                
+            }
             } else {
               const jsonData = await response.json();
                 console.log(jsonData);
@@ -469,4 +507,3 @@ function InvestorForm(props) {
   );
 }
 export default InvestorForm;
-

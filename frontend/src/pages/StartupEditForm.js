@@ -311,8 +311,8 @@ const StartupEditDetails = () => {
           const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json",
-                'Authorization': 'Bearer ' + token
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(startupDetails),
             });
@@ -387,8 +387,8 @@ const StartupEditDetails = () => {
                 const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`,{
                 method: "GET", 
                 headers:{
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
                 }
                 }
                 );
@@ -606,7 +606,7 @@ const StartupEditDetails = () => {
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Name</div>
                   <input
                     type="text"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
                     placeholder=" "
                     value={startupDetails.name}
                     onChange={(e) => setStartupDetails({ ...startupDetails, name: e.target.value })}
@@ -615,7 +615,7 @@ const StartupEditDetails = () => {
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Location</div>
                   <input
                     type="text"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
                     placeholder=" "
                     value={startupDetails.location}
                     onChange={(e) => setStartupDetails({ ...startupDetails, location: e.target.value })}
@@ -666,7 +666,7 @@ const StartupEditDetails = () => {
                     </span>
                 </div>
                 <textarea
-                className={`block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer`}
+                className={`block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer`}
                 placeholder=""
                 value={startupDetails.desc}
                 onChange={handleDescriptionChange}
@@ -884,7 +884,7 @@ const StartupEditDetails = () => {
                 </div>
                   <input
                     type="text"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
                     placeholder=" "
                     value={startupDetails.support}
                     onChange={(e) => setStartupDetails({ ...startupDetails, support: e.target.value })}
@@ -895,7 +895,7 @@ const StartupEditDetails = () => {
                 </div>
                   <input
                     type="text"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
                     placeholder=" "
                     value={startupDetails.website}
                     onChange={(e) => setStartupDetails({ ...startupDetails, website: e.target.value })}
@@ -906,7 +906,7 @@ const StartupEditDetails = () => {
                 </div>
                   <input
                     type="text"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-400 focus:outline-none focus:ring-0 focus:border-green-400 peer"
+                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
                     placeholder="linkedin.com/in/"
                     value={startupDetails.linkedin}
                     onChange={(e) => setStartupDetails({ ...startupDetails, linkedin: e.target.value })}
