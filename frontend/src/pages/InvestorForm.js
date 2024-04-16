@@ -200,7 +200,7 @@ function InvestorForm(props) {
               "support": localStorage.getItem("investorSupport"),
               "website": localStorage.getItem("investorWebsite"),
           }))
-            const response = await fetch("http://localhost:8000/auth/investororg/", {
+            const response = await fetch("https://startupvault-foundry.vercel.app/auth/investororg/", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -222,7 +222,7 @@ function InvestorForm(props) {
               alert("Submission successful!");
               console.log(data);
               const pk = data.id
-              const responseInvestor = await fetch("http://localhost:8000/auth/investor/", {
+              const responseInvestor = await fetch("https://startupvault-foundry.vercel.app/auth/investor/", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -17,7 +17,7 @@ function InvestorDetails(props) {
   const fetchDataInvestor = async () => {
     try {
         // const response = await fetch(`https://startupvault-foundry.vercel.app/auth/investor/${idInvestor}/`,{
-        const response = await fetch(`http://localhost:8000/auth/investor/${idInvestor}/`, {
+        const response = await fetch(`https://startupvault-foundry.vercel.app/auth/investor/${idInvestor}/`, {
             method: "GET", 
             headers:{
                 'Content-Type': 'application/json',

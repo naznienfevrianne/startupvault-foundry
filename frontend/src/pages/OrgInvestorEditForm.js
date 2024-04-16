@@ -31,7 +31,7 @@ function OrgInvestorEditForm(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8000/auth/investororg/' + investorOrganization, {
+        const response = await fetch('https://startupvault-foundry.vercel.app/auth/investororg/' + investorOrganization, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -210,7 +210,7 @@ function OrgInvestorEditForm(props) {
               "logo": logoUrl,
               "name": localStorage.getItem("investorName")
           }))
-            const response = await fetch("http://localhost:8000/auth/investororg/" + investorOrganization, {
+            const response = await fetch("https://startupvault-foundry.vercel.app/auth/investororg/" + investorOrganization, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

@@ -26,7 +26,7 @@ function OrgInvestorReadForm(props) {
   const fetchDataInvestor = async () => {
     try {
         // const response = await fetch(`https://startupvault-foundry.vercel.app/auth/investor/${idInvestor}/`,{
-        const response = await fetch("http://localhost:8000/auth/investororg/" + idInvestorOrg, {
+        const response = await fetch("https://startupvault-foundry.vercel.app/auth/investororg/" + idInvestorOrg, {
             method: "GET", 
             headers:{
                 'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ function OrgInvestorReadForm(props) {
         const entry = await response.json();
         setInvestorEntry(entry);
         try {
-            const response = await fetch("http://127.0.0.1:8000/auth/investor/" + idInvestor + "/", {
+            const response = await fetch("https://startupvault-foundry.vercel.app/auth/investor/" + idInvestor + "/", {
                 method: "GET", 
                 headers:{
                     'Content-Type': 'application/json',

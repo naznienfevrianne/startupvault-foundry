@@ -40,9 +40,9 @@ function FounderDiary(props) {
       let endpoint;
 
       if(value.startDate != null && value.endDate != null){
-        endpoint = `http://localhost:8000/diary/diaryEntries/founder/${idFounder}?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}`
+        endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${idFounder}?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}`
       } else{
-        endpoint = `http://localhost:8000/diary/diaryEntries/founder/${idFounder}?sort=${sort}`
+        endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${idFounder}?sort=${sort}`
       }
 
       try {

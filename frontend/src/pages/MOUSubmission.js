@@ -132,7 +132,7 @@ function MOUSubmission(props) {
                   "logo": supabaseUrl + "/storage/v1/object/public/partnerimg/" + fileName,
                   "name": localStorage.getItem("partnerName"),
               }))
-                const response = await fetch("http://localhost:8000/auth/partnerorg/", {
+                const response = await fetch("https://startupvault-foundry.vercel.app/auth/partnerorg/", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -154,7 +154,7 @@ function MOUSubmission(props) {
                   alert("Submission successful!");
                   console.log(data);
                   const pk = data.id
-                  const responsePartner = await fetch("http://localhost:8000/auth/partner/", {
+                  const responsePartner = await fetch("https://startupvault-foundry.vercel.app/auth/partner/", {
                       method: 'POST',
                       headers: {
                           'Content-Type': 'application/json'
