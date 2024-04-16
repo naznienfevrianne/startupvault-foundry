@@ -65,7 +65,7 @@ function UpdateInvestorDetails(props) {
           return;
       }
 
-      const filePath = `${investorData.name}/${fileName}`;
+      const filePath = `${investorData.name.replace(/\s/g, '')}/${fileName.replace(/\s/g, '')}`;
       const fileExists = existingFiles.some(file => file.name === fileName);
 
       if (fileExists) { // Update existing file
