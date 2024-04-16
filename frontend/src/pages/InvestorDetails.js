@@ -5,7 +5,12 @@ import NavBar from "../component/NavBar";
 
 
 function InvestorDetails(props) {
-  const [investorData, setInvestorEntry] = React.useState({});
+  const [investorData, setInvestorEntry] = React.useState({
+    name: '',
+    linkedin: '',
+    email: '',
+    phoneNumber: ''
+  });
   const myCookies = new Cookies();
   const idInvestor = myCookies.get('id')
   const token = myCookies.get('token')
@@ -16,8 +21,7 @@ function InvestorDetails(props) {
 
   const fetchDataInvestor = async () => {
     try {
-        // const response = await fetch(`https://startupvault-foundry.vercel.app/auth/investor/${idInvestor}/`,{
-        const response = await fetch(`http://localhost:8000/auth/investor/${idInvestor}/`, {
+        const response = await fetch(`https://startupvault-foundry.vercel.app/auth/investor/${idInvestor}/`, {
             method: "GET", 
             headers:{
                 'Content-Type': 'application/json',

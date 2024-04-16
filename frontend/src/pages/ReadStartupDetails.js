@@ -38,7 +38,7 @@ const StartupDetails = () => {
   useEffect(() => {
       const fetchStartup = async () => {
           try {
-              const response = await fetch(`http://127.0.0.1:8000/auth/startup/${idStartup}/`, {
+              const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`, {
                   method: "GET",
                   headers: {
                       'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ const StartupDetails = () => {
       if (startup && startup.founder_id) {
           const fetchFounder = async () => {
               try {
-                  const response = await fetch(`http://127.0.0.1:8000/auth/founder/${startup.founder_id}/`, {
+                  const response = await fetch(`https://startupvault-foundry.vercel.app/auth/founder/${startup.founder_id}/`, {
                       method: "GET",
                       headers: {
                           'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ const StartupDetails = () => {
 
   const fetchDataMetrics = async (founderId) => {
       try {
-          const response = await fetch(`http://127.0.0.1:8000/diary/${founderId}/`, {
+          const response = await fetch(`https://startupvault-foundry.vercel.app/diary/${founderId}/`, {
               method: 'GET',
               headers: {
                   'Content-Type': 'application/json',
@@ -108,7 +108,7 @@ const StartupDetails = () => {
       if (!founderId) return; // Ensure founderId is available
 
       try {
-          const response = await fetch(`http://127.0.0.1:8000/diary/diaryEntriesRead/founder/${founderId}?sort=date`, {
+          const response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntriesRead/founder/${founderId}?sort=date`, {
               method: 'GET',
               headers: {
                   'Content-Type': 'application/json',
