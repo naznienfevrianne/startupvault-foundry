@@ -445,7 +445,7 @@ useEffect(() => {
             <div className="self-start mt-6 text-2xl font-medium tracking-wide text-stone-100 max-md:ml-2.5">
             Founder
             </div>
-            <div className="flex flex-col items-start self-start p-6 mt-3 max-w-full rounded-lg bg-neutral-800 w-[410px] max-md:px-5 max-md:ml-2.5">
+            <div className="flex flex-col items-start self-start p-6 mt-3 max-w-full rounded-lg bg-neutral-800 w-[500px] max-md:px-5 max-md:ml-2.5">
             <div className="flex gap-4">
               <div className="flex justify-center items-center">
                 <img
