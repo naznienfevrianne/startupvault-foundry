@@ -49,6 +49,9 @@ function LoginBox(props) {
             console.log("sini")
             navigate("/dashboard")
             window.location.reload()
+          } else if (role == 'investor' && isVerified == 1) {
+            navigate("/dashboardInvestor")
+            window.location.reload()
           } else {
             console.log("apa sini")
             navigate("/")

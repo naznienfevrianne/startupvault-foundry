@@ -43,7 +43,7 @@ function InvestorDashboard(props){
 	const fetchDataInvestor = async () => {
 		try {
 			// const response = await fetch(`https://startupvault-foundry.vercel.app/auth/investor/${idInvestor}/`,{
-			const response = await fetch("http://localhost:8000/auth/investororg/" + idInvestorOrg, {
+			const response = await fetch("https://startupvault-foundry.vercel.app/auth/investororg/" + idInvestorOrg, {
 				method: "GET", 
 				headers:{
 					'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ function InvestorDashboard(props){
 			const entry = await response.json();
 			setInvestorEntry(entry);
 			try {
-				const response = await fetch("http://127.0.0.1:8000/auth/investor/" + idInvestor + "/", {
+				const response = await fetch("https://startupvault-foundry.vercel.app/auth/investor/" + idInvestor + "/", {
 					method: "GET", 
 					headers:{
 						'Content-Type': 'application/json',
@@ -81,20 +81,20 @@ function InvestorDashboard(props){
 			let endpoint;
 
 			if(value.startDate != null && value.endDate != null && searchTerm.length != 0){
-				endpoint = `http://localhost:8000/diary/diaryEntries/investor/${idInvestor}?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}&startup_name=`
+				endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/investor/${idInvestor}?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}&startup_name=`
 
 				for(let i = 0; i < searchTerm.length; i++){
 					endpoint += `${searchTerm[i]},`
 				}
 			} else if (value.startDate != null && value.endDate != null){
-				endpoint = `http://localhost:8000/diary/diaryEntries/investor/${idInvestor}?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}`
+				endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/investor/${idInvestor}?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}`
 			} else if (searchTerm.length != 0){
-				endpoint = `http://localhost:8000/diary/diaryEntries/investor/${idInvestor}?sort=${sort}&startup_name=`
+				endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/investor/${idInvestor}?sort=${sort}&startup_name=`
 				for(let i = 0; i < searchTerm.length; i++){
 					endpoint += `${searchTerm[i]},`
 				}
 			} else{
-				endpoint = `http://localhost:8000/diary/diaryEntries/investor/${idInvestor}?sort=${sort}`
+				endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/investor/${idInvestor}?sort=${sort}`
 			} 
 
       try {
@@ -123,7 +123,7 @@ function InvestorDashboard(props){
 
 		const fetchFollowing = async() => {
 			try {
-        const response = await fetch(`http://localhost:8000/diary/following/${idInvestor}`, {
+        const response = await fetch(`https://startupvault-foundry.vercel.app/diary/following/${idInvestor}`, {
           method:"GET",
           headers: {
             'Content-Type': 'application/json',
