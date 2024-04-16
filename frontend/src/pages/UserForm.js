@@ -42,7 +42,7 @@ function UserForm(props) {
       setErrorMessage("Please upload a profile picture")
     }
 
-    if (phoneNumber && linkedin && profilePicture) {
+    if (phoneNumberValid && linkedinValid && profilePictureValid) {
       localStorage.setItem("name", name);
       localStorage.setItem("linkedin", linkedin);
       // localStorage.setItem("founderEmail", founderEmail);

@@ -15,7 +15,7 @@ function Top10Startup() {
     const fetchTop10Data = async () => {
       try {
           // const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/top10`,{
-          const response = await fetch(`http://localhost:8000/auth/startup/top10`, {
+          const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/top10`, {
               method: "GET", 
               headers:{
                   'Content-Type': 'application/json',
