@@ -54,6 +54,7 @@ function LoginBox(props) {
             window.location.reload()
           } else {
             console.log("apa sini")
+            console.log(role)
             navigate("/")
             window.location.reload()
 

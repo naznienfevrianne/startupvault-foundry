@@ -5,7 +5,12 @@ import NavBar from "../component/NavBar";
 
 
 function InvestorDetails(props) {
-  const [investorData, setInvestorEntry] = React.useState({});
+  const [investorData, setInvestorEntry] = React.useState({
+    name: '',
+    linkedin: '',
+    email: '',
+    phoneNumber: ''
+  });
   const myCookies = new Cookies();
   const idInvestor = myCookies.get('id')
   const token = myCookies.get('token')
@@ -16,7 +21,6 @@ function InvestorDetails(props) {
 
   const fetchDataInvestor = async () => {
     try {
-        // const response = await fetch(`https://startupvault-foundry.vercel.app/auth/investor/${idInvestor}/`,{
         const response = await fetch(`https://startupvault-foundry.vercel.app/auth/investor/${idInvestor}/`, {
             method: "GET", 
             headers:{
@@ -128,7 +132,7 @@ function InvestorDetails(props) {
               </div>
               <img
                 loading="lazy"
-                srcSet={investorData.image}
+                src={investorData.image}
                 className="mt-5 bg-green-700 rounded-full aspect-[0.99] h-[74px] w-[74px]"
               />
               <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">

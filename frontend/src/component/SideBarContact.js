@@ -19,7 +19,13 @@ function SideBarContact() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/auth/startup/${idStartup}/`);
+        const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`, {
+          method:"GET",
+          headers:{
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+        });
         const data = await response.json();
         console.log('Fetched data:', data);
         console.log('role cookie:', role);
@@ -27,7 +33,13 @@ function SideBarContact() {
           setStartup(data);
   
           // Fetch total followers separately
-          const followersResponse = await fetch(`http://localhost:8000/diary/total_followers/${idStartup}/`);
+          const followersResponse = await fetch(`https://startupvault-foundry.vercel.app/diary/total_followers/${idStartup}/`, {
+            method:'GET',
+            headers:{
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+          }
+          });
           const follsData = await followersResponse.json();
           console.log('Fetched followers count:', follsData );
           if (followersResponse.ok) {
@@ -49,7 +61,13 @@ function SideBarContact() {
   
    const fetchFollowStatus = async () => {
      try {
-       const response = await fetch(`http://localhost:8000/diary/check_follow/?startup_id=${idStartup}&investor_id=${idInvestor}`);
+       const response = await fetch(`https://startupvault-foundry.vercel.app/diary/check_follow/?startup_id=${idStartup}&investor_id=${idInvestor}`, {
+         method: "GET",
+         headers:{
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+      }
+       });
        const data = await response.json();
        console.log('Fetched isFollowing:', data);
        if (response.ok) {
@@ -65,12 +83,11 @@ function SideBarContact() {
     const toggleFollow = async () => {
   
       try {
-        const response = await fetch('http://localhost:8000/diary/follow/', {
+        const response = await fetch('https://startupvault-foundry.vercel.app/diary/follow/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            // Add your authentication token if needed
-            // 'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
           },
           body: JSON.stringify({
             startup: idStartup,
@@ -126,7 +143,7 @@ function SideBarContact() {
     useEffect(() => {
         const fetchFounder = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:8000/auth/founder/${idFounder}/`, {
+                const response = await fetch(`https://startupvault-foundry.vercel.app/auth/founder/${idFounder}/`, {
                     method: "GET",
                     headers: {
                         'Content-Type': 'application/json',
@@ -160,7 +177,7 @@ function SideBarContact() {
       </div>
       <div className="flex flex-col p-7 mt-6 max-w-full rounded-lg bg-neutral-800 w-[360px] max-md:px-5">
       <div className="flex gap-1 pr-8 text-2xl font-medium tracking-wide whitespace-nowrap text-stone-100 max-md:pr-5">
-        <div>{startup.name}</div>
+      <div style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{startup.name}</div>
 
         <img
           loading="lazy"
@@ -194,7 +211,7 @@ function SideBarContact() {
           )}
         </div>
       <div className="flex gap-2 justify-center mt-10 text-xl text-stone-100 w-[360px]">
-        <div className="flex-1">Contact 
+        <div className="flex-1" style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>Contact 
         <span className="text-xl font-semibold"> {startup.name}</span></div>
         <div className="flex-1 shrink-0 my-auto h-px border border-solid bg-neutral-400 border-neutral-400" />
       </div>

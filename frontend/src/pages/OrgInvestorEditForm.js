@@ -27,6 +27,8 @@ function OrgInvestorEditForm(props) {
     const supabaseKey= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpdHpzaWh3enNodWpnZWJtZHJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc1MzQyMjYsImV4cCI6MjAyMzExMDIyNn0.vDEP-XQL4BKAww7l_QW1vsQ4dZCM5GknBPACrgPXfKA"
   const supabase = createClient(supabaseUrl, supabaseKey);
   let logoChanged = false
+  const token = myCookies.get('token')
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +36,8 @@ function OrgInvestorEditForm(props) {
         const response = await fetch('https://startupvault-foundry.vercel.app/auth/investororg/' + investorOrganization, {
           method: 'GET',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
           }
         });
         if (!response.ok) {
@@ -213,7 +216,8 @@ function OrgInvestorEditForm(props) {
             const response = await fetch("https://startupvault-foundry.vercel.app/auth/investororg/" + investorOrganization, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
                 },
                 body: JSON.stringify({
                     "location": localStorage.getItem("investorLocation"),
