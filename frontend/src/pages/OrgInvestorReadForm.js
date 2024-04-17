@@ -237,13 +237,7 @@ function OrgInvestorReadForm(props) {
                     Industry
                     <div className={`shrink-0 mt-2.5 h-0.5 ${activeMenu === "industry" ? "bg-green-400" : "bg-transparent"} rounded-xl`} />
                 </div>
-                <div
-                    className={`self-stretch my-auto ${activeMenu === "location" ? "text-green-400" : "text-neutral-400"} hover:cursor-pointer`}
-                    onClick={() => handleClick("location")}
-                >
-                    Location
-                    <div className={`shrink-0 mt-2.5 h-0.5 ${activeMenu === "location" ? "bg-green-400" : "bg-transparent"} rounded-xl`} />
-                </div>
+                
                 </div>
 
                 {activeMenu === "summary" && (
@@ -310,13 +304,16 @@ function OrgInvestorReadForm(props) {
                 )}
                 </div>
                 )}
-                {activeMenu === "location" && (
-                <div>
-                  
-                <div className="mt-6 text-2xl font-semibold tracking-wide text-stone-100 max-md:max-w-full">
-                  Location
-                </div>
                 
+
+              </div>
+          </div>
+          <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
+          <div className="flex flex-col items-start py-6 pr-20 pl-5 text-xl font-medium text-stone-100 max-md:pr-5 max-md:max-w-full">
+          <div className="flex gap-2 justify-center mt-5">
+          <div className="flex-1">Location</div>
+              <div className="flex-1 shrink-0 my-auto h-px border border-solid bg-neutral-400 border-neutral-400" />
+                </div>
                 <div className="flex gap-4 p-4 bg-neutral-800 max-md:flex-wrap max-md:px-5 mt-3">
                   <img
                     loading="lazy"
@@ -327,13 +324,7 @@ function OrgInvestorReadForm(props) {
                     {investorData.location}
                   </div>
                 </div>
-                </div>
-                )}
-
-              </div>
-          </div>
-          <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
-          <div className="flex flex-col items-start py-6 pr-20 pl-5 text-xl font-medium text-stone-100 max-md:pr-5 max-md:max-w-full">
+                
             <div className="flex gap-2 justify-center mt-5">
               <div className="flex-1">Contact</div>
               <div className="flex-1 shrink-0 my-auto h-px border border-solid bg-neutral-400 border-neutral-400" />
@@ -344,8 +335,10 @@ function OrgInvestorReadForm(props) {
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/5eea301424cfc427d25367620bd195d0f7e1264a11e9b7cc1970ec9a308fc013?"
                 className="shrink-0 w-6 aspect-square"
               />
-              <div className="flex-1" style={{ width: '320px' }}>+62 {contactData.phoneNumber}</div>
-              <a className="hover:cursor-pointer" onClick={() => {
+              <div className="flex-1" style={{ maxWidth: 'calc(100% - 8px)' }}>+62 {contactData.phoneNumber}</div>
+              <a className="hover:cursor-pointer" 
+              style={{ wordBreak: 'break-all' }}
+              onClick={() => {
                     navigator.clipboard.writeText("+62" + contactData.phoneNumber)
                 }}>
               <img
@@ -361,8 +354,10 @@ function OrgInvestorReadForm(props) {
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/10271fc0c5a99e3cb97c7da3ca08a0806d87b5e791b29fc5b639a1c9492051fc?"
                 className="shrink-0 w-6 aspect-square"
               />
-              <div className="flex-1" style={{ width: '320px' }}>{contactData.email}</div>
-              <a href={`mailto:${contactData.email}`}>
+              <div className="flex-1" style={{ maxWidth: 'calc(100% - 8px)' }}>{contactData.email}</div>
+              <a 
+              style={{ wordBreak: 'break-all' }}
+              href={`mailto:${contactData.email}`}>
               <img
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/c785140e93ef7df38c896c220a92fe3ee37b702cce118ddcfe7a5eba277bdf6a?"
@@ -370,18 +365,19 @@ function OrgInvestorReadForm(props) {
               />
               </a>
             </div>
-            <div className="flex gap-4 p-4 mt-4 tracking-wide whitespace-nowrap rounded-lg bg-neutral-800">
+            <div className="flex gap-4 p-4 mt-4 tracking-wide rounded-lg bg-neutral-800">
               <img
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/d7274dd451c8cd9b962b4549c3872acb89029f86f7c2f2041ae3dfe9fa6b9271?"
                 className="shrink-0 w-6 aspect-square"
               />
-              <div className="flex-1" style={{ width: '300px' }}>
+              <div className="flex-1" style={{ maxWidth: 'calc(100% - 8px)' }}>
                 <a
                   href={`${contactData.linkedin}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-200 hover:underline flex items-center px-0"
+                  style={{ wordBreak: 'break-all' }}
                 >
                  {contactData.linkedin}
                 </a>

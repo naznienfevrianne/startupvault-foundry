@@ -7,6 +7,7 @@ import ShowcaseForm from './CreateShowcase.js';
 import { useCookies } from 'react-cookie';
 import DynamicImageGallery from './DynamicImageGallery';
 import{ Cookies } from 'react-cookie';
+import NavBar from "../component/NavBar.js";
 
 const myCookies = new Cookies();
 const isLogin = myCookies.get('login')
@@ -55,7 +56,7 @@ const NavigationBar = () => (
 );
 
 
-const SignUpButton = () => (
+export const SignUpButton = () => (
   <div
       className="justify-center self-center px-5 py-2 mt-0 text-xl font-semibold tracking-widest text-black bg-green-400 whitespace-nowrap rounded-3xl shadow-sm max-md:mt-10 hover:bg-green-500 cursor-pointer"
       type="button">
@@ -63,7 +64,7 @@ const SignUpButton = () => (
   </div>
 );
 
-const LogOutButton = () => (
+export const LogOutButton = () => (
   <div
       className="justify-center self-center px-5 py-2 mt-0 text-xl font-semibold tracking-widest text-black bg-green-400 whitespace-nowrap rounded-3xl shadow-sm max-md:mt-10 hover:bg-green-500 cursor-pointer"
       type="button">
@@ -77,7 +78,6 @@ const Header = () => (
       <h1 className="flex-auto text-xl italic font-semibold tracking-wider leading-10">
         STARTUPVAULT.ID
       </h1>
-      <NavigationBar />
     </div>
     {isLogin ? (
       <LogOutButton />
@@ -320,9 +320,10 @@ const Showcase = () => {
   const rejectionNote = myCookies.get('rejectionNote');
   const isVerified = myCookies.get('isVerified');
   
+  
    return (
-  <div className="flex flex-col h-screen bg-black min-h-screen"> {/* Ensures the main container takes up the full viewport height */}
-    <Header />
+  <div className="flex flex-col h-screen bg-black min-h-screen px-20"> {/* Ensures the main container takes up the full viewport height */}
+    <NavBar status='showcase'/>
     <div className="flex flex-1 overflow-hidden"> {/* This div becomes the flex container for your main content and aside */}
       <main className="flex-1 overflow-auto ml-[120px] mr-[40px]"> {/* Main content area that scrolls */}
 
