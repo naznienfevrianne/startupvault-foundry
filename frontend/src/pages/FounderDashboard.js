@@ -130,7 +130,7 @@ function FounderDashboard(props) {
 
   const fetchDataAnalytics = async () => {
     try {
-      const responseAnalytics = await fetch("https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/" + idFounder + "?sort=date", {
+      const responseAnalytics = await fetch("https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/" + idFounder + "/?sort=date", {
         method:'GET',
         headers: {
           'Content-Type': 'application/json',

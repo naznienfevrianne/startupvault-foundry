@@ -482,7 +482,7 @@ function InvestorDashboard(props){
 								</div>
 								<div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
 									<div class="self-stretch">
-										<span class="text-stone-100 text-xl font-medium font-['SF Pro Display'] tracking-tight">127</span>
+										<span class="text-stone-100 text-xl font-medium font-['SF Pro Display'] tracking-tight">{startupList.length}</span>
 										<span class="text-stone-100 text-base font-medium font-['SF Pro Display'] tracking-tight"> following</span>
 									</div>
 								</div>

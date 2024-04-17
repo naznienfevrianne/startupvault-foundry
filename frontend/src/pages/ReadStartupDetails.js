@@ -206,7 +206,7 @@ useEffect(() => {
       
 
     try {
-      const response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}?sort=-date`, {
+      const response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}/?sort=-date`, {
         method:"GET",
         headers: {
           'Content-Type': 'application/json',

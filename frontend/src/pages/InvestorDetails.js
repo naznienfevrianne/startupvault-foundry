@@ -128,7 +128,7 @@ function InvestorDetails(props) {
               </div>
               <img
                 loading="lazy"
-                srcSet={investorData.image}
+                src={investorData.image}
                 className="mt-5 bg-green-700 rounded-full aspect-[0.99] h-[74px] w-[74px]"
               />
               <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">

@@ -383,7 +383,7 @@ function OrgInvestorReadForm(props) {
                 </a>
               </div>
               <a
-                href={`${investorData.linkedin}`}
+                href={`${contactData.linkedin}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="shrink-0 w-6 aspect-square"

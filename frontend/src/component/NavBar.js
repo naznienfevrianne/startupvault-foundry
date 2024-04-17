@@ -49,7 +49,7 @@ const NavBar = ({ status }) => {
                                 <div className="flex justify-center items-center self-stretch aspect-square">
                                     <img
                                         loading="lazy"
-                                        srcSet={profilePicture}
+                                        src={profilePicture}
                                         className="rounded-full aspect-square text-green-400 bg-opacity-20 h-[30px] w-[30px]"
                                     />
                                 </div>
