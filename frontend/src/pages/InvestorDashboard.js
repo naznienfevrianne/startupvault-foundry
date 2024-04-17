@@ -445,8 +445,8 @@ function InvestorDashboard(props){
 						<aside className="flex w-[26%] flex-col justify-start items-end gap-6">
 							<div className="flex flex-col p-6 mt-6 w-full rounded-lg bg-neutral-800 gap-6">
 								<div className="self-stretch justify-between items-center inline-flex">
-										<div className="w-44 text-white text-2xl font-medium font-['SF Pro Display'] tracking-tight">My Organization</div>
-										<div className="justify-center items-center gap-1 flex">
+										<div className="w-10 text-white text-2xl font-medium font-['SF Pro Display'] tracking-tight">My Organization</div>
+										<div className="justify-right items-right gap-1 flex">
 										<Link to="/orgInvestorReadForm">
 										<div className="text-neutral-400 text-sm font-normal font-['SF Pro Display'] tracking-tight">Edit details</div>
 										</Link>
@@ -474,57 +474,67 @@ function InvestorDashboard(props){
 										</div>
 										</div>
 								</div>
-								<div className="self-stretch h-14 rounded-lg flex-col justify-start items-start gap-2 flex">
-										<div className="self-stretch justify-start items-center gap-2 inline-flex">
-										<div className="w-6 h-6 px-[0.75px] pt-[4.50px] pb-[3px] justify-center items-center flex" />
-										<div className="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Following</div>
-										<div className="w-[86px] h-3.5 text-right text-green-400 text-sm font-normal font-['SF Pro Display'] tracking-tight">View following</div>
-										</div>
-										<div className="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
-										<div className="self-stretch"><span className="text-stone-100 text-xl font-medium font-['SF Pro Display'] tracking-tight">127</span><span className="text-stone-100 text-base font-medium font-['SF Pro Display'] tracking-tight"> following</span></div>
-										</div>
+								<div class="self-stretch h-14 rounded-lg flex-col justify-start items-start gap-2 flex">
+								<div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
+									<div class="self-stretch">
+										<span class="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Following</span>
+									</div>
 								</div>
+								<div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
+									<div class="self-stretch">
+										<span class="text-stone-100 text-xl font-medium font-['SF Pro Display'] tracking-tight">{startupList.length}</span>
+										<span class="text-stone-100 text-base font-medium font-['SF Pro Display'] tracking-tight"> following</span>
+									</div>
+								</div>
+								</div>
+
 								<div className="self-stretch h-14 rounded-lg flex-col justify-start items-start gap-2 flex">
-										<div className="justify-center items-center gap-2 inline-flex">
-										<div className="w-6 h-6 px-[3.75px] py-[1.50px] justify-center items-center flex" />
-										<div className="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Location</div>
-										</div>
+								<div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
+									<div class="self-stretch">
+										<span class="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Location</span>
+									</div>
+								</div>
 										<div className="text-white text-xl font-medium font-['SF Pro Display'] tracking-tight">{investorData.location}</div>
 								</div>
 								<div className="self-stretch h-[69px] rounded-lg flex-col justify-start items-start gap-2 flex">
-										<div className="justify-center items-center gap-2 inline-flex">
-										<div className="w-6 h-6 pl-[3px] pr-[2.25px] pt-[2.25px] pb-[3px] justify-center items-center flex" />
-										<div className="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Phone number</div>
-										</div>
+								<div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
+									<div class="self-stretch">
+										<span class="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Phone number</span>
+									</div>
+								</div>
 										<div className="px-4 py-2 bg-neutral-700 rounded-lg justify-center items-center gap-3 inline-flex">
 										<div className="text-white text-lg font-medium font-['SF Pro Display'] tracking-tight">{contactData.phoneNumber}</div>
 										</div>
 								</div>
 								<div className="self-stretch h-[69px] rounded-lg flex-col justify-start items-start gap-2 flex">
-										<div className="justify-center items-center gap-2 inline-flex">
-										<div className="w-6 h-6 px-[2.25px] py-[4.50px] justify-center items-center flex" />
-										<div className="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Contact email</div>
-										</div>
+								<div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
+									<div class="self-stretch">
+										<span class="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Contact email</span>
+									</div>
+								</div>
 										<div className="px-4 py-2 bg-neutral-700 rounded-lg justify-center items-center gap-3 inline-flex">
 										<div className="text-white text-lg font-medium font-['SF Pro Display'] tracking-tight">{contactData.email}</div>
 										</div>
 								</div>
-								<div className="self-stretch h-[72px] rounded-lg flex-col justify-start items-start gap-2 flex">
-										<div className="justify-center items-center gap-2 inline-flex">
-										<div className="w-6 h-6 p-[2.25px] justify-center items-center flex" />
-										<div className="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">LinkedIn</div>
-										</div>
-										<div className="px-4 py-2 bg-neutral-700 rounded-lg justify-center items-center gap-3 inline-flex">
-										<div className="text-white text-lg font-medium font-['SF Pro Display'] tracking-tight">{contactData.linkedin}</div>
+								<div className="self-stretch h-[72px] rounded-lg flex-col justify-start items-start gap-2 flex" style={{ marginBottom:'20px'}}>
+								<div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
+									<div class="self-stretch">
+										<span class="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">LinkedIn</span>
+									</div>
+								</div>
+										<div className="px-4 py-2 bg-neutral-700 rounded-lg justify-center items-center gap-3 inline-flex" style={{ maxWidth: 'calc(100% - 8px)'}}>
+										<div className="text-white text-lg font-medium font-['SF Pro Display'] tracking-tight " style={{ wordBreak: 'break-all' }}>{contactData.linkedin}</div>
 										<div className="w-6 h-6 p-[2.25px] justify-center items-center flex" />
 										</div>
 								</div>
+								<div className="mt-5 self-stretch h-[72px] rounded-lg flex-col justify-start items-start gap-2 flex">
 								<Link to="/orgInvestorReadForm">
-								<div className="self-stretch px-5 py-3 bg-stone-100 rounded-lg justify-center items-center gap-2.5 inline-flex">
-										<div className="w-8 h-8 p-[3px] justify-center items-center flex" />
+								<div className="flex justify-end px-5 py-3 bg-stone-100 rounded-lg justify-center items-center gap-2.5 inline-flex" >
+										
 										<div className="text-black text-xl font-semibold font-['Zuume'] tracking-wider">View public profile</div>
 								</div>
 								</Link>
+								</div>
 							</div>
 						</aside>
 					</div>

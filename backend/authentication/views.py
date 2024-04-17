@@ -165,8 +165,7 @@ def test_token(request):
     return JsonResponse({"message": "pass"}, status=200)
 
 class InvestorOrganizationRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [JWTAuthentication] 
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication] 
     serializer_class = InvestorOrganizationSerializer
 
     def get_queryset(self):
@@ -187,8 +186,7 @@ class InvestorOrganizationRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAP
         return self.update(request, *args, **kwargs)
     
 class PartnerOrganizationRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [JWTAuthentication] 
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication]
     serializer_class = PartnerOrganizationSerializer
 
     def get_queryset(self):
@@ -212,8 +210,7 @@ class PartnerOrganizationRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPI
         return Response(serializer.data)
 
 class InvestorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-     # permission_classes = [JWTAuthentication] 
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication] 
     serializer_class = InvestorSerializer
 
     def get_queryset(self):
@@ -234,8 +231,7 @@ class InvestorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return self.update(request, *args, **kwargs)
 
 class PartnerRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [JWTAuthentication] 
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication] 
     serializer_class = PartnerSerializer
 
     def get_queryset(self):
@@ -259,8 +255,7 @@ class PartnerRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.data)
         
 class FounderRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [JWTAuthentication] 
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication] 
     serializer_class = FounderSerializer
 
     def get_queryset(self):
@@ -284,8 +279,7 @@ class FounderRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.data)
 
 class StartupRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [JWTAuthentication]
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication]
     serializer_class = StartupSerializer
 
     def get_queryset(self):
@@ -307,8 +301,7 @@ class StartupRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.data)
 
 class TopStartupRetriever(generics.RetrieveAPIView):
-    # permission_classes = [JWTAuthentication]
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication]
     serializer_class = Top10StartupSerializer
 
     def get_queryset(self):
