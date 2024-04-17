@@ -128,7 +128,7 @@ class FollowingList(generics.ListAPIView):
 
         return FollowTable.objects.filter(investor_id=investorId)
 class ToggleFollowView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication]
 
     def get_serializer_class(self):
         # Workaround to satisfy DRF requirements without using a serializer
@@ -159,13 +159,13 @@ class ToggleFollowView(APIView):
 
         return Response({'message': f'{action} the startup.', 'follow_status': action, 'total_followers': total_followers}, status=status.HTTP_200_OK)
 class TotalFollowersView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication]
     def get(self, request, startup_id):
         total_followers = FollowTable.objects.filter(startup_id=startup_id).count()
         return Response({'total_followers': total_followers})
 
 class CheckFollowView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication]
 
     def get(self, request):
         startup_id = request.query_params.get('startup_id')

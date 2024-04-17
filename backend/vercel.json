@@ -2,7 +2,7 @@
     "builds": [{
         "src":"backend/wsgi.py",
         "use": "@vercel/python",
-        "config": { "maxLambdaSize": "15mb", "runtime": "python4.1" }
+        "config": { "maxLambdaSize": "15mb", "runtime": "python4.1", "lambdaTimeout": 50 }
     },
     {
         "src": "build_files.sh",
@@ -10,7 +10,7 @@
         "config": {
           "distDir": "staticfiles_build" }
     }
-],
+    ],
     "routes": [
         {
             "src":"/static/(.*)",
