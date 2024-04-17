@@ -30,7 +30,7 @@ const FounderDetails = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`https://startupvault-foundry.vercel.app/auth/founder/${idFounder}/`,{
+                const response = await fetch(`http://127.0.0.1:8000/auth/founder/${idFounder}/`,{
                   method: "GET", 
                   headers:{
                     'Content-Type': 'application/json',

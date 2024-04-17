@@ -32,7 +32,6 @@ function UpdateInvestorDetails(props) {
 
   const fetchDataInvestor = async () => {
     try {
-        // const response = await fetch(`https://startupvault-foundry.vercel.app/auth/investor/${idInvestor}/`,{
         const response = await fetch(`https://startupvault-foundry.vercel.app/auth/investor/${idInvestor}/`, {
             method: "GET", 
             headers:{
@@ -66,7 +65,7 @@ function UpdateInvestorDetails(props) {
           return;
       }
 
-      const filePath = `${investorData.name}/${fileName}`;
+      const filePath = `${investorData.name.replace(/\s/g, '')}/${fileName.replace(/\s/g, '')}`;
       const fileExists = existingFiles.some(file => file.name === fileName);
 
       if (fileExists) { // Update existing file

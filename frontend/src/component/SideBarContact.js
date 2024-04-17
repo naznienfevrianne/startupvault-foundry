@@ -177,7 +177,7 @@ function SideBarContact() {
       </div>
       <div className="flex flex-col p-7 mt-6 max-w-full rounded-lg bg-neutral-800 w-[360px] max-md:px-5">
       <div className="flex gap-1 pr-8 text-2xl font-medium tracking-wide whitespace-nowrap text-stone-100 max-md:pr-5">
-        <div>{startup.name}</div>
+      <div style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{startup.name}</div>
 
         <img
           loading="lazy"
@@ -211,7 +211,7 @@ function SideBarContact() {
           )}
         </div>
       <div className="flex gap-2 justify-center mt-10 text-xl text-stone-100 w-[360px]">
-        <div className="flex-1">Contact 
+        <div className="flex-1" style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>Contact 
         <span className="text-xl font-semibold"> {startup.name}</span></div>
         <div className="flex-1 shrink-0 my-auto h-px border border-solid bg-neutral-400 border-neutral-400" />
       </div>
