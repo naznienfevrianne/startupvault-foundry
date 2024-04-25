@@ -66,9 +66,6 @@ function Follow({ page }) {
 
  const fetchFollowStatus = async () => {
    try {
-<<<<<<< HEAD
-     const response = await fetch(`https://startupvault-foundry.vercel.app/diary/check_follow/?startup_id=${idStartup}&investor_id=${idInvestor}`);
-=======
      const response = await fetch(`https://startupvault-foundry.vercel.app/diary/check_follow/?startup_id=${idStartup}&investor_id=${idInvestor}`, {
        method: 'GET',
        headers:{
@@ -76,7 +73,6 @@ function Follow({ page }) {
         'Authorization': 'Bearer ' + token
     }
      });
->>>>>>> 2f13b0cca1f560a4af0be6f0ef3ecb1fa172797a
      const data = await response.json();
      console.log('Fetched isFollowing:', data);
      if (response.ok) {
