@@ -62,7 +62,7 @@ const FounderDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/auth/founder/${idFounder}/`,{
+            const response = await fetch(`https://startupvault-foundry.vercel.app/auth/founder/${idFounder}/`,{
               method: "GET", 
               headers:{
                 'Content-Type': 'application/json',
@@ -136,7 +136,7 @@ const FounderDetails = () => {
     console.log("before: ", founderDetails)
     
     try {
-        const response = await fetch(`http://127.0.0.1:8000/auth/founder/${idFounder}/`, {
+        const response = await fetch(`https://startupvault-foundry.vercel.app/auth/founder/${idFounder}/`, {
             method: "PUT",
             headers: {
               'Content-Type': 'application/json',
@@ -281,7 +281,7 @@ function EditDetailsPage() {
 
   return (
     <div className="flex flex-col justify-center bg-black min-h-screen px-20">
-    <NavBar />
+    <NavBar status=""/>
     <main className="pb-20 w-full max-md:pr-5 max-md:max-w-full">
       <aside className="flex gap-5 max-md:flex-col max-md:gap-0">
       <div className="flex flex-col w-[17%] max-md:ml-0 max-md:w-full pl-0">

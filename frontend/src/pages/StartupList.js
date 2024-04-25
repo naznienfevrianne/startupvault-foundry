@@ -16,8 +16,7 @@ const StartupList = () => {
   const numberOfStartups = startups.length;
   console.log(numberOfStartups); // This will log the total number of objects in your array
   const sectorsArray = startups.sector ? startups.sector.split(',') : [];
-  
-
+  const [currentPage, setCurrentPage] = useState('startups');
 
   useEffect(() => {
       const fetchData = async () => {
@@ -47,7 +46,7 @@ const StartupList = () => {
 
   return (
     <div className="flex flex-col justify-center bg-black min-h-screen px-20">
-    <NavBar />
+    <NavBar status={currentPage}/>
     <main className="px-px pb-20 w-full max-md:max-w-full">
     <aside className="flex gap-5 max-md:flex-col max-md:gap-0">
       <div className="flex flex-col grow items-end pt-6 pr-5 pl-20 max-md:pl-5 max-md:max-w-full">
@@ -113,7 +112,7 @@ const StartupList = () => {
                 <div className="flex gap-1 pr-3.5 text-2xl font-semibold tracking-wide text-stone-100">
                   <div key={startup.id}>
                     <Link to={`/startupDetails/${startup.id}`}>
-                        <div>{startup.name}</div>
+                        <div style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}  class="no-underline hover:underline">{startup.name}</div>
                     </Link>
                   </div>
                   <img
@@ -137,7 +136,7 @@ const StartupList = () => {
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/f5f09dc683253c86335e89ff33f2b25448a1041ad0619ff661800ffbe5058868?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
                       className="shrink-0 self-start w-5 aspect-square"
                     />
-                    <div>{startup.location}</div>
+                    <div style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{startup.location}</div>
                   </div>
                 </div>
               </div>
@@ -175,7 +174,7 @@ const StartupList = () => {
                   Industry
                 </div>
               </div>
-              <div className="mt-2 text-base tracking-wide text-ellipsis text-neutral-400">
+              <div className="mt-2 text-base tracking-wide text-ellipsis text-neutral-400" style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {startup.sector}
               </div>
             </div>
@@ -231,7 +230,7 @@ const StartupList = () => {
               </div>
             </div>
           </div>
-          <div className="mt-6 text-lg tracking-normal text-stone-100 max-md:max-w-full">
+          <div className="mt-6 text-lg tracking-normal text-stone-100 max-md:max-w-full" style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
             {startup.desc}
           </div>
           {/* <div className="justify-center self-end">

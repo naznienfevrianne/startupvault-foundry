@@ -22,7 +22,7 @@ function LoginBox(props) {
           "email":email,
           "password":password
         }))
-        const response = await fetch("http://localhost:8000/auth/login/", {
+        const response = await fetch("https://startupvault-foundry.vercel.app/auth/login/", {
         method:'POST',
         headers: {
           'Content-Type':'application/json'
@@ -54,6 +54,7 @@ function LoginBox(props) {
             window.location.reload()
           } else {
             console.log("apa sini")
+            console.log(role)
             navigate("/")
             window.location.reload()
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import{ Cookies } from 'react-cookie';
 import { useParams } from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 
 function Top10Startup() {
     const [topEntry, setTopEntry] = React.useState({});
@@ -50,7 +50,11 @@ function Top10Startup() {
               />
               <div className="flex flex-col flex-1 self-stretch my-auto text-base">
                   <div className="flex gap-1 font-medium tracking-wide text-stone-100" >
-                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{topEntry.rank1.name}</div>
+                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <Link to={`/startupDetails/${topEntry.rank1.id}`}>
+                            <div>{topEntry.rank1.name}</div>
+                        </Link>
+                        </div>
                       <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/3c34af8d6c205a583fb45ec7f725bd6664117f28f17b00fbe113679fc140d660?"
@@ -75,7 +79,11 @@ function Top10Startup() {
               />
               <div className="flex flex-col flex-1 self-stretch my-auto text-base">
                   <div className="flex gap-1 font-medium tracking-wide text-stone-100">
-                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{topEntry.rank2.name}</div>
+                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <Link to={`/startupDetails/${topEntry.rank2.id}`}>
+                            <div>{topEntry.rank2.name}</div>
+                        </Link>
+                        </div>
                       <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/3c34af8d6c205a583fb45ec7f725bd6664117f28f17b00fbe113679fc140d660?"
@@ -100,7 +108,11 @@ function Top10Startup() {
               />
               <div className="flex flex-col flex-1 self-stretch my-auto text-base">
                   <div className="flex gap-1 font-medium tracking-wide text-stone-100">
-                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{topEntry.rank3.name}</div>
+                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <Link to={`/startupDetails/${topEntry.rank3.id}`}>
+                            <div>{topEntry.rank3.name}</div>
+                        </Link>
+                        </div>
                       <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/3c34af8d6c205a583fb45ec7f725bd6664117f28f17b00fbe113679fc140d660?"
@@ -125,7 +137,11 @@ function Top10Startup() {
               />
               <div className="flex flex-col flex-1 self-stretch my-auto text-base">
                   <div className="flex gap-1 font-medium tracking-wide text-stone-100">
-                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{topEntry.rank4.name}</div>
+                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      <Link to={`/startupDetails/${topEntry.rank4.id}`}>
+                        <div>{topEntry.rank4.name}</div>
+                     </Link>
+                  </div>
                       <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/3c34af8d6c205a583fb45ec7f725bd6664117f28f17b00fbe113679fc140d660?"
@@ -150,7 +166,11 @@ function Top10Startup() {
               />
               <div className="flex flex-col flex-1 self-stretch my-auto text-base">
                   <div className="flex gap-1 font-medium tracking-wide text-stone-100">
-                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{topEntry.rank5.name}</div>
+                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <Link to={`/startupDetails/${topEntry.rank5.id}`}>
+                            <div>{topEntry.rank5.name}</div>
+                        </Link>
+                        </div>
                       <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/3c34af8d6c205a583fb45ec7f725bd6664117f28f17b00fbe113679fc140d660?"
@@ -175,7 +195,11 @@ function Top10Startup() {
               />
               <div className="flex flex-col flex-1 self-stretch my-auto text-base">
                   <div className="flex gap-1 font-medium tracking-wide text-stone-100">
-                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{topEntry.rank6.name}</div>
+                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <Link to={`/startupDetails/${topEntry.rank6.id}`}>
+                            <div>{topEntry.rank6.name}</div>
+                        </Link>
+                        </div>
                       <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/3c34af8d6c205a583fb45ec7f725bd6664117f28f17b00fbe113679fc140d660?"
@@ -200,7 +224,11 @@ function Top10Startup() {
               />
               <div className="flex flex-col flex-1 self-stretch my-auto text-base">
                   <div className="flex gap-1 font-medium tracking-wide text-stone-100">
-                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{topEntry.rank7.name}</div>
+                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <Link to={`/startupDetails/${topEntry.rank7.id}`}>
+                            <div>{topEntry.rank7.name}</div>
+                        </Link>
+                        </div>
                       <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/3c34af8d6c205a583fb45ec7f725bd6664117f28f17b00fbe113679fc140d660?"
@@ -225,7 +253,11 @@ function Top10Startup() {
               />
               <div className="flex flex-col flex-1 self-stretch my-auto text-base">
                   <div className="flex gap-1 font-medium tracking-wide text-stone-100">
-                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{topEntry.rank8.name}</div>
+                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <Link to={`/startupDetails/${topEntry.rank8.id}`}>
+                            <div>{topEntry.rank8.name}</div>
+                        </Link>
+                        </div>
                       <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/3c34af8d6c205a583fb45ec7f725bd6664117f28f17b00fbe113679fc140d660?"
@@ -250,7 +282,11 @@ function Top10Startup() {
               />
               <div className="flex flex-col flex-1 self-stretch my-auto text-base">
                   <div className="flex gap-1 font-medium tracking-wide text-stone-100">
-                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{topEntry.rank9.name}</div>
+                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <Link to={`/startupDetails/${topEntry.rank9.id}`}>
+                            <div>{topEntry.rank9.name}</div>
+                        </Link>
+                      </div>
                       <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/3c34af8d6c205a583fb45ec7f725bd6664117f28f17b00fbe113679fc140d660?"
@@ -275,7 +311,11 @@ function Top10Startup() {
               />
               <div className="flex flex-col flex-1 self-stretch my-auto text-base">
                   <div className="flex gap-1 px-2 font-medium tracking-wide text-stone-100">
-                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{topEntry.rank10.name}</div>
+                      <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <Link to={`/startupDetails/${topEntry.rank10.id}`}>
+                            <div>{topEntry.rank10.name}</div>
+                        </Link>
+                        </div>
                       <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/3c34af8d6c205a583fb45ec7f725bd6664117f28f17b00fbe113679fc140d660?"
