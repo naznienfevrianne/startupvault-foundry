@@ -30,7 +30,7 @@ import Follow from './pages/Follow';
 import StartupList from './pages/StartupList';
 import { Cookies } from 'react-cookie';
 import StartupDetails from './pages/ReadStartupDetails';
-
+import CreatedShowcase from './pages/CreatedShowcase';
 
 function App() {
     const myCookies = new Cookies();
@@ -53,7 +53,6 @@ function App() {
                 <Route path="/partnerForm" element={<PartnerForm />} />
                 <Route path="/MOUSubmission" element={<MOUSubmission />} />
                 <Route path="/investorType" element={<InvestorType/>} />
-                <Route path="/dashboardInvestor" element={<InvestorDashboard />} />
                 {isAuthenticated && isVerified === 1 ? (
                     <React.Fragment>
                     <Route path="/founderReadForm" element={<FounderReadForm />} />
@@ -73,6 +72,7 @@ function App() {
                     <Route path="/orgInvestorReadForm" element={<OrgInvestorReadForm />} />
                     <Route path="/orgInvestorEditForm" element={<OrgInvestorEditForm />} />
                     <Route path="/dashboardInvestor" element={<InvestorDashboard/>} />
+                    <Route path="/created-showcase" element={<CreatedShowcase />} />
                     </React.Fragment>
                 ) : (
                     <React.Fragment>
