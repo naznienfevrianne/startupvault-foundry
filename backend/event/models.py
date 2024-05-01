@@ -10,6 +10,7 @@ class Event (models.Model):
     date = models.DateField()
     price = models.IntegerField()
     link = models.TextField()
+    image = models.TextField()
     isVerified = models.IntegerField()
     rejectionNote = models.CharField(max_length = 255, blank=True, default="")
     partner = models.ForeignKey(Partner, related_name="partner", on_delete=models.CASCADE)
