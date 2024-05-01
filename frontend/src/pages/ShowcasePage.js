@@ -340,7 +340,7 @@ const Showcase = () => {
         <ShowcaseForm afterPostSuccess={fetchPosts} />
         <ShowcasePost searchTerm={searchTerm}/>
       </main>
-      <aside className="w-1/3 h-full overflow-auto sticky top-0"> {/* Aside section made sticky */}
+      <aside className="w-1/3 h-full overflow-auto top-0"> {/* Aside section made sticky */}
         <SearchBar setSearchTerm={setSearchTerm}/>
         <CategoriesSection/>
       </aside>
