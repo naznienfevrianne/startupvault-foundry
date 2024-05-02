@@ -54,7 +54,7 @@ function DashboardSementara(props){
 
     return (
 			<div className=" px-20 flex flex-col justify-center self-center bg-black overflow-auto">
-				<NavBar />
+				<NavBar status={"dashboard"}/>
 				<div className="pb-20 w-full max-md:pr-5 max-md:max-w-full">
 					<div className="flex gap-8 max-md:flex-col max-md:gap-0">
 

@@ -204,7 +204,7 @@ function UpdateInvestorDetails(props) {
   return (
     <div className="flex flex-col pb-20 px-20 min-h-screen bg-black">
       <form onSubmit={handleSubmit}>
-        <NavBar />
+      <NavBar status={"dashboard"}/>
         
         <div className="z-10 mt-0 w-full max-md:max-w-full">
           <div className="flex gap-5 max-md:flex-col max-md:gap-0">

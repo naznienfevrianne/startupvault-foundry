@@ -206,35 +206,7 @@ function StartupReadDetails() {
   
     return (
       <div className="flex flex-col justify-center bg-black min-h-screen px-20">
-        <header className="flex gap-5 justify-between px-20 py-6 w-full max-md:flex-wrap max-md:px-5 max-md:max-w-full">
-        <div className="flex gap-1 justify-between items-center self-start text-white max-md:flex-wrap max-md:max-w-full">
-            <div className="flex-auto text-l italic font-semibold tracking-wider leading-10">
-              startupvault.id
-              </div>
-            <nav className="flex gap-5 justify-between items-center px-8 my-auto text-l font-light max-md:flex-wrap max-md:px-5 max-md:max-w-full">
-              <div className="grow">Showcase</div>
-              <div>Events</div>
-              <div className="flex-auto">Our Investors</div>
-              <div className="grow whitespace-nowrap text-stone-100">Our Startups</div>
-            </nav>
-          </div>
-        
-          <div className="flex gap-2 rounded-[30px]">
-            <div className="grow justify-center px-3 py-2 text-l font-light text-green-400 whitespace-nowrap rounded-2xl bg-green-400 bg-opacity-20">My Dashboard</div>
-            <div className="flex gap-2 items-center px-2.5 py-2 bg-neutral-800 rounded-[30.497px]">
-              <div className="flex justify-center items-center self-stretch aspect-square">
-                <img loading="lazy"
-                srcSet={profilePicture} 
-                alt="User profile" 
-                className="rounded-full aspect-square bg-green-400 bg-opacity-20 w-[30px]" />
-              </div>
-              <div className="self-stretch my-auto text-l font-medium tracking-wide text-stone-100">{nameFounder}</div>
-              <img loading="lazy" 
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/081086ccfbd0bbab3badfd8655a0ab414aaf7a31d08fbc1f5199388c6bac11c8?apiKey=9ff2a73e8144478896bce8206c80f3e2&" 
-              alt="Settings icon" className="shrink-0 self-stretch my-auto aspect-square w-[18px]" />
-            </div>
-          </div>
-        </header>
+        <NavBar status={"dashboard"}/>
         <main className="px-px pb-20 w-full max-md:max-w-full">
           <aside className="flex gap-5 max-md:flex-col max-md:gap-0">
             <div className="flex flex-col w-[23%] max-md:ml-0 max-md:w-full">
