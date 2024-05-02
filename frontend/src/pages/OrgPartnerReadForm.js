@@ -57,82 +57,7 @@ function OrgPartnerReadForm(props) {
     }
   };
   
-  function renderSupportIcon(sector) {
-    switch (sector.toLowerCase()) {
-      case 'mentorship':
-        return (
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/b9ea7626adfdcf68ab2874768daac813747b82fa55d9e6f444b3a921b9651cc8?" // Replace "URL_TO_MENTORSHIP_ICON" with the actual URL of the mentorship sector icon
-            className="shrink-0 w-8 aspect-square"
-            alt="Mentorship Icon"
-          />
-        );
-      case 'legal assistance':
-        return (
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/5c6035d09e45f8a1f7afd38d0321da102330d3dd9c50c37cfe090036cd5eaca5?"// Replace "URL_TO_LEGAL_ASSISTANCE_ICON" with the actual URL of the legal assistance sector icon
-            className="shrink-0 w-8 aspect-square"
-            alt="Legal Assistance Icon"
-          />
-        );
-      case 'introduction':
-        return (
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/75cf97640a91df542a2b7cf4cc1bd2104e8b2ae502c746e7a7a3b12f84a11283?" // Replace "URL_TO_INTRODUCTION_ICON" with the actual URL of the introduction sector icon
-            className="shrink-0 w-8 aspect-square"
-            alt="Introduction Icon"
-          />
-        );
-        case 'capital':
-        return (
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/b4441046a6d37676ea814e3652737389c2b6f9dc9e0a93381c9527e232f1190c?"
-            className="shrink-0 w-8 aspect-square"
-            alt="Introduction Icon"
-          />
-        );
-      default:
-        return null;
-    }
-  }
-  function renderStageIcon(stage) {
-    switch (stage.toLowerCase()) {
-      case 'pre-seed':
-        return (
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/84697b0b23ce70dfbbd5e9b5c9b685b29b26adf5ab6a335db5bba1c9fc6a7539?"// Replace "URL_TO_LEGAL_ICON" with the actual URL of the legal sector icon
-            className="shrink-0 w-8 aspect-square"
-            alt="Legal Icon"
-          />
-        );
-      case 'beyond a':
-        return (
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/9ecdcc98cb8c9c8bdb3d2921515afb705126f11f55eeb800d9358779082498b5?"
-            className="shrink-0 w-8 aspect-square"
-            alt="Mentorship Icon"
-          />
-        );
-      case 'series a':
-        return (
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/c2657d620c74b57d68f23e15a75c83871df7b302e09e15c4b885c2d22fce36bc?"
-            className="shrink-0 w-8 aspect-square"
-            alt="Legal Assistance Icon"
-          />
-        );
-    }
-  }
-  const handleClick = (menu) => {
-    setActiveMenu(menu);
-  }
+  
 
   return (
     <div className="flex flex-col justify-center bg-black min-h-screen px-20">
@@ -161,7 +86,7 @@ function OrgPartnerReadForm(props) {
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/3964155d5eada7de0e1a24e27d475a201a8c5bfaaf18562fa030ba1f626a9b26?"
                       className="shrink-0 aspect-square w-[23px]"
                     />
-                    <Link to="/orgInvestorEditForm">
+                    <Link to="/orgPartnerEditForm">
                     <div className="text-base">Edit profile</div>
                     </Link>
                   </div>
@@ -202,7 +127,7 @@ function OrgPartnerReadForm(props) {
                     />
                  </a>
 
-                 <a href={`https://linkedin.com/in/${orgPartnerData.linkedin}`} target="_blank" rel="noopener noreferrer"> 
+                 <a href={orgPartnerData.linkedin} target="_blank" rel="noopener noreferrer"> 
                  <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/11f468775b14b62903b205e3f321893c259f5fa95e5c3548ee9783b53efc43ef?"
@@ -219,13 +144,7 @@ function OrgPartnerReadForm(props) {
                   </div>
                   <div className="justify-center p-4 mt-3 text-base tracking-normal rounded-lg bg-neutral-800 text-stone-100 max-md:px-5 max-md:max-w-full">
                     {orgPartnerData.desc}
-                  </div>
-                  <div className="self-start mt-3 text-xl font-medium tracking-wide text-stone-100">
-                    Interest
-                  </div>
-                  <div className="justify-center p-4 mt-3 text-base tracking-normal rounded-lg bg-neutral-800 text-stone-100 max-md:px-5 max-md:max-w-full">
-                    {orgPartnerData.interest}
-                  </div>  
+                  </div>              
                   <div className="self-start mt-3 text-xl font-medium tracking-wide text-stone-100">
                     Location
                   </div>
@@ -252,7 +171,7 @@ function OrgPartnerReadForm(props) {
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/5eea301424cfc427d25367620bd195d0f7e1264a11e9b7cc1970ec9a308fc013?"
                 className="shrink-0 w-6 aspect-square"
               />
-              <div className="flex-grow text-lg" style={{ maxWidth: 'calc(100% - 8px)' }}>+62 {contactData.phoneNumber}</div>
+              <div className="flex-grow text-base" style={{ maxWidth: 'calc(100% - 8px)' }}>+62{contactData.phoneNumber}</div>
               <a className="hover:cursor-pointer" 
                 style={{ wordBreak: 'break-all' }}
                 onClick={() => {
@@ -271,7 +190,7 @@ function OrgPartnerReadForm(props) {
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/10271fc0c5a99e3cb97c7da3ca08a0806d87b5e791b29fc5b639a1c9492051fc?"
                 className="shrink-0 w-6 aspect-square"
               />
-              <div className="flex-1 text-lg" style={{ maxWidth: 'calc(100% - 8px)' }}>{contactData.email}</div>
+              <div className="flex-1 text-base" style={{ maxWidth: 'calc(100% - 8px)' }}>{contactData.email}</div>
               <a 
               style={{ wordBreak: 'break-all' }}
               href={`mailto:${contactData.email}`}>
@@ -288,7 +207,7 @@ function OrgPartnerReadForm(props) {
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/d7274dd451c8cd9b962b4549c3872acb89029f86f7c2f2041ae3dfe9fa6b9271?"
                 className="shrink-0 w-6 aspect-square"
               />
-              <div className="flex-1" style={{ maxWidth: 'calc(100% - 8px)' }}>
+              <div className="flex-1 text-base" style={{ maxWidth: 'calc(100% - 8px)' }}>
                 <a
                   href={`${contactData.linkedin}`}
                   target="_blank"
