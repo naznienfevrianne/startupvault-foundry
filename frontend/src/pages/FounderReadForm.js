@@ -119,7 +119,7 @@ function Dashboard() {
 
   return (
     <div className="flex flex-col justify-center bg-black min-h-screen px-20">
-      <NavBar />
+      <NavBar status={"dashboard"}/>
       <main className="px-px pb-20 w-full max-md:max-w-full">
         <aside className="flex gap-5 max-md:flex-col max-md:gap-0">
         <div className="flex flex-col w-[17%] max-md:ml-0 max-md:w-full pl-0">

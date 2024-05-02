@@ -420,7 +420,7 @@ const StartupEditDetails = () => {
     
     return (
         <div className="flex flex-col justify-center pb-20 bg-black px-20">
-          <NavBar />
+          <NavBar status={"dashboard"}/>
           <div className="w-full max-md:max-w-full">
             <div className="flex gap-5 max-md:flex-col max-md:gap-0">
                           

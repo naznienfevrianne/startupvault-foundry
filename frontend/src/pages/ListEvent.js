@@ -43,7 +43,7 @@ const ListEvent = () => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center bg-black min-h-screen px-20">
+    <div className="flex flex-col items-center bg-black min-h-screen px-20">
       <NavBar status="events" />
       <main className="flex justify-center items-center px-px pb-20 w-full max-md:max-w-full h-full">
         <div className="flex flex-wrap justify-center gap-6 max-w-full w-[940px] max-md:flex-wrap">
@@ -68,7 +68,7 @@ const ListEvent = () => {
                 ${event.price}
               </div>
               <div className="mt-4">
-                <Link to={`/eventDetails/${event.id}`} className="inline-block px-4 py-2 text-lg font-semibold text-black bg-stone-100 rounded-lg hover:bg-stone-200">
+                <Link to={`/event-details/${event.id}`} className="inline-block px-4 py-2 text-lg font-semibold text-black bg-stone-100 rounded-lg hover:bg-stone-200">
                   View Details
                 </Link>
               </div>
