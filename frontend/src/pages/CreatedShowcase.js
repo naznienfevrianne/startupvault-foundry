@@ -104,27 +104,15 @@ function CreatedShowcase(props) {
 											/>
 											<div className="flex-auto">Search in dashboard</div>
 										</div>
-										<Link to="/investorDetails">
+										<Link>
 										<div className="pr-15 justify-start items-center inline-flex pl-8 whitespace-nowrap">
 											<div className="justify-start items-center gap-2 flex">
 												<img
 													loading="lazy"
-													src="https://cdn.builder.io/api/v1/image/assets/TEMP/af603136276046e8322b35f550ed99cb4cb7f42f4be19979861c7f70c3f1a3ce?"
+													src="https://cdn.builder.io/api/v1/image/assets/TEMP/27c36da114ed300adb9add9fce8d851f4c7b22802ffaf460c4b83dfdad7092bb?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
 													className="shrink-0 w-8 aspect-square self-center"
 												/>
 												<div className="text-neutral-400 text- font-normal item-center tracking-tight">Overview</div>
-											</div>
-										</div>
-										</Link>
-										<Link to="/investorDetails">
-										<div className="pr-15 justify-start items-center inline-flex pl-8 whitespace-nowrap">
-											<div className="justify-start items-center gap-2 flex">
-												<img
-													loading="lazy"
-													src="https://cdn.builder.io/api/v1/image/assets/TEMP/af603136276046e8322b35f550ed99cb4cb7f42f4be19979861c7f70c3f1a3ce?"
-													className="shrink-0 w-8 aspect-square self-center"
-												/>
-												<div className="text-neutral-400 text- font-normal item-center tracking-tight">Events</div>
 											</div>
 										</div>
 										</Link>
@@ -133,13 +121,13 @@ function CreatedShowcase(props) {
 											<div className="h-12 flex pr-20 gap-2 bg-green-400 bg-opacity-20 rounded-lg">
 												<img
 													loading="lazy"
-													src="https://cdn.builder.io/api/v1/image/assets/TEMP/f1487560442a58b51dcbec994221baf3cf665d63416908100ec5efda2c599f05?"
+													src="https://cdn.builder.io/api/v1/image/assets/TEMP/89f9a223f436f264182c212b454f58e94b97308174a5a6dff0f2b0c301b3ac68?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
 													className="shrink-0 w-8 aspect-square self-center ml-2"
 												/>
 												<div className="text-green-400 font-medium item-center tracking-tight my-auto">Showcase Posts</div>
 											</div>
 										</div>
-										<Link to="/investorDetails">
+										<Link>
 										<div className="pr-15 justify-start items-center inline-flex pl-8 whitespace-nowrap">
 											<div className="justify-start items-center gap-2 flex">
 												<img
@@ -159,7 +147,7 @@ function CreatedShowcase(props) {
 									<div className="justify-between inline-flex pb-3">
 											<div className="self-start justify-start flex text-stone-100 text-2xl font-semibold tracking-tight text-wrap">My Posts</div>
 											<Link to="/">
-												<div className="flex gap-1 self-end px-2 py-2 text-md tracking-tight  font-semibold text-black whitespace-nowrap bg-green-400 rounded-lg cursor-pointer">
+												<div className="flex gap-1 self-end px-2 py-2 text-md font-semibold text-black whitespace-nowrap bg-green-400 rounded-lg cursor-pointer">
 												<img
 													loading="lazy"
 													src="https://cdn.builder.io/api/v1/image/assets/TEMP/bb664ab38f6a0f7947922610a982985d1f9721a3d18321070c5bbe56d358a643?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
@@ -171,57 +159,57 @@ function CreatedShowcase(props) {
 											
 									</div>
 									{/* button sort & search */}
-									<div className="flex">
-										<div className="gap-3 flex justify-between">
-											<div className="self-center">
-												<div className="flex-1 text-base tracking-normal text-neutral-400 items-start">{listPost.length} posts found</div>
+									<div className="flex justify-between items-end mt-1 mb-4">
+										<div className="self-center">
+											<div className="grow text-base tracking-normal text-neutral-400 self-center max-md:max-w-full">
+												{listPost.length} entries found
 											</div>
-											<div className="flex gap-3 text-sm whitespace-nowrap text-stone-100">
-												<div className = "relative">
-														<div className="flex gap-1 items-center pl-3 px-5 py-2 rounded-[25px] cursor-pointer text-stone-100 border border-neutral-400 bg-black" onClick={toggleDropdown}>
-															<img
-																loading="lazy"
-																src="https://cdn.builder.io/api/v1/image/assets/TEMP/202d10897ec64fd7e51df1a8588619036ca06ad2803a7b30eb675b677c8755f0?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
-																className="self-center w-6 aspect-square"
-																/>
-															Sort
-														</div>
-														{isDropdownOpen && (
-															<div className="absolute left-0 mt-2">
-																<div className="flex gap-2 items-right px-1 py-3 bg-neutral-900 rounded-[10px] w-[250px]">
-																	<ul className="px-3 self-stretch text-sm flex flex-col">
-																		<div className="flex-col flex rounded">
-																			<li className="pb-1">
-																				<input id="latest" type="radio" value="-date" className="w-4 h-4 accent-green-400 rounded" onChange={handleSortChange}
-																					checked={sort === '-date'}
-																				></input>
-																				<label htmlFor="latest" className="w-full hover:text-green-400 ms-2 text-sm font-medium text-stone-100 rounded">Latest to Oldest</label>
-																			</li>
-																			<li className="pb-1">
-																				<input id="oldest" type="radio" value="date" className="w-4 h-4 accent-green-400 rounded" onChange={handleSortChange}
-																					checked={sort === 'date'}
-																				></input>
-																				<label htmlFor="oldest" className="w-full hover:text-green-400 ms-2 text-sm font-medium text-stone-100 rounded">Oldest to Latest</label>
-																			</li>
-																			<li className="pb-1">
-																				<input id="most" type="radio" value="likes" className="w-4 h-4 accent-green-400 rounded" onChange={handleSortChange}
-																					checked={sort === 'likes'}
-																				></input>
-																				<label htmlFor="most" className="w-full hover:text-green-400 ms-2 text-sm font-medium text-stone-100 rounded">Most Likes</label>
-																			</li>
-																			<li className="pb-1">
-																				<input id="least" type="radio" value="-likes" className="w-4 h-4 accent-green-400 rounded" onChange={handleSortChange}
-																					checked={sort === '-likes'}
-																				></input>
-																				<label htmlFor="least" className="w-full hover:text-green-400 ms-2 text-sm font-medium text-stone-100 rounded">Least Likes</label>
-																			</li>
-																		</div>
-																	</ul>
-																</div>
-															</div>
-														)}
-
+										</div>
+										<div className="py-auto flex gap-3">
+											<div className = "relative">
+												<div className="flex gap-1 items-center pl-3 px-5 py-2 rounded-[25px] cursor-pointer text-stone-100 border border-neutral-400 bg-black" onClick={toggleDropdown}>
+													<img
+														loading="lazy"
+														src="https://cdn.builder.io/api/v1/image/assets/TEMP/202d10897ec64fd7e51df1a8588619036ca06ad2803a7b30eb675b677c8755f0?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
+														className="self-center w-6 aspect-square"
+														/>
+													Sort
 												</div>
+												{isDropdownOpen && (
+													<div className="absolute left-0 mt-2">
+														<div className="flex gap-2 items-right px-1 py-3 bg-neutral-900 rounded-[10px] w-[250px]">
+															<ul className="px-3 self-stretch text-sm flex flex-col">
+																<div className="flex-col flex rounded">
+																	<li className="pb-1">
+																		<input id="latest" type="radio" value="-date" className="w-4 h-4 accent-green-400 rounded" onChange={handleSortChange}
+																			checked={sort === '-date'}
+																		></input>
+																		<label htmlFor="latest" className="w-full hover:text-green-400 ms-2 text-sm font-medium text-stone-100 rounded">Latest to Oldest</label>
+																	</li>
+																	<li className="pb-1">
+																		<input id="oldest" type="radio" value="date" className="w-4 h-4 accent-green-400 rounded" onChange={handleSortChange}
+																			checked={sort === 'date'}
+																		></input>
+																		<label htmlFor="oldest" className="w-full hover:text-green-400 ms-2 text-sm font-medium text-stone-100 rounded">Oldest to Latest</label>
+																	</li>
+																	<li className="pb-1">
+																		<input id="most" type="radio" value="likes" className="w-4 h-4 accent-green-400 rounded" onChange={handleSortChange}
+																			checked={sort === 'likes'}
+																		></input>
+																		<label htmlFor="most" className="w-full hover:text-green-400 ms-2 text-sm font-medium text-stone-100 rounded">Most Popular</label>
+																	</li>
+																	<li className="pb-1">
+																		<input id="least" type="radio" value="-likes" className="w-4 h-4 accent-green-400 rounded" onChange={handleSortChange}
+																			checked={sort === '-likes'}
+																		></input>
+																		<label htmlFor="least" className="w-full hover:text-green-400 ms-2 text-sm font-medium text-stone-100 rounded">Least Popular</label>
+																	</li>
+																</div>
+															</ul>
+														</div>
+													</div>
+												)}
+											</div>
 												<div className="pl-4 pr-4 py-2 rounded-[25px] border border-neutral-400 justify-center items-center gap-1 flex self-end">
 													<>
 													<img
@@ -241,14 +229,13 @@ function CreatedShowcase(props) {
 														</input>
 														</>
 												</div>
-											</div>
 										</div>
-									</div>
-									
+                	</div>
+											
 									{/* card */}
 									{listPost.map((post, index) => (
 										<div key={index} className="post-class">
-											<div className="flex gap-4 p-6 mt-6 rounded-lg bg-neutral-800">
+											<div className="flex gap-4 p-6 mb-6 rounded-lg bg-neutral-800">
 												<div className="flex justify-center items-center self-start aspect-square">
 													<div className="flex justify-center items-center self-start aspect-square">
 														<img loading="lazy" alt="User avatar" src={post.user_avatar} className="rounded-full bg-green-400 bg-opacity-20 w-[39px] h-[39px]" />
