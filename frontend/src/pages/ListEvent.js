@@ -68,7 +68,7 @@ const ListEvent = () => {
                 ${event.price}
               </div>
               <div className="mt-4">
-                <Link to={`/eventDetails/${event.id}`} className="inline-block px-4 py-2 text-lg font-semibold text-black bg-stone-100 rounded-lg hover:bg-stone-200">
+                <Link to={`/event-details/${event.id}`} className="inline-block px-4 py-2 text-lg font-semibold text-black bg-stone-100 rounded-lg hover:bg-stone-200">
                   View Details
                 </Link>
               </div>

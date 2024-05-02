@@ -53,14 +53,14 @@ function EventDetails(props){
     
 
     return (
-      <div className="flex flex-col justify-center bg-black min-h-screen px-20 pb-5 overflow-auto">
+      <div className="flex flex-col justify-center bg-black min-h-screen px-20 pb-7 overflow-auto">
         <NavBar status='events'/>
         <div className="w-full max-md:max-w-full">
           <div className="flex-col gap-5 max-md:flex-col max-md:gap-0"  style={{ minHeight: 'calc(100vh - 64px)' }}>
             <div className="flex-col gap-5 w-full max-md:flex-wrap max-md:max-w-full">
               <div className="flex gap-1.5 items-start text-l text-neutral-400">
                 <div>
-                  <Link to="/startupList" className="cursor-pointer">Events</Link>
+                  <Link to="/event" className="cursor-pointer">Events</Link>
                 </div>
                 <img
                   loading="lazy"
@@ -121,7 +121,7 @@ function EventDetails(props){
                           />
                           {formattedDate}
                         </div>
-                        <div className="justify-start items-start gap-4 flex mt-4">
+                        <div className="justify-start items-start gap-4 flex mt-5">
                           <img
                               loading="lazy"
                               src={eventDetails.organization_logo}
