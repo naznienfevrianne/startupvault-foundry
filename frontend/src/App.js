@@ -33,6 +33,7 @@ import StartupDetails from './pages/ReadStartupDetails';
 import CreatedShowcase from './pages/CreatedShowcase';
 import DashboardSementara from './pages/DashboardSementara';
 import OrgPartnerReadForm from './pages/OrgPartnerReadForm';
+import OrgPartnerEditForm from './pages/OrgPartnerEditForm';
 
 function App() {
     const myCookies = new Cookies();
@@ -74,6 +75,7 @@ function App() {
                     <Route path="/orgInvestorReadForm" element={<OrgInvestorReadForm />} />
                     <Route path="/orgInvestorEditForm" element={<OrgInvestorEditForm />} />
                     <Route path="/orgPartnerReadForm" element={<OrgPartnerReadForm />} />
+                    <Route path="/orgPartnerEditForm" element={<OrgPartnerEditForm />} />
                     <Route path="/dashboardSementara" element={<DashboardSementara />} />
                     <Route path="/dashboardInvestor" element={<InvestorDashboard/>} />
                     <Route path="/created-showcase" element={<CreatedShowcase />} />
