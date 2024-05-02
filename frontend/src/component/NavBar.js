@@ -56,7 +56,11 @@ const NavBar = ({ status }) => {
                 <div className="flex gap-2">
                     {isAuthenticated && (
                       <>
-                        <Link to={role === 'investor' ? '/dashboardInvestor' : '/dashboard'}>
+                        <Link to={
+                          role === 'investor' ? '/dashboardInvestor' :
+                          role === 'partner' ? '/dashboardPartner' :
+                          role === 'founder' ? '/dashboard' : '/'
+                        }>
                             <div className={`grow justify-center px-3 py-3 text-l font-medium whitespace-nowrap rounded-[30.497px] text-green-400 ${status === "dashboard" ? "text-green-400 bg-green-400 bg-opacity-20" : "bg-transparent"}`}>
                                 My Dashboard
                             </div>
