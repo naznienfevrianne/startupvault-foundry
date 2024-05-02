@@ -37,6 +37,7 @@ import StartupDetails from './pages/ReadStartupDetails';
 import CreatedShowcase from './pages/CreatedShowcase';
 import DashboardSementara from './pages/DashboardSementara';
 import OrgPartnerReadForm from './pages/OrgPartnerReadForm';
+import ListEvent from './pages/ListEvent';
 
 function App() {
     const myCookies = new Cookies();
@@ -83,6 +84,7 @@ function App() {
                     <Route path="/dashboardSementara" element={<DashboardSementara />} />
                     <Route path="/dashboardInvestor" element={<InvestorDashboard/>} />
                     <Route path="/created-showcase" element={<CreatedShowcase />} />
+                    <Route path="/event" element={<ListEvent />} />
                     </React.Fragment>
                 ) : (
                     <React.Fragment>
