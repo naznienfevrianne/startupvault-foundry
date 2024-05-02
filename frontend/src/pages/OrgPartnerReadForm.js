@@ -61,7 +61,7 @@ function OrgPartnerReadForm(props) {
 
   return (
     <div className="flex flex-col justify-center bg-black min-h-screen px-20">
-      <NavBar style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 1000 }}/>
+      <NavBar style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 1000 }} status={"dashboard"}/>
       <div className="w-full max-md:max-w-full">
         <div className="flex gap-5 max-md:flex-col max-md:gap-0"  style={{ minHeight: 'calc(100vh - 64px)' }}>
           <div className="flex flex-col w-[67%] max-md:ml-0 max-md:w-full">
