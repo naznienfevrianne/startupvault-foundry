@@ -1,7 +1,3 @@
-from django.shortcuts import render
-from datetime import datetime, timedelta
-from django.http import HttpResponse, JsonResponse
-
 from backend import settings
 from .models import Event
 from .serializers import *
@@ -21,6 +17,7 @@ from functools import wraps
 from rest_framework  import permissions
 from jwt.exceptions import InvalidTokenError, ExpiredSignatureError
 from rest_framework import exceptions
+
 # Create your models here.
 class EventListCreate(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
@@ -29,7 +26,12 @@ class EventListCreate(generics.ListCreateAPIView):
     
 class EventRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [AllowAny] 
-    serializer_class = EventSerializer
+    
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return EventDetailsSer
+        else:
+            return EventSerializer
 
     def get_queryset(self):
         # Only allow the authenticated user to retrieve and update their own startup information
@@ -47,4 +49,3 @@ class EventRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
     def partial_update(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
-    
