@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import NavBar from "../component/NavBar";
 import { useNavigate } from 'react-router-dom';
 import { createClient } from "@supabase/supabase-js";
+import SideBar from "../component/SideInvestor";
 
 function UpdateInvestorDetails(props) {
   const navigate = useNavigate();
@@ -208,43 +209,7 @@ function UpdateInvestorDetails(props) {
         
         <div className="z-10 mt-0 w-full max-md:max-w-full">
           <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-          <aside className=" flex w-[23%px] flex-col justify-start mt-6">
-            <div className="h-[50px] flex-col justify-start items-center gap-3 flex">
-              <div className="flex gap-3 p-4 text-base tracking-normal bg-neutral-800 rounded-[30px] text-stone-300">
-                <img
-                  loading="lazy"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/5141f2b3392732e7dceb2287d5276e2c7df22cecc85670302b617d425ec44b62?"
-                  className="shrink-0 w-5 aspect-square"
-                />
-                <div className="flex-auto">Search in dashboard</div>
-              </div>
-              <Link to="/dashboardInvestor">
-              <div className="pr-15 mt-5 justify-start items-center inline-flex pl-0 whitespace-nowrap">
-                <div className="justify-start items-center gap-2 flex pr-40 pl-12">
-                  <img
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/27c36da114ed300adb9add9fce8d851f4c7b22802ffaf460c4b83dfdad7092bb?"
-                    className="shrink-0 w-8 aspect-square self-center"
-                  />
-                  <div className="text-neutral-400 text- font-normal item-center tracking-tight">Overview</div>
-                </div>
-              </div>
-              </Link>
-              <Link to="/investorDetails">
-              <div className="flex gap-5 font-medium items-center text-green-400 whitespace-nowrap max-md:pr-5">
-                <div className="w-1 self-stretch bg-green-400 rounded-tr-[10px] rounded-br-[10px] shadow" />
-                <div className="h-12 flex pr-20 gap-2 bg-green-400 bg-opacity-20 rounded-lg">
-                  <img
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/6a5577d29bac61b16c070200e8b671c8672d78decbbc90ab7b4e8000d208cade?"
-                    className="shrink-0 w-8 aspect-square self-center ml-3"
-                  />
-                  <div className="text-green-400 text- font-medium item-center tracking-tight my-auto">Investor Details</div>
-                </div>
-              </div>
-              </Link>
-            </div>
-          </aside>
+            <SideBar status={"profile"}/>
             <div className="flex flex-col ml-5 w-[77%] max-md:ml-0 max-md:w-full">
               <div className="flex flex-col grow px-5 pt-9 pb-20 max-md:mt-5 max-md:max-w-full">
                 <div className="flex flex-wrap gap-0 content-center pr-20 max-md:pr-5 text-stone-100">
