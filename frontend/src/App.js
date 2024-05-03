@@ -33,6 +33,7 @@ import StartupDetails from './pages/ReadStartupDetails';
 import CreatedShowcase from './pages/CreatedShowcase';
 import DashboardSementara from './pages/DashboardSementara';
 import OrgPartnerReadForm from './pages/OrgPartnerReadForm';
+import OrgPartnerEditForm from './pages/OrgPartnerEditForm';
 import EventDetails from './pages/EventDetails';
 import ListEvent from './pages/ListEvent';
 
@@ -76,7 +77,8 @@ function App() {
                     <Route path="/orgInvestorReadForm" element={<OrgInvestorReadForm />} />
                     <Route path="/orgInvestorEditForm" element={<OrgInvestorEditForm />} />
                     <Route path="/orgPartnerReadForm" element={<OrgPartnerReadForm />} />
-                    <Route path="/dashboardSementara" element={<DashboardSementara />} />
+                    <Route path="/orgPartnerEditForm" element={<OrgPartnerEditForm />} />
+                    <Route path="/dashboardPartner" element={<DashboardSementara />} />
                     <Route path="/dashboardInvestor" element={<InvestorDashboard/>} />
                     <Route path="/created-showcase" element={<CreatedShowcase />} />
                     <Route path="/event-details/:idEvent" element={<EventDetails />} />

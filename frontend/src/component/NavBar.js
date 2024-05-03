@@ -23,8 +23,8 @@ const NavBar = ({ status }) => {
                     <h1 className="flex-auto text-xl text-white italic font-semibold tracking-wider leading-10">
                         <Link to="/">STARTUPVAULT.ID</Link>
                     </h1>
-                    <nav className="flex gap-1 justify-between items-center px-8 my-auto text-l font-medium">
-                      <div className={`justify-center px-3.5 py-2 rounded-3xl ${status === "showcase" ? "text-green-400 bg-green-400 bg-opacity-20" : "text-neutral-400 bg-transparent"}`}>
+                    <nav className="flex gap-3 justify-between items-center px-8 my-auto text-l font-medium">
+                      <div className={`justify-center pb-2 pt-2 border-0 border-b-2 hover:text-green-400 ${status === "showcase" ? "text-green-400 border-b-2 border-green-400" : "text-neutral-400 border-transparent"}`}>
                         <Link to="/">Showcase</Link>
                       </div>
                         
@@ -35,27 +35,33 @@ const NavBar = ({ status }) => {
                           <>
                             {role === "investor" ? (
                             <>
-                                <div className={`justify-center px-3.5 py-2 rounded-3xl ${status === "events" ? "text-green-400 bg-green-400 bg-opacity-20" : "text-neutral-400 bg-transparent"}`}>Events</div>
-                                <div className={`justify-center px-3.5 py-2 rounded-3xl ${status === "startups" ? "text-green-400 bg-green-400 bg-opacity-20" : "text-neutral-400 bg-transparent"}`}>
+                                <div className={`justify-center pb-2 pt-2 border-0 border-b-2 hover:text-green-400 ${status === "events" ? "text-green-400 border-b-2 border-green-400" : "text-neutral-400 border-transparent"}`}>
+                                  <Link to="/event">Events</Link>
+                                </div>
+                                <div className={`justify-center pb-2 pt-2 border-0 border-b-2 hover:text-green-400 ${status === "startups" ? "text-green-400 border-b-2 border-green-400" : "text-neutral-400 border-transparent"}`}>
                                   <Link to="/startupList"> Our Startups</Link>
                                 </div>
                             </>
                             ) : (
                             <>
-                                <div className={`justify-center px-3.5 py-2 rounded-3xl ${status === "events" ? "text-green-400 bg-green-400 bg-opacity-20" : "text-neutral-400 bg-transparent"}`}>Events</div>
+                                <div className={`justify-center pb-2 pt-2 border-0 border-b-2 hover:text-green-400 ${status === "events" ? "text-green-400 border-b-2 border-green-400" : "text-neutral-400 border-transparent"}`}>
+                                  <Link to="/event">Events</Link>
+                                </div>
                             </>
                             )}
                           </>
-                        )}
-                        
-                        
+                        )}    
                     </nav>
                 </div>
                 <div className="flex gap-2">
                     {isAuthenticated && (
                       <>
-                        <Link to={role === 'investor' ? '/dashboardInvestor' : '/dashboard'}>
-                            <div className="grow justify-center px-3 py-2 text-l font-light whitespace-nowrap rounded-2xl text-green-400 bg-opacity-20">
+                        <Link to={
+                          role === 'investor' ? '/dashboardInvestor' :
+                          role === 'partner' ? '/dashboardPartner' :
+                          role === 'founder' ? '/dashboard' : '/'
+                        }>
+                            <div className={`grow justify-center px-3 py-3 text-l font-medium whitespace-nowrap rounded-[30.497px] text-green-400 ${status === "dashboard" ? "text-green-400 bg-green-400 bg-opacity-20" : "bg-transparent"}`}>
                                 My Dashboard
                             </div>
                         </Link>

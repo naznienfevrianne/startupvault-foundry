@@ -3,18 +3,20 @@ import { useState, useEffect } from "react";
 import{ Cookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import NavBar from "../component/NavBar";
+import SideBar from "../component/SidePartner";
 
 function DashboardSementara(props){
 
     const [partnerData, setPartnerEntry] = useState({});
+	const [listPost, setListPost] = useState([]);
     const myCookies = new Cookies();
-    // const idPartner = myCookies.get('id')
     const token = myCookies.get('token')
 	const idPartnerOrg = myCookies.get("partnerOrganization")
+	const idPartner = myCookies.get("id")
 	
-
 	useEffect(() => {
 		fetchDataPartner();
+		fetchDataPost();
 	}, [])
 
 	const fetchDataPartner = async () => {
@@ -31,33 +33,42 @@ function DashboardSementara(props){
 			}
 			const entry = await response.json();
 			setPartnerEntry(entry);
-			// try {
-			// 	const response = await fetch("https://startupvault-foundry.vercel.app/auth/partner/" + idPartner + "/", {
-			// 		method: "GET", 
-			// 		headers:{
-			// 			'Content-Type': 'application/json',
-			// 			'Authorization': 'Bearer ' + token
-			// 		}
-			// 	})
-			// 	if (!response.ok) {
-			// 		throw new Error("Failed to fetch data");
-			// 	}
-			// 	const entry = await response.json();
-			// 	setContactEntry(entry);
-			// } catch (error) {
-			// 	console.error("Error:", error);
-			// }
+
 		} catch (error) {
 			console.error("Error:", error);
 		}
 	  };
 
+    const fetchDataPost = async () => {
+        const endpoint = `http://localhost:8000/showcase/${idPartner}/`
+  
+        try {
+          const response = await fetch(endpoint, {
+            method:"GET",
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          if (!response.ok) {
+            throw new Error("Failed to fetch data");
+          }
+          const post = await response.json();
+          setListPost(post);
+          console.log(post)
+
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
+
+
     return (
 			<div className=" px-20 flex flex-col justify-center self-center bg-black overflow-auto">
-				<NavBar />
+				<NavBar status={"dashboard"}/>
 				<div className="pb-20 w-full max-md:pr-5 max-md:max-w-full">
 					<div className="flex gap-8 max-md:flex-col max-md:gap-0">
-
+						<SideBar status={"overview"}/>
 						<aside className="flex w-[26%] flex-col justify-start items-end gap-6">
 							<div className="flex flex-col p-6 mt-6 w-full rounded-lg bg-neutral-800 gap-6">
 								<div className="self-stretch justify-between items-center inline-flex">
@@ -93,7 +104,7 @@ function DashboardSementara(props){
 									</div>
 									<div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
 										<div class="self-stretch">
-											{/* <span class="text-stone-100 text-xl font-medium font-['SF Pro Display'] tracking-tight">{startupList.length}</span> */}
+											{/* <span class="text-stone-100 text-xl font-medium font-['SF Pro Display'] tracking-tight">{listEvent.length}</span> */}
 											<span class="text-stone-100 text-base font-medium font-['SF Pro Display'] tracking-tight"> event</span>
 										</div>
 									</div>
@@ -106,7 +117,7 @@ function DashboardSementara(props){
 									</div>
 									<div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
 										<div class="self-stretch">
-											{/* <span class="text-stone-100 text-xl font-medium font-['SF Pro Display'] tracking-tight">{startupList.length}</span> */}
+											<span class="text-stone-100 text-xl font-medium font-['SF Pro Display'] tracking-tight">{listPost.length}</span>
 											<span class="text-stone-100 text-base font-medium font-['SF Pro Display'] tracking-tight"> post</span>
 										</div>
 									</div>
