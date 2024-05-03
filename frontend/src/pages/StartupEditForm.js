@@ -4,6 +4,7 @@ import{ Cookies } from 'react-cookie';
 import NavBar from "../component/NavBar";
 import { Link } from 'react-router-dom';
 import { createClient } from "@supabase/supabase-js";
+import SideBar from "../component/SideFounder";
 
 const StartupEditDetails = () => {
    
@@ -423,61 +424,7 @@ const StartupEditDetails = () => {
           <NavBar status={"dashboard"}/>
           <div className="w-full max-md:max-w-full">
             <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-                          
-            <div className="flex flex-col w-[17%] max-md:ml-0 max-md:w-full pl-0">
-              <div className="flex flex-col items-center self-stretch pb-2 mt-6 text- tracking-wide text-neutral-400">
-                <div className="flex gap-3 p-4 text-base tracking-normal bg-neutral-800 rounded-[30px] text-stone-300">
-                  <img
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/5141f2b3392732e7dceb2287d5276e2c7df22cecc85670302b617d425ec44b62?"
-                    className="shrink-0 w-5 aspect-square"
-                  />
-                  <div className="flex-auto">Search in dashboard</div>
-                </div>
-                <div className="flex gap-2 mt-5 whitespace-nowrap">
-                  <img
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/27c36da114ed300adb9add9fce8d851f4c7b22802ffaf460c4b83dfdad7092bb?"
-                    className="shrink-0 w-8 aspect-square"
-                  />
-                  <div className="grow my-auto">
-                  <Link to="/dashboard">Overview</Link>
-                    </div>
-                </div>
-                <div className="flex gap-2 mt-5 whitespace-nowrap">
-                      <img
-                        loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/3cef65a25dfa47f096a12f653a5687356c49974a2b901252287cba6ffe7f302d?"
-                        className="shrink-0 w-8 aspect-square"
-                      />
-                      <div className="grow my-auto">
-                        <Link to="/diary">Weekly Updates</Link>
-                        </div>
-                    </div>
-                    <div className="flex gap-5 justify-between self-stretch pr-10 mt-5 font-medium text-green-400 whitespace-nowrap max-md:pr-5">
-                  <div className="shrink-0 w-1 h-12 bg-green-400 rounded-none shadow-sm" />
-                  <div className="flex gap-2 pr-12 pl- py-2 rounded-lg bg-green-400 bg-opacity-20">
-                    <img
-                      loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/dbfe1e3b28c84ff800a8172798e7a2d18a3c86aff8fc82df5ba2d6080962d15a?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-                      />
-                    <div className="flex-auto my-auto">
-                    <Link to="/startupReadForm">Startup Details</Link>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex gap-2 mt-5 whitespace-nowrap max-md:mt-10">
-                  <img
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/f06c757951079842a9d6e5f08a6cb907c6632c2879d3daa3ad22a2e2979cd8c5?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-                    className="shrink-0 w-8 aspect-square"
-                  />
-                  <div className="grow my-auto">
-                  <Link to="/founderReadForm">Founder Details</Link>
-                    </div>
-                </div>
-              </div>
-            </div>
+              <SideBar status={"startup"}/>
               <form onSubmit={handleSubmit}>
               <div className="flex flex-col grow pt-6 pr-28 pl-5 max-md:max-w-full">
                 <div className="flex flex-wrap gap-5 justify-between content-center pr-20 w-full text-stone-100 max-md:pr-5 max-md:max-w-full">
