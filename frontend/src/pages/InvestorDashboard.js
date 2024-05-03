@@ -5,6 +5,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 import{ Cookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import NavBar from "../component/NavBar";
+import SideBar from "../component/SideInvestor";
 
 function InvestorDashboard(props){
     const [listEntries, setListEntries] = useState([]);
@@ -199,43 +200,9 @@ function InvestorDashboard(props){
 						<div  className="flex flex-col w-[74%] max-md:ml-0 max-md:w-full pl-0">
 							<div className="flex gap-9 max-md:flex-col max-md:gap-0">
 								{/* side bar */}
-								<aside className=" flex w-[23%px] flex-col justify-start mt-6">
-									<div className="h-[212px] flex-col justify-start items-center gap-3 flex">
-										<div className="flex gap-3 p-4 text-base tracking-normal bg-neutral-800 rounded-[30px] text-stone-300">
-											<img
-												loading="lazy"
-												src="https://cdn.builder.io/api/v1/image/assets/TEMP/5141f2b3392732e7dceb2287d5276e2c7df22cecc85670302b617d425ec44b62?"
-												className="shrink-0 w-5 aspect-square"
-											/>
-											<div className="flex-auto">Search in dashboard</div>
-										</div>
-										<div className="flex gap-5 mt-5 font-medium items-center text-green-400 whitespace-nowrap max-md:pr-5">
-											<div className="w-1 self-stretch bg-green-400 rounded-tr-[10px] rounded-br-[10px] shadow" />
-											<div className="h-12 flex pr-20 gap-2 bg-green-400 bg-opacity-20 rounded-lg">
-												<img
-													loading="lazy"
-													src="https://cdn.builder.io/api/v1/image/assets/TEMP/f1487560442a58b51dcbec994221baf3cf665d63416908100ec5efda2c599f05?"
-													className="shrink-0 w-8 aspect-square self-center ml-3"
-												/>
-												<div className="text-green-400 text- font-medium item-center tracking-tight my-auto">Overview</div>
-											</div>
-										</div>
-										<Link to="/investorDetails">
-										<div className="pr-15 justify-start items-center inline-flex pl-0 whitespace-nowrap">
-											<div className="justify-start items-center gap-2 flex">
-												<img
-													loading="lazy"
-													src="https://cdn.builder.io/api/v1/image/assets/TEMP/af603136276046e8322b35f550ed99cb4cb7f42f4be19979861c7f70c3f1a3ce?"
-													className="shrink-0 w-8 aspect-square self-center"
-												/>
-												<div className="text-neutral-400 text- font-normal item-center tracking-tight">Investor details</div>
-											</div>
-										</div>
-										</Link>
-									</div>
-								</aside>
+								<SideBar status={"overview"}/>
 								{/* title */}
-								<div className="flex flex-col w-[73%]">
+								<div className="flex flex-col w-[65%]">
 									<div className="flex flex-col pt-6">
 									<div className="justify-between items-center inline-flex">
 											<div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">Following Updates</div>
