@@ -15,7 +15,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileSelected, currentImage })
   });
 
   return (
-    <section {...getRootProps()} className="flex justify-center items-center px-5 py-6 mt-6 text-xs rounded-md bg-neutral-700">
+    <section {...getRootProps()} className="flex justify-center items-center px-5 py-y mt-6 text-xs rounded-md bg-neutral-700">
       <input {...getInputProps()} />
       <div className="flex flex-col items-center">
         {currentImage ? (

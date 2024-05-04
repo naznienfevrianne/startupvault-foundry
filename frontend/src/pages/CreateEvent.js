@@ -24,7 +24,7 @@ const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
     price: "",
     link: "",
     image: null,
-    isVerified: 1,
+    isVerified: 0,
     rejectionNote: "",
     status: 0,
     partner: idPartner,
