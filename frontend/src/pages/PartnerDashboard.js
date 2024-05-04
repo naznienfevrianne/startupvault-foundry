@@ -4,11 +4,14 @@ import{ Cookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import NavBar from "../component/NavBar";
 import SideBar from "../component/SidePartner";
+import CreatedEvents from "./CreatedEvents"; 
 
-function DashboardSementara(props){
+function PartnerDashboard(props) {
 
     const [partnerData, setPartnerEntry] = useState({});
 	const [listPost, setListPost] = useState([]);
+	const [eventGroups, setEventGroups] = useState({ verified: [], not_verified: [], rejected: [] });
+	const [counts, setCounts] = useState({all: 0});
     const myCookies = new Cookies();
     const token = myCookies.get('token')
 	const idPartnerOrg = myCookies.get("partnerOrganization")
@@ -17,6 +20,7 @@ function DashboardSementara(props){
 	useEffect(() => {
 		fetchDataPartner();
 		fetchDataPost();
+		fetchDataEvent();
 	}, [])
 
 	const fetchDataPartner = async () => {
@@ -55,12 +59,30 @@ function DashboardSementara(props){
           }
           const post = await response.json();
           setListPost(post);
-          console.log(post)
 
         } catch (error) {
           console.error("Error:", error);
         }
-      };
+    };
+
+	const fetchDataEvent = async () => {
+		try {
+			const response = await fetch(`http://localhost:8000/event/created-events/${idPartner}/`, {
+				method: 'GET',
+				headers: {
+					'Authorization': 'Bearer ' + token
+				}
+			});
+			if (!response.ok) {
+				const errorText = await response.text();  
+				throw new Error(`HTTP error! Status: ${response.status}, Body: ${errorText}`);
+			}
+			const data = await response.json();
+			setCounts({all: Object.values(data).flat().length});
+		} catch (error) {
+			console.error('Fetch error:', error);
+		}
+	};
 
 
     return (
@@ -69,7 +91,8 @@ function DashboardSementara(props){
 				<div className="pb-20 w-full max-md:pr-5 max-md:max-w-full">
 					<div className="flex gap-8 max-md:flex-col max-md:gap-0">
 						<SideBar status={"overview"}/>
-						<aside className="flex w-[26%] flex-col justify-start items-end gap-6">
+						<CreatedEvents />
+						<aside className="flex w-[26%] flex-col justify-start items-end gap-6 ml-auto">
 							<div className="flex flex-col p-6 mt-6 w-full rounded-lg bg-neutral-800 gap-6">
 								<div className="self-stretch justify-between items-center inline-flex">
 										<div className="w-10 text-white text-2xl font-medium font-['SF Pro Display'] tracking-tight">My Organization</div>
@@ -104,7 +127,7 @@ function DashboardSementara(props){
 									</div>
 									<div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
 										<div class="self-stretch">
-											{/* <span class="text-stone-100 text-xl font-medium font-['SF Pro Display'] tracking-tight">{listEvent.length}</span> */}
+											<span className="text-stone-100 text-xl font-medium font-['SF Pro Display'] tracking-tight">{counts.all}</span>
 											<span class="text-stone-100 text-base font-medium font-['SF Pro Display'] tracking-tight"> event</span>
 										</div>
 									</div>
@@ -157,4 +180,4 @@ function DashboardSementara(props){
     )
 }
 
-export default DashboardSementara;
+export default PartnerDashboard;
