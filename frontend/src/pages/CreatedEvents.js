@@ -143,7 +143,7 @@ function CreatedEvents() {
     }, [idPartner]);
 
   return (
-    <div className="flex flex-col justify-center self-stretch max-w-2xl bg-transparent">
+    <div className="flex flex-col self-stretch max-w-2xl bg-transparent">
           <div className="flex gap-5 justify-between px-5 w-full font-semibold max-md:flex-wrap max-md:max-w-full">
             <div className="my-auto text-2xl tracking-wide text-stone-100">Your events</div>
             <div className="flex gap-2.5 justify-center px-5 py-3 text-xl tracking-widest text-black bg-green-400 rounded-lg cursor-pointer" onClick={openCreateEventModal}>
@@ -151,7 +151,7 @@ function CreatedEvents() {
               <div>Create event</div>
             </div>
           </div>
-          <div className="flex gap-5 justify-center items-center self-start px-5 py-1.5 mt-6 text-xl font-medium tracking-wide text-neutral-400 max-md:flex-wrap">
+          <div className="flex gap-5 justify-center items-center self-start px-5 py-1.5 mt-6 text-s font-medium tracking-wide text-neutral-400 max-md:flex-wrap">
             <Tab isActive={activeTab === 'all'} onClick={() => handleTabClick('all')}>All ({counts.all})</Tab>
             <Tab isActive={activeTab === 'in_verification'} onClick={() => handleTabClick('in_verification')}>In verification ({counts.in_verification})</Tab>
             <Tab isActive={activeTab === 'verified'} onClick={() => handleTabClick('verified')}>Published ({counts.verified})</Tab>
