@@ -4,6 +4,7 @@ import{ Cookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import NavBar from "../component/NavBar";
 import SideBar from "../component/SidePartner";
+import CreatedEvents from "../pages/CreatedEvents";
 
 function DashboardSementara(props){
 
@@ -56,6 +57,7 @@ function DashboardSementara(props){
           const post = await response.json();
           setListPost(post);
           console.log(post)
+          console.log(post)
 
         } catch (error) {
           console.error("Error:", error);
@@ -69,6 +71,7 @@ function DashboardSementara(props){
 				<div className="pb-20 w-full max-md:pr-5 max-md:max-w-full">
 					<div className="flex gap-8 max-md:flex-col max-md:gap-0">
 						<SideBar status={"overview"}/>
+						<CreatedEvents />
 						<aside className="flex w-[26%] flex-col justify-start items-end gap-6">
 							<div className="flex flex-col p-6 mt-6 w-full rounded-lg bg-neutral-800 gap-6">
 								<div className="self-stretch justify-between items-center inline-flex">
