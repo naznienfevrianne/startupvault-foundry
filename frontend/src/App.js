@@ -36,6 +36,7 @@ import OrgPartnerReadForm from './pages/OrgPartnerReadForm';
 import OrgPartnerEditForm from './pages/OrgPartnerEditForm';
 import EventDetails from './pages/EventDetails';
 import ListEvent from './pages/ListEvent';
+import CreateEvent from './pages/CreateEvent';
 
 function App() {
     const myCookies = new Cookies();
@@ -83,6 +84,7 @@ function App() {
                     <Route path="/created-showcase" element={<CreatedShowcase />} />
                     <Route path="/event-details/:idEvent" element={<EventDetails />} />
                     <Route path="/event" element={<ListEvent />} />
+                    <Route path="/createEvent" element={<CreateEvent />} />
                     </React.Fragment>
                 ) : (
                     <React.Fragment>

@@ -1,4 +1,8 @@
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
+
 from backend import settings
+from .forms import EventForm
 from .models import Event
 from .serializers import *
 from rest_framework import generics
@@ -17,6 +21,7 @@ from functools import wraps
 from rest_framework  import permissions
 from jwt.exceptions import InvalidTokenError, ExpiredSignatureError
 from rest_framework import exceptions
+from authentication.models import Partner
 
 # Create your models here.
 class EventListCreate(generics.ListCreateAPIView):
@@ -49,3 +54,21 @@ class EventRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
     def partial_update(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
+
+
+@csrf_exempt
+def create_event(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        form = EventForm(data)
+        if form.is_valid():
+            event = form.save(commit=False)
+            partner_id = data.get('partner')
+            event.partner = Partner.objects.get(id=partner_id)
+            event.save()
+            return JsonResponse({'status': 'success', 'event_id': event.pk}, status=201)
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
+    else:
+        form = EventForm()
+    return JsonResponse({'status': 'error', 'message': 'Invalid method'}, status=405)

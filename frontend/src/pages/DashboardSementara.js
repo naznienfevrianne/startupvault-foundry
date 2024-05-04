@@ -56,6 +56,7 @@ function DashboardSementara(props){
           const post = await response.json();
           setListPost(post);
           console.log(post)
+          console.log(post)
 
         } catch (error) {
           console.error("Error:", error);
