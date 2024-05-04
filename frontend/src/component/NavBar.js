@@ -18,7 +18,7 @@ const NavBar = ({ status }) => {
 
     return (
         <>
-            <header className="flex gap-5 justify-between items-center px-0 py-6 w-full max-md:flex-wrap max-md:px-5 max-md:max-w-full">
+            <header className="flex gap-5 justify-between items-center px-0 py-4 w-full max-md:flex-wrap max-md:px-5 max-md:max-w-full">
                 <div className="flex gap-1 justify-between items-center self-start max-md:flex-wrap max-md:max-w-full">
                     <h1 className="flex-auto text-xl text-white italic font-semibold tracking-wider leading-10">
                         <Link to="/">STARTUPVAULT.ID</Link>
@@ -36,16 +36,16 @@ const NavBar = ({ status }) => {
                             {role === "investor" ? (
                             <>
                                 <div className={`justify-center pb-2 pt-2 border-0 border-b-2 hover:text-green-400 ${status === "events" ? "text-green-400 border-b-2 border-green-400" : "text-neutral-400 border-transparent"}`}>
-                                  <Link to="/event">Events</Link>
+                                  <Link to="/event">Our Events</Link>
                                 </div>
                                 <div className={`justify-center pb-2 pt-2 border-0 border-b-2 hover:text-green-400 ${status === "startups" ? "text-green-400 border-b-2 border-green-400" : "text-neutral-400 border-transparent"}`}>
-                                  <Link to="/startupList"> Our Startups</Link>
+                                  <Link to="/startupList">Our Startups</Link>
                                 </div>
                             </>
                             ) : (
                             <>
                                 <div className={`justify-center pb-2 pt-2 border-0 border-b-2 hover:text-green-400 ${status === "events" ? "text-green-400 border-b-2 border-green-400" : "text-neutral-400 border-transparent"}`}>
-                                  <Link to="/event">Events</Link>
+                                  <Link to="/event">Our Events</Link>
                                 </div>
                             </>
                             )}
