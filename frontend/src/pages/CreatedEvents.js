@@ -9,12 +9,27 @@ import styled from 'styled-components';
 
 function CreatedEvents() {
  const [eventGroups, setEventGroups] = useState({ verified: [], not_verified: [], rejected: [] });
+ const [eventIdToDelete, setEventIdToDelete] = useState(null)
   const [partnerData, setPartnerEntry] = useState({});
  	const [listPost, setListPost] = useState([]);
      const myCookies = new Cookies();
      const token = myCookies.get('token')
  	const idPartnerOrg = myCookies.get("partnerOrganization")
  	const idPartner = myCookies.get("id")
+  const [selectedEvent, setSelectedEvent] = useState()
+  const DeleteButton = styled.button`
+   position: absolute;
+   bottom: 10px;
+   right: 10px;
+   background-color: #1DB954; // Green color
+   color: white;
+   border: none;
+   padding: 5px 10px;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+   z-index: 1; // Ensure the button is above the content
+ `;
 
     const [activeTab, setActiveTab] = useState('all');  // 'all', 'in_verification', 'published', 'rejected'
     const handleTabClick = (tab) => {
@@ -66,18 +81,69 @@ function CreatedEvents() {
       const closeCreateEventModal = () => setCreateEventModalOpen(false);
 
 
-  const EventCard = ({ isVerified, image, title, location, date, price }) => {
+  const EventCard = ({ isVerified, image, title, location, date, price, id }) => {
+    const [isDeleteModalOpen, setDeleteModalOpen] = useState(false)
     // Determine the display status based on the isVerified value
     const getStatus = (isVerified) => {
       switch (isVerified) {
         case 0:
           return "In Verification";
         case 1:
-          return "verified";
+          return "Published";
         case 2:
           return "Rejected";
         default:
           return "Unknown"; // Default case if none of the above match
+      }
+    };
+
+    const DeleteConfirmationModal = ({ onClose, onDelete }) => {
+      return (
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
+          <div className="bg-gray-800 p-8 rounded-lg">
+            <p className="text-white mb-4">Are you sure you want to delete this event?</p>
+            <div className="flex justify-end">
+              <button className="bg-green-500 text-white py-2 px-4 mr-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50" onClick={onDelete}>Yes</button>
+              <button className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50" onClick={onClose}>No</button>
+            </div>
+          </div>
+        </div>
+      );
+    };
+    
+    const handleDelete = (eventId) => {
+      setDeleteModalOpen(true)
+      setEventIdToDelete(eventId)
+    }
+
+    const handleConfirmDelete = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/event/${eventIdToDelete}/`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        });
+        if (response.ok) {
+          // Delete successful, update eventGroups and counts
+          const updatedEventGroups = { ...eventGroups };
+          const updatedCounts = { ...counts };
+          // Remove the deleted event from the appropriate status group
+          Object.keys(updatedEventGroups).forEach(status => {
+            updatedEventGroups[status] = updatedEventGroups[status].filter(event => event.id !== eventIdToDelete);
+            updatedCounts[status] = updatedEventGroups[status].length;
+          });
+          // Update state with the new data
+          setEventGroups(updatedEventGroups);
+          setCounts(updatedCounts);
+        } else {
+          // Handle error response
+          console.error('Failed to delete event');
+        }
+      } catch (error) {
+        console.error('Error deleting event:', error);
+      } finally {
+        setDeleteModalOpen(false);
       }
     };
 
@@ -101,6 +167,25 @@ function CreatedEvents() {
             </div>
           </div>
         </div>
+        <div className="flex mt-4 justify-end space-x-2">
+        <button 
+        onClick={() => handleDelete(id)}
+        className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50">
+        Delete
+        </button>
+        <Link to={`/eventEdit/${id}`}>
+        <button className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
+          Edit
+        </button>
+        </Link>
+      </div>
+      {/* Delete confirmation modal */}
+      {isDeleteModalOpen && (
+        <DeleteConfirmationModal
+          onClose={() => setDeleteModalOpen(false)}
+          onDelete={handleConfirmDelete}
+        />
+      )}
       </article>
     );
   };
@@ -168,7 +253,7 @@ function CreatedEvents() {
             {Object.entries(eventGroups).filter(([status]) => activeTab === 'all' || status === activeTab).map(([status, events]) => (
               <div key={status}>
                 {events.map(event => (
-                  <EventCard key={event.id} isVerified={event.isVerified} image={event.image} title={event.name} location={event.location} date={event.date} price={event.price} />
+                  <EventCard key={event.id} isVerified={event.isVerified} image={event.image} title={event.name} location={event.location} date={event.date} price={event.price} id={event.id} />
                 ))}
               </div>
             ))}
