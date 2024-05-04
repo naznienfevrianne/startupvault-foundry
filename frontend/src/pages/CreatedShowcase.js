@@ -117,7 +117,7 @@ function CreatedShowcase(props) {
 									<div className="flex justify-between items-end mt-1 mb-4">
 										<div className="self-center">
 											<div className="grow text-base tracking-normal text-neutral-400 self-center max-md:max-w-full">
-												{listPost.length} entries found
+												{listPost.length} posts found
 											</div>
 										</div>
 										<div className="py-auto flex gap-3">

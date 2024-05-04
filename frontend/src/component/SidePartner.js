@@ -42,7 +42,7 @@ const SideBar = ({ status }) => {
                 src={`${status === "profile" ? "https://cdn.builder.io/api/v1/image/assets/TEMP/a0ac874774d74b16428095b5fd34e492283a512f4a7323a8d6634fc264f32384?apiKey=c7ebd85b29da4b398aac6462eda13ba9&" : "https://cdn.builder.io/api/v1/image/assets/TEMP/f06c757951079842a9d6e5f08a6cb907c6632c2879d3daa3ad22a2e2979cd8c5?"}`}
                 className="shrink-0 w-8 aspect-square self-center"
               />
-              <div className="text-neutral-400 text- font-normal item-center tracking-tight">Partner details</div>
+              <Link to="/partnerReadForm">Partner details</Link>
             </div>
           </div>
 				</div>

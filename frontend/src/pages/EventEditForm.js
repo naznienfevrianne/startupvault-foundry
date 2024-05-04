@@ -178,7 +178,7 @@ const EventDetails = () => {
         }
       })
       .catch(error => {
-        console.error('profilePicture fetching image from localhost:', error);
+        console.error('profilePicture fetching image err:', error);
         throw error; // Throw the error to propagate it
       });
   };
