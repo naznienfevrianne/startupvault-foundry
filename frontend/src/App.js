@@ -31,7 +31,7 @@ import StartupList from './pages/StartupList';
 import { Cookies } from 'react-cookie';
 import StartupDetails from './pages/ReadStartupDetails';
 import CreatedShowcase from './pages/CreatedShowcase';
-import DashboardSementara from './pages/DashboardSementara';
+import PartnerDashboard from './pages/PartnerDashboard';
 import OrgPartnerReadForm from './pages/OrgPartnerReadForm';
 import OrgPartnerEditForm from './pages/OrgPartnerEditForm';
 import EventDetails from './pages/EventDetails';
@@ -80,7 +80,7 @@ function App() {
                     <Route path="/orgInvestorEditForm" element={<OrgInvestorEditForm />} />
                     <Route path="/orgPartnerReadForm" element={<OrgPartnerReadForm />} />
                     <Route path="/orgPartnerEditForm" element={<OrgPartnerEditForm />} />
-                    <Route path="/dashboardPartner" element={<DashboardSementara />} />
+                    <Route path="/dashboardPartner" element={<PartnerDashboard />} />
                     <Route path="/dashboardInvestor" element={<InvestorDashboard/>} />
                     <Route path="/created-showcase" element={<CreatedShowcase />} />
                     <Route path="/event-details/:idEvent" element={<EventDetails />} />

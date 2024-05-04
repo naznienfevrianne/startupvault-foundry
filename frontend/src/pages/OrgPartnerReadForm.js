@@ -68,7 +68,7 @@ function OrgPartnerReadForm(props) {
             <div className="flex flex-col grow pb-3 pr-5 max-md:max-w-full">
               <div className="flex gap-5 w-full max-md:flex-wrap max-md:max-w-full">
                 <div className="flex flex-col justify-center items-start py-2 pr-1 pl-1 rounded-none border-t border-r border-b border-green-400 border-solid bg-green-400 bg-opacity-20">
-                  <Link to="/dashboardSementara">
+                  <Link to="/dashboardPartner">
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/21b0b24d5b53b756d71a21ed0c3e4ce07ee023c54ab50c6bc97779c396f7faf4?"
