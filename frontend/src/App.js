@@ -23,6 +23,8 @@ import StartupEditDetails from './pages/StartupEditForm';
 import UserForm from './pages/UserForm';
 import OrgInvestorEditForm from './pages/OrgInvestorEditForm';
 import OrgInvestorReadForm from './pages/OrgInvestorReadForm';
+import PartnerReadForm from './pages/PartnerReadForm';
+import PartnerEditForm from './pages/PartnerEditForm';
 import InvestorDashboard from './pages/InvestorDashboard';
 import InvestorDetails from './pages/InvestorDetails';
 import UpdateInvestorDetails from './pages/UpdateInvestorDetails';
@@ -36,6 +38,7 @@ import OrgPartnerReadForm from './pages/OrgPartnerReadForm';
 import OrgPartnerEditForm from './pages/OrgPartnerEditForm';
 import EventDetails from './pages/EventDetails';
 import ListEvent from './pages/ListEvent';
+import EventEditForm from './pages/EventEditForm';
 
 function App() {
     const myCookies = new Cookies();
@@ -65,7 +68,7 @@ function App() {
                     <Route path="/startupReadForm" element={<StartupReadForm />} />
                     <Route path="/startupEditForm" element={<StartupEditForm />} />
                     <Route path="/startupDetails/:idStartup" element={<StartupDetails />} />
-                    <Route path="/startupEditForm" element={<StartupEditForm />} />           
+       
                     <Route path="/dashboard" element={<FounderDashboard />} />
                     <Route path="/diary" element={<FounderDiary />}/>
                     <Route path="/cookies" element={<CookieDisplay />} />
@@ -78,11 +81,14 @@ function App() {
                     <Route path="/orgInvestorEditForm" element={<OrgInvestorEditForm />} />
                     <Route path="/orgPartnerReadForm" element={<OrgPartnerReadForm />} />
                     <Route path="/orgPartnerEditForm" element={<OrgPartnerEditForm />} />
+                    <Route path="/partnerReadForm" element={<PartnerReadForm />} />
+                    <Route path="/partnerEditForm" element={<PartnerEditForm />} />
                     <Route path="/dashboardSementara" element={<DashboardSementara />} />
                     <Route path="/dashboardInvestor" element={<InvestorDashboard/>} />
                     <Route path="/created-showcase" element={<CreatedShowcase />} />
                     <Route path="/event-details/:idEvent" element={<EventDetails />} />
                     <Route path="/event" element={<ListEvent />} />
+                    <Route path="/eventEdit/:eventId" element={<EventEditForm />} />
                     </React.Fragment>
                 ) : (
                     <React.Fragment>
