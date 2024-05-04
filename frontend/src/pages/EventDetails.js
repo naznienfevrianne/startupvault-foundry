@@ -35,12 +35,7 @@ function EventDetails(props){
   
           console.log(details)
 
-          let price = details.price.toLocaleString('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0
-          });
-          setFormattedPrice(price)
+          setFormattedPrice(details.price.toLocaleString())
 
           let date = format(new Date(details.date), 'EEEE, d MMMM yyyy')
           setFormattedDate(date)
@@ -53,14 +48,14 @@ function EventDetails(props){
     
 
     return (
-      <div className="flex flex-col justify-center bg-black min-h-screen px-20 pb-5 overflow-auto">
+      <div className="flex flex-col justify-center bg-black min-h-screen px-20 pb-7 overflow-auto">
         <NavBar status='events'/>
         <div className="w-full max-md:max-w-full">
           <div className="flex-col gap-5 max-md:flex-col max-md:gap-0"  style={{ minHeight: 'calc(100vh - 64px)' }}>
             <div className="flex-col gap-5 w-full max-md:flex-wrap max-md:max-w-full">
               <div className="flex gap-1.5 items-start text-l text-neutral-400">
                 <div>
-                  <Link to="/startupList" className="cursor-pointer">Events</Link>
+                  <Link to="/event" className="cursor-pointer">Events</Link>
                 </div>
                 <img
                   loading="lazy"
@@ -92,7 +87,7 @@ function EventDetails(props){
                           className={`self-stretch my-auto ${activeMenu === "about" ? "text-green-400" : "text-neutral-400"} hover:cursor-pointer`}
                           onClick={() => setActiveMenu("about")}
                       >
-                          Industry
+                          About
                           <div className={`shrink-0 mt-2.5 h-0.5 ${activeMenu === "about" ? "bg-green-400" : "bg-transparent"} rounded-xl`} />
                       </div>
                     </div>
@@ -121,7 +116,7 @@ function EventDetails(props){
                           />
                           {formattedDate}
                         </div>
-                        <div className="justify-start items-start gap-4 flex mt-4">
+                        <div className="justify-start items-start gap-4 flex mt-5">
                           <img
                               loading="lazy"
                               src={eventDetails.organization_logo}
@@ -143,10 +138,10 @@ function EventDetails(props){
                     )}
                     {activeMenu === "about" && (
                       <div>
-                        <div className="mt-6 text-xl font-semibold tracking-wide text-stone-100 max-md:max-w-full">
+                        <div className="mt-3 text-2xl font-semibold text-stone-100 max-md:max-w-full">
                           About this event
                         </div>
-                        <div className="flex flex-wrap gap-3 mt-6 text-base text-stone-100 text-justify max-md:flex-wrap max-md:pr-5">
+                        <div className="flex flex-wrap gap-3 mt-2 text-md text-stone-100 text-justify max-md:flex-wrap max-md:pr-5">
                           {eventDetails.desc}
                         </div>
                       </div>
@@ -160,7 +155,7 @@ function EventDetails(props){
                         Starts from
                       </div>
                       <div className="flex-1 text-3xl font-medium self-center text-white max-md:max-w-full">
-                        {formattedPrice}
+                        IDR {formattedPrice}
                       </div>
                       <a href={eventDetails.link} target="_blank" rel="noopener noreferrer" className="flex-1 text-lg rounded-lg bg-green-400 text-neutral-800 px-16 py-2 font-medium self-center mb-2 mt-2">
                           Buy here
