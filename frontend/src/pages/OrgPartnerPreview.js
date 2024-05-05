@@ -2,9 +2,6 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import{ Cookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
-import NavBar from "../component/NavBar";
-import SideBar from "../component/SidePartner";
-import CreatedEvents from "./CreatedEvents"; 
 
 function OrgPartnerPreview(props) {
 
