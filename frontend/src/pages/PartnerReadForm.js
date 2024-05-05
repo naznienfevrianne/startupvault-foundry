@@ -57,7 +57,7 @@ const PartnerDetails = () => {
             <div className="flex flex-1 justify-center items-center">
               <img loading="lazy" 
               srcSet={profilePicture} 
-              alt="Partner's portrait" className="mt-5 bg-green-700 rounded-full aspect-[0.99] h-[160px] w-[160px]" />
+              className="mt-5 bg-green-700 rounded-full aspect-[0.99] h-[160px] w-[160px]" />
             </div>
           )}
           </div>
