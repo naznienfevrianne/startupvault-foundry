@@ -48,8 +48,8 @@ function InvestorDetails(props) {
           <div className="flex flex-col w-[77%] max-md:ml-0 max-md:w-full">
             <div className="flex flex-col grow px-5 pt-9 pb-20 max-md:mt-5 max-md:max-w-full">
               <div className="flex flex-wrap gap-0 content-center pr-20 max-md:pr-5">
-                <div className="text-4xl font-semibold tracking-wider leading-[54px] text-stone-100 max-md:text-4xl">
-                  INVESTOR DETAILS
+                <div className="text-2xl font-semibold tracking-wider leading-[54px] text-stone-100 max-md:text-4xl">
+                  Investor Details
                 </div>
                 <Link to="/updateInvestorDetails" className="flex">
                   <div className="flex gap-1.5 ml-4 justify-between px-0.5 my-auto text-base tracking-wide text-neutral-400">
