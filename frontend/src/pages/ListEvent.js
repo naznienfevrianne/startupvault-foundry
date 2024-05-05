@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import{ Cookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import NavBar from '../component/NavBar';
-
+import Datepicker from 'react-tailwindcss-datepicker';
 
 const ListEvent = () => {
-
   const myCookies = new Cookies();
-    
+  const [sort, setSort] = useState(false);
+  const [value, setValue] = useState({ 
+    startDate: null, 
+    endDate: null
+  }); 
   const token = myCookies.get('token');
   const [events, setEvents] = useState([]);
   console.log(events);
@@ -16,39 +19,101 @@ const ListEvent = () => {
   const [currentPage, setCurrentPage] = useState('events');
 
   useEffect(() => {
-      const fetchData = async () => {
-          try {
-              const response = await fetch('http://localhost:8000/event/',{
-                method: "GET", 
-                headers:{
-                    'Content-Type': 'application/json',
-                    // 'Authorization': 'Bearer ' + token
-                }
-                }
-                );
-              if (!response.ok) {
-                  throw new Error("Failed to fetch data");
-              }
-              const entry = await response.json();
-              setEvents(entry);
-              // setProfilePicture(entry.image);
-              console.log(events)
-
-          } catch (error) {
-              console.log("Error:", error);
-          }
-      };
-
       fetchData();
-  }, []);
+  }, [sort, value]);
 
-  return (
-    <div className="flex flex-col items-center bg-black min-h-screen px-20">
-      <NavBar status="events" />
-      <main className="flex justify-center items-center px-px pb-20 w-full max-md:max-w-full h-full">
-        <div className="flex flex-wrap justify-center gap-6 max-w-full w-[940px] max-md:flex-wrap">
+  const fetchData = async () => {
+    
+    let endpoint;
+    if(value.startDate != null && value.endDate != null){
+      endpoint = `http://localhost:8000/event/?sort_by_date=${sort}&startDate=${value.startDate}&endDate=${value.endDate}`
+    } else{
+      endpoint = `http://localhost:8000/event/?sort_by_date=${sort}`
+    }
+
+    console.log("AAAAAAAAAAAAAAA")
+    console.log(endpoint)
+    try {
+        const response = await fetch(endpoint, {
+          method: "GET", 
+          headers:{
+              'Content-Type': 'application/json',
+              // 'Authorization': 'Bearer ' + token
+          }
+          }
+          );
+        if (!response.ok) {
+            throw new Error("Failed to fetch data");
+        }
+        const entry = await response.json();
+        setEvents(entry);
+    } catch (error) {
+        console.log("Error:", error);
+    }
+};
+
+const handleSort = () => {
+  setSort(prevSort => prevSort === true ? false : true);
+  fetchData()
+};
+
+const handleValueChange = async(newValue) => {
+  setValue(newValue);
+  fetchData();
+} 
+
+return (
+  <div className="flex flex-col items-center bg-black min-h-screen px-20">
+    <NavBar status="events" />
+    <main className="flex justify-center items-center px-px pb-20 w-full max-md:max-w-full h-full">
+      <div className="flex flex-col w-full max-w-[940px] max-md:flex-wrap">
+      <div>
+            <div className="mb-2 text-3xl font-semibold tracking-wide text-stone-100">
+              Events
+            </div>
+            <div className="text-base tracking-normal text-neutral-400">
+              {events.length} entries found
+            </div>
+          </div>
+        <div className="flex mt-4 justify-between items-center mb-6">
+          <div className="flex gap-3">
+            <button onClick={handleSort} className="flex text-sm text-stone-100 justify-between pl-3 pr-4 py-2 rounded-[25px] border font-light tracking-wide border-solid border-neutral-400 items-center">
+              {sort === false ? (
+                <>
+                  <img
+                    loading="lazy"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/09336f1e86e0673713128171ba8064262d4bd1188b3c06a9a1927d3fb0833bd3?"
+                    className="w-10 aspect-square self-center"
+                  />
+                  <div>Latest</div>
+                </>
+              ) : (
+                <>
+                  <img
+                    loading="lazy"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/0dbf444f4ed2068ea13b4fa12b9927d011b42ce3f3eae40a73704f2c533c26ce?"
+                    className="w-10 aspect-square self-center"
+                  />
+                  <div>Oldest</div>
+                </>
+              )}
+            </button>
+            <Datepicker
+              inputClassName="w-full pl-3 pr-4 py-2 rounded-[25px] border font-normal text-stone-100 border-neutral-400 bg-black"
+              primaryColor={"emerald"}
+              value={value} 
+              onChange={handleValueChange}
+              useRange={false}
+              readOnly={true}
+              placeholder="Date" 
+              popoverDirection="down" 
+            /> 
+          </div>
+          
+        </div>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {events.map((event) => (
-            <div key={event.id} className="flex flex-col p-6 mt-6 rounded-lg bg-neutral-800 w-[280px] max-md:w-[calc(33.333% - 24px)]">
+            <div key={event.id} className="flex flex-col p-6 rounded-lg bg-neutral-800">
               <div className="h-[200px] bg-cover bg-center rounded-t-lg" style={{ backgroundImage: `url(${event.image})` }}></div>
               <div className="flex items-center mt-4 text-sm text-neutral-400">
                 {event.partnerName}
@@ -75,11 +140,11 @@ const ListEvent = () => {
             </div>
           ))}
         </div>
-      </main>
-    </div>
-  );
+      </div>
+    </main>
+  </div>
+);
 
 }
 
 export default ListEvent;
-
