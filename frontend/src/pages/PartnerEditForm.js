@@ -20,7 +20,7 @@ const PartnerDetails = () => {
   const emailPartner = myCookies.get('email')
   const idPartner = myCookies.get('id')
   const token = myCookies.get('token')
-  const [isEmailValid, setIsEmailValid] = React.useState(true);
+  // const [isEmailValid, setIsEmailValid] = React.useState(true);
   const [isPhoneNumberValid, setPhoneNumberValid] = React.useState(true);
   const [isDigit, setIsDigit] = React.useState(true);
   const [isLinkedinValid, setLinkedinValid] = React.useState(true);
@@ -109,23 +109,23 @@ const PartnerDetails = () => {
       email: value
     }));
   
-    try {
-      const response = await fetch('https://startupvault-foundry.vercel.app/auth/checkEmail/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: value }),
-      });
+    // try {
+    //   const response = await fetch('https://startupvault-foundry.vercel.app/auth/checkEmail/', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({ email: value }),
+    //   });
   
-      const data = await response.json();
-      const isValid = !(data.message === 'Email already used' && value !== emailPartner);
-      setIsEmailValid(isValid);
-      console.log('Email validation status:', isValid); // Debug: Log the validation status
+    //   const data = await response.json();
+    //   const isValid = !(data.message === 'Email already used' && value !== emailPartner);
+    //   setIsEmailValid(isValid);
+    //   console.log('Email validation status:', isValid); // Debug: Log the validation status
       
-    } catch (error) {
-      console.error('Error:', error);
-    }
+    // } catch (error) {
+    //   console.error('Error:', error);
+    // }
   };
   
   
@@ -248,9 +248,9 @@ const PartnerDetails = () => {
                     onChange={handleUpdateEmail}
                     required
                     />
-                    {!isEmailValid && (
+                    {/* {!isEmailValid && (
                     <div className="text-red-500 text-sm mt-2">This email has been taken.</div>
-                    )}
+                    )} */}
                   <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Name</div>
                   <input
                     type="text"
