@@ -44,7 +44,7 @@ const NavBar = ({ status }) => {
                             </>
                             ) : (
                             <>
-                                <div className={`justify-center pb-2 pt-2 border-0 border-b-2 hover:text-green-400 ${status === "events" ? "text-green-400 border-b-2 border-green-400" : "text-neutral-400 border-transparent"}`}>
+                                <div className={`justify-center pb-2 border-0 border-b-2 hover:text-green-400 ${status === "events" ? "text-green-400 border-b-2 border-green-400" : "text-neutral-400 border-transparent"}`}>
                                   <Link to="/event">Our Events</Link>
                                 </div>
                             </>
