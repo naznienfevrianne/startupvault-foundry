@@ -62,7 +62,7 @@ function EventDetails(props){
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/0c4af313822c4d2ebe8cf42cf89977522625f5d0a038a4293a77d92c748a624e?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
                   className="shrink-0 my-auto w-5 aspect-square"
                 />
-                <div className="font-medium tracking-wide">{eventDetails.name}</div>
+                <div className="font-medium tracking-normal">{eventDetails.name}</div>
               </div>
               <div className="flex gap-5 justify-between max-md:flex-wrap max-md:max-w-full mt-4">
                 <img

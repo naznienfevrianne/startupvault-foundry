@@ -72,7 +72,7 @@ return (
               Events
             </div>
             <div className="text-base tracking-normal text-neutral-400">
-              {events.length} entries found
+              {events.length} events found
             </div>
           </div>
         <div className="flex mt-4 justify-between items-center mb-6">
@@ -119,18 +119,18 @@ return (
                 {event.partnerName}
               </div>
               <div className="mt-2 text-xl font-bold text-stone-100">
-                <Link to={`/eventDetails/${event.id}`} className="no-underline hover:underline">{event.name}</Link>
+                <Link to={`/event-details/${event.id}`} className="no-underline hover:underline">{event.name}</Link>
               </div>
               <div className="flex items-center mt-2 text-lg text-neutral-400">
-                <img src="https://i.ibb.co/ftd8Zhx/circle.png" className="w-5 h-5 mr-2" />
+                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/24d923b1a1f0e20f2236c810a17248bf7a7a2935815a5ba987913d1185a4e6db?apiKey=c7ebd85b29da4b398aac6462eda13ba9&" className="w-6 h-6 mr-1" />
                 {event.location}
               </div>
-              <div className="flex items-center mt-2 text-lg text-stone-500">
-                <img src="https://i.ibb.co/CVqLqCR/calendar.png" className="w-5 h-5 mr-2" />
+              <div className="flex items-center mt-2 text-lg text-neutral-400">
+                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/260154ece85ea9616db68ec02b42e3052763014d682a9a592183b3534e683630?apiKey=c7ebd85b29da4b398aac6462eda13ba9&" className="w-6 h-6 mr-1" />
                 {event.date} 
               </div>
               <div className="flex items-center mt-2 text-2xl text-red-500">
-                ${event.price}
+                IDR {event.price.toLocaleString()}
               </div>
               <div className="mt-4">
                 <Link to={`/event-details/${event.id}`} className="inline-block px-4 py-2 text-lg font-semibold text-black bg-stone-100 rounded-lg hover:bg-stone-200">
