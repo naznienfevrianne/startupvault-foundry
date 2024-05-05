@@ -43,7 +43,11 @@ class JWTAuthentication(permissions.BasePermission):
             try_to_decode = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
             print(try_to_decode)
                 
-            user = UserModel.objects.get(email=try_to_decode['email'])
+            try:
+                user = UserModel.objects.get(email=try_to_decode['email'])
+            except UserModel.DoesNotExist:
+                return JsonResponse({'error': 'User not found'}, status=404)
+
             print(user)
             # Here you can add logic to check if the user is authorized to access the endpoint
             # For example, you can check if the user has the necessary permissions
