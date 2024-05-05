@@ -39,9 +39,9 @@ const PartnerDetails = () => {
     }, []);
 
     return (
-        <section className="flex flex-col px-5 pt-9 pb-20 w-full">
+        <section className="flex flex-col px-10 pt-6 pb-20 w-full">
            <a href="/partnerEditForm" className="flex flex-wrap gap-5 items-center pr-20 max-md:pr-5">
-              <h1 className="text-3xl font-semibold tracking-wider leading-[54px] text-stone-100 max-md:text-3xl">PARTNER DETAILS</h1>
+              <h1 className="text-2xl font-semibold tracking-wider leading-[54px] text-stone-100 max-md:text-3xl">Partner Details</h1>
               <div className="flex gap-1.5 justify-center px-0.5 my-auto text-l tracking-wide whitespace-nowrap text-neutral-400" href="/partnerEditForm">
                   <div>edit details</div>
                   <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/04c641284d7871837890bdbbf518752e3d58158fa19f353bc7632662bcd27883?apiKey=9ff2a73e8144478896bce8206c80f3e2&" alt="Edit icon" className="shrink-0 aspect-square w-[23px]" />

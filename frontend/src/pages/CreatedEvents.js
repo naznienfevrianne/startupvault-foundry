@@ -228,11 +228,11 @@ function CreatedEvents() {
     }, [idPartner]);
 
   return (
-    <div className="flex flex-col self-stretch max-w-2xl bg-transparent">
-          <div className="flex gap-5 justify-between px-5 w-full font-semibold max-md:flex-wrap max-md:max-w-full">
+    <div className="flex flex-col self-stretch w-[50%] bg-transparent">
+          <div className="flex gap-5 pt-6 justify-between px-5 w-full font-semibold max-md:flex-wrap max-md:max-w-full">
             <div className="my-auto text-2xl tracking-wide text-stone-100">Your events</div>
-            <div className="flex gap-2.5 justify-center px-5 py-3 text-xl tracking-widest text-black bg-green-400 rounded-lg cursor-pointer" onClick={openCreateEventModal}>
-              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/565f5cbdb5778e2d0fff5686e6e930cecedc11f5c4f5f5d82c5a994a897fa2c8?apiKey=a9f236d74bde4869a09f0278cc07ff16&" className="shrink-0 w-6 aspect-square" />
+            <div className="flex gap-2.5 justify-center px-3 py-2 text-lg tracking-widest text-black bg-green-400 rounded-lg cursor-pointer" onClick={openCreateEventModal}>
+              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/565f5cbdb5778e2d0fff5686e6e930cecedc11f5c4f5f5d82c5a994a897fa2c8?apiKey=a9f236d74bde4869a09f0278cc07ff16&" className="shrink-0 w-5 aspect-square" />
               <div>Create event</div>
             </div>
           </div>
