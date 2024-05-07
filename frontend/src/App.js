@@ -23,6 +23,8 @@ import StartupEditDetails from './pages/StartupEditForm';
 import UserForm from './pages/UserForm';
 import OrgInvestorEditForm from './pages/OrgInvestorEditForm';
 import OrgInvestorReadForm from './pages/OrgInvestorReadForm';
+import PartnerReadForm from './pages/PartnerReadForm';
+import PartnerEditForm from './pages/PartnerEditForm';
 import InvestorDashboard from './pages/InvestorDashboard';
 import InvestorDetails from './pages/InvestorDetails';
 import UpdateInvestorDetails from './pages/UpdateInvestorDetails';
@@ -30,7 +32,15 @@ import Follow from './pages/Follow';
 import StartupList from './pages/StartupList';
 import { Cookies } from 'react-cookie';
 import StartupDetails from './pages/ReadStartupDetails';
-
+import CreatedShowcase from './pages/CreatedShowcase';
+import PartnerDashboard from './pages/PartnerDashboard';
+import OrgPartnerReadForm from './pages/OrgPartnerReadForm';
+import OrgPartnerEditForm from './pages/OrgPartnerEditForm';
+import EventDetails from './pages/EventDetails';
+import ListEvent from './pages/ListEvent';
+import EventEditForm from './pages/EventEditForm';
+import CreateEvent from './pages/CreateEvent';
+import CreatedEvents from './pages/CreatedEvents';
 
 function App() {
     const myCookies = new Cookies();
@@ -53,7 +63,6 @@ function App() {
                 <Route path="/partnerForm" element={<PartnerForm />} />
                 <Route path="/MOUSubmission" element={<MOUSubmission />} />
                 <Route path="/investorType" element={<InvestorType/>} />
-                <Route path="/dashboardInvestor" element={<InvestorDashboard />} />
                 {isAuthenticated && isVerified === 1 ? (
                     <React.Fragment>
                     <Route path="/founderReadForm" element={<FounderReadForm />} />
@@ -61,7 +70,7 @@ function App() {
                     <Route path="/startupReadForm" element={<StartupReadForm />} />
                     <Route path="/startupEditForm" element={<StartupEditForm />} />
                     <Route path="/startupDetails/:idStartup" element={<StartupDetails />} />
-                    <Route path="/startupEditForm" element={<StartupEditForm />} />           
+       
                     <Route path="/dashboard" element={<FounderDashboard />} />
                     <Route path="/diary" element={<FounderDiary />}/>
                     <Route path="/cookies" element={<CookieDisplay />} />
@@ -72,7 +81,18 @@ function App() {
                     <Route path="/startupList" element={<StartupList />} />
                     <Route path="/orgInvestorReadForm" element={<OrgInvestorReadForm />} />
                     <Route path="/orgInvestorEditForm" element={<OrgInvestorEditForm />} />
+                    <Route path="/orgPartnerReadForm" element={<OrgPartnerReadForm />} />
+                    <Route path="/orgPartnerEditForm" element={<OrgPartnerEditForm />} />
+                    <Route path="/partnerReadForm" element={<PartnerReadForm />} />
+                    <Route path="/partnerEditForm" element={<PartnerEditForm />} />
+                    <Route path="/dashboardPartner" element={<PartnerDashboard />} />
                     <Route path="/dashboardInvestor" element={<InvestorDashboard/>} />
+                    <Route path="/created-showcase" element={<CreatedShowcase />} />
+                    <Route path="/event-details/:idEvent" element={<EventDetails />} />
+                    <Route path="/event" element={<ListEvent />} />
+                    <Route path="/eventEdit/:eventId" element={<EventEditForm />} />
+                    <Route path="/createEvent" element={<CreateEvent />} />
+                    <Route path="/createdEvents" element={<CreatedEvents />} />
                     </React.Fragment>
                 ) : (
                     <React.Fragment>

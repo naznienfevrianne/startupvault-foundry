@@ -12,7 +12,8 @@ urlpatterns = [
     path('auth/', include('authentication.urls')),
     path('showcase/', include('showcase.urls')),
     path('diary/', include('diaryentries.urls')),
-    path('admin/', admin.site.urls)
+    path('admin/', admin.site.urls),
+    path('event/', include('event.urls'))
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -240,7 +240,7 @@ const Likes = ({ LikedPost, user, initialLikes, isInitiallyLiked }) => {
           <div key={index} className="post-class">
             <div className="flex gap-4 p-6 mt-6 rounded-lg bg-neutral-800 max-md:flex-wrap max-md:px-5 max-md:max-w-full">
               <div className="flex justify-center items-center self-start aspect-square">
-                <Avatar src={post.user.image} />
+                <Avatar avatar={post.user_avatar} />
               </div>
               <div className="flex flex-col flex-1 items-start max-md:max-w-full">
                 <header className="flex gap-2 text-base font-medium tracking-wide whitespace-nowrap">
@@ -340,7 +340,7 @@ const Showcase = () => {
         <ShowcaseForm afterPostSuccess={fetchPosts} />
         <ShowcasePost searchTerm={searchTerm}/>
       </main>
-      <aside className="w-1/3 h-full overflow-auto sticky top-0"> {/* Aside section made sticky */}
+      <aside className="w-1/3 h-full overflow-auto top-0"> {/* Aside section made sticky */}
         <SearchBar setSearchTerm={setSearchTerm}/>
         <CategoriesSection/>
       </aside>
