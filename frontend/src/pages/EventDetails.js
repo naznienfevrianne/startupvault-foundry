@@ -20,7 +20,7 @@ function EventDetails(props){
 
     const fetchData = async () => {
         try {
-          const response = await fetch(`http://localhost:8000/event/${idEvent}/`, {
+          const response = await fetch(`https://startupvault-foundry.vercel.app/event/${idEvent}/`, {
             method:"GET",
             headers: {
               'Content-Type': 'application/json',

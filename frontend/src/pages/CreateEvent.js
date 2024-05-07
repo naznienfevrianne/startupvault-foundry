@@ -53,7 +53,7 @@ const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
       console.log(jsonData)
 
       try {
-          const response = await fetch('http://localhost:8000/event/create/', { // Make sure this URL is correct in your environment setup
+          const response = await fetch('https://startupvault-foundry.vercel.app/event/create/', { // Make sure this URL is correct in your environment setup
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',

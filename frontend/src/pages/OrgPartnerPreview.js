@@ -40,7 +40,7 @@ function OrgPartnerPreview(props) {
 	  };
 
     const fetchDataPost = async () => {
-        const endpoint = `http://localhost:8000/showcase/${idPartner}/`
+        const endpoint = `https://startupvault-foundry.vercel.app/showcase/${idPartner}/`
   
         try {
           const response = await fetch(endpoint, {
@@ -63,7 +63,7 @@ function OrgPartnerPreview(props) {
 
 	const fetchDataEvent = async () => {
 		try {
-			const response = await fetch(`http://localhost:8000/event/created-events/${idPartner}/`, {
+			const response = await fetch(`https://startupvault-foundry.vercel.app/event/created-events/${idPartner}/`, {
 				method: 'GET',
 				headers: {
 					'Authorization': 'Bearer ' + token

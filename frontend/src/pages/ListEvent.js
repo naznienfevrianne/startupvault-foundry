@@ -26,9 +26,9 @@ const ListEvent = () => {
     
     let endpoint;
     if(value.startDate != null && value.endDate != null){
-      endpoint = `http://localhost:8000/event/?sort_by_date=${sort}&startDate=${value.startDate}&endDate=${value.endDate}`
+      endpoint = `https://startupvault-foundry.vercel.app/event/?sort_by_date=${sort}&startDate=${value.startDate}&endDate=${value.endDate}`
     } else{
-      endpoint = `http://localhost:8000/event/?sort_by_date=${sort}`
+      endpoint = `https://startupvault-foundry.vercel.app/event/?sort_by_date=${sort}`
     }
 
     console.log("AAAAAAAAAAAAAAA")
