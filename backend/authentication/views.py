@@ -225,14 +225,27 @@ class InvestorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        partial = request.method == 'PUT'  # Check if request method is PUT
+        partial = request.method == 'PUT'  # Periksa apakah metode permintaan adalah PUT
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data)
+
+        # Buat payload baru dengan data investor yang diperbarui
+        payload = model_to_dict(instance)
+        payload.pop('password', None)
+        
+        # Buat token JWT baru
+        jwt_token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
+
+        # Kirim respons JSON dengan token JWT baru dan data investor yang diperbarui
+        return Response({"token": jwt_token, **payload}, status=200)
 
     def partial_update(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
 class PartnerRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [JWTAuthentication] 
@@ -246,10 +259,20 @@ class PartnerRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data)
+        partial = request.method == 'PUT'  # Periksa apakah metode permintaan adalah PUT
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data)
+
+        # Buat payload baru dengan data investor yang diperbarui
+        payload = model_to_dict(instance)
+        payload.pop('password', None)
+        
+        # Buat token JWT baru
+        jwt_token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
+
+        # Kirim respons JSON dengan token JWT baru dan data investor yang diperbarui
+        return Response({"token": jwt_token, **payload}, status=200)
 
     def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -270,10 +293,20 @@ class FounderRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data)
+        partial = request.method == 'PUT'  # Periksa apakah metode permintaan adalah PUT
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data)
+
+        # Buat payload baru dengan data investor yang diperbarui
+        payload = model_to_dict(instance)
+        payload.pop('password', None)
+        
+        # Buat token JWT baru
+        jwt_token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
+
+        # Kirim respons JSON dengan token JWT baru dan data investor yang diperbarui
+        return Response({"token": jwt_token, **payload}, status=200)
 
     def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()
