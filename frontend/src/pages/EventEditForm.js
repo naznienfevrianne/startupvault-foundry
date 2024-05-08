@@ -20,7 +20,7 @@ const EventDetails = () => {
     date: "",
     price: 0,
     link: '',
-    image: '',
+    image: null,
     isVerified: 1,
 
   });
@@ -33,7 +33,6 @@ const EventDetails = () => {
   }, [eventDetails.name, eventDetails.desc, eventDetails.location, eventDetails.date, eventDetails.price, eventDetails.link, eventDetails.image]);
 
   const myCookies = new Cookies();
-  const idPartner = myCookies.get('id')
   const token = myCookies.get('token')
 
   let { eventId } = useParams(); // Assuming eventId is passed as a query parameter in the URL
@@ -41,8 +40,6 @@ const EventDetails = () => {
 
   let descValid = true;
 
-
-  const [isDigit, setIsDigit] = useState(true);
   const [wordCount, setWordCount] = useState(0);
   const [errorMessage, setErrorMessage] = useState(' ');
 
@@ -74,48 +71,71 @@ const EventDetails = () => {
     }
   };
 
-//   const handleDescriptionChange = (e) => {
-//     const newDescription = e.target.value;
+  const handleDescriptionChange = (e) => {
+    const newDescription = e.target.value;
   
-//     // Validate description word count
-//     const wordCount = newDescription.trim().split(/\s+/).length;
-//     setWordCount(wordCount);
+    // Validate description word count
+    const wordCount = newDescription.trim().split(/\s+/).length;
+    setWordCount(wordCount);
 
-//     if (!eventDetails.desc) {
-//         descValid = false;
-//         setErrorMessage("Please input event description")
-//     } else if (wordCount < 6) {
-//         descValid = false;
-//         setErrorMessage('Please input a description more than 5 words.');
-//     }
-
-//     setEventDetails({
-//         ...eventDetails,
-//         desc: newDescription,
-//     });
+    setEventDetails({
+        ...eventDetails,
+        desc: newDescription,
+    });
     
-//   };
+  };
 
-  const handleDrop = (e) => {
+  // const handleDrop = async (e) => {
+  //   e.preventDefault();
+  //   const file = e.dataTransfer.files[0];
+  //   if (file && file.type.startsWith('image/')) {
+  //     const imageUrl = URL.createObjectURL(file);
+  //     setPicture(imageUrl);
+
+
+  //   localStorage.setItem("image", imageUrl);
+
+  //   const photoUrl = await uploadUserImg(fileName);
+  //   console.log(photoUrl)
+
+  //   setEventDetails({
+  //     ...eventDetails,
+  //     image: picture, // Update the image property with the new value
+  //   });
+    
+  //   }
+  //   console.log(eventDetails.image);
+
+  //   };
+
+  const handleDrop = async (e) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
     if (file && file.type.startsWith('image/')) {
       const imageUrl = URL.createObjectURL(file);
       setPicture(imageUrl);
-      setEventDetails({
-        ...eventDetails,
-        image: imageUrl
-      });
+  
+      // Upload and then update state
+      uploadUserImg(file, fileName).then(photoUrl => {
+        console.log("Photo URL:", photoUrl); // Check if this logs a valid URL
+        setEventDetails(prevDetails => {
+          console.log("Previous Details:", prevDetails); // Check the state before update
+          return {
+            ...prevDetails,
+            image: photoUrl,
+          };
+        });
+      }).catch(error => console.error("Error during image upload:", error));
     }
-    };
+  };
     
-      const handleDragOver = (e) => {
-        e.preventDefault();
-      };
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
     
 
-  const storedPicture = eventDetails.image;
-  const [picture, setPicture] = useState(storedPicture);
+  // const storedPicture = eventDetails.image;
+  const [picture, setPicture] = useState("");
 
   function generateRandomString(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -129,58 +149,80 @@ const EventDetails = () => {
   const valueWithoutSpaces = storedValue.replace(/\s/g, '');
   const fileName = valueWithoutSpaces + "/" + generateRandomString(25);
 
-  
+
+  // const handlePictureChange = async (e) => {
+  //   e.preventDefault();
+  //   let file = e.target.files[0]
+  //   const imageUrl = URL.createObjectURL(file)
+  //   setPicture(imageUrl);
 
 
+  //   localStorage.setItem("image", imageUrl);
+
+  //   const photoUrl = await uploadUserImg(fileName);
+  //   console.log(photoUrl)
+   
+  //   setEventDetails({
+  //       ...eventDetails,
+  //       image: photoUrl,
+  //   });
+  //   console.log(eventDetails.image);
+  // }
   const handlePictureChange = async (e) => {
     e.preventDefault();
-    let file = e.target.files[0]
-    const imageUrl = URL.createObjectURL(file)
+    let file = e.target.files[0];
+    const imageUrl = URL.createObjectURL(file);
     setPicture(imageUrl);
-    console.log("tes");
-    console.log(eventDetails.image);
-
-
-    localStorage.setItem("image", imageUrl);
-
-    const photoUrl = await uploadUserImg(fileName);
-    console.log(photoUrl)
-   
-    // setEventDetails({
-    //   ...eventDetails,
-    //   image: photoUrl, // Update the image property with the new value
-    // });
-    console.log(eventDetails.image);
-
-    const transformedImageUrl = photoUrl.replace(eventDetails.image, photoUrl);
-    setEventDetails({
-        ...eventDetails,
-        image: transformedImageUrl,
-    });
+  
+    // Upload the image first
+    uploadUserImg(fileName).then(photoUrl => {
+      // Update state after the image has been uploaded
+      setEventDetails(prevDetails => ({
+        ...prevDetails,
+        image: photoUrl, // Use the URL from the upload function
+      }));
+    }).catch(error => console.error("Error uploading image:", error));
     console.log(eventDetails.image);
   }
 
-  const uploadUserImg = async (fileName) => {
-    return fetch(localStorage.getItem("image"))
-      .then(response => response.blob())
-      .then(async blob => {
-        // Upload the image to Supabase Storage
-        const { data, error } = await supabase.storage
-          .from('userimg')
-          .upload(fileName, blob);
+  // const uploadUserImg = async (fileName) => {
+  //   return fetch(localStorage.getItem("image"))
+  //     .then(response => response.blob())
+  //     .then(async blob => {
+  //       // Upload the image to Supabase Storage
+  //       const { data, error } = await supabase.storage
+  //         .from('userimg')
+  //         .upload(fileName, blob);
   
-        if (error) {
-          console.error('Error uploading profilePicture:', error.message);
-          throw error; // Throw the error to propagate it
-        } else {
-          console.log('Image uploaded successfully:', fileName);
-          return supabaseUrl + "/storage/v1/object/public/userimg/" + fileName;
-        }
-      })
-      .catch(error => {
-        console.error('profilePicture fetching image err:', error);
-        throw error; // Throw the error to propagate it
-      });
+  //       if (error) {
+  //         console.error('Error uploading Picture:', error.message);
+  //         throw error; // Throw the error to propagate it
+  //       } else {
+  //         console.log('Image uploaded successfully:', fileName);
+  //         return supabaseUrl + "/storage/v1/object/public/userimg/" + fileName;
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.error('Picture fetching image err:', error);
+  //       throw error; // Throw the error to propagate it
+  //     });
+      
+  // };
+  const uploadUserImg = async (file, fileName) => {
+    try {
+      // Upload the image to Supabase Storage
+      const { data, error } = await supabase.storage.from('userimg').upload(fileName, file);
+      if (error) {
+        console.error('Error uploading Picture:', error.message);
+        throw error;
+      } else {
+        console.log('Image uploaded successfully:', fileName);
+        return `${supabaseUrl}/storage/v1/object/public/userimg/${fileName}`;
+      }
+    } catch (error) {
+      console.error('Error during image upload:', error);
+      throw error;
+    }
   };
 
   const handleUpdate = async () => {
@@ -254,7 +296,7 @@ const EventDetails = () => {
                 className={`block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer`}
                 placeholder=""
                 value={eventDetails.desc}
-                onChange={(e) => setEventDetails({ ...eventDetails, desc: e.target.value })}
+                onChange={handleDescriptionChange}
                 rows={3} // Set the number of rows
                 required
                 />
