@@ -85,29 +85,6 @@ const EventDetails = () => {
     
   };
 
-  // const handleDrop = async (e) => {
-  //   e.preventDefault();
-  //   const file = e.dataTransfer.files[0];
-  //   if (file && file.type.startsWith('image/')) {
-  //     const imageUrl = URL.createObjectURL(file);
-  //     setPicture(imageUrl);
-
-
-  //   localStorage.setItem("image", imageUrl);
-
-  //   const photoUrl = await uploadUserImg(fileName);
-  //   console.log(photoUrl)
-
-  //   setEventDetails({
-  //     ...eventDetails,
-  //     image: picture, // Update the image property with the new value
-  //   });
-    
-  //   }
-  //   console.log(eventDetails.image);
-
-  //   };
-
   const handleDrop = async (e) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
@@ -149,25 +126,6 @@ const EventDetails = () => {
   const valueWithoutSpaces = storedValue.replace(/\s/g, '');
   const fileName = valueWithoutSpaces + "/" + generateRandomString(25);
 
-
-  // const handlePictureChange = async (e) => {
-  //   e.preventDefault();
-  //   let file = e.target.files[0]
-  //   const imageUrl = URL.createObjectURL(file)
-  //   setPicture(imageUrl);
-
-
-  //   localStorage.setItem("image", imageUrl);
-
-  //   const photoUrl = await uploadUserImg(fileName);
-  //   console.log(photoUrl)
-   
-  //   setEventDetails({
-  //       ...eventDetails,
-  //       image: photoUrl,
-  //   });
-  //   console.log(eventDetails.image);
-  // }
   const handlePictureChange = async (e) => {
     e.preventDefault();
     let file = e.target.files[0];
@@ -185,29 +143,6 @@ const EventDetails = () => {
     console.log(eventDetails.image);
   }
 
-  // const uploadUserImg = async (fileName) => {
-  //   return fetch(localStorage.getItem("image"))
-  //     .then(response => response.blob())
-  //     .then(async blob => {
-  //       // Upload the image to Supabase Storage
-  //       const { data, error } = await supabase.storage
-  //         .from('userimg')
-  //         .upload(fileName, blob);
-  
-  //       if (error) {
-  //         console.error('Error uploading Picture:', error.message);
-  //         throw error; // Throw the error to propagate it
-  //       } else {
-  //         console.log('Image uploaded successfully:', fileName);
-  //         return supabaseUrl + "/storage/v1/object/public/userimg/" + fileName;
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.error('Picture fetching image err:', error);
-  //       throw error; // Throw the error to propagate it
-  //     });
-      
-  // };
   const uploadUserImg = async (file, fileName) => {
     try {
       // Upload the image to Supabase Storage
