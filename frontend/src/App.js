@@ -85,6 +85,9 @@ function App() {
                     <Route path="/orgPartnerEditForm" element={<OrgPartnerEditForm />} />
                     <Route path="/partnerReadForm" element={<PartnerReadForm />} />
                     <Route path="/partnerEditForm" element={<PartnerEditForm />} />
+                    <Route path="/partnerReadForm" element={<PartnerReadForm />} />
+                    <Route path="/partnerEditForm" element={<PartnerEditForm />} />
+                    
                     <Route path="/dashboardPartner" element={<PartnerDashboard />} />
                     <Route path="/dashboardInvestor" element={<InvestorDashboard/>} />
                     <Route path="/created-showcase" element={<CreatedShowcase />} />
