@@ -37,7 +37,7 @@ function LoginBox(props) {
           const data = await response.json();
           alert("Login successful!")
           localStorage.clear()
-          setCookie("login", true);
+          setCookie("login", { path: '/', expires:new Date(Date.now() + 60 * 60 * 1000)});
          // Set each key-value pair from the response JSON as a separate cookie
           Object.keys(data).forEach(key => {
             setCookie(key, data[key], { path: '/', expires:new Date(Date.now() + 60 * 60 * 1000)}); // Set cookie for each key-value pair
