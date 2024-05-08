@@ -35,7 +35,7 @@ const PartnerDetails = () => {
 
   const fetchDataPartner = async () => {
     try {
-        const response = await fetch(`http://localhost:8000/auth/partner/${idPartner}/`, {
+        const response = await fetch(`https://startupvault-foundry.vercel.app/auth/partner/${idPartner}/`, {
             method: "GET", 
             headers:{
                 'Content-Type': 'application/json',
@@ -165,7 +165,7 @@ const PartnerDetails = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/auth/partner/${idPartner}/`, {
+      const response = await fetch(`https://startupvault-foundry.vercel.app/auth/partner/${idPartner}/`, {
         method: "PUT",
         headers: {
           'Authorization': 'Bearer ' + token,
