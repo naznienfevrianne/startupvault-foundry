@@ -53,7 +53,7 @@ const EventDetails = () => {
 
   const fetchDataEvent = async () => {
     try {
-        const response = await fetch(`http://localhost:8000/event/${eventId}/`, {
+        const response = await fetch(`https://startupvault-foundry.vercel.app/event/${eventId}/`, {
             method: "GET", 
             headers:{
                 'Content-Type': 'application/json',
@@ -162,7 +162,7 @@ const EventDetails = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/event/${eventId}/`, {
+      const response = await fetch(`https://startupvault-foundry.vercel.app/event/${eventId}/`, {
         method: "PUT",
         headers: {
           'Authorization': 'Bearer ' + token,
