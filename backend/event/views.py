@@ -27,10 +27,11 @@ from authentication.views import JWTAuthentication
 from datetime import datetime, timedelta
 from django.utils import timezone
 from django.utils.dateparse import parse_date
+from authentication.views import JWTAuthentication
 
 # Create your models here.
 class EventListCreate(generics.ListCreateAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication]
     serializer_class = EventSerializer
 
     def get_queryset(self):
@@ -59,7 +60,7 @@ class EventListCreate(generics.ListCreateAPIView):
 
     
 class EventRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [AllowAny] 
+    permission_classes = [JWTAuthentication] 
     
     def get_serializer_class(self):
         if self.request.method == 'GET':

@@ -29,9 +29,9 @@ function CreatedShowcase(props) {
         let endpoint;
   
         if(searchTerm != ""){
-          endpoint = `http://localhost:8000/showcase/${idPartner}/?sort=${sort}&search=${searchTerm}`
+          endpoint = `https://startupvault-foundry.vercel.app/showcase/${idPartner}/?sort=${sort}&search=${searchTerm}`
         } else{
-          endpoint = `http://localhost:8000/showcase/${idPartner}/?sort=${sort}`
+          endpoint = `https://startupvault-foundry.vercel.app/showcase/${idPartner}/?sort=${sort}`
         }
   
         try {

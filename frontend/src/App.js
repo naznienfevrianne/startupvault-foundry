@@ -65,13 +65,13 @@ function App() {
                 <Route path="/investorType" element={<InvestorType/>} />
                 {isAuthenticated && isVerified === 1 ? (
                     <React.Fragment>
-                    <Route path="/founderReadForm" element={<FounderReadForm />} />
+                    <Route path="/dashboard" element={<FounderDashboard />} /> 
                     <Route path="/founderEditForm" element={<FounderEditForm />} />
                     <Route path="/startupReadForm" element={<StartupReadForm />} />
+                    <Route path="/founderReadForm" element={<FounderReadForm />} />
+                    <Route path="/diary" element={<FounderDiary />}/>
                     <Route path="/startupEditForm" element={<StartupEditForm />} />
                     <Route path="/startupDetails/:idStartup" element={<StartupDetails />} />
-       
-                    <Route path="/dashboard" element={<FounderDashboard />} />
                     <Route path="/diary" element={<FounderDiary />}/>
                     <Route path="/cookies" element={<CookieDisplay />} />
                     <Route path="/startupEditForm" element={<StartupEditDetails />} />
@@ -85,9 +85,6 @@ function App() {
                     <Route path="/orgPartnerEditForm" element={<OrgPartnerEditForm />} />
                     <Route path="/partnerReadForm" element={<PartnerReadForm />} />
                     <Route path="/partnerEditForm" element={<PartnerEditForm />} />
-                    <Route path="/partnerReadForm" element={<PartnerReadForm />} />
-                    <Route path="/partnerEditForm" element={<PartnerEditForm />} />
-                    
                     <Route path="/dashboardPartner" element={<PartnerDashboard />} />
                     <Route path="/dashboardInvestor" element={<InvestorDashboard/>} />
                     <Route path="/created-showcase" element={<CreatedShowcase />} />
@@ -105,6 +102,28 @@ function App() {
                     <Route path="/founderReadForm" element={<Navigate to="/login" replace />} />
                     <Route path="/diary" element={<Navigate to="/login" replace />} />
                     <Route path="/startupEditForm" element={<Navigate to="/login" replace />} />
+                    <Route path="/startupDetails/:idStartup" element={<Navigate to="/login" replace />} />
+                    <Route path="/diary" element={<Navigate to="/login" replace />}/>
+                    <Route path="/cookies" element={<Navigate to="/login" replace />} />
+                    <Route path="/startupEditForm" element={<Navigate to="/login" replace />} />
+                    <Route path="/investorDetails" element={<Navigate to="/login" replace />} />
+                    <Route path="/updateInvestorDetails" element={<Navigate to="/login" replace />} />
+                    <Route path="/follow" element={<Navigate to="/login" replace />} />
+                    <Route path="/startupList" element={<Navigate to="/login" replace />} />
+                    <Route path="/orgInvestorReadForm" element={<Navigate to="/login" replace />} />
+                    <Route path="/orgInvestorEditForm" element={<Navigate to="/login" replace />} />
+                    <Route path="/orgPartnerReadForm" element={<Navigate to="/login" replace />} />
+                    <Route path="/orgPartnerEditForm" element={<Navigate to="/login" replace />} />
+                    <Route path="/partnerReadForm" element={<Navigate to="/login" replace />} />
+                    <Route path="/partnerEditForm" element={<Navigate to="/login" replace />} />
+                    <Route path="/dashboardPartner" element={<Navigate to="/login" replace />} />
+                    <Route path="/dashboardInvestor" element={<Navigate to="/login" replace />} />
+                    <Route path="/created-showcase" element={<Navigate to="/login" replace />} />
+                    <Route path="/event-details/:idEvent" element={<Navigate to="/login" replace />} />
+                    <Route path="/event" element={<Navigate to="/login" replace />} />
+                    <Route path="/eventEdit/:eventId" element={<Navigate to="/login" replace />} />
+                    <Route path="/createEvent" element={<Navigate to="/login" replace />} />
+                    <Route path="/createdEvents" element={<Navigate to="/login" replace />} />
                     </React.Fragment>
                 )}
             </Routes>

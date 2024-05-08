@@ -5,9 +5,11 @@ import NavBar from "../component/NavBar";
 import { useNavigate } from 'react-router-dom';
 import { createClient } from "@supabase/supabase-js";
 import SideBar from "../component/SideInvestor";
+import { useCookies } from "react-cookie";
 
 function UpdateInvestorDetails(props) {
   const navigate = useNavigate();
+  const [cookies, setCookie] = useCookies()
 
   const [investorData, setInvestorEntry] = React.useState({
     name: '',
@@ -189,6 +191,12 @@ function UpdateInvestorDetails(props) {
       if (!response.ok) {
         throw new Error("Failed to update data");
       }
+      const data = await response.json();
+      setCookie("login", { path: '/', expires:new Date(Date.now() + 60 * 60 * 1000)});
+      // Set each key-value pair from the response JSON as a separate cookie
+        Object.keys(data).forEach(key => {
+          setCookie(key, data[key], { path: '/', expires:new Date(Date.now() + 60 * 60 * 1000)}); // Set cookie for each key-value pair
+        });
 
       navigate('/investorDetails');
     } catch (error) {

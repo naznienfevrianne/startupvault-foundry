@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import{ Cookies } from 'react-cookie';
+import{ useCookies, Cookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import NavBar from "../component/NavBar";
 import { createClient } from "@supabase/supabase-js";
@@ -9,6 +9,8 @@ import { createClient } from "@supabase/supabase-js";
 
 const PartnerDetails = () => {
   const navigate = useNavigate();
+  const [cookies, setCookie] = useCookies()
+
 
   const [partnerDetails, setPartnerDetails] = React.useState({
     name: '',
@@ -177,6 +179,12 @@ const PartnerDetails = () => {
       if (!response.ok) {
         throw new Error("Failed to update data");
       }
+      const data = await response.json();
+      setCookie("login", { path: '/', expires:new Date(Date.now() + 60 * 60 * 1000)});
+      // Set each key-value pair from the response JSON as a separate cookie
+        Object.keys(data).forEach(key => {
+          setCookie(key, data[key], { path: '/', expires:new Date(Date.now() + 60 * 60 * 1000)}); // Set cookie for each key-value pair
+        });
 
       navigate('/partnerReadForm');
 

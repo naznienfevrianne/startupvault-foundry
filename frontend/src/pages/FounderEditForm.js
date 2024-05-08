@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import NavBar from "../component/NavBar";
 import { createClient } from "@supabase/supabase-js";
 import SideBar from "../component/SideFounder";
+import { useCookies } from 'react-cookie';
 
 // Reusable Image Component
 const ImageWithAlt = ({ src, alt, className }) => (
@@ -55,10 +56,9 @@ const FounderDetails = () => {
   const storedValue = founderDetails.name;
   const valueWithoutSpaces = storedValue.replace(/\s/g, '');
   const fileName = valueWithoutSpaces + "/" + generateRandomString(25);
+  const [cookies, setCookie] = useCookies()
+  const navigate = useNavigate("/")
 
-  
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -148,8 +148,15 @@ const FounderDetails = () => {
         if (!response.ok) {
             throw new Error("Failed to update data");
         }
+        const data = await response.json()
         console.log("Data updated successfully");
         console.log("Navigating to /founderReadForm...");
+        setCookie("login", { path: '/', expires:new Date(Date.now() + 60 * 60 * 1000)});
+         // Set each key-value pair from the response JSON as a separate cookie
+        Object.keys(data).forEach(key => {
+          setCookie(key, data[key], { path: '/', expires:new Date(Date.now() + 60 * 60 * 1000)}); // Set cookie for each key-value pair
+        });
+          console.log(cookies)
         navigate('/founderReadForm');
     } catch (error) {
         console.error("Error:", error);

@@ -118,7 +118,7 @@ function CreatedEvents() {
 
     const handleConfirmDelete = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/event/${eventIdToDelete}/`, {
+        const response = await fetch(`https://startupvault-foundry.vercel.app/event/${eventIdToDelete}/`, {
           method: 'DELETE',
           headers: {
             'Authorization': 'Bearer ' + token
@@ -199,7 +199,7 @@ function CreatedEvents() {
             }
 
         try {
-                const response = await fetch(`http://localhost:8000/event/created-events/${idPartner}/`, {
+                const response = await fetch(`https://startupvault-foundry.vercel.app/event/created-events/${idPartner}/`, {
                   method: 'GET',
                   headers: {
                     'Authorization': 'Bearer ' + token // Ensure you have a valid token
