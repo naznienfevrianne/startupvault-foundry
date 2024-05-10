@@ -40,11 +40,11 @@ class Startup(models.Model):
 
     def __str__(self):
         if (self.founder.isVerified == 0):
-            return f"[Need to be verified]: {self.name}"
+            return f"[Need to be verified]: {self.id} {self.name}"
         elif (self.founder.isVerified == 1):
-            return f"[Accepted]: {self.name}"
+            return f"[Accepted]: {self.id} {self.name}"
         else:
-            return f"[Rejected]: {self.name}"
+            return f"[Rejected]: {self.id} {self.name}"
 
 class InvestorOrganization(models.Model):
     typ = models.CharField(max_length=10) # dr sblmnya
