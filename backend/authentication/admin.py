@@ -14,18 +14,30 @@ class StartupAdmin(admin.ModelAdmin):
 admin.site.register(Startup, StartupAdmin)
 
 class Top10StartupAdmin(admin.ModelAdmin):
-    raw_id_fields = (
-        "rank1",
-        "rank2",
-        "rank3",
-        "rank4",
-        "rank5",
-        "rank6",
-        "rank7",
-        "rank8",
-        "rank9",
-        "rank10",
-    )
-    # autocomplete_fields = ['rank1', 'rank2', 'rank3', 'rank4', 'rank5','rank6', 'rank7','rank8', 'rank9', 'rank10']
+    autocomplete_fields = ['rank1', 'rank2', 'rank3', 'rank4', 'rank5','rank6', 'rank7','rank8', 'rank9', 'rank10']
 
 admin.site.register(Top10Startup, Top10StartupAdmin)
+
+class Top10Form(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        # Customize each rank field to display startup names in a dropdown
+        for field_name in ['rank1', 'rank2', 'rank3', 'rank4', 'rank5', 'rank6', 'rank7', 'rank8', 'rank9', 'rank10']:
+            self.fields[field_name].queryset = Startup.objects.filter(founder__isVerified=1)
+            self.fields[field_name].widget = forms.Select(choices=self.get_startup_name_choices())
+
+    def get_startup_name_choices(self):
+        # Query the database to get a list of startup names
+        startup_names = Startup.objects.filter(founder__isVerified=1).values_list('name', flat=True)
+        choices = [(name, name) for name in startup_names]
+        return choices
+
+    class Meta:
+        model = Top10Temp
+        fields = ['rank1', 'rank2', 'rank3', 'rank4', 'rank5', 'rank6', 'rank7', 'rank8', 'rank9', 'rank10']
+
+class Top10Admin2(admin.ModelAdmin):
+    form = Top10Form
+
+admin.site.register(Top10Temp, Top10Admin2)
