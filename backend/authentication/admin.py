@@ -14,23 +14,7 @@ class StartupAdmin(admin.ModelAdmin):
 admin.site.register(Startup, StartupAdmin)
 
 class Top10StartupAdmin(admin.ModelAdmin):
-<<<<<<< ab2dfc31aa01bc1a435eb4c0d95b8411d600b959
     autocomplete_fields = ['rank1', 'rank2', 'rank3', 'rank4', 'rank5','rank6', 'rank7','rank8', 'rank9', 'rank10']
-=======
-    raw_id_fields = (
-        "rank1",
-        "rank2",
-        "rank3",
-        "rank4",
-        "rank5",
-        "rank6",
-        "rank7",
-        "rank8",
-        "rank9",
-        "rank10",
-    )
-    # autocomplete_fields = ['rank1', 'rank2', 'rank3', 'rank4', 'rank5','rank6', 'rank7','rank8', 'rank9', 'rank10']
->>>>>>> d63fc63cd2a526b89ac1af5588a515374dda65eb
 
 admin.site.register(Top10Startup, Top10StartupAdmin)
 
