@@ -175,7 +175,7 @@ function FounderDashboard(props) {
 };
 
   return (
-    <div className="flex flex-col justify-center bg-black min-h-screen px-20">
+    <div className="flex flex-col justify-center bg-black min-h-screen px-20 overflow-auto">
     <NavBar status={"dashboard"}/>
       <div className="pb-20 w-full max-md:pr-5 max-md:max-w-full">
         <div className="flex gap-5 max-md:flex-col max-md:gap-0">
@@ -287,7 +287,7 @@ function FounderDashboard(props) {
           </div>
           <div className="flex flex-col ml-8 w-[26%] max-md:ml-0 max-md:w-full">
             <div className="flex flex-col p-6 mx-auto mt-6 w-full rounded-lg bg-neutral-800 max-md:px-5 max-md:mt-10">
-              <div className="flex gap-5 justify-between w-full">
+              <div className="flex gap-5 justify-between w-full break-words">
                 <div className="flex-auto text-l font-medium tracking-wide text-white">
                   My Startup
                 </div>
@@ -310,8 +310,8 @@ function FounderDashboard(props) {
                     className="aspect-[1.02] w-[46px]"
                   />
                 </div>
-                <div className="flex gap-2 self-start pr-2 text-2xl font-semibold tracking-wider leading-10 text-white whitespace-nowrap">
-                  <div className="grow">{startupData.name}</div>
+                <div className="flex gap-2 self-start pr-2 text-2xl font-semibold tracking-wider leading-10 text-white break-all">
+                  <div className="grow break-words">{startupData.name}</div>
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/6417a1a8e6e4f317123380fe8fed9093f6b5dd538926f00e91d377d6f03966c5?"
