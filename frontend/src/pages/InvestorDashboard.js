@@ -304,7 +304,7 @@ function InvestorDashboard(props){
 																/>
 																<div className="relative font-semibold whitespace-nowrap text-stone-100">
 																	<div className="flex gap-1 text-xl items-center">
-																		<div>{item.startup}</div>
+																		<Link to={`/startupDetails/${item.startup_id}`}><div className="hover:text-green-400">{item.startup}</div></Link>
 																		<img
 																			loading="lazy"
 																			src="https://cdn.builder.io/api/v1/image/assets/TEMP/5cd0618b56d923d8e9393e8312d89bc42be642f17db4d5994a14565779c2265e?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
