@@ -141,7 +141,7 @@ function EventDetails(props){
                         <div className="mt-3 text-2xl font-semibold text-stone-100 max-md:max-w-full">
                           About this event
                         </div>
-                        <div className="flex flex-wrap gap-3 mt-2 text-md text-stone-100 text-justify max-md:flex-wrap max-md:pr-5">
+                        <div className="flex flex-wrap gap-3 mt-2 text-md text-stone-100 text-justify max-md:flex-wrap max-md:pr-5 whitespace-pre-line break-words">
                           {eventDetails.desc}
                         </div>
                       </div>

@@ -86,37 +86,6 @@ class Partner(UserModel):
     partnerOrganization = models.OneToOneField(PartnerOrganization, on_delete=models.CASCADE, related_name='partner', default="")
 
 class Top10Startup(models.Model):
-    rank1 = models.ForeignKey(Startup, related_name="rank1", on_delete=models.CASCADE)
-    rank2 = models.ForeignKey(Startup, related_name="rank2", on_delete=models.CASCADE)
-    rank3 = models.ForeignKey(Startup, related_name="rank3", on_delete=models.CASCADE)
-    rank4 = models.ForeignKey(Startup, related_name="rank4", on_delete=models.CASCADE)
-    rank5 = models.ForeignKey(Startup, related_name="rank5", on_delete=models.CASCADE)
-    rank6 = models.ForeignKey(Startup, related_name="rank6", on_delete=models.CASCADE)
-    rank7 = models.ForeignKey(Startup, related_name="rank7", on_delete=models.CASCADE)
-    rank8 = models.ForeignKey(Startup, related_name="rank8", on_delete=models.CASCADE)
-    rank9 = models.ForeignKey(Startup, related_name="rank9", on_delete=models.CASCADE)
-    rank10 = models.ForeignKey(Startup, related_name="rank10", on_delete=models.CASCADE)
-
-    def clean(self):
-        startup_ranks = [
-            self.rank1, self.rank2, self.rank3, self.rank4, self.rank5,
-            self.rank6, self.rank7, self.rank8, self.rank9, self.rank10
-        ]
-
-        # Check for duplicates
-        if len(startup_ranks) != len(set(startup_ranks)):
-            raise ValidationError("Duplicate startups are not allowed in the ranks.")
-
-        # Check for verified startups
-        for rank in startup_ranks:
-            if rank and not rank.founder.isVerified:
-                raise ValidationError("Choose only verified startups.")
-
-    def save(self, *args, **kwargs):
-        self.full_clean()  # Validate the model before saving
-        super().save(*args, **kwargs)
-
-class Top10Temp(models.Model):
     rank1 = models.TextField()
     rank2 = models.TextField()
     rank3 = models.TextField()
@@ -127,3 +96,8 @@ class Top10Temp(models.Model):
     rank8 = models.TextField()
     rank9 = models.TextField()
     rank10 = models.TextField()
+
+    def save(self, *args, **kwargs):
+        startup_ranks = [self.rank1, self.rank2, self.rank3, self.rank4, self.rank5, self.rank6, self.rank7, self.rank8, self.rank9, self.rank10]
+        if len(startup_ranks) != len(set(startup_ranks)): # check is the len of startup_ranks equal to set startup_ranks
+            raise ValueError("Duplicate startups are not allowed in the ranks.")

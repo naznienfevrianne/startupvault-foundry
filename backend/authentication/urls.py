@@ -42,5 +42,4 @@ urlpatterns = [
     path("login/",login, name="login"),
     path("checkEmail/", check_email, name="check-email"),
     path("testToken/", test_token, name="test-token"),
-
 ]
