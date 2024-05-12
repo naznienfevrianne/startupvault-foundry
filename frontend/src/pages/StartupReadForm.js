@@ -129,7 +129,7 @@ const StartupDetails = () => {
             <div className="mt-3 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
             Describe your startup in less than 50 words
             </div>
-            <div className="justify-center items-start py-3.5 pr-16 pl-3 mt-3 text-sm tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-md:max-w-full">
+            <div className="justify-center items-start py-3.5 pr-3 pl-3 mt-3 text-sm tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-md:max-w-full break-all whitespace-pre-line">
             {startupDetails.desc}
             </div>
             <div className="mt-3 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">

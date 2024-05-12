@@ -337,17 +337,24 @@ class StartupRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         serializer.save()
         return Response(serializer.data)
 
-class TopStartupRetriever(generics.RetrieveAPIView):
+class TopStartupRetriever(generics.ListAPIView):
     permission_classes = [JWTAuthentication]
-    serializer_class = Top10StartupSerializer
+    serializer_class = StartupSerializer
 
     def get_queryset(self):
-        return Top10Startup.objects.all().order_by('-id')
+        startups = Top10Startup.objects.all().order_by('-id').first()
+        list_startup = []
+        for i in range(1, 11):
+            startup = getattr(startups, f"rank{i}")
+            list_startup.append(startup)
+        
+        startup_info = []
+        for startup in list_startup:
+            info = Startup.objects.filter(name=startup).first()
+            startup_info.append(info)
+        return startup_info
+        
 
-    def get_object(self):
-        queryset = self.get_queryset()
-        return queryset.first()
 
-    
 
 

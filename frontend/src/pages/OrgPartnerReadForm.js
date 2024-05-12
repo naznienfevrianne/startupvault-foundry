@@ -142,7 +142,7 @@ function OrgPartnerReadForm(props) {
                   <div className="self-start mt-5 text-xl font-medium tracking-wide text-stone-100">
                     Description
                   </div>
-                  <div className="justify-center p-4 mt-3 text-base tracking-normal rounded-lg bg-neutral-800 text-stone-100 max-md:px-5 max-md:max-w-full">
+                  <div className="justify-center p-4 mt-3 text-base tracking-normal rounded-lg bg-neutral-800 text-stone-100 max-md:px-5 max-md:max-w-full whitespace-pre-line break-words">
                     {orgPartnerData.desc}
                   </div>              
                   <div className="self-start mt-3 text-xl font-medium tracking-wide text-stone-100">

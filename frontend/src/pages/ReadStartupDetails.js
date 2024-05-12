@@ -348,7 +348,7 @@ useEffect(() => {
             </div>
           <div className="justify-center p-6 mt-4 max-w-full text-lg tracking-normal rounded-lg bg-neutral-800 text-stone-100 max-w-full w-[930px] max-md:flex-wrap">
           <div className="text-xl text-neutral-400">Description</div>
-          <div className="mt-3 text-xl text-stone-100">{startup.desc}</div>
+          <div className="mt-3 text-xl text-stone-100 whitespace-pre-line break-all">{startup.desc}</div>
           </div>
           <div className="mt-6 max-w-full w-[930px]">
             <div className="flex gap-5 max-md:flex-col max-md:gap-0">
@@ -546,8 +546,8 @@ useEffect(() => {
                   {listEntries.length} entries found
                 </div>
               </div>
-              <div className="py-auto flex gap-5">
-                <button onClick={handleSort} className="flex text-sm text-stone-100 justify-between px-3 py-2.5 font-light tracking-wide rounded-2xl border-solid border-[0.75px] border-[color:var(--line-white,#9E9FA0)]">
+              <div className="py-auto flex gap-2">
+                <button onClick={handleSort} className="flex text-sm text-stone-100 justify-between px-3 py-2.5 font-light tracking-wide rounded-[25px] border border-neutral-400">
                     {descending ? (
                         <>
                             <img
@@ -569,9 +569,12 @@ useEffect(() => {
                     )}
                 </button>
                 <Datepicker
+                  inputClassName="w-full pl-10 pr-3 py-2 placeholder-stone-100 rounded-[25px] focus:outline-none border font-normal text-stone-100 border-neutral-400 bg-black" 
                   primaryColor={"emerald"} 
                   value={value} 
                   onChange={handleValueChange} 
+                  toggleClassName="absolute left-0 h-full px-3 text-neutral-400 focus:outline-none"
+                  useRange={false}
                 /> 
               </div>
             </div>
@@ -653,7 +656,7 @@ useEffect(() => {
                     <div className="mt-3 text-lg font-semibold tracking-wide text-stone-100 max-md:max-w-full">
                         Lesson Learned
                     </div>
-                    <div className="mt-4 text-base tracking-wide text-neutral-400 max-md:max-w-full">
+                    <div className="mt-4 text-base tracking-wide text-neutral-400 max-md:max-w-full whitespace-pre-line break-words">
                         {item.lessonLearned}
                     </div>
                     </div>
@@ -671,7 +674,7 @@ useEffect(() => {
         
 
     return (
-      <div className="flex flex-col justify-center bg-black min-h-screen px-20">
+      <div className="flex flex-col justify-center bg-black min-h-screen px-20 overflow-auto">
       <NavBar status={"startups"}/>
       <main className="px-px pb-20 w-full max-md:max-w-full">
       <aside className="flex gap-5 max-md:flex-col max-md:gap-0">

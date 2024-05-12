@@ -42,7 +42,7 @@ function InvestorDetails(props) {
   return (
     <div className="flex flex-col pb-20 px-20 bg-black min-h-screen">
       <NavBar status={"dashboard"}/>
-      <div className="z-10 mt-0 w-full max-md:max-w-full">
+      <div className="mt-0 w-full max-md:max-w-full">
         <div className="flex gap-5 max-md:flex-col max-md:gap-0">
           <SideBar status={"profile"}/>
           <div className="flex flex-col w-[77%] max-md:ml-0 max-md:w-full">

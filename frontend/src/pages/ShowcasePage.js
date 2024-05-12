@@ -154,7 +154,7 @@ const countTimeStamp = (date) => {
 
 const Content = ({ content }) => {
   return (
-    <article className="self-stretch mt-4 text-base tracking-normal text-stone-100 max-md:max-w-full">
+    <article className="self-stretch mt-4 text-base tracking-normal text-stone-100 max-md:max-w-full whitespace-pre-line break-words">
       {content}
     </article>
   );
