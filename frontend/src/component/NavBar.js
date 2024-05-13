@@ -3,7 +3,7 @@ import { Cookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import { useState } from "react";
 import { useLocation } from "react-router";
-// import { LogOutButton, SignUpButton } from "../pages/ShowcasePage";
+import { LogOutButton, SignUpButton } from "../pages/ShowcasePage";
 const NavBar = ({ status }) => {
     const myCookies = new Cookies()
     const nameFounder = myCookies.get('name')
@@ -100,9 +100,9 @@ const NavBar = ({ status }) => {
                         </>
                     )}
 
-                    {/* {!isAuthenticated && (
+                    {!isAuthenticated && (
                       <SignUpButton />
-                    )} */}
+                    )}
                 </div>
 
             </header>

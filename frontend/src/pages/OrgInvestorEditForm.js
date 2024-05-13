@@ -232,6 +232,8 @@ function OrgInvestorEditForm(props) {
                     "name": localStorage.getItem("investorName")
                 })
             })
+
+            console.log(investorLinkedin);
   
             if (response.ok) {
               const data = await response.json();
