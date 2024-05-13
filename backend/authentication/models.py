@@ -101,5 +101,3 @@ class Top10Startup(models.Model):
         startup_ranks = [self.rank1, self.rank2, self.rank3, self.rank4, self.rank5, self.rank6, self.rank7, self.rank8, self.rank9, self.rank10]
         if len(startup_ranks) != len(set(startup_ranks)): # check is the len of startup_ranks equal to set startup_ranks
             raise ValueError("Duplicate startups are not allowed in the ranks.")
-        
-        super().save(*args, **kwargs)

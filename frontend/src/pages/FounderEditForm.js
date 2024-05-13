@@ -7,18 +7,6 @@ import { createClient } from "@supabase/supabase-js";
 import SideBar from "../component/SideFounder";
 import { useCookies } from 'react-cookie';
 
-// Reusable Image Component
-const ImageWithAlt = ({ src, alt, className }) => (
-  <img src={src} alt={alt} className={className} loading="lazy" />
-);
-
-// Reusable Icon Link Component
-const IconLink = ({ src, alt, label, className }) => (
-  <div className={`flex gap-2 items-center ${className}`}>
-    <ImageWithAlt src={src} alt={alt} className="shrink-0 w-8 aspect-square" />
-    <div className="grow my-auto">{label}</div>
-  </div>
-);
 
 const FounderDetails = () => {
   const storedProfilePicture = localStorage.getItem("image") || '';
