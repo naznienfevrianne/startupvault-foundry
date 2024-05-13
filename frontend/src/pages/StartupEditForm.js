@@ -7,9 +7,6 @@ import { createClient } from "@supabase/supabase-js";
 import SideBar from "../component/SideFounder";
 
 const StartupEditDetails = () => {
-  const myCookies = new Cookies();
-  const idStartup = myCookies.get('startup');
-  const token = myCookies.get('token');
 
     const [startupDetails, setStartupDetails] = useState({
         typ: "",
@@ -95,6 +92,20 @@ const StartupEditDetails = () => {
         ['Mobility Tech (EV, ride-sharing, ride-hailing)', 'Human Resource', 'Human and Psychology', 'Gender and Society'] // Column 3
       ];
     const [errorMessage, setErrorMessage] = useState(' ');
+
+    
+    const myCookies = new Cookies();
+    const idStartup = myCookies.get('startup');
+    const token = myCookies.get('token');
+    console.log(myCookies);
+
+    if(idStartup){
+    console.log(myCookies.get('startup'))
+    }else{
+    console.log("cookies does not exist.")
+    }
+
+    
 
     const handleStartupLogoChange = async (e) => {
         
