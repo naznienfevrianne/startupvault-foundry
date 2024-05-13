@@ -130,7 +130,7 @@ return (
                 {event.date} 
               </div>
               <div className="flex items-center mt-2 text-2xl text-red-500">
-                IDR {event.price.toLocaleString()}
+                IDR {event.price.toLocaleString('id-ID')}
               </div>
               <div className="mt-4">
                 <Link to={`/event-details/${event.id}`} className="inline-block px-4 py-2 text-lg font-semibold text-black bg-stone-100 rounded-lg hover:bg-stone-200">

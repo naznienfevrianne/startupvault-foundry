@@ -41,6 +41,7 @@ import ListEvent from './pages/ListEvent';
 import EventEditForm from './pages/EventEditForm';
 import CreateEvent from './pages/CreateEvent';
 import CreatedEvents from './pages/CreatedEvents';
+import NoAccess from './pages/NoAccess';
 
 function App() {
     const myCookies = new Cookies();
@@ -63,7 +64,8 @@ function App() {
                 <Route path="/partnerForm" element={<PartnerForm />} />
                 <Route path="/MOUSubmission" element={<MOUSubmission />} />
                 <Route path="/investorType" element={<InvestorType/>} />
-                {isAuthenticated && isVerified === 1 ? (
+                <Route path="/no-access" element={<NoAccess />} />
+                {isAuthenticated && isVerified === 1 && role === "founder" ? (
                     <React.Fragment>
                     <Route path="/dashboard" element={<FounderDashboard />} /> 
                     <Route path="/founderEditForm" element={<FounderEditForm />} />
@@ -75,26 +77,38 @@ function App() {
                     <Route path="/diary" element={<FounderDiary />}/>
                     <Route path="/cookies" element={<CookieDisplay />} />
                     <Route path="/startupEditForm" element={<StartupEditDetails />} />
+                    <Route path="/event-details/:idEvent" element={<EventDetails />} />
+                    <Route path="/event" element={<ListEvent />} />
+                    </React.Fragment>
+                ) : isAuthenticated && isVerified === 1 && role === "investor" ? (
+                    <React.Fragment>
                     <Route path="/investorDetails" element={<InvestorDetails />} />
                     <Route path="/updateInvestorDetails" element={<UpdateInvestorDetails />} />
                     <Route path="/follow" element={<Follow />} />
                     <Route path="/startupList" element={<StartupList />} />
                     <Route path="/orgInvestorReadForm" element={<OrgInvestorReadForm />} />
                     <Route path="/orgInvestorEditForm" element={<OrgInvestorEditForm />} />
+                    <Route path="/dashboardInvestor" element={<InvestorDashboard/>} />
+                    <Route path="/event-details/:idEvent" element={<EventDetails />} />
+                    <Route path="/event" element={<ListEvent />} />
+                    <Route path="/cookies" element={<CookieDisplay />} />
+                    </React.Fragment>
+                ) : isAuthenticated && isVerified === 1 && role === "partner" ? (
+                    <React.Fragment>
                     <Route path="/orgPartnerReadForm" element={<OrgPartnerReadForm />} />
                     <Route path="/orgPartnerEditForm" element={<OrgPartnerEditForm />} />
                     <Route path="/partnerReadForm" element={<PartnerReadForm />} />
                     <Route path="/partnerEditForm" element={<PartnerEditForm />} />
                     <Route path="/dashboardPartner" element={<PartnerDashboard />} />
-                    <Route path="/dashboardInvestor" element={<InvestorDashboard/>} />
                     <Route path="/created-showcase" element={<CreatedShowcase />} />
                     <Route path="/event-details/:idEvent" element={<EventDetails />} />
                     <Route path="/event" element={<ListEvent />} />
                     <Route path="/eventEdit/:eventId" element={<EventEditForm />} />
                     <Route path="/createEvent" element={<CreateEvent />} />
                     <Route path="/createdEvents" element={<CreatedEvents />} />
+                    <Route path="/cookies" element={<CookieDisplay />} />
                     </React.Fragment>
-                ) : (
+                ) : !isAuthenticated ? (
                     <React.Fragment>
                     <Route path="/dashboard" element={<Navigate to="/login" replace />} />
                     <Route path="/founderEditForm" element={<Navigate to="/login" replace />} />
@@ -124,6 +138,37 @@ function App() {
                     <Route path="/eventEdit/:eventId" element={<Navigate to="/login" replace />} />
                     <Route path="/createEvent" element={<Navigate to="/login" replace />} />
                     <Route path="/createdEvents" element={<Navigate to="/login" replace />} />
+                    </React.Fragment>
+                ) : (
+                    <React.Fragment>
+                    <Route path="/dashboard" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/founderEditForm" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/startupReadForm" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/founderReadForm" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/diary" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/startupEditForm" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/startupDetails/:idStartup" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/diary" element={<Navigate to="/no-access" replace />}/>
+                    <Route path="/cookies" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/startupEditForm" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/investorDetails" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/updateInvestorDetails" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/follow" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/startupList" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/orgInvestorReadForm" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/orgInvestorEditForm" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/orgPartnerReadForm" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/orgPartnerEditForm" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/partnerReadForm" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/partnerEditForm" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/dashboardPartner" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/dashboardInvestor" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/created-showcase" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/event-details/:idEvent" element={<Navigate to="/lono-accessgin" replace />} />
+                    <Route path="/event" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/eventEdit/:eventId" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/createEvent" element={<Navigate to="/no-access" replace />} />
+                    <Route path="/createdEvents" element={<Navigate to="/no-access" replace />} />
                     </React.Fragment>
                 )}
             </Routes>

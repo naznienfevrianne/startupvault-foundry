@@ -220,7 +220,7 @@ const Likes = ({ LikedPost, user, initialLikes, isInitiallyLiked }) => {
   };
 
   return (
-    <div onClick={toggleLike} className="like-button flex items-center cursor-pointer text-neutral-400 flex mr-2 mt-4 text-base tracking-normal text-neutral-400">
+    <div onClick={toggleLike} className="like-button flex items-center cursor-pointer mr-2 mt-4 text-base tracking-normal text-neutral-400">
       <img
         src={isLiked ? 'https://cdn.builder.io/api/v1/image/assets/TEMP/a6b6a6fc12b49d682d339e680a99d0813ad9d1df078c58ecd84437a1faf83427?' : 'https://cdn.builder.io/api/v1/image/assets/TEMP/f90fa44f5c875dc682630d4e52d5606c05c4a6cc35fc4b07a84d3cd0bba786b7?apiKey=50c5361058c6465f94eb30dfd5c845d1&'}
         alt={isLiked ? 'Unlike' : 'Like'}
