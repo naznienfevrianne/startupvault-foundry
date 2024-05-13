@@ -74,6 +74,18 @@ const FounderEditDetails = () => {
     fetchData();
   }, []);
 
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+  const handleEmailChange = (e) => {
+    const { value } = e.target;
+    const isValidEmail = validateEmail(value);
+    setIsEmailValid(isValidEmail); // Update the validity state
+    setFounderDetails({ ...founderDetails, email: value });
+  };
+
 
   const [isLinkedinValid, setIsLinkedinValid] = useState(true);
 
@@ -261,13 +273,18 @@ const FounderEditDetails = () => {
                         </div>
                         <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Email</div>
                         <input
-                          type="text"
-                          className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
-                          placeholder=" "
+                          type="email" // More semantic input type for email
+                          className={`block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 ${isEmailValid ? 'focus:border-green-400' : 'border-red-500 focus:border-red-500'} focus:outline-none focus:ring-0 peer`}
+                          placeholder="Enter your email"
                           value={founderDetails.email}
-                          onChange={(e) => setFounderDetails({ ...founderDetails, email: e.target.value })}
+                          onChange={handleEmailChange}
                           required
                         />
+                        {!isEmailValid && (
+                          <div className="text-red-500 text-xs mt-1">
+                            Please enter a valid email address.
+                          </div>
+                        )}
                         <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Name</div>
                         <input
                           type="text"
