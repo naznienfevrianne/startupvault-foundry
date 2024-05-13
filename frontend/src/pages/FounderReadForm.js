@@ -64,20 +64,16 @@ const FounderDetails = () => {
                 </div>
             </a>
             <div className="flex gap-5 justify-between self-start mt-2">
-            {profilePicture ? (
-              <div className="flex flex-1 justify-center items-center">
-              <img
-                srcSet={profilePicture}
-                loading="lazy"
-                className="bg-green-700 rounded-full aspect-square w-[180px]"
-                alt="profile avatar"
-              />
-              </div>
+            {profilePicture ? 
+            (<div className="flex flex-col justify-center items-start px-8 py-8 mt-3.5 max-w-full rounded-full w-[146px] h-[146px] max-md:px-5 bg-green-700"
+            style={{ backgroundImage: `url(${founderDetails.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+            >
+                </div>
             ) : (
               <div className="flex flex-1 justify-center items-center">
                 <img loading="lazy" 
                 srcSet={profilePicture} 
-                alt="Founder's portrait" className="mt-5 bg-green-700 rounded-full aspect-[0.99] h-[160px] w-[160px]" />
+                className="mt-5 bg-green-700 rounded-full aspect-[0.99] h-[160px] w-[160px]" />
               </div>
             )}
             </div>
