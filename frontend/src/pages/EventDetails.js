@@ -35,7 +35,7 @@ function EventDetails(props){
   
           console.log(details)
 
-          setFormattedPrice(details.price.toLocaleString())
+          setFormattedPrice(details.price.toLocaleString('id-ID'))
 
           let date = format(new Date(details.date), 'EEEE, d MMMM yyyy')
           setFormattedDate(date)

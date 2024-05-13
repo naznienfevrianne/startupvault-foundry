@@ -163,7 +163,7 @@ function CreatedEvents() {
               <h2 className="text-2xl font-medium text-stone-100">{title}</h2>
               <div className="mt-4 text-lg text-stone-100">{location}</div>
               <div className="mt-2 text-lg text-stone-100">{date}</div>
-              <div className="mt-2 text-lg text-stone-100">IDR {price.toLocaleString()}</div>
+              <div className="mt-2 text-lg text-stone-100">IDR {price.toLocaleString('id-ID')}</div>
             </div>
           </div>
         </div>

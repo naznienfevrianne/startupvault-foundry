@@ -491,7 +491,7 @@ const StartupEditDetails = () => {
                             }`}
                             >
                             <div
-                                className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+                                className={`w-3.5 rounded-full h-3.5 border-solid border-[1px] ${
                                 startupDetails.typ === 'idea' ? 'bg-green-400 border-green-400' : ''
                                 }`}
                             ></div>
@@ -515,7 +515,7 @@ const StartupEditDetails = () => {
                             }`}
                             >
                             <div
-                                className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+                                className={`w-3.5 rounded-full h-3.5 border-solid border-[1px] ${
                                 startupDetails.typ === 'seed' ? 'bg-green-400 border-green-400' : ''
                                 }`}
                             ></div>
@@ -539,7 +539,7 @@ const StartupEditDetails = () => {
                             }`}
                             >
                             <div
-                                className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+                                className={`w-3.5 rounded-full h-3.5 border-solid border-[1px] ${
                                 startupDetails.typ === 'growth' ? 'bg-green-400 border-green-400' : ''
                                 }`}
                             ></div>
@@ -697,7 +697,7 @@ const StartupEditDetails = () => {
                             }`}
                             >
                             <div
-                            className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+                            className={`w-3.5 rounded-full h-3.5 border-solid border-[1px] ${
                                 startupDetails.revenue === 0 ? 'bg-green-400 border-green-400' : ''
                             }`}
                             ></div>                <div>USD 0-50K</div>
@@ -720,7 +720,7 @@ const StartupEditDetails = () => {
                             }`}
                             >
                             <div
-                            className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+                            className={`w-3.5 rounded-full h-3.5  border-solid border-[1px] ${
                                 startupDetails.revenue === 1 ? 'bg-green-400 border-green-400' : ''
                             }`}
                             ></div>              
@@ -744,7 +744,7 @@ const StartupEditDetails = () => {
                             }`}
                             >
                             <div
-                            className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+                            className={`w-3.5 rounded-full h-3.5  border-solid border-[1px] ${
                                 startupDetails.revenue === 2 ? 'bg-green-400 border-green-400' : ''
                             }`}
                             ></div>                <div>USD 11-50K</div>
@@ -770,7 +770,7 @@ const StartupEditDetails = () => {
                             }`}
                             >
                 <div
-                            className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+                            className={`w-3.5 rounded-full h-3.5  border-solid border-[1px] ${
                                 startupDetails.revenue === 3 ? 'bg-green-400 border-green-400' : ''
                             }`}
                             ></div>                <div>USD 51-100K</div>
@@ -793,7 +793,7 @@ const StartupEditDetails = () => {
                             }`}
                             >
                 <div
-                            className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+                            className={`w-3.5 rounded-full h-3.5 border-solid border-[1px] ${
                                 startupDetails.revenue === 4 ? 'bg-green-400 border-green-400' : ''
                             }`}
                             ></div>                
@@ -817,7 +817,7 @@ const StartupEditDetails = () => {
                             }`}
                             >
                 <div
-                            className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+                            className={`w-3.5 rounded-full h-3.5 border-solid border-[1px] ${
                                 startupDetails.revenue === 5 ? 'bg-green-400 border-green-400' : ''
                             }`}
                             ></div>                <div>USD 501+K</div>
