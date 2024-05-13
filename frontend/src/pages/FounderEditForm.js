@@ -303,8 +303,8 @@ const FounderEditDetails = () => {
                         {!isPhoneValid && (
                             <div className="text-red-500 text-xs mt-1">
                               Please enter a valid international number with a country code or local phone number. <br></br>
-                              The international number starts with + and is followed by 1 to 3 digits. Maximum length of international number is 15 digits.<br></br>
-                              The local number starts with 0 and ensure the total length does not exceed 12 digits.
+                              International number starts with + and is followed by 1 to 3 digits. Then, add space between the country code and Phone Number Body. Maximum length of international number is 15 digits.<br></br>
+                              Local number starts with 0 and ensure the total length does not exceed 12 digits.
                             </div>
                         )}
                     </div>
