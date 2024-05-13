@@ -386,7 +386,7 @@ function FounderDiary(props) {
                                     </div>
                                 </div>
                                 <div className="mt-7 text-base tracking-wide text-neutral-400">
-                                    {item.sales} unit(s)
+                                    {item.sales.toLocaleString('id-ID')} unit(s)
                                 </div>
                                 </div>
                             </div>
@@ -405,7 +405,7 @@ function FounderDiary(props) {
                                     </div>
                                 </div>
                                 <div className="mt-7 text-base tracking-wide text-neutral-400">
-                                    IDR {item.revenue}
+                                    IDR {item.revenue.toLocaleString('id-ID')}
                                 </div>
                                 </div>
                             </div>
@@ -424,7 +424,7 @@ function FounderDiary(props) {
                                     </div>
                                 </div>
                                 <div className="mt-7 text-base tracking-wide whitespace-nowrap text-neutral-400">
-                                    {item.user} user(s)
+                                    {item.user.toLocaleString('id-ID')} user(s)
                                 </div>
                                 </div>
                             </div>
