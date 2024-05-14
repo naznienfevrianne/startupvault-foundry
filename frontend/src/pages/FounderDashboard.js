@@ -11,6 +11,7 @@ function FounderDashboard(props) {
   const [listEntry, setListEntry] = React.useState([]);
   const [selectedChart, setSelectedChart] = React.useState('sales'); // sales is default
   const [startupData, setStartupData] = React.useState({});
+  const [totalFollowers, setTotalFollowers] = React.useState("");
   const myCookies = new Cookies();
 
   const idFounder = myCookies.get('id')
@@ -99,10 +100,26 @@ function FounderDashboard(props) {
 
       if (!response.ok) {
           throw new Error("Failed to fetch startup data");
+      } else{
+        const followersResponse = await fetch(`https://startupvault-foundry.vercel.app/diary/total_followers/${idStartup}/`, {
+            method:'GET',
+            headers:{
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+            }
+          });
+          const follsData = await followersResponse.json();
+          if (followersResponse.ok) {
+            setTotalFollowers(follsData.total_followers);
+          } else {
+            console.error('Error fetching total followers:', follsData.message);
+          }
       }
 
       const data = await response.json();
       setStartupData(data);
+
+      
   } catch (error) {
       console.error('Error fetching startup data:', error);
   }
@@ -185,14 +202,14 @@ function FounderDashboard(props) {
                 {/* <div className="flex flex-col w-[25%] max-md:ml-0 max-md:w-full pl-0"> */}
                 <SideBar status={"overview"}/>
                 {/* </div> */}
-                <div className="flex flex-col ml-10 w-[67%] max-md:ml-0 max-md:w-full">
+                <div className="flex flex-col ml-6 w-[67%] max-md:ml-0 max-md:w-full">
                   <div className="flex flex-col grow justify-center pt-6 max-md:max-w-full">
                     <div className="flex gap-5 justify-between max-md:flex-wrap max-md:max-w-full">
-                      <div className="flex-auto text-2xl font-semibold tracking-wide text-stone-100">
+                      <div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">
                         Metrics Overview
                       </div>
                       <div className="flex-auto text-right text-base tracking-normal text-neutral-400">
-                        {entry.date ? `Last updated ${entry.date}` : 'No new entry this week'}
+                        {entry.date ? `Last updated ${entry.date}` : 'No entry this week'}
                       </div>
                     </div>
                     <div className="mt-6 max-md:max-w-full">
@@ -251,7 +268,7 @@ function FounderDashboard(props) {
                       </div>
                     </div>
                     <div className="flex gap-5 justify-between mt-10 w-full whitespace-nowrap text-stone-100 max-md:flex-wrap max-md:max-w-full">
-                      <div className="flex-auto my-auto text-2xl font-semibold tracking-wide">
+                      <div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">
                         Analytics
                       </div>
                       <div className="flex gap-3 text-base tracking-normal">
@@ -328,7 +345,7 @@ function FounderDashboard(props) {
                 <div className="flex-auto my-auto">Followers</div>
               </div>
               <div className="mt-2 text-l font-medium tracking-wide text-white">
-                127 Followers
+                {totalFollowers} Followers
               </div>
               <div className="flex gap-2 justify-center mt-6 text-base tracking-wide whitespace-nowrap text-neutral-400">
                 <img

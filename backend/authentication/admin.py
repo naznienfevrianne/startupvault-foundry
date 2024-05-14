@@ -19,11 +19,11 @@ class Top10Form(forms.ModelForm):
         
         for field_name in ['rank1', 'rank2', 'rank3', 'rank4', 'rank5', 'rank6', 'rank7', 'rank8', 'rank9', 'rank10']:
             self.fields[field_name].queryset = Startup.objects.filter(founder__isVerified=1)
-            self.fields[field_name].widget = forms.Select(choices=self.get_startup_name_choices())
+            self.fields[field_name].widget = forms.Select(choices=self.get_startup_id_name_choices())
 
-    def get_startup_name_choices(self):
-        startup_names = Startup.objects.filter(founder__isVerified=1).values_list('name', flat=True)
-        choices = [(name, name) for name in startup_names]
+    def get_startup_id_name_choices(self):
+        startups = Startup.objects.filter(founder__isVerified=1).values_list('id', 'name')
+        choices = [(startup[0], startup[1]) for startup in startups]
         return choices
 
     class Meta:

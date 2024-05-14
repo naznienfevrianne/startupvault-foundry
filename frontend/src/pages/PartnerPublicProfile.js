@@ -1,23 +1,20 @@
 import * as React from "react";
 import{ Cookies } from 'react-cookie';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import NavBar from "../component/NavBar";
 
 
-function OrgPartnerReadForm(props) {
+function PartnerPublicProfile(props) {
   const [orgPartnerData, setOrgPartnerEntry] = React.useState({});
   const [contactData, setContactEntry] = React.useState({});
   const myCookies = new Cookies();
-  const idPartner = myCookies.get('id')
   const token = myCookies.get('token')
-  const idOrgPartner = myCookies.get("partnerOrganization")
-  const [activeMenu, setActiveMenu] = React.useState("summary");
-
+  const { idOrgPartner } = useParams();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     fetchDataOrgPartner();
   }, []);
-
 
 
   const fetchDataOrgPartner = async () => {
@@ -32,10 +29,12 @@ function OrgPartnerReadForm(props) {
         if (!response.ok) {
             throw new Error("Failed to fetch data");
         }
-        const entry = await response.json();
-        setOrgPartnerEntry(entry);
+        const orgPartnerEntry = await response.json();
+        setOrgPartnerEntry(orgPartnerEntry);
+
         try {
-            const response = await fetch("https://startupvault-foundry.vercel.app/auth/partner/" + idPartner + "/", {
+            const response = await fetch(`https://startupvault-foundry.vercel.app/auth/partner/${orgPartnerEntry.partner_id}/`, {
+            // const response = await fetch("https://startupvault-foundry.vercel.app/auth/partner/" + idPartner + "/", {
                 method: "GET", 
                 headers:{
                     'Content-Type': 'application/json',
@@ -66,27 +65,17 @@ function OrgPartnerReadForm(props) {
             <div className="flex flex-col grow pb-3 pr-5 max-md:max-w-full">
               <div className="flex gap-5 w-full max-md:flex-wrap max-md:max-w-full">
                 <div className="flex flex-col justify-center items-start py-2 pr-1 pl-1 rounded-none border-t border-r border-b border-green-400 border-solid bg-green-400 bg-opacity-20">
-                  <Link to="/dashboardPartner">
+                  <button onClick={() => navigate(-1)}>
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/21b0b24d5b53b756d71a21ed0c3e4ce07ee023c54ab50c6bc97779c396f7faf4?"
                     className="w-5 aspect-square"
                   />
-                  </Link>
+                  </button>
                 </div>
                 <div className="flex gap-5 py-1 pr-20 max-md:flex-wrap">
-                  <div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">
-                    Public profile
-                  </div>
-                  <div className="flex gap-1.5 justify-center my-auto text-xl tracking-wide text-neutral-400">
-                    <img
-                      loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/3964155d5eada7de0e1a24e27d475a201a8c5bfaaf18562fa030ba1f626a9b26?"
-                      className="shrink-0 aspect-square w-[23px]"
-                    />
-                    <Link to="/orgPartnerEditForm">
-                    <div className="text-base">Edit profile</div>
-                    </Link>
+                  <div className="text-2xl font-semibold tracking-wide text-stone-100">
+                    {orgPartnerData.name} profile
                   </div>
                 </div>
               </div>
@@ -101,7 +90,7 @@ function OrgPartnerReadForm(props) {
                       />
                     </div>
                     <div className="flex flex-col">
-                      <div className="flex gap-1 pr-4 text-xl font-semibold tracking-wide text-stone-100 max-w-[700px]">
+                      <div className="flex gap-1 pr-4 text-xl font-semibold tracking-wide whitespace-nowrap text-stone-100">
                         <div>{orgPartnerData.name}</div>
                         <img
                           loading="lazy"
@@ -237,4 +226,4 @@ function OrgPartnerReadForm(props) {
   );
 }
 
-export default OrgPartnerReadForm;
+export default PartnerPublicProfile;

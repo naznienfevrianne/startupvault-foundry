@@ -346,7 +346,7 @@ useEffect(() => {
         <div className="mb-2 mt-12 text-3xl max-w-full w-[930px] font-semibold tracking-wide text-stone-100 max-md:max-w-full">
             About
             </div>
-          <div className="justify-center p-6 mt-4 max-w-full text-lg tracking-normal rounded-lg bg-neutral-800 text-stone-100 max-w-full w-[930px] max-md:flex-wrap">
+          <div className="justify-center p-6 mt-4 text-lg tracking-normal rounded-lg bg-neutral-800 text-stone-100 max-w-full w-[930px] max-md:flex-wrap">
           <div className="text-xl text-neutral-400">Description</div>
           <div className="mt-3 text-xl text-stone-100 whitespace-pre-line break-all">{startup.desc}</div>
           </div>
@@ -609,7 +609,7 @@ useEffect(() => {
                                 </div>
                             </div>
                             <div className="mt-7 text-base tracking-wide text-neutral-400">
-                                {item.sales} unit(s)
+                                {item.sales.toLocaleString('id-ID')} unit(s)
                             </div>
                             </div>
                         </div>
@@ -628,7 +628,7 @@ useEffect(() => {
                                 </div>
                             </div>
                             <div className="mt-7 text-base tracking-wide text-neutral-400">
-                                IDR {item.revenue}
+                                IDR {item.revenue.toLocaleString('id-ID')}
                             </div>
                             </div>
                         </div>
@@ -647,7 +647,7 @@ useEffect(() => {
                                 </div>
                             </div>
                             <div className="mt-7 text-base tracking-wide whitespace-nowrap text-neutral-400">
-                                {item.user} user(s)
+                                {item.user.toLocaleString('id-ID')} user(s)
                             </div>
                             </div>
                         </div>

@@ -201,14 +201,14 @@ const PartnerDetails = () => {
 
   return (
     <div className="flex flex-col justify-center bg-black min-h-screen px-20">
-    <NavBar status=""/>
+    <NavBar status="dashboard"/>
     <main className="pb-20 w-full max-md:pr-5 max-md:max-w-full">
       <aside className="flex gap-5 max-md:flex-col max-md:gap-0">
       <section className="flex flex-col w-[60%] max-md:w-full">
         <form onSubmit={handleSubmit}>
           <div className="px-5 pt-9 pb-20">
               <div className="flex flex-wrap gap-5 justify-between content-center self-start pr-14 text-stone-100 max-md:pr-5">
-                  <h2 className="text-5xl font-semibold tracking-wider leading-[54px]">Partner Details</h2>
+                  <h2 className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">Partner Details</h2>
                   <button className="flex gap-1.5 justify-center px-3.5 py-1.5 my-auto text-xl tracking-wide rounded-xl border border-solid shadow-sm bg-neutral-400 bg-opacity-40 border-neutral-400">
                       <span>editing mode</span>
                       {/* Add your image component here */}
