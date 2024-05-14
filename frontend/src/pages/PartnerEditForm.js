@@ -170,10 +170,30 @@ const PartnerDetails = () => {
     }
   };
 
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const UpdateConfirmationModal = ({ onClose, onUpdate }) => {
+    return (
+      <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
+        <div className="bg-gray-800 p-8 rounded-lg">
+          <p className="text-white mb-4">Are you sure you want to update these details?</p>
+          <div className="flex justify-end">
+            <button className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50" onClick={onClose}>No</button>
+            <button className="bg-green-500 text-white py-2 ml-2 px-4 mr-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50" onClick={onUpdate}>Yes</button>
+            
+          </div>
+        </div>
+      </div>
+    );
+  };
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleUpdate();
+    setShowConfirmationModal(true); // Show confirmation modal
+  };
+  
+  const handleUpdateConfirmation = async () => {
+    setShowConfirmationModal(false); // Close the modal after confirming
+    await handleUpdate(); // Proceed with the update
   };
 
   return (
@@ -286,6 +306,12 @@ const PartnerDetails = () => {
         </form>
       </section>
       </aside>
+      {showConfirmationModal && (
+              <UpdateConfirmationModal
+                onClose={() => setShowConfirmationModal(false)}
+                onUpdate={handleUpdateConfirmation}
+              />
+            )}
       </main>
     </div>
   );
