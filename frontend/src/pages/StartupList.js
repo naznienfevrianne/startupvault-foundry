@@ -16,42 +16,70 @@ const StartupList = () => {
   const numberOfStartups = startups.length;
   console.log(numberOfStartups); // This will log the total number of objects in your array
   const sectorsArray = startups.sector ? startups.sector.split(',') : [];
-  
-
+  const [currentPage, setCurrentPage] = useState('startups');
 
   useEffect(() => {
-      const fetchData = async () => {
-          try {
-              const response = await fetch('https://startupvault-foundry.vercel.app/auth/startup/',{
-                method: "GET", 
-                headers:{
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                }
-                }
-                );
-              if (!response.ok) {
-                  throw new Error("Failed to fetch data");
-              }
-              const entry = await response.json();
-              setStartups(entry);
-              // setProfilePicture(entry.image);
-
-          } catch (error) {
-              console.log("Error:", error);
+    const fetchData = async () => {
+      try {
+        console.log("Fetching startups...");
+        const startupResponse = await fetch('https://startupvault-foundry.vercel.app/auth/startup/', {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
           }
-      };
+        });
 
-      fetchData();
-  }, []);
+        if (!startupResponse.ok) {
+          throw new Error(`Failed to fetch startups, status: ${startupResponse.status}`);
+        }
+        const startupsData = await startupResponse.json();
+        console.log("Startups fetched:", startupsData);
+
+        const verifiedStartups = await Promise.all(startupsData.map(async (startup) => {
+          console.log(`Fetching founder for startup ${startup.id}...`);
+          const founderResponse = await fetch(`https://startupvault-foundry.vercel.app/auth/founder/${startup.founder_id}/`, {
+            method: "GET",
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+            }
+          });
+
+          if (!founderResponse.ok) {
+            console.error(`Failed to fetch founder data for ID ${startup.founder_id}, status: ${founderResponse.status}`);
+            return null;
+          }
+          const founderData = await founderResponse.json();
+          console.log(`Founder fetched for startup ${startup.id}:`, founderData);
+
+          if (founderData.isVerified === 1) {
+            return startup;
+          } else {
+            console.log(`Founder ID ${founderData.id} is not verified.`);
+            return null;
+          }
+        }));
+
+        // Filter out null values (non-verified founders)
+        const filteredStartups = verifiedStartups.filter(startup => startup !== null);
+        console.log("Filtered startups:", filteredStartups);
+        setStartups(filteredStartups);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchData();
+  }, [token]);
 
   return (
-    <div className="flex flex-col justify-center bg-black min-h-screen px-20">
-    <NavBar />
+    <div className="flex flex-col items-center bg-black min-h-screen px-20 overflow-auto">
+    <NavBar status={currentPage}/>
     <main className="px-px pb-20 w-full max-md:max-w-full">
     <aside className="flex gap-5 max-md:flex-col max-md:gap-0">
-      <div className="flex flex-col grow items-end pt-6 pr-5 pl-20 max-md:pl-5 max-md:max-w-full">
-        <div className="flex gap-4 justify-between py-2 max-w-full w-[940px] max-md:flex-wrap">
+      <div className="flex flex-col grow items-start pt-6 pr-5 pl-20 max-md:pl-5 max-md:max-w-full">
+        <div className="flex gap-4 justify-between py-2 max-w-full w-[860px] max-md:flex-wrap">
           <div className="my-auto text-xl text-neutral-400">
           {startups.length} startups found
           </div>
@@ -84,7 +112,7 @@ const StartupList = () => {
         </div>
 
         {startups.map((startup) => (
-        <div className="flex flex-col p-6 mt-6 max-w-full rounded-lg bg-neutral-800 w-[930px] max-md:px-5">
+        <div className="flex flex-col p-6 mt-6 max-w-full rounded-lg bg-neutral-800 w-[870px] max-md:px-5">
           <div className="flex gap-5 justify-between w-full max-md:flex-wrap max-md:max-w-full">
             <div className="flex gap-5 justify-between">
               {/* <div className="flex justify-center items-center px-4 py-3.5 rounded-md bg-green-400 bg-opacity-20 h-[69px] w-[69px]">
@@ -113,7 +141,7 @@ const StartupList = () => {
                 <div className="flex gap-1 pr-3.5 text-2xl font-semibold tracking-wide text-stone-100">
                   <div key={startup.id}>
                     <Link to={`/startupDetails/${startup.id}`}>
-                        <div>{startup.name}</div>
+                        <div style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}  class="no-underline hover:underline">{startup.name}</div>
                     </Link>
                   </div>
                   <img
@@ -137,7 +165,7 @@ const StartupList = () => {
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/f5f09dc683253c86335e89ff33f2b25448a1041ad0619ff661800ffbe5058868?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
                       className="shrink-0 self-start w-5 aspect-square"
                     />
-                    <div>{startup.location}</div>
+                    <div style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{startup.location}</div>
                   </div>
                 </div>
               </div>
@@ -175,7 +203,7 @@ const StartupList = () => {
                   Industry
                 </div>
               </div>
-              <div className="mt-2 text-base tracking-wide text-ellipsis text-neutral-400">
+              <div className="mt-2 text-base tracking-wide text-ellipsis text-neutral-400" style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {startup.sector}
               </div>
             </div>
@@ -231,7 +259,7 @@ const StartupList = () => {
               </div>
             </div>
           </div>
-          <div className="mt-6 text-lg tracking-normal text-stone-100 max-md:max-w-full">
+          <div className="mt-6 text-lg tracking-normal text-stone-100 max-md:max-w-full" style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
             {startup.desc}
           </div>
           {/* <div className="justify-center self-end">
@@ -239,7 +267,7 @@ const StartupList = () => {
           </div> */}
           <div className="justify-center self-end">
           <button
-            className="flex justify-center items-center px-5 py-3 mt-4 text-xl font-semibold tracking-widest text-black whitespace-nowrap rounded-lg text-stone-100"
+            className="flex justify-center items-center px-5 py-3 mt-4 text-xl font-semibold tracking-widest whitespace-nowrap rounded-lg text-stone-100"
           >
             <Link to={`/startupDetails/${startup.id}`} className="flex items-center">
               <span class="no-underline hover:underline">Detail</span>
