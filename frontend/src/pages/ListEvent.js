@@ -68,7 +68,7 @@ return (
     <main className="flex justify-center items-center px-px pb-20 w-full max-md:max-w-full h-full">
       <div className="flex flex-col w-full max-w-[940px] max-md:flex-wrap">
       <div>
-            <div className="mb-2 text-3xl font-semibold tracking-wide text-stone-100">
+            <div className="mb-2 text-stone-100 text-2xl font-semibold tracking-tight text-wrap">
               Events
             </div>
             <div className="text-base tracking-normal text-neutral-400">
@@ -130,7 +130,7 @@ return (
                 {event.date} 
               </div>
               <div className="flex items-center mt-2 text-2xl text-red-500">
-                IDR {event.price.toLocaleString()}
+                IDR {event.price.toLocaleString('id-ID')}
               </div>
               <div className="mt-4">
                 <Link to={`/event-details/${event.id}`} className="inline-block px-4 py-2 text-lg font-semibold text-black bg-stone-100 rounded-lg hover:bg-stone-200">

@@ -12,6 +12,7 @@ function CreatedShowcase(props) {
     const [sort, setSort] = useState("-date");
     const [searchTerm, setSearchTerm] = useState("");
 		const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+		const [typedValue, setTypedValue] = useState("")
 
 		const myCookies = new Cookies();
     const idPartner = myCookies.get('id')
@@ -48,12 +49,31 @@ function CreatedShowcase(props) {
           const post = await response.json();
           setListPost(post);
   
+		  		console.log("ini", searchTerm)
           console.log(post)
 
         } catch (error) {
           console.error("Error:", error);
         }
       };
+
+		const handleChange = (e) => {
+			const inputValue = e.target.value;
+			setTypedValue(inputValue)
+			if (inputValue === '') {
+				setSearchTerm("", () => {
+					fetchData();
+				});
+			}
+		};
+
+	  const handleKeyDown = (e) => {
+			if (e.key === 'Enter') {
+				setSearchTerm(typedValue, () => {
+					fetchData();
+				});
+			}
+	  };
 		
 		const handleSortChange = (event) => {
 			setSort(event.target.value);
@@ -77,7 +97,7 @@ function CreatedShowcase(props) {
 
 		const Content = ({ content }) => {
 			return (
-				<article className="self-stretch mt-4 text-base tracking-normal text-stone-100 max-md:max-w-full">
+				<article className="self-stretch mt-4 text-base tracking-normal text-stone-100 max-md:max-w-full whitespace-pre-line break-words">
 					{content}
 				</article>
 			);
@@ -93,14 +113,14 @@ function CreatedShowcase(props) {
 			  <NavBar status={"dashboard"} />
 			  <div className="pb-20 w-full max-md:pr-5 max-md:max-w-full flex gap-8 max-md:flex-col max-md:gap-0">
 				<div className="flex flex-col w-[70%] max-md:ml-0 max-md:w-full pl-0">
-				  <div className="flex gap-9 max-md:flex-col max-md:gap-0">
+				  <div className="flex gap-8 max-md:flex-col max-md:gap-0">
 					{/* side bar */}
 					<SideBar status={"post"} />
 					<div className="flex flex-col w-[73%]">
 					  <div className="flex flex-col pt-6">
 						{/* title + button create showcase */}
 						<div className="justify-between inline-flex pb-3">
-						  <div className="self-start justify-start flex text-stone-100 text-2xl font-semibold tracking-tight text-wrap">My Posts</div>
+						  <div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">My Posts</div>
 						  <Link to="/">
 							<div className="flex gap-1 self-end px-2 py-2 text-md font-semibold text-black whitespace-nowrap bg-green-400 rounded-lg cursor-pointer">
 							  <img
@@ -168,13 +188,9 @@ function CreatedShowcase(props) {
 								<input type="text"
 								  className="w-2px text-md bg-transparent appearance-none text-white border-gray-600 focus:outline-none focus:ring-0"
 								  placeholder="Search Post"
-								  value={searchTerm}
-								  onChange={(e) => {
-									setSearchTerm(e.target.value,
-									  () => {
-										fetchData();
-									  });
-								  }}>
+								  value={typedValue}
+								  onChange={handleChange}
+								  onKeyDown={handleKeyDown}>
 								</input>
 							  </>
 							</div>

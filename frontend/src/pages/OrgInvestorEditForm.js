@@ -232,6 +232,8 @@ function OrgInvestorEditForm(props) {
                     "name": localStorage.getItem("investorName")
                 })
             })
+
+            console.log(investorLinkedin);
   
             if (response.ok) {
               const data = await response.json();
@@ -300,7 +302,7 @@ function OrgInvestorEditForm(props) {
         <div className="flex flex-col mt-0 mb-8 w-full max-w-[1120px] max-md:my-10 max-md:max-w-full">
           <div className="flex gap-5 justify-between w-full max-md:flex-wrap max-md:max-w-full">
             <div className="flex flex-col max-md:max-w-full">
-              <div className="mt-0 text-3xl font-semibold tracking-wider leading-[70.8px] text-stone-100 max-md:max-w-full max-md:text-4xl">
+              <div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">
                Public profile
               </div>
             </div>
@@ -465,7 +467,7 @@ function OrgInvestorEditForm(props) {
           <div 
             onClick = {handlePrevious}
             type="button"
-            className="flex gap-2.5 justify-between px-3 py-2 rounded-3xl border-solid border-[1.048px] border-[color:var(--secondary-button-outline,#F3F1ED)] text-stone-100 hover:border-green-600 border-solid cursor-pointer">
+            className="flex gap-2.5 justify-between px-3 py-2 rounded-3xl border-solid border-[1.048px] border-[color:var(--secondary-button-outline,#F3F1ED)] text-stone-100 hover:border-green-600 cursor-pointer">
               <img
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/1490109502cde58f41daf764ada1e96816a28eb0bdf60fae2f6faa1f38c7c09d?apiKey=b1a4c3002d354a0a9e5d1136f5930ee4&"

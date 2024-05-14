@@ -23,7 +23,7 @@ const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
     date: "",
     price: "",
     link: "",
-    image: null,
+    image: "",
     isVerified: 0,
     rejectionNote: "",
     status: 0,
@@ -31,20 +31,37 @@ const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
   });
 
   const handleChange = (e) => {
-          setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
+      const { name, value } = e.target;
+      if (name === 'price' && (value === '' || Number(value) >= 0)) {
+        setFormData({ ...formData, [name]: value });
+      } else if (name !== 'price') {
+        setFormData({ ...formData, [name]: value });
+      }
+    };
 
-      const handleFileSelected = (file) => {
-          setFormData({ ...formData, image: file });
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setImagePreviewUrl(reader.result);
-          };
-          reader.readAsDataURL(file);
-        };
+  const handleFileReady = (url) => {
+      setFormData({ ...formData, image: url });
+      setImagePreviewUrl(url);
+  };
+
+  const validateURL = (url) => {
+      const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name and extension
+        '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+        '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+      return !!pattern.test(url);
+    };
 
   const handleSubmit = async (e) => {
       e.preventDefault();
+
+      if (!validateURL(formData.link)) {
+            alert('Please enter a valid URL.');
+            return;
+          }
+
 
       const jsonData = {
           ...formData, // All the text and number inputs as part of formData // Assuming you want to send this as well, based on your Django view expecting an authenticated user
@@ -112,13 +129,8 @@ const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
     <form onSubmit={handleSubmit} className="flex flex-col px-8 py-6 max-w-2xl rounded-lg bg-neutral-800 max-md:px-5">
       <div className="flex gap-5 justify-between text-2xl font-medium tracking-wide text-white max-md:flex-wrap max-md:max-w-full">
         <div>Create event</div>
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/9221a0fea1725e9ddbbc7353112ba3e1a039f91473d88e295fe58883e456346b?apiKey=a9f236d74bde4869a09f0278cc07ff16&"
-          className="shrink-0 my-auto w-6 aspect-square"
-        />
       </div>
-      <FileUpload onFileSelected={handleFileSelected} currentImage={imagePreviewUrl} />
+      <FileUpload onFileReady={handleFileReady} currentImage={imagePreviewUrl} />
       <div className="mt-6 text-xs tracking-wider text-neutral-400 max-md:max-w-full">
           BY {partnerData.name ? partnerData.name.toUpperCase() : 'Loading partner...'}
       </div>

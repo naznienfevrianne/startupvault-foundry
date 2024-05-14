@@ -193,7 +193,7 @@ function SideBarContact() {
       {role === 'investor' && (
             <button
               className={`justify-center items-center px-5 py-3 mt-4 text-xl font-semibold tracking-widest text-black whitespace-nowrap rounded-3xl ${
-                isFollowing ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-400'
+                isFollowing ? 'bg-gray-400' : 'bg-green-400'
               }`}
               onClick={toggleFollow}
             >
