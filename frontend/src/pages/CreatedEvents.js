@@ -238,7 +238,7 @@ function CreatedEvents() {
           </div>
           <div className="flex gap-5 justify-center items-center self-start px-5 py-1.5 mt-6 text-s font-medium tracking-wide text-neutral-400 max-md:flex-wrap">
             <Tab isActive={activeTab === 'all'} onClick={() => handleTabClick('all')}>All ({counts.all})</Tab>
-            <Tab isActive={activeTab === 'in_verification'} onClick={() => handleTabClick('in_verification')}>In verification ({counts.in_verification})</Tab>
+            <Tab isActive={activeTab === 'not_verified'} onClick={() => handleTabClick('not_verified')}>In verification ({counts.in_verification})</Tab>
             <Tab isActive={activeTab === 'verified'} onClick={() => handleTabClick('verified')}>Published ({counts.verified})</Tab>
             <Tab isActive={activeTab === 'rejected'} onClick={() => handleTabClick('rejected')}>Rejected ({counts.rejected})</Tab>
           </div>
