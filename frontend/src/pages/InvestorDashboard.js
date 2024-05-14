@@ -5,6 +5,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 import{ Cookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import NavBar from "../component/NavBar";
+import SideBar from "../component/SideInvestor";
 
 function InvestorDashboard(props){
     const [listEntries, setListEntries] = useState([]);
@@ -192,50 +193,16 @@ function InvestorDashboard(props){
     return (
 			<div className=" px-20 flex flex-col justify-center self-center bg-black overflow-auto">
 				{/* navbar */}
-				<NavBar />
+				<NavBar status={"dashboard"}/>
 
 				<div className="pb-20 w-full max-md:pr-5 max-md:max-w-full">
 					<div className="flex gap-8 max-md:flex-col max-md:gap-0">
 						<div  className="flex flex-col w-[74%] max-md:ml-0 max-md:w-full pl-0">
 							<div className="flex gap-9 max-md:flex-col max-md:gap-0">
 								{/* side bar */}
-								<aside className=" flex w-[23%px] flex-col justify-start mt-6">
-									<div className="h-[212px] flex-col justify-start items-center gap-3 flex">
-										<div className="flex gap-3 p-4 text-base tracking-normal bg-neutral-800 rounded-[30px] text-stone-300">
-											<img
-												loading="lazy"
-												src="https://cdn.builder.io/api/v1/image/assets/TEMP/5141f2b3392732e7dceb2287d5276e2c7df22cecc85670302b617d425ec44b62?"
-												className="shrink-0 w-5 aspect-square"
-											/>
-											<div className="flex-auto">Search in dashboard</div>
-										</div>
-										<div className="flex gap-5 mt-5 font-medium items-center text-green-400 whitespace-nowrap max-md:pr-5">
-											<div className="w-1 self-stretch bg-green-400 rounded-tr-[10px] rounded-br-[10px] shadow" />
-											<div className="h-12 flex pr-20 gap-2 bg-green-400 bg-opacity-20 rounded-lg">
-												<img
-													loading="lazy"
-													src="https://cdn.builder.io/api/v1/image/assets/TEMP/f1487560442a58b51dcbec994221baf3cf665d63416908100ec5efda2c599f05?"
-													className="shrink-0 w-8 aspect-square self-center ml-3"
-												/>
-												<div className="text-green-400 text- font-medium item-center tracking-tight my-auto">Overview</div>
-											</div>
-										</div>
-										<Link to="/investorDetails">
-										<div className="pr-15 justify-start items-center inline-flex pl-0 whitespace-nowrap">
-											<div className="justify-start items-center gap-2 flex">
-												<img
-													loading="lazy"
-													src="https://cdn.builder.io/api/v1/image/assets/TEMP/af603136276046e8322b35f550ed99cb4cb7f42f4be19979861c7f70c3f1a3ce?"
-													className="shrink-0 w-8 aspect-square self-center"
-												/>
-												<div className="text-neutral-400 text- font-normal item-center tracking-tight">Investor details</div>
-											</div>
-										</div>
-										</Link>
-									</div>
-								</aside>
+								<SideBar status={"overview"}/>
 								{/* title */}
-								<div className="flex flex-col w-[73%]">
+								<div className="flex flex-col w-[65%]">
 									<div className="flex flex-col pt-6">
 									<div className="justify-between items-center inline-flex">
 											<div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">Following Updates</div>
@@ -282,7 +249,7 @@ function InvestorDashboard(props){
 														Startup
 													</div>
 													{isDropdownOpen && (
-														<div className="absolute right-0 mt-2">
+														<div className="absolute right-0 mt-2 z-0">
 																<div className="flex gap-2 items-right px-2 py-2 bg-neutral-900 rounded-[10px] cursor-pointer w-[250px]">
 																		<ul className="px-3 self-stretch overflow-y-auto text-sm flex flex-col gap-2.5">
 																		{startupList.map((item, index) => (
@@ -304,30 +271,12 @@ function InvestorDashboard(props){
 													)}
 
 												</div>
-
-													{/* <>
-													<img
-															loading="lazy"
-															src="https://cdn.builder.io/api/v1/image/assets/TEMP/05c363040cc2ed7eb073d542d2cdc515d11e022240c5cedb019f596e03556fde?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
-															className="self-center w-8 aspect-square"
-															/>
-														<input type="text" 
-															className="w-2px text-md bg-transparent appearance-none text-white border-gray-600  focus:outline-none focus:ring-0" 
-															placeholder="Search Startup" 
-															value={searchTerm} 
-															onChange={(e) => {
-																setSearchTerm(e.target.value, 
-																	() => {
-																		fetchData();});
-															}}>
-														</input>
-													</> */}
 											</div>
 									</div>
 									{/* card */}
 									{listEntries.map((item, index) => (
 										<li key={index}>
-											<div className="p-6 bg-neutral-800 rounded-lg flex-col justify-center items-start gap-6 flex">
+											<div className="p-6 bg-neutral-800 rounded-lg flex-col justify-center items-start gap-6 flex mt-5">
 												<div className="justify-start items-center gap-[16.98px] inline-flex">
 														<div className="justify-start items-start gap-4 flex">
 																<img
@@ -335,9 +284,9 @@ function InvestorDashboard(props){
 																				src={item.startup_image}
 																				className="object-cover w-[55px] h-[55px] rounded-full border-dashed self-center"
 																/>
-																<div className="relative font-semibold whitespace-nowrap text-stone-100">
+																<div className="font-semibold whitespace-nowrap text-stone-100">
 																	<div className="flex gap-1 text-xl items-center">
-																		<div>{item.startup}</div>
+																		<Link to={`/startupDetails/${item.startup_id}`}><div className="hover:text-green-400">{item.startup}</div></Link>
 																		<img
 																			loading="lazy"
 																			src="https://cdn.builder.io/api/v1/image/assets/TEMP/5cd0618b56d923d8e9393e8312d89bc42be642f17db4d5994a14565779c2265e?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
@@ -382,7 +331,7 @@ function InvestorDashboard(props){
 																			</div>
 																	</div>
 																	<div className="mt-7 text-base tracking-wide text-neutral-400">
-																			{item.sales} unit(s)
+																			{item.sales.toLocaleString('id-ID')} unit(s)
 																	</div>
 																	</div>
 															</div>
@@ -401,7 +350,7 @@ function InvestorDashboard(props){
 																			</div>
 																	</div>
 																	<div className="mt-7 text-base tracking-wide text-neutral-400">
-																			IDR {item.revenue}
+																			IDR {item.revenue.toLocaleString('id-ID')}
 																	</div>
 																	</div>
 															</div>
@@ -420,7 +369,7 @@ function InvestorDashboard(props){
 																			</div>
 																	</div>
 																	<div className="mt-7 text-base tracking-wide whitespace-nowrap text-neutral-400">
-																			{item.user} user(s)
+																			{item.user.toLocaleString('id-ID')} user(s)
 																	</div>
 																	</div>
 															</div>
@@ -429,7 +378,7 @@ function InvestorDashboard(props){
 													<div className="mt-3 font-semibold tracking-wide text-stone-100 max-md:max-w-full">
 															Lesson Learned
 													</div>
-													<div className="mt-4 text-base tracking-wide text-neutral-400 max-md:max-w-full break-words text-wrap">
+													<div className="mt-4 text-base tracking-wide text-neutral-400 max-md:max-w-full break-words text-wrap whitespace-pre-line">
 															{item.lessonLearned}
 													</div>
 												</div>
@@ -474,32 +423,32 @@ function InvestorDashboard(props){
 										</div>
 										</div>
 								</div>
-								<div class="self-stretch h-14 rounded-lg flex-col justify-start items-start gap-2 flex">
-								<div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
-									<div class="self-stretch">
-										<span class="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Following</span>
+								<div className="self-stretch h-14 rounded-lg flex-col justify-start items-start gap-2 flex">
+								<div className="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
+									<div className="self-stretch">
+										<span className="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Following</span>
 									</div>
 								</div>
-								<div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
-									<div class="self-stretch">
-										<span class="text-stone-100 text-xl font-medium font-['SF Pro Display'] tracking-tight">{startupList.length}</span>
-										<span class="text-stone-100 text-base font-medium font-['SF Pro Display'] tracking-tight"> following</span>
+								<div className="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
+									<div className="self-stretch">
+										<span className="text-stone-100 text-xl font-medium font-['SF Pro Display'] tracking-tight">{startupList.length}</span>
+										<span className="text-stone-100 text-base font-medium font-['SF Pro Display'] tracking-tight"> following</span>
 									</div>
 								</div>
 								</div>
 
 								<div className="self-stretch h-14 rounded-lg flex-col justify-start items-start gap-2 flex">
-								<div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
-									<div class="self-stretch">
-										<span class="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Location</span>
+								<div className="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
+									<div className="self-stretch">
+										<span className="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Location</span>
 									</div>
 								</div>
 										<div className="text-white text-xl font-medium font-['SF Pro Display'] tracking-tight">{investorData.location}</div>
 								</div>
 								<div className="self-stretch h-[69px] rounded-lg flex-col justify-start items-start gap-2 flex">
-								<div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
-									<div class="self-stretch">
-										<span class="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Phone number</span>
+								<div className="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
+									<div className="self-stretch">
+										<span className="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Phone number</span>
 									</div>
 								</div>
 										<div className="px-4 py-2 bg-neutral-700 rounded-lg justify-center items-center gap-3 inline-flex">
@@ -507,9 +456,9 @@ function InvestorDashboard(props){
 										</div>
 								</div>
 								<div className="self-stretch h-[69px] rounded-lg flex-col justify-start items-start gap-2 flex">
-								<div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
-									<div class="self-stretch">
-										<span class="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Contact email</span>
+								<div className="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
+									<div className="self-stretch">
+										<span className="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Contact email</span>
 									</div>
 								</div>
 										<div className="px-4 py-2 bg-neutral-700 rounded-lg justify-center items-center gap-3 inline-flex">
@@ -517,9 +466,9 @@ function InvestorDashboard(props){
 										</div>
 								</div>
 								<div className="self-stretch h-[72px] rounded-lg flex-col justify-start items-start gap-2 flex" style={{ marginBottom:'20px'}}>
-								<div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
-									<div class="self-stretch">
-										<span class="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">LinkedIn</span>
+								<div className="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
+									<div className="self-stretch">
+										<span className="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">LinkedIn</span>
 									</div>
 								</div>
 										<div className="px-4 py-2 bg-neutral-700 rounded-lg justify-center items-center gap-3 inline-flex" style={{ maxWidth: 'calc(100% - 8px)'}}>
@@ -529,7 +478,7 @@ function InvestorDashboard(props){
 								</div>
 								<div className="mt-5 self-stretch h-[72px] rounded-lg flex-col justify-start items-start gap-2 flex">
 								<Link to="/orgInvestorReadForm">
-								<div className="flex justify-end px-5 py-3 bg-stone-100 rounded-lg justify-center items-center gap-2.5 inline-flex" >
+								<div className="px-5 py-3 bg-stone-100 rounded-lg justify-center items-center gap-2.5 inline-flex" >
 										
 										<div className="text-black text-xl font-semibold font-['Zuume'] tracking-wider">View public profile</div>
 								</div>
