@@ -40,7 +40,7 @@ const PartnerDetails = () => {
 
     return (
         <section className="flex flex-col px-9 pt-4 pb-20 w-full">
-           <a href="/partnerEditForm" className="flex flex-wrap gap-5 items-center pr-20 max-md:pr-5">
+           <a href="/partnerEditForm" className="flex flex-wrap gap-5 items-center max-md:pr-5">
               <h1 className="text-2xl font-semibold tracking-wider leading-[54px] text-stone-100 max-md:text-3xl">Partner Details</h1>
               <div className="flex gap-1.5 justify-center px-0.5 my-auto text-l tracking-wide whitespace-nowrap text-neutral-400" href="/partnerEditForm">
                   <div>edit details</div>
@@ -85,8 +85,8 @@ function PartnerReadForm() {
   return (
     <div className="flex flex-col justify-center bg-black min-h-screen px-20">
       <NavBar status={"dashboard"}/>
-      <main className="px-px pb-20 w-full max-md:max-w-full">
-        <aside className="flex gap-5 max-md:flex-col max-md:gap-0">
+      <main className="pb-20 w-full max-md:max-w-full">
+        <aside className="flex max-md:flex-col max-md:gap-0">
           <SideBar status={"profile"}/>
           <PartnerDetails />
         </aside>

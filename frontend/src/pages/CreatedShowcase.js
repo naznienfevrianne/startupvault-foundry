@@ -113,7 +113,7 @@ function CreatedShowcase(props) {
 			  <NavBar status={"dashboard"} />
 			  <div className="pb-20 w-full max-md:pr-5 max-md:max-w-full flex gap-8 max-md:flex-col max-md:gap-0">
 				<div className="flex flex-col w-[70%] max-md:ml-0 max-md:w-full pl-0">
-				  <div className="flex gap-9 max-md:flex-col max-md:gap-0">
+				  <div className="flex gap-8 max-md:flex-col max-md:gap-0">
 					{/* side bar */}
 					<SideBar status={"post"} />
 					<div className="flex flex-col w-[73%]">
