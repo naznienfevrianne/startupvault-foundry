@@ -15,8 +15,7 @@ const StartupList = () => {
   console.log(startups);
   const numberOfStartups = startups.length;
   console.log(numberOfStartups); // This will log the total number of objects in your array
-  const sectorsArray = startups.sector ? startups.sector.split(',') : [];
-  const [currentPage, setCurrentPage] = useState('startups');
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,7 +74,6 @@ const StartupList = () => {
 
   return (
     <div className="flex flex-col items-center bg-black min-h-screen px-20 overflow-auto">
-    <NavBar status={currentPage}/>
     <main className="px-px pb-20 w-full max-md:max-w-full">
     <aside className="flex gap-5 max-md:flex-col max-md:gap-0">
       <div className="flex flex-col grow items-start pt-6 pr-5 pl-20 max-md:pl-5 max-md:max-w-full">
