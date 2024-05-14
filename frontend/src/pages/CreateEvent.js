@@ -129,11 +129,6 @@ const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
     <form onSubmit={handleSubmit} className="flex flex-col px-8 py-6 max-w-2xl rounded-lg bg-neutral-800 max-md:px-5">
       <div className="flex gap-5 justify-between text-2xl font-medium tracking-wide text-white max-md:flex-wrap max-md:max-w-full">
         <div>Create event</div>
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/9221a0fea1725e9ddbbc7353112ba3e1a039f91473d88e295fe58883e456346b?apiKey=a9f236d74bde4869a09f0278cc07ff16&"
-          className="shrink-0 my-auto w-6 aspect-square"
-        />
       </div>
       <FileUpload onFileReady={handleFileReady} currentImage={imagePreviewUrl} />
       <div className="mt-6 text-xs tracking-wider text-neutral-400 max-md:max-w-full">

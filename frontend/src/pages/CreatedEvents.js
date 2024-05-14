@@ -245,7 +245,18 @@ function CreatedEvents() {
           {isCreateEventModalOpen && (
                   <ModalBackground onClick={closeCreateEventModal}>
                     <ModalContent onClick={e => e.stopPropagation()}>
-                      <CreateEvent closeModal={closeCreateEventModal} />
+                      <div className="flex-col relative">
+                        <div className="items-right justify-end self-right flex">
+                          <button type="button" className="ml-auto mr-8 mt-5 my-1.5 rounded-lg p-1.5 inline-flex absolute bg-neutral-800 text-gray-300 hover:bg-gray-700 hover:text-white" onClick={closeCreateEventModal}>
+                            <img
+                              loading="lazy"
+                              src="https://cdn.builder.io/api/v1/image/assets/TEMP/9221a0fea1725e9ddbbc7353112ba3e1a039f91473d88e295fe58883e456346b?apiKey=a9f236d74bde4869a09f0278cc07ff16&"
+                              className="shrink-0 my-auto w-6 aspect-square"
+                            />
+                          </button>
+                        </div>
+                        <CreateEvent closeModal={closeCreateEventModal} />
+                      </div>
                     </ModalContent>
                   </ModalBackground>
                 )}
