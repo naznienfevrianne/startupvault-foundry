@@ -7,14 +7,14 @@ import jwt
 
 class UserModel(models.Model):
     email = models.EmailField(unique=True) # awal
-    role = models.CharField(max_length=10) # milih di awal
-    password = models.CharField(max_length=255) # awal
+    role = models.TextField() # milih di awal
+    password = models.TextField() # awal
     isVerified = models.IntegerField() # in backend
     image = models.TextField() # profile picture
-    name = models.CharField(max_length = 255)
+    name = models.TextField()
     linkedin = models.URLField()
     phoneNumber = models.CharField(max_length=16, default="")
-    rejectionNote = models.CharField(max_length = 255, blank=True, default="")
+    rejectionNote = models.TextField(blank=True, default="")
 
     def __str__(self):
         if (self.isVerified == 0):
@@ -26,9 +26,9 @@ class UserModel(models.Model):
 
 
 class Startup(models.Model):
-    typ = models.CharField(max_length=10)
+    typ = models.TextField()
     image = models.TextField()
-    name = models.CharField(max_length=255)
+    name = models.TextField()
     location = models.TextField()
     sector = models.TextField(blank=True)
     desc = models.TextField()
@@ -47,9 +47,9 @@ class Startup(models.Model):
             return f"[Rejected]: {self.id} {self.name}"
 
 class InvestorOrganization(models.Model):
-    typ = models.CharField(max_length=10) # dr sblmnya
+    typ = models.TextField() # dr sblmnya
     logo = models.TextField(default="")
-    name = models.CharField(max_length=255, default="")
+    name = models.TextField(default="")
     location = models.TextField()
     desc = models.TextField()
     sector = models.TextField()
@@ -64,7 +64,7 @@ class InvestorOrganization(models.Model):
     
 class PartnerOrganization(models.Model):
     logo = models.TextField(default="")
-    name = models.CharField(max_length=255, default="")
+    name = models.TextField(default="")
     location = models.TextField()
     desc = models.TextField()
     interest = models.TextField()
