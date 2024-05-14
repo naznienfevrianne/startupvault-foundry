@@ -202,10 +202,10 @@ function FounderDashboard(props) {
                 {/* <div className="flex flex-col w-[25%] max-md:ml-0 max-md:w-full pl-0"> */}
                 <SideBar status={"overview"}/>
                 {/* </div> */}
-                <div className="flex flex-col ml-10 w-[67%] max-md:ml-0 max-md:w-full">
+                <div className="flex flex-col ml-6 w-[67%] max-md:ml-0 max-md:w-full">
                   <div className="flex flex-col grow justify-center pt-6 max-md:max-w-full">
                     <div className="flex gap-5 justify-between max-md:flex-wrap max-md:max-w-full">
-                      <div className="flex-auto text-2xl font-semibold tracking-wide text-stone-100">
+                      <div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">
                         Metrics Overview
                       </div>
                       <div className="flex-auto text-right text-base tracking-normal text-neutral-400">
@@ -268,7 +268,7 @@ function FounderDashboard(props) {
                       </div>
                     </div>
                     <div className="flex gap-5 justify-between mt-10 w-full whitespace-nowrap text-stone-100 max-md:flex-wrap max-md:max-w-full">
-                      <div className="flex-auto my-auto text-2xl font-semibold tracking-wide">
+                      <div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">
                         Analytics
                       </div>
                       <div className="flex gap-3 text-base tracking-normal">

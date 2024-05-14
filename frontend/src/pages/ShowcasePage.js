@@ -341,7 +341,9 @@ const Showcase = () => {
       }
     };
 
-    fetchData();
+    if (id){
+      fetchData();
+    }
   }, []); 
 
    return (
