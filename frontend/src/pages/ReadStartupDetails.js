@@ -28,7 +28,7 @@ const StartupDetails = () => {
 
 
   useEffect(() => {
-    handleChartButtonClick('sales'); // Default to the Sales button being clicked
+    // handleChartButtonClick('sales'); // Default to the Sales button being clicked
     if (activeTab == 'diary'){
        fetchWeeklyEntries(startup.founder_id);
     }
@@ -200,14 +200,34 @@ useEffect(() => {
       // setShowCanvas(true);  
     };
 
+    const [sort, setSort] = useState("-date");
+
   
 
     const fetchWeeklyEntries = async (founderId) => {
       if (!founderId) return; // Ensure founderId is available
+      let endpoint;
+
+			if(value.startDate != null && value.endDate != null && searchTerm.length != 0){
+				endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}&startup_name=`
+
+				for(let i = 0; i < searchTerm.length; i++){
+					endpoint += `${searchTerm[i]},`
+				}
+			} else if (value.startDate != null && value.endDate != null){
+				endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}`
+			} else if (searchTerm.length != 0){
+				endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}?sort=${sort}&startup_name=`
+				for(let i = 0; i < searchTerm.length; i++){
+					endpoint += `${searchTerm[i]},`
+				}
+			} else{
+				endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}?sort=${sort}`
+			} 
       
 
     try {
-      const response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}/?sort=-date`, {
+      const response = await fetch(endpoint, {
         method:"GET",
         headers: {
           'Content-Type': 'application/json',
@@ -225,6 +245,18 @@ useEffect(() => {
       console.error("Error:", error);
     }
   };
+
+  const handleSort = () => {
+    if(sort === "-date"){
+      setSort("date", () => {
+        fetchWeeklyEntries();
+      });
+    } else if(sort === "date"){
+      setSort("-date", () => {
+        fetchWeeklyEntries();
+      });
+    }		 	
+  }
 
 
   function getMonday(date){
@@ -250,40 +282,60 @@ useEffect(() => {
     endDate: ""
   });
 
+  
 
-    const handleSort = async () => {
-      try {
-        let response;
-        if(descending){ // if udah descending bakal manggil yg ascending
-            response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${startup.founder_id}?sort=date`, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-              }
-            });
-        } else{
-            response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${startup.founder_id}?sort=-date`, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-              }
-            });
-        }
+  const [searchTerm,setSearchTerm] = useState([]);
 
-        if (!response.ok) {
-            throw new Error("Failed to fetch data");
-        }
+  const handleCheckboxChange = (event, item) => {
+    if (event.target.checked) {
+      // If checkbox is checked, add the item to the checkedItems list
+      setSearchTerm(prevCheckedItems => [...prevCheckedItems, item]);
+    } else {
+      // If checkbox is unchecked, remove the item from the checkedItems list
+      setSearchTerm(prevCheckedItems => prevCheckedItems.filter(checkedItem => checkedItem !== item));
+    }
+  };
 
-        const entry = await response.json();
-        setListEntries(entry);
-        setDescending(!descending); // mengubah nilai descending
 
-      } catch (error) {
-          console.error("Error:", error);
-      }
-    };
+  useEffect(() => {
+        fetchWeeklyEntries(startup.founder_id);
+    }, [sort, value, searchTerm]);
+
+
+
+    // const handleSort = async () => {
+    //   try {
+    //     let response;
+    //     if(descending){ // if udah descending bakal manggil yg ascending
+    //         response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${startup.founder_id}?sort=date`, {
+    //           method: 'GET',
+    //           headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `Bearer ${token}`
+    //           }
+    //         });
+    //     } else{
+    //         response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${startup.founder_id}?sort=-date`, {
+    //           method: 'GET',
+    //           headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `Bearer ${token}`
+    //           }
+    //         });
+    //     }
+
+    //     if (!response.ok) {
+    //         throw new Error("Failed to fetch data");
+    //     }
+
+    //     const entry = await response.json();
+    //     setListEntries(entry);
+    //     setDescending(!descending); // mengubah nilai descending
+
+    //   } catch (error) {
+    //       console.error("Error:", error);
+    //   }
+    // };
 
     const handleValueChange = async(newValue) => {
       setValue(newValue);
@@ -327,12 +379,12 @@ useEffect(() => {
     const TabContent = () => {
       switch (activeTab) {
           case 'summary':
-            handleChartButtonClick('sales'); // Default to the Sales button being clicked
+            // handleChartButtonClick('sales'); // Default to the Sales button being clicked
             return <SummaryTab startup={startup} founder={founder} />;
           case 'metrics':
               return <MetricsTab />;
           case 'diary':
-            handleChartButtonClick('sales'); // Default to the Sales button being clicked
+            // handleChartButtonClick('sales'); // Default to the Sales button being clicked
               return <DiaryTab />;
           default:
               return null;
@@ -546,35 +598,38 @@ useEffect(() => {
                   {listEntries.length} entries found
                 </div>
               </div>
-              <div className="py-auto flex gap-2">
-                <button onClick={handleSort} className="flex text-sm text-stone-100 justify-between px-3 py-2.5 font-light tracking-wide rounded-[25px] border border-neutral-400">
-                    {descending ? (
-                        <>
-                            <img
-                            loading="lazy"
-                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/09336f1e86e0673713128171ba8064262d4bd1188b3c06a9a1927d3fb0833bd3?"
-                            className="self-start w-10 aspect-square"
-                            />
-                            <div>Oldest</div>
-                        </>
-                    ) : (
-                        <>
-                            <img
-                            loading="lazy"
-                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/0dbf444f4ed2068ea13b4fa12b9927d011b42ce3f3eae40a73704f2c533c26ce?"
-                            className="self-start w-10 aspect-square"
-                            />
-                            <div>Latest</div>
-                        </>
-                    )}
+              <div className="justify-start items-center gap-3 flex">
+                <button onClick={handleSort} className="pl-4 pr-5 py-2 rounded-[25px] border text-stone-100 border-neutral-400 justify-center items-center gap-1 inline-flex w-[140px]">
+                  {sort === "-date" ? (
+                    <>
+                      <img
+                      loading="lazy"
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/3e3ec73880ece29d00f20e4db0e4b5475499af7b473b69d767d47b11119c4c98?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
+                      className="self-center w-8 aspect-square"
+                      />
+                      <div>Oldest</div>
+                    </>
+                  ) : (
+                    <>
+                      <img
+                      loading="lazy"
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/f17953187a4d2276470cd675c51584dad8f4c8e4316cd91c37a457aba3eac469?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
+                      className="self-center w-8 aspect-square"
+                      />
+                      <div>Latest</div>
+                    </>
+                  )}
                 </button>
                 <Datepicker
                   inputClassName="w-full pl-10 pr-3 py-2 placeholder-stone-100 rounded-[25px] focus:outline-none border font-normal text-stone-100 border-neutral-400 bg-black" 
-                  primaryColor={"emerald"} 
                   value={value} 
-                  onChange={handleValueChange} 
-                  toggleClassName="absolute left-0 h-full px-3 text-neutral-400 focus:outline-none"
+                  onChange={handleValueChange}
                   useRange={false}
+                  readOnly={true}  
+                  primaryColor={"emerald"}
+                  placeholder="Date" 
+                  toggleClassName="absolute left-0 h-full px-3 text-neutral-400 focus:outline-none" 
+
                 /> 
               </div>
             </div>

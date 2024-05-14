@@ -234,7 +234,7 @@ function StartupForm(props) {
           if (localStorage.getItem("startupType") == "idea") {
             urlPitchdeck = null
           }
-            const response = await fetch("https://startupvault-foundry.vercel.app/auth/startup/", {
+            const response = await fetch("http://localhost:8000/auth/startup/", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -260,7 +260,7 @@ function StartupForm(props) {
               console.log(data);
               const pk = data.id
               // Perform fetch request
-              const responseFounder = await fetch("https://startupvault-foundry.vercel.app/auth/founder/", {
+              const responseFounder = await fetch("http://localhost:8000/auth/founder/", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
