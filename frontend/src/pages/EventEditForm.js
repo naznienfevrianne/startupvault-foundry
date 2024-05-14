@@ -323,7 +323,7 @@ const EventDetails = () => {
                 </div>
                 {!isPriceValid && (
                         <div className="text-red-500 text-xs mt-1">
-                            Please enter a valid number.
+                            Please enter a valid price.
                         </div>
                     )}
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Link</div>
