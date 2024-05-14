@@ -23,7 +23,7 @@ const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
     date: "",
     price: "",
     link: "",
-    image: null,
+    image: "",
     isVerified: 0,
     rejectionNote: "",
     status: 0,
@@ -31,20 +31,37 @@ const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
   });
 
   const handleChange = (e) => {
-          setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
+      const { name, value } = e.target;
+      if (name === 'price' && (value === '' || Number(value) >= 0)) {
+        setFormData({ ...formData, [name]: value });
+      } else if (name !== 'price') {
+        setFormData({ ...formData, [name]: value });
+      }
+    };
 
-      const handleFileSelected = (file) => {
-          setFormData({ ...formData, image: file });
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setImagePreviewUrl(reader.result);
-          };
-          reader.readAsDataURL(file);
-        };
+  const handleFileReady = (url) => {
+      setFormData({ ...formData, image: url });
+      setImagePreviewUrl(url);
+  };
+
+  const validateURL = (url) => {
+      const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name and extension
+        '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+        '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+      return !!pattern.test(url);
+    };
 
   const handleSubmit = async (e) => {
       e.preventDefault();
+
+      if (!validateURL(formData.link)) {
+            alert('Please enter a valid URL.');
+            return;
+          }
+
 
       const jsonData = {
           ...formData, // All the text and number inputs as part of formData // Assuming you want to send this as well, based on your Django view expecting an authenticated user
@@ -118,7 +135,7 @@ const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
           className="shrink-0 my-auto w-6 aspect-square"
         />
       </div>
-      <FileUpload onFileSelected={handleFileSelected} currentImage={imagePreviewUrl} />
+      <FileUpload onFileReady={handleFileReady} currentImage={imagePreviewUrl} />
       <div className="mt-6 text-xs tracking-wider text-neutral-400 max-md:max-w-full">
           BY {partnerData.name ? partnerData.name.toUpperCase() : 'Loading partner...'}
       </div>
