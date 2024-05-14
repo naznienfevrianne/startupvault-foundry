@@ -120,7 +120,7 @@ function CreatedShowcase(props) {
 					  <div className="flex flex-col pt-6">
 						{/* title + button create showcase */}
 						<div className="justify-between inline-flex pb-3">
-						  <div className="self-start justify-start flex text-stone-100 text-2xl font-semibold tracking-tight text-wrap">My Posts</div>
+						  <div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">My Posts</div>
 						  <Link to="/">
 							<div className="flex gap-1 self-end px-2 py-2 text-md font-semibold text-black whitespace-nowrap bg-green-400 rounded-lg cursor-pointer">
 							  <img

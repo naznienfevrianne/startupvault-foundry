@@ -68,7 +68,7 @@ return (
     <main className="flex justify-center items-center px-px pb-20 w-full max-md:max-w-full h-full">
       <div className="flex flex-col w-full max-w-[940px] max-md:flex-wrap">
       <div>
-            <div className="mb-2 text-3xl font-semibold tracking-wide text-stone-100">
+            <div className="mb-2 text-stone-100 text-2xl font-semibold tracking-tight text-wrap">
               Events
             </div>
             <div className="text-base tracking-normal text-neutral-400">

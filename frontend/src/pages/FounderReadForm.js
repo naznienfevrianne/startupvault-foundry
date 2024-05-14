@@ -57,7 +57,7 @@ const FounderDetails = () => {
     return (
         <section className="flex flex-col px-5 pt-9 pb-20 max-md:max-w-full">
             <a href="/founderEditForm" className="flex flex-wrap gap-5 justify-between content-center pr-20 max-md:pr-5">
-                <h1 className="text-3xl font-semibold tracking-wider leading-[54px] text-stone-100 max-md:text-3xl">Founder Details</h1>
+                <h1 className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">Founder Details</h1>
                 <div className="flex gap-1.5 justify-center px-0.5 my-auto text-l tracking-wide whitespace-nowrap text-neutral-400" href="/FounderEditForm">
                     <div className="grow">edit details</div>
                     <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/04c641284d7871837890bdbbf518752e3d58158fa19f353bc7632662bcd27883?apiKey=9ff2a73e8144478896bce8206c80f3e2&" alt="Edit icon" className="shrink-0 aspect-square w-[23px]" />

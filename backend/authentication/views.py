@@ -147,6 +147,13 @@ def check_email(request):
         else:
             return JsonResponse({"message":"Email already used"}, status=409)
         
+class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [JWTAuthentication] 
+    serializer_class = UserModelSerializer
+
+    def get_queryset(self):
+        return UserModel.objects.all()
+        
 def test_token(request):
     token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDkxNjQ2MDAsImlhdCI6MTY0OTE2MjYwMCwic3ViIjoiYXV0aGVudGljYXRlZCJ9.dT2-WIUcYEDb4nRQ4LhHoyAmLl8QdU2m0f1co-Wp8DU'
 
@@ -353,6 +360,7 @@ class TopStartupRetriever(generics.ListAPIView):
             info = Startup.objects.filter(name=startup).first()
             startup_info.append(info)
         return startup_info
+
         
 
 

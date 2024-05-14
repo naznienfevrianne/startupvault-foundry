@@ -32,7 +32,7 @@ const SideBar = ({ status }) => {
                   </div>
               </div>
             </Link>
-            <Link to="/investorDetails">
+            <Link to="/investorReadForm">
               <div className="flex gap-5 pr-5 mt-2 font-medium whitespace-nowrap">
                 <div className={`shrink-0 w-1 h-12 rounded-none shadow-sm ${status === "profile" ? " bg-green-400" : "text-neutral-400 border-transparent"}`} />
                 <div className={`flex gap-2 pr-12 rounded-lg items-center w-full ${status === "profile" ? "bg-green-400 text-green-400" : "border-transparent"} bg-opacity-20`}>
