@@ -15,38 +15,65 @@ const StartupList = () => {
   console.log(startups);
   const numberOfStartups = startups.length;
   console.log(numberOfStartups); // This will log the total number of objects in your array
-  const sectorsArray = startups.sector ? startups.sector.split(',') : [];
-  const [currentPage, setCurrentPage] = useState('startups');
+
 
   useEffect(() => {
-      const fetchData = async () => {
-          try {
-              const response = await fetch('https://startupvault-foundry.vercel.app/auth/startup/',{
-                method: "GET", 
-                headers:{
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                }
-                }
-                );
-              if (!response.ok) {
-                  throw new Error("Failed to fetch data");
-              }
-              const entry = await response.json();
-              setStartups(entry);
-              // setProfilePicture(entry.image);
-
-          } catch (error) {
-              console.log("Error:", error);
+    const fetchData = async () => {
+      try {
+        console.log("Fetching startups...");
+        const startupResponse = await fetch('https://startupvault-foundry.vercel.app/auth/startup/', {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
           }
-      };
+        });
 
-      fetchData();
-  }, []);
+        if (!startupResponse.ok) {
+          throw new Error(`Failed to fetch startups, status: ${startupResponse.status}`);
+        }
+        const startupsData = await startupResponse.json();
+        console.log("Startups fetched:", startupsData);
+
+        const verifiedStartups = await Promise.all(startupsData.map(async (startup) => {
+          console.log(`Fetching founder for startup ${startup.id}...`);
+          const founderResponse = await fetch(`https://startupvault-foundry.vercel.app/auth/founder/${startup.founder_id}/`, {
+            method: "GET",
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+            }
+          });
+
+          if (!founderResponse.ok) {
+            console.error(`Failed to fetch founder data for ID ${startup.founder_id}, status: ${founderResponse.status}`);
+            return null;
+          }
+          const founderData = await founderResponse.json();
+          console.log(`Founder fetched for startup ${startup.id}:`, founderData);
+
+          if (founderData.isVerified === 1) {
+            return startup;
+          } else {
+            console.log(`Founder ID ${founderData.id} is not verified.`);
+            return null;
+          }
+        }));
+
+        // Filter out null values (non-verified founders)
+        const filteredStartups = verifiedStartups.filter(startup => startup !== null);
+        console.log("Filtered startups:", filteredStartups);
+        setStartups(filteredStartups);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchData();
+  }, [token]);
 
   return (
     <div className="flex flex-col items-center bg-black min-h-screen px-20 overflow-auto">
-    <NavBar status={currentPage}/>
     <main className="px-px pb-20 w-full max-md:max-w-full">
     <aside className="flex gap-5 max-md:flex-col max-md:gap-0">
       <div className="flex flex-col grow items-start pt-6 pr-5 pl-20 max-md:pl-5 max-md:max-w-full">
