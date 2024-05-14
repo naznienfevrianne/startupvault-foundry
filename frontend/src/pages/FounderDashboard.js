@@ -171,6 +171,31 @@ function FounderDashboard(props) {
     setSelectedChart(chartType);
   };
 
+  const copyToClipboard = async (text) => {
+    if ('clipboard' in navigator) {
+      try {
+        await navigator.clipboard.writeText(text);
+        alert('Copied to clipboard!');
+      } catch (err) {
+        console.error('Failed to copy: ', err);
+      }
+    } else {
+      // Fallback for older browsers
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        alert('Copied to clipboard!');
+      } catch (err) {
+        console.error('Failed to copy: ', err);
+      }
+      document.body.removeChild(textarea);
+    }
+  };
+
+
   const fetchDataFounder = async () => {
     try {
         const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`,{
@@ -305,7 +330,7 @@ function FounderDashboard(props) {
           <div className="flex flex-col ml-8 w-[26%] max-md:ml-0 max-md:w-full">
             <div className="flex flex-col p-6 mx-auto mt-6 w-full rounded-lg bg-neutral-800 max-md:px-5 max-md:mt-10">
               <div className="flex gap-5 justify-between w-full break-words">
-                <div className="flex-auto text-l font-medium tracking-wide text-white">
+                <div className="flex-auto text-xl font-medium tracking-wide text-white">
                   My Startup
                 </div>
                 <div className="flex gap-1 justify-center my-auto text-sm tracking-normal whitespace-nowrap text-neutral-400">
@@ -319,16 +344,23 @@ function FounderDashboard(props) {
                   />
                 </div>
               </div>
-              <div className="flex gap-5 justify-between mt-6">
-                <div className="flex flex-1 justify-center items-center rounded-md bg-green-400 bg-opacity-20">
+              <div className="flex flex-1 items-center rounded-xl bg-opacity-20 mt-6">
                   <img
                     loading="lazy"
                     srcSet={startupData.image}
-                    className="aspect-[1.02] w-[46px]"
+                    className="flex flex-col justify-center items-start mt-3.5 max-w-full rounded-xl w-[120px] h-[120px] max-md:px-5 bg-green-700"
                   />
                 </div>
-                <div className="flex gap-2 self-start pr-2 text-2xl font-semibold tracking-wider leading-10 text-white break-all">
-                  <div className="grow break-words">{startupData.name}</div>
+                <div className="flex gap-5 justify-between mt-4 mr-3">
+                <div className="flex gap-2 self-start pr-2 text-2xl font-semibold tracking-wider leading-10 text-white">
+                  <div className="grow" style={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',  // Ensures the text stays in a single line
+                    maxWidth: '50%',      // Use maxWidth to allow the container to grow and shrink dynamically
+                  }}>
+                    {startupData.name}
+                  </div>
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/6417a1a8e6e4f317123380fe8fed9093f6b5dd538926f00e91d377d6f03966c5?"
@@ -377,13 +409,18 @@ function FounderDashboard(props) {
                 />
                 <div className="flex-auto my-auto">Website</div>
               </div>
-              <div className="flex gap-3 justify-center px-10 py-2 mt-2 text-l font-medium tracking-wide text-white whitespace-nowrap rounded-lg bg-neutral-700 max-md:px-5">
-                <div className="flex-auto">{startupData.website}</div>
+              <div className="flex gap-3 justify-center px-5 py-2 mt-2 text-l font-medium tracking-wide text-white whitespace-nowrap rounded-lg bg-neutral-700 max-md:px-5">
+                <div className="flex-1">{startupData.website}</div>
+                <button
+                onClick={() => copyToClipboard(startupData.website)}
+                title="Copy phoneNumber"  // Providing a title for accessibility and usability
+                >
                 <img
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/0224ac84b32ad76b568287a3ea7b9360aa3be50f2415ddeaa0468b0b120b93b0?"
                   className="shrink-0 w-6 aspect-square"
                 />
+                </button>
               </div>
               <div className="flex gap-2 justify-center self-start mt-6 text-base tracking-wide whitespace-nowrap text-neutral-400">
                 <img
@@ -393,13 +430,18 @@ function FounderDashboard(props) {
                 />
                 <div className="flex-auto my-auto">LinkedIn</div>
               </div>
-              <div className="flex gap-3 justify-center self-start px-4 py-2 mt-2 text-sm font-medium tracking-wide text-white whitespace-nowrap rounded-lg bg-neutral-700">
-                <div className="grow">{startupData.linkedin}</div>
+              <div className="flex gap-3 justify-center px-5 py-2 mt-2 text-l font-medium tracking-wide text-white whitespace-nowrap rounded-lg bg-neutral-700 max-md:px-5">
+                <div className="flex-1">{startupData.linkedin}</div>
+                <button
+                onClick={() => copyToClipboard(startupData.linkedin)}
+                title="Copy phoneNumber"  // Providing a title for accessibility and usability
+                >
                 <img
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/0224ac84b32ad76b568287a3ea7b9360aa3be50f2415ddeaa0468b0b120b93b0?"
                   className="shrink-0 w-6 aspect-square"
                 />
+                </button>
               </div>
               <div className="flex gap-2.5 justify-center px-16 py-3 mt-6 text-l font-semibold tracking-widest text-black whitespace-nowrap rounded-lg bg-stone-100 max-md:px-5">
                 <img
