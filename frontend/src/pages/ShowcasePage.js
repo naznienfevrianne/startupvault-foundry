@@ -322,7 +322,7 @@ const Showcase = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8000/auth/getStatus/' + id, {
+        const response = await fetch(`https://startupvault-foundry.vercel.app/auth/getStatus/${id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
