@@ -12,6 +12,7 @@ function CreatedShowcase(props) {
     const [sort, setSort] = useState("-date");
     const [searchTerm, setSearchTerm] = useState("");
 		const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+		const [typedValue, setTypedValue] = useState("")
 
 		const myCookies = new Cookies();
     const idPartner = myCookies.get('id')
@@ -48,12 +49,31 @@ function CreatedShowcase(props) {
           const post = await response.json();
           setListPost(post);
   
+		  		console.log("ini", searchTerm)
           console.log(post)
 
         } catch (error) {
           console.error("Error:", error);
         }
       };
+
+		const handleChange = (e) => {
+			const inputValue = e.target.value;
+			setTypedValue(inputValue)
+			if (inputValue === '') {
+				setSearchTerm("", () => {
+					fetchData();
+				});
+			}
+		};
+
+	  const handleKeyDown = (e) => {
+			if (e.key === 'Enter') {
+				setSearchTerm(typedValue, () => {
+					fetchData();
+				});
+			}
+	  };
 		
 		const handleSortChange = (event) => {
 			setSort(event.target.value);
@@ -77,7 +97,7 @@ function CreatedShowcase(props) {
 
 		const Content = ({ content }) => {
 			return (
-				<article className="self-stretch mt-4 text-base tracking-normal text-stone-100 max-md:max-w-full">
+				<article className="self-stretch mt-4 text-base tracking-normal text-stone-100 max-md:max-w-full whitespace-pre-line break-words">
 					{content}
 				</article>
 			);
@@ -168,13 +188,9 @@ function CreatedShowcase(props) {
 								<input type="text"
 								  className="w-2px text-md bg-transparent appearance-none text-white border-gray-600 focus:outline-none focus:ring-0"
 								  placeholder="Search Post"
-								  value={searchTerm}
-								  onChange={(e) => {
-									setSearchTerm(e.target.value,
-									  () => {
-										fetchData();
-									  });
-								  }}>
+								  value={typedValue}
+								  onChange={handleChange}
+								  onKeyDown={handleKeyDown}>
 								</input>
 							  </>
 							</div>

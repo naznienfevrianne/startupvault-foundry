@@ -238,7 +238,7 @@ const StartupList = () => {
           </div> */}
           <div className="justify-center self-end">
           <button
-            className="flex justify-center items-center px-5 py-3 mt-4 text-xl font-semibold tracking-widest text-black whitespace-nowrap rounded-lg text-stone-100"
+            className="flex justify-center items-center px-5 py-3 mt-4 text-xl font-semibold tracking-widest whitespace-nowrap rounded-lg text-stone-100"
           >
             <Link to={`/startupDetails/${startup.id}`} className="flex items-center">
               <span class="no-underline hover:underline">Detail</span>

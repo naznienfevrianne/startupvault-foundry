@@ -118,13 +118,13 @@ const StartupDetails = () => {
             <div className="mt-3 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
             Sector
             </div>
-            <div className="flex gap-2.5 py-3 pr-20 mt-3 text-base font-semibold tracking-normal rounded-md text-stone-100 max-md:flex-wrap max-md:pr-5">
-{sectorsArray.map((sector, index) => (
-<div key={index} className="justify-center px-3 py-1.5 rounded-2xl border border-green-400 border-solid">
-{sector.trim()} {/* Trim to remove any leading or trailing whitespace */}
-</div>
-))}
-</div>
+            <div className="flex gap-4 py-3 pr-20 mt-3 text-base font-semibold tracking-normal rounded-md text-stone-100 max-md:flex-wrap max-md:pr-5">
+        {sectorsArray.map((sector, index) => (
+        <div key={index} className="justify-center px-3 py-1.5 rounded-2xl border border-green-400 border-solid">
+        {sector.trim()} {/* Trim to remove any leading or trailing whitespace */}
+        </div>
+        ))}
+        </div>
 
             <div className="mt-3 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
             Describe your startup in less than 50 words

@@ -7,13 +7,13 @@ import { createClient } from "@supabase/supabase-js";
 import SideBar from "../component/SideFounder";
 
 const StartupEditDetails = () => {
-   
+
     const [startupDetails, setStartupDetails] = useState({
         typ: "",
         image: "",
         name: "",
         location: "",
-        sector: "",
+        sector: [],
         desc: "",
         pitchdeck: "",
         revenue: 0,
@@ -22,17 +22,18 @@ const StartupEditDetails = () => {
         linkedin: ""
 
     });
-    const storedStartupLogo = localStorage.getItem("startupLogo") | "";
-    const [startupLogo, setStartupLogo]= useState(storedStartupLogo);
-    const storedPitchdeck = ""
-    const [pitchdeck, setPitchdeck] = useState(storedPitchdeck) || "";
-    const storedPitchdeckFile = ""
-    const [pitchdeckFile, setPitchdeckFile] = useState(storedPitchdeckFile);
+
+    const storedLogo = localStorage.getItem("image") || '';
+    const storedPitchDeck = localStorage.getItem("pitchdeck") || '';
+
+    const [startupLogo, setStartupLogo] = useState("storedLogo") ;
+    const [pitchdeck, setPitchdeck] = useState("storedPitchDeck") ;
+    const [pitchdeckFile, setPitchdeckFile] = useState("") ;
+
     const [wordCount, setWordCount] = useState(0);
     const [previousSector, setPreviousSector] = useState("");
-    const storedSector = [];
     const [sector, setSector] = useState([]);
-    let descValid = true;
+
     const navigate = useNavigate();
     const supabaseUrl= "https://yitzsihwzshujgebmdrg.supabase.co";
     const supabaseKey= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpdHpzaWh3enNodWpnZWJtZHJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc1MzQyMjYsImV4cCI6MjAyMzExMDIyNn0.vDEP-XQL4BKAww7l_QW1vsQ4dZCM5GknBPACrgPXfKA"
@@ -50,6 +51,38 @@ const StartupEditDetails = () => {
       const storedValue = startupDetails.name;
       const valueWithoutSpaces = storedValue.replace(/\s/g, '');
       const fileName = valueWithoutSpaces + "/" + generateRandomString(25);
+
+      useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`,{
+                method: "GET", 
+                headers:{
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+                }
+                }
+                );
+                if (!response.ok) {
+                    throw new Error("Failed to fetch data");
+                }
+                const entry = await response.json();
+                setStartupDetails(entry);
+                setPreviousSector(entry.sector);
+                setPitchdeckFile(entry.pitchdeck);
+                setStartupLogo(entry.image);
+
+                const sectors = entry.sector ? entry.sector.split(',').map(item => item.trim()) : [];
+                setSector(sectors);
+
+
+            } catch (error) {
+                console.log("Error:", error);
+            }
+        };
+    
+        fetchData();
+    }, []);
     
       
 
@@ -64,12 +97,15 @@ const StartupEditDetails = () => {
     const myCookies = new Cookies();
     const idStartup = myCookies.get('startup');
     const token = myCookies.get('token');
+    console.log(myCookies);
 
     if(idStartup){
     console.log(myCookies.get('startup'))
     }else{
     console.log("cookies does not exist.")
     }
+
+    
 
     const handleStartupLogoChange = async (e) => {
         
@@ -117,11 +153,15 @@ const StartupEditDetails = () => {
           });
       };
 
+    const [fileButton, setFileButton] = useState(false);
+
     const handlePitchdeckChange = async (e) => {
         let file = e.target.files[0];
         const pdfUrl = URL.createObjectURL(file)
         setPitchdeck(pdfUrl);
         setPitchdeckFile(file);
+        setFileButton(true);
+        
         try {
             localStorage.setItem("pitchdeckFile", file);
             localStorage.setItem("pitchdeck", pdfUrl);
@@ -150,8 +190,8 @@ const StartupEditDetails = () => {
               .upload(fileName, blob);
       
             if (error) {
-              console.error('Error uploading profilePicture:', error.message);
-              throw error; // Throw the error to propagate it
+              console.error('Error uploading pitchdeck:', error.message);
+              throw error; 
             } else {
               console.log('File pitchdeck uploaded successfully:', fileName);
               return supabaseUrl + "/storage/v1/object/public/pitchdeck/" + fileName;
@@ -159,18 +199,16 @@ const StartupEditDetails = () => {
           })
           .catch(error => {
             console.error('File pitchdeck fetching pitchdeck from localhost:', error);
-            throw error; // Throw the error to propagate it
+            throw error; 
           });
       };
     
     const deletePitchdeck = () => {
-    setPitchdeck(null);
+      setFileButton(false);
+      setPitchdeck(null);
     };
 
-    function handlePrevious () {
-        navigate("/startupType")
-    }
-
+    const [descValid, setDescValid] = useState(true);
     const handleDescriptionChange = (e) => {
         const newDescription = e.target.value;
       
@@ -179,144 +217,67 @@ const StartupEditDetails = () => {
         setWordCount(wordCount);
 
         if (!startupDetails.desc) {
-            descValid = false;
+          setDescValid(false);
             setErrorMessage("Please input startup's description")
         } else if (wordCount < 4 || wordCount > 50) {
-            descValid = false;
+          setDescValid(false);
           setErrorMessage('Please input a startup description between 4 and 50 words.');
-        }
-
-        setStartupDetails({
+        }else{
+          setDescValid(true);
+          setStartupDetails({
             ...startupDetails,
             desc: newDescription,
         });
+        }  
         
       };
 
-    const handleSubmit = async () => {
-    //   let startupLogoValid = true
-    //   let startupNameValid = true
-    //   let locationValid = true
-    //   let sectorValid = true
-    //   let descValid = true
-    //   let pitchDeckValid = true
-    //   let revenueValid = true
-    //   let supportValid = true
-    //   let websiteValid = true
-    //   let startupLinkedinValid = true
+    const [isWebsiteValid, setIsWebsiteValid] = useState(true);
 
-    //   if (!startupDetails.linkedin || startupDetails.linkedin < 1) {
-    //     startupLinkedinValid = false
-    //     setErrorMessage("Please input valid startup's linkedin link")
-    //   }
-
-    //   if (!startupDetails.website || startupDetails.website < 4 || !startupDetails.website.includes(".")) {
-    //     websiteValid = false
-    //     setErrorMessage("Please input valid startup's website")
-    //   }
-
-    //   if (!startupDetails.support || startupDetails.support < 4 ) {
-    //     supportValid = false
-    //     setErrorMessage("Please input startup's support needs")
-    //   }
-
-    //   if (!startupDetails.revenue) {
-    //     revenueValid = false
-    //     setErrorMessage("Please pick startup's revenue")
-    //   }
-
-    //   if (!startupDetails.pitchdeck) {
-    //     pitchDeckValid = false
-    //     setErrorMessage("Please upload startup's pitchdeck")
-    //   }
-
-    //   if (!startupDetails.sector) {
-    //     sectorValid = false
-    //     setErrorMessage("Please pick startup's sector")
-    //   }
-    //   if (!startupDetails.location) {
-    //     locationValid = false
-    //     setErrorMessage("Please input startup's location")
-    //   } 
-
-    //   if (!startupDetails.startupName) {
-    //     startupNameValid = false
-    //     setErrorMessage("Please input startup's name")
-    //   }
-
-    //   if (!startupDetails.startupLogo) {
-    //     startupLogoValid = false
-    //     setErrorMessage("Please upload startup's logo")
-    //   }
-
-    //   console.log(startupLogoValid);
-    //   console.log(startupNameValid);
-    //   console.log(locationValid);
-    //   console.log(sectorValid);
-    //   console.log(descValid);
-    //   console.log(pitchDeckValid);
-    //   console.log(revenueValid);
-    //   console.log(supportValid);
-    //   console.log(websiteValid);
-    //   console.log(startupLinkedinValid);
-
-    //   if(!startupLogoValid){
-    //     startupLogoValid = true
-        
-    //   }
-
-    //   if (!startupLogoValid || !startupNameValid || !locationValid || !sectorValid
-    //     || !descValid || !pitchDeckValid || !revenueValid || !supportValid
-    //     || !websiteValid || !startupLinkedinValid){
-    //     startupLogoValid = true
-    //     startupName = startupDetails.name;
-    //     startupNameValid = true
-    //     startupLogo = startupDetails.image;
-    //     locationValid = true
-    //     location = startupDetails.location;
-    //     sectorValid = true
-    //     descValid = true
-    //     pitchDeckValid = true
-    //     revenueValid = true
-    //     supportValid = true
-    //     websiteValid = true
-    //     startupLinkedinValid = true
-    
-    //   }
-
-    //   console.log(startupLogoValid);
-    //   console.log(startupNameValid);
-    //   console.log(locationValid);
-    //   console.log(sectorValid);
-    //   console.log(descValid);
-    //   console.log(pitchDeckValid);
-    //   console.log(revenueValid);
-    //   console.log(supportValid);
-    //   console.log(websiteValid);
-    //   console.log(startupLinkedinValid);
-
-
-    //   if ( startupLogoValid && startupNameValid && locationValid && sectorValid && descValid && pitchDeckValid 
-    //     && revenueValid && supportValid && websiteValid && startupLinkedinValid) {
-
-          try {
-            // const storedValue = localStorage.getItem("name");
-
-            // // Remove all spaces from the stored value
-            // const valueWithoutSpaces = storedValue.replace(/\s/g, '');
-
-            // const fileName = valueWithoutSpaces + "/" + generateRandomString(25)
+    const handleWebsiteChange = (e) => {
+      const url = e.target.value;
+      setStartupDetails({ ...startupDetails, website: url });
+      validateWebsite(url);
+    };
   
+    const validateWebsite = (url) => {
+      const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name and extension
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+      setIsWebsiteValid(!!pattern.test(url));
+    };
+
+    const [isLinkedinValid, setIsLinkedinValid] = useState(true);
+
+      const validateLinkedIn = (url) => {
+        const pattern = /^https?:\/\/(www\.)?linkedin\.co/;
+        return pattern.test(url);
+    };
+  
+      const handleLinkedinChange = (e) => {
+        const { value } = e.target;
+        const isValidLinkedIn = validateLinkedIn(value);
+        setIsLinkedinValid(isValidLinkedIn); // Update validity state based on the URL check
+        setStartupDetails({ ...startupDetails, linkedin: value });
+      };
+
+    const handleUpdate = async () => {
+    
+          try {
+           
             console.log( JSON.stringify(startupDetails))
           
-          const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`, {
-            method: "PUT",
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(startupDetails),
-            });
+            const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`, {
+              method: "PUT",
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify(startupDetails),
+          });
             if (!response.ok) {
                 console.log("data not updated");
                 throw new Error("Failed to update data");
@@ -351,20 +312,23 @@ const StartupEditDetails = () => {
   };
   
 
-    const StartupSectorSelector = (option) => {
-        if (sector.includes(option)) {
-            setSector(sector.filter(item => item !== option));
-        } else {
-            setSector([...sector, option]);
-        }
+  const StartupSectorSelector = (option) => {
+    setSector(prevSectors => {
+        // This ensures we have the most recent state
+        const updatedSectors = prevSectors.includes(option)
+            ? prevSectors.filter(item => item !== option)
+            : [...prevSectors, option];
 
-        console.log(sector);
-        setStartupDetails({
-            ...startupDetails,
-            sector: sector, // Update the image property with the new value
-          });
+        // Asynchronously update startupDetails after updating sectors
+        setStartupDetails(prevDetails => ({
+            ...prevDetails,
+            sector: updatedSectors.join(', '), // Assuming backend expects a comma-separated string
+        }));
 
-    };
+        return updatedSectors; // Return the updated sectors
+    });
+};
+
     const TypeRadioSelector = (option) => {
         console.log('Selected:', option);
         setStartupDetails({
@@ -381,42 +345,32 @@ const StartupEditDetails = () => {
         });
 
     };
-    
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`,{
-                method: "GET", 
-                headers:{
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${token}`
-                }
-                }
-                );
-                if (!response.ok) {
-                    throw new Error("Failed to fetch data");
-                }
-                const entry = await response.json();
-                setStartupDetails(entry);
-                setPreviousSector(entry.sector);
-                // setStartupName(startupDetails.name);
-                // setStartupLogo(startupDetails.image);
-                // setLocation(startupDetails.location);
-                // setType(startupDetails.typ);
-                // setDescription(startupDetails.desc);
-                // setRevenue(startupDetails.revenue);
 
-                // console.log("revenue ", revenue);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const UpdateConfirmationModal = ({ onClose, onUpdate }) => {
+    return (
+      <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
+        <div className="bg-gray-800 p-8 rounded-lg">
+          <p className="text-white mb-4">Are you sure you want to update these details?</p>
+          <div className="flex justify-end">
+            <button className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50" onClick={onClose}>No</button>
+            <button className="bg-green-500 text-white py-2 px-4 mr-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50" onClick={onUpdate}>Yes</button>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setShowConfirmationModal(true); // Show confirmation modal
+  };
+  
+  const handleUpdateConfirmation = async () => {
+    setShowConfirmationModal(false); // Close the modal after confirming
+    await handleUpdate(); // Proceed with the update
+  };
 
-
-            } catch (error) {
-                console.log("Error:", error);
-            }
-        };
-    
-        fetchData();
-    }, []);
     
     
     return (
@@ -443,7 +397,7 @@ const StartupEditDetails = () => {
                 <div className="flex gap-4 self-start mt-5">
                     { startupDetails.image? (
                     <div className="flex flex-col justify-center items-start px-8 py-8 mt-3.5 max-w-full rounded-xl w-[146px] h-[146px] max-md:px-5 bg-green-700"
-                    style={{ backgroundImage: `url(${startupDetails.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                    style={{ backgroundImage: `url(${ startupDetails.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
                     >
                       </div>
                     ) : (
@@ -491,7 +445,7 @@ const StartupEditDetails = () => {
                             }`}
                             >
                             <div
-                                className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+                                className={`w-3.5 rounded-full h-3.5 border-solid border-[1px] ${
                                 startupDetails.typ === 'idea' ? 'bg-green-400 border-green-400' : ''
                                 }`}
                             ></div>
@@ -515,7 +469,7 @@ const StartupEditDetails = () => {
                             }`}
                             >
                             <div
-                                className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+                                className={`w-3.5 rounded-full h-3.5 border-solid border-[1px] ${
                                 startupDetails.typ === 'seed' ? 'bg-green-400 border-green-400' : ''
                                 }`}
                             ></div>
@@ -539,7 +493,7 @@ const StartupEditDetails = () => {
                             }`}
                             >
                             <div
-                                className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+                                className={`w-3.5 rounded-full h-3.5 border-solid border-[1px] ${
                                 startupDetails.typ === 'growth' ? 'bg-green-400 border-green-400' : ''
                                 }`}
                             ></div>
@@ -571,35 +525,23 @@ const StartupEditDetails = () => {
             <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Sector</div>
             <div className="mt-1 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
                 <div className="grid grid-cols-3 gap-5 max-md:grid-cols-1">
-                    {options.map((column, colIndex) => (
-                        <div key={colIndex}>
-                            {column.map((option, index) => (
-                                <div key={index} className="flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        id={`option-${colIndex}-${index}`}
-                                        value={option}
-                                        checked={sector.includes(option)}
-                                        onChange={() => StartupSectorSelector(option)}
-                                    />
-                                    <label
-                                        htmlFor={`option-${colIndex}-${index}`}
-                                        className={`ml-2 ${sector.includes(option) ? 'text-green-400' : 'text-white'}`}
-                                    >
-                                        {option}
-                                    </label>
-                                    {sector.includes(option) && (
-                                        <img
-                                            loading="lazy"
-                                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/566dfb038bcdfb819f51aab03f573a170251e627f2279d5e2009b411c76e3919?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-                                            className="shrink-0 my-auto w-3.5 aspect-square ml-2"
-                                            alt="Green Indicator"
-                                        />
-                                    )}
-                                </div>
-                            ))}
-                        </div>
+                {options.map((column, colIndex) => (
+                <div key={colIndex}>
+                    {column.map((option, index) => (
+                    <div key={index} className="flex items-center">
+                        <input
+                        type="checkbox"
+                        id={`option-${colIndex}-${index}`}
+                        value={option}
+                        checked={sector.includes(option)}
+                        onChange={() => StartupSectorSelector(option)}
+                        />
+                        <label htmlFor={`option-${colIndex}-${index}`} className={`ml-2 ${sector.includes(option) ? 'text-green-400' : 'text-white'}`}>{option}</label>
+                    </div>
                     ))}
+                </div>
+                ))}
+
                 </div>
             </div>
             <div className="mt-5 text-xs font-medium tracking-wide text-green-400">
@@ -639,8 +581,7 @@ const StartupEditDetails = () => {
                   <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">
                     Upload Here For Updated Startup Pitchdeck 
                 </div>
-                {!pitchdeck ? (
-                    <div className="flex gap-2.5 self-start px-3 py-3 mt-2 text-m font-semibold tracking-widest text-black rounded bg-stone-100 hover:border-green-600 border-solid cursor-pointer">
+                <div className="flex gap-2.5 self-start px-3 py-3 mt-2 text-m font-semibold tracking-widest text-black rounded bg-stone-100 hover:border-green-600 border-solid cursor-pointer">
                     <img
                         loading="lazy"
                         src="https://cdn.builder.io/api/v1/image/assets/TEMP/af8cf579d55d28b96355c0f20f34b97d03d322289eb0ffacc1358c9ce119e9dc?apiKey=b1a4c3002d354a0a9e5d1136f5930ee4&"
@@ -657,23 +598,26 @@ const StartupEditDetails = () => {
                         />
                     </div>
                     </div>
-                ) : (
-                    <div className="flex gap-2.5 self-start px-3 py-3 mt-3 text-base font-medium tracking-wide whitespace-nowrap rounded-lg border border-solid bg-green-400 bg-opacity-20 border-[color:var(--brand,#64EB8B)] text-stone-100">
-                    <img
-                        loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/2eb1a4a819d2a070f192a5e0474b58e7bd87cd1a993b40548d71a50a0cfc81e1?apiKey=b1a4c3002d354a0a9e5d1136f5930ee4&"
-                        className="w-6 aspect-square"
-                    />
-                    <div className="flex-auto self-start mt-1">
-                        {pitchdeckFile.name}
-                    </div>
-                    <img
-                        onClick={deletePitchdeck}
-                        loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/5a56fd396fdab4213e78daed12611689f2e3db816efc9c0281e2b8b0ba63f5b4?apiKey=b1a4c3002d354a0a9e5d1136f5930ee4&"
-                        className="w-6 aspect-square cursor-pointer"
-                    />
-                    </div>
+                {fileButton ? (
+                  <div className="flex gap-2.5 self-start px-3 py-3 mt-3 text-base font-medium tracking-wide whitespace-nowrap rounded-lg border border-green-400 border-solid bg-green-400 bg-opacity-20 text-stone-100 max-md:px-5">
+                    <a href={startupDetails.pitchdeck} className="flex items-center gap-2">
+                        <img
+                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/cc2edde9f8ae8f079b56f3bbd090661b2694c068012ac8b9ab8b9a0a34ddb1d8?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
+                            alt="Download Pitch Deck"
+                            className="w-6 h-6" // Ensure width and height are set correctly
+                        />
+                        <span className="text-base font-medium tracking-wide">{pitchdeckFile.name}</span>
+                    </a>
+                    <button onClick={deletePitchdeck} className="ml-auto">
+                        <img
+                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/5a56fd396fdab4213e78daed12611689f2e3db816efc9c0281e2b8b0ba63f5b4?apiKey=b1a4c3002d354a0a9e5d1136f5930ee4&"
+                            alt="Delete Pitch Deck"
+                            className="w-6 h-6 cursor-pointer"
+                        />
+                    </button>
+                </div>
+                ):(
+                  <div></div>
                 )}
                 
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">
@@ -697,7 +641,7 @@ const StartupEditDetails = () => {
                             }`}
                             >
                             <div
-                            className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+                            className={`w-3.5 rounded-full h-3.5 border-solid border-[1px] ${
                                 startupDetails.revenue === 0 ? 'bg-green-400 border-green-400' : ''
                             }`}
                             ></div>                <div>USD 0-50K</div>
@@ -720,7 +664,7 @@ const StartupEditDetails = () => {
                             }`}
                             >
                             <div
-                            className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+                            className={`w-3.5 rounded-full h-3.5  border-solid border-[1px] ${
                                 startupDetails.revenue === 1 ? 'bg-green-400 border-green-400' : ''
                             }`}
                             ></div>              
@@ -744,7 +688,7 @@ const StartupEditDetails = () => {
                             }`}
                             >
                             <div
-                            className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+                            className={`w-3.5 rounded-full h-3.5  border-solid border-[1px] ${
                                 startupDetails.revenue === 2 ? 'bg-green-400 border-green-400' : ''
                             }`}
                             ></div>                <div>USD 11-50K</div>
@@ -770,7 +714,7 @@ const StartupEditDetails = () => {
                             }`}
                             >
                 <div
-                            className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+                            className={`w-3.5 rounded-full h-3.5  border-solid border-[1px] ${
                                 startupDetails.revenue === 3 ? 'bg-green-400 border-green-400' : ''
                             }`}
                             ></div>                <div>USD 51-100K</div>
@@ -793,7 +737,7 @@ const StartupEditDetails = () => {
                             }`}
                             >
                 <div
-                            className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+                            className={`w-3.5 rounded-full h-3.5 border-solid border-[1px] ${
                                 startupDetails.revenue === 4 ? 'bg-green-400 border-green-400' : ''
                             }`}
                             ></div>                
@@ -817,7 +761,7 @@ const StartupEditDetails = () => {
                             }`}
                             >
                 <div
-                            className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+                            className={`w-3.5 rounded-full h-3.5 border-solid border-[1px] ${
                                 startupDetails.revenue === 5 ? 'bg-green-400 border-green-400' : ''
                             }`}
                             ></div>                <div>USD 501+K</div>
@@ -840,25 +784,35 @@ const StartupEditDetails = () => {
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">
                     Startup Website
                 </div>
-                  <input
-                    type="text"
-                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
-                    placeholder=" "
-                    value={startupDetails.website}
-                    onChange={(e) => setStartupDetails({ ...startupDetails, website: e.target.value })}
-                    required
-                  />
+                <input
+                  type="text"
+                  className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
+                  placeholder="Enter website URL"
+                  value={startupDetails.website}
+                  onChange={handleWebsiteChange}
+                  required
+                />
+                {!isWebsiteValid && (
+                  <div className="text-red-500 text-xs mt-1">
+                    Please enter a valid website URL.
+                  </div>
+                )}
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">
                     Startup LinkedIn
                 </div>
-                  <input
-                    type="text"
-                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
-                    placeholder="linkedin.com/in/"
-                    value={startupDetails.linkedin}
-                    onChange={(e) => setStartupDetails({ ...startupDetails, linkedin: e.target.value })}
-                    required
-                  />linkedin.com/in/
+                <input
+                  type="text"
+                  className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
+                  placeholder=" "
+                  value={startupDetails.linkedin}
+                  onChange={handleLinkedinChange}
+                  required
+                />
+                {!isLinkedinValid && (
+                      <div className="text-red-500 text-xs mt-1">
+                          Please enter a valid LinkedIn URL.
+                      </div>
+                  )}
                 <div className="flex gap-2 mt-5 pr-20 text-xl font-semibold tracking-widest">
                   <a type="button" href="/startupReadForm" className="px-4 py-2 rounded-2xl border border-solid border-stone-100 text-stone-100">cancel</a>
                   <button className="px-5 py-2 text-black bg-green-400 rounded-2xl" type="submit">save</button>
@@ -867,7 +821,14 @@ const StartupEditDetails = () => {
               </form>
             </div>
             </div>
+            {showConfirmationModal && (
+              <UpdateConfirmationModal
+                onClose={() => setShowConfirmationModal(false)}
+                onUpdate={handleUpdateConfirmation}
+              />
+            )}
             </div>
+            
         
       );
   

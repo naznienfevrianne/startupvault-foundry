@@ -480,7 +480,7 @@ function InvestorForm(props) {
             <div 
             onClick = {handlePrevious}
             type="button"
-            className="flex gap-2.5 justify-between px-3 py-2 rounded-3xl border-solid border-[1.048px] border-[color:var(--secondary-button-outline,#F3F1ED)] text-stone-100 hover:border-green-600 border-solid cursor-pointer">
+            className="flex gap-2.5 justify-between px-3 py-2 rounded-3xl border-[1.048px] border-[color:var(--secondary-button-outline,#F3F1ED)] text-stone-100 hover:border-green-600 border-solid cursor-pointer">
               <img
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/1490109502cde58f41daf764ada1e96816a28eb0bdf60fae2f6faa1f38c7c09d?apiKey=b1a4c3002d354a0a9e5d1136f5930ee4&"
