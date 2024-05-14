@@ -167,14 +167,6 @@ function SideBarContact() {
   
     return (
     <div className="flex flex-col items-start py-6 pr-20 pl-3 max-md:pr-5 max-md:max-w-full">
-      <div className="flex gap-3 p-4 text-base tracking-normal bg-neutral-800 w-[360px] rounded-[30px] text-stone-300">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/6cb446593643fc5888a09f9076f1b9a6893981e0397365468e85765b7a309812?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-          className="shrink-0 w-5 aspect-square"
-        />
-        <div>Search in Startup Details</div>
-      </div>
       <div className="flex flex-col p-7 mt-6 max-w-full rounded-lg bg-neutral-800 w-[360px] max-md:px-5">
       <div className="flex gap-1 pr-8 text-2xl font-medium tracking-wide whitespace-nowrap text-stone-100 max-md:pr-5">
       <div style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{startup.name}</div>
@@ -201,7 +193,7 @@ function SideBarContact() {
       {role === 'investor' && (
             <button
               className={`justify-center items-center px-5 py-3 mt-4 text-xl font-semibold tracking-widest text-black whitespace-nowrap rounded-3xl ${
-                isFollowing ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-400'
+                isFollowing ? 'bg-gray-400' : 'bg-green-400'
               }`}
               onClick={toggleFollow}
             >

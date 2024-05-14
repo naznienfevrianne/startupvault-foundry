@@ -68,7 +68,6 @@ class ToggleLikeView(generics.GenericAPIView):
         else:
             return Response({'message': 'Action failed'}, status=status.HTTP_400_BAD_REQUEST)
 
-# Read & Create Diary Entry by Founder
 class ShowcasePartnerList(generics.ListAPIView):
     permission_classes = [AllowAny]
     serializer_class = ShowcasePostSerializer
