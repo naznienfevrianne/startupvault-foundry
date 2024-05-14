@@ -330,7 +330,7 @@ function FounderDashboard(props) {
           <div className="flex flex-col ml-8 w-[26%] max-md:ml-0 max-md:w-full">
             <div className="flex flex-col p-6 mx-auto mt-6 w-full rounded-lg bg-neutral-800 max-md:px-5 max-md:mt-10">
               <div className="flex gap-5 justify-between w-full break-words">
-                <div className="flex-auto text-l font-medium tracking-wide text-white">
+                <div className="flex-auto text-xl font-medium tracking-wide text-white">
                   My Startup
                 </div>
                 <div className="flex gap-1 justify-center my-auto text-sm tracking-normal whitespace-nowrap text-neutral-400">
@@ -351,7 +351,7 @@ function FounderDashboard(props) {
                     className="flex flex-col justify-center items-start mt-3.5 max-w-full rounded-xl w-[120px] h-[120px] max-md:px-5 bg-green-700"
                   />
                 </div>
-                <div className="flex gap-5 justify-between mt-6 mr-3">
+                <div className="flex gap-5 justify-between mt-4 mr-3">
                 <div className="flex gap-2 self-start pr-2 text-2xl font-semibold tracking-wider leading-10 text-white">
                   <div className="grow" style={{
                     overflow: 'hidden',
