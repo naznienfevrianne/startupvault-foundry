@@ -357,7 +357,7 @@ function FounderDashboard(props) {
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',  // Ensures the text stays in a single line
-                    maxWidth: '50%',      // Use maxWidth to allow the container to grow and shrink dynamically
+                    maxWidth: '80%',      // Use maxWidth to allow the container to grow and shrink dynamically
                   }}>
                     {startupData.name}
                   </div>

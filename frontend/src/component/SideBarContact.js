@@ -178,13 +178,19 @@ function SideBarContact() {
         />
       </div>
       <div className="flex gap-4 mt-4">
-        <div className="flex justify-center items-center px-3 py-2.5 rounded bg-green-400 bg-opacity-20 h-[80px] w-[80px]">
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/2bde4078a7f9fc47f5c92b5909bd96e41ab90205c57e74fd88b896198d3dbc60?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-            className="aspect-square w-[30px]"
-          />
-        </div>
+      { startup.image? (
+          <div className="flex justify-center items-center px-4 py-3.5 rounded-md bg-green-400 bg-opacity-20 h-[100px] w-[100px]"
+          style={{ backgroundImage: `url(${startup.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                > </div>
+            ) : (
+           <div className="flex justify-center items-center px-4 py-3.5 rounded-md bg-green-400 bg-opacity-20 h-[100px] w-[100px]">
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/c45bf6f65da39b40642cc8b73f9a711819285d90069cb6e6376798d651b38272?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
+              className="aspect-square w-[39px]"
+            />
+          </div>
+          )}
         <div className="my-auto text-base font-medium tracking-wide text-ellipsis text-neutral-400">
           <span className="text-2xl leading-7 text-stone-100">{totalFollowers}</span>{" "}
           followers
