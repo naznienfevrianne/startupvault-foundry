@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import{ Cookies } from 'react-cookie';
-import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 function Top10Startup() {
@@ -14,8 +13,7 @@ function Top10Startup() {
   
     const fetchTop10Data = async () => {
       try {
-          // const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/top10`,{
-          const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/top10`, {
+          const response = await fetch(`http://localhost:8000/auth/startup/top10`, {
               method: "GET", 
               headers:{
                   'Content-Type': 'application/json',
@@ -36,7 +34,7 @@ function Top10Startup() {
     return (
       <div className={`flex flex-col p-6 mt-6 max-w-full rounded-lg bg-neutral-800 ${topEntry.length === 0 ? "h-[840px] w-[350px]" : "h-fit w-fit"}`}>
         <div className="text-xl font-medium tracking-wide text-white whitespace-nowrap">
-          Top 10 Startups of The Week
+          Top 10 Startups of the Week
         </div>
         {topEntry.map((item, index) => (
             <div className="flex gap-6 items-center mt-6 pr-1" key={index}>
@@ -50,9 +48,9 @@ function Top10Startup() {
                 />
                 <div className="flex flex-col flex-1 self-stretch my-auto text-base">
                     <div className="flex gap-1 font-medium tracking-wide text-stone-100" >
-                        <div style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis'}}>
+                        <div>
                           <Link to={`/startupDetails/${item.id}`}>
-                              <div>{item.name}</div>
+                              <div style={{ maxWidth: '140px', overflow: 'hidden', textOverflow: 'ellipsis'}}>{item.name}</div>
                           </Link>
                         </div>
                         <img
