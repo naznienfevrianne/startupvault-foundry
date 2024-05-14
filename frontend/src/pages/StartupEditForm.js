@@ -382,7 +382,7 @@ const StartupEditDetails = () => {
               <form onSubmit={handleSubmit}>
               <div className="flex flex-col grow pt-6 pr-28 pl-5 max-md:max-w-full">
                 <div className="flex flex-wrap gap-5 justify-between content-center pr-20 w-full text-stone-100 max-md:pr-5 max-md:max-w-full">
-                    <div className="text-5xl font-semibold tracking-wider leading-[54px] max-md:text-4xl">
+                    <div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">
                     Startup Details
                     </div>
                     <div className="flex gap-1.5 justify-center px-5 py-1.5 my-auto text-xl tracking-wide rounded-xl border border-solid shadow-sm bg-neutral-400 bg-opacity-40 border-neutral-400 max-md:pr-5">

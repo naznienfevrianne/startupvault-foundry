@@ -206,7 +206,7 @@ function FounderDiary(props) {
             <div className="flex flex-col w-[55%] max-md:ml-0 max-md:w-full">
               <div className="flex flex-col grow justify-center pt-6 max-md:max-w-full">
                 <div className="flex gap-5 justify-between max-md:flex-wrap max-md:max-w-full">
-                  <div className="flex-auto text-3xl font-semibold tracking-wide text-stone-100">
+                  <div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">
                     Weekly Updates
                   </div>
                 </div>

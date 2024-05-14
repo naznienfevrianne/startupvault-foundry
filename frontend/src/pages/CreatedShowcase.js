@@ -113,14 +113,14 @@ function CreatedShowcase(props) {
 			  <NavBar status={"dashboard"} />
 			  <div className="pb-20 w-full max-md:pr-5 max-md:max-w-full flex gap-8 max-md:flex-col max-md:gap-0">
 				<div className="flex flex-col w-[70%] max-md:ml-0 max-md:w-full pl-0">
-				  <div className="flex gap-9 max-md:flex-col max-md:gap-0">
+				  <div className="flex gap-8 max-md:flex-col max-md:gap-0">
 					{/* side bar */}
 					<SideBar status={"post"} />
 					<div className="flex flex-col w-[73%]">
 					  <div className="flex flex-col pt-6">
 						{/* title + button create showcase */}
 						<div className="justify-between inline-flex pb-3">
-						  <div className="self-start justify-start flex text-stone-100 text-2xl font-semibold tracking-tight text-wrap">My Posts</div>
+						  <div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">My Posts</div>
 						  <Link to="/">
 							<div className="flex gap-1 self-end px-2 py-2 text-md font-semibold text-black whitespace-nowrap bg-green-400 rounded-lg cursor-pointer">
 							  <img

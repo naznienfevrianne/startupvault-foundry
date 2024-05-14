@@ -214,7 +214,7 @@ function OrgPartnerEditForm(props) {
         <div className="flex flex-col mt-0 mb-8 w-full max-w-[1120px] max-md:my-10 max-md:max-w-full">
           <div className="flex gap-5 justify-between w-full max-md:flex-wrap max-md:max-w-full">
             <div className="flex flex-col max-md:max-w-full">
-              <div className="mt-0 text-3xl font-semibold tracking-wider leading-[70.8px] text-stone-100 max-md:max-w-full max-md:text-4xl">
+              <div className="mb-4 text-stone-100 text-2xl font-semibold tracking-tight text-wrap">
                Public profile
               </div>
             </div>
