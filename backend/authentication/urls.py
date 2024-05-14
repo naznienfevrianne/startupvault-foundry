@@ -13,11 +13,13 @@ from .views import (
     StartupRetrieveUpdateDestroy,
     PartnerOrganizationListCreate,
     InvestorOrganizationListCreate,
+    PartnerRetrieveUpdateDestroy,
     PartnerOrganizationRetrieveUpdateDestroy,
     InvestorOrganizationRetrieveUpdateDestroy,
+    UserRetrieveUpdateDestroy,
     login, 
     check_email,
-    test_token
+    test_token,
 )
 
 
@@ -30,6 +32,7 @@ urlpatterns = [
     path("startup/", StartupListCreate.as_view(), name="startup-list-create"),
     path('startup/<int:pk>/', StartupRetrieveUpdateDestroy.as_view(), name="startup-detail"), 
     path("partner/", PartnerListCreate.as_view(), name="partner-list-create"),
+    path("partner/<int:pk>/", PartnerRetrieveUpdateDestroy.as_view(), name="partner-detail"),
     path("partnerorg/", PartnerOrganizationListCreate.as_view(), name="partner-organization-list-create"),
     path("partnerorg/<int:pk>", PartnerOrganizationRetrieveUpdateDestroy.as_view(), name="partner-organization-detail"),
     path("investororg/", InvestorOrganizationListCreate.as_view(), name="investor-organization-list-create"),
@@ -40,5 +43,5 @@ urlpatterns = [
     path("login/",login, name="login"),
     path("checkEmail/", check_email, name="check-email"),
     path("testToken/", test_token, name="test-token"),
-
+    path('getStatus/<int:pk>', UserRetrieveUpdateDestroy.as_view(), name='get-status'),
 ]

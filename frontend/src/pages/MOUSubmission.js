@@ -132,7 +132,7 @@ function MOUSubmission(props) {
                   "logo": supabaseUrl + "/storage/v1/object/public/partnerimg/" + fileName,
                   "name": localStorage.getItem("partnerName"),
               }))
-                const response = await fetch("http://localhost:8000/auth/partnerorg/", {
+                const response = await fetch("https://startupvault-foundry.vercel.app/auth/partnerorg/", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -154,7 +154,7 @@ function MOUSubmission(props) {
                   alert("Submission successful!");
                   console.log(data);
                   const pk = data.id
-                  const responsePartner = await fetch("http://localhost:8000/auth/partner/", {
+                  const responsePartner = await fetch("https://startupvault-foundry.vercel.app/auth/partner/", {
                       method: 'POST',
                       headers: {
                           'Content-Type': 'application/json'
@@ -223,7 +223,7 @@ function MOUSubmission(props) {
                 Drag and drop document
               </div>
          <div className="mt-3 tracking-normal text-neutral-400">or</div>
-            <label htmlFor="MOU-upload" className="justify-center px-5 py-3 mt-3 text-l font-semibold tracking-widest text-green-400 rounded-3xl border border-green-400 border-solid hover:border-green-600 border-solid cursor-pointer">SELECT FILE</label>
+            <label htmlFor="MOU-upload" className="justify-center px-5 py-3 mt-3 text-l font-semibold tracking-widest text-green-400 rounded-3xl border border-green-400 border-solid hover:border-green-600 cursor-pointer">SELECT FILE</label>
             <input
               type="file"
               accept=".pdf"
@@ -260,7 +260,7 @@ function MOUSubmission(props) {
             <div 
             onClick = {handlePrevious}
             type="button"
-            className="flex flex-1 gap-2.5 justify-center px-5 py-3 rounded-3xl border border-solid border-stone-100 text-stone-100 hover:border-green-600 border-solid cursor-pointer">
+            className="flex flex-1 gap-2.5 justify-center px-5 py-3 rounded-3xl border border-solid border-stone-100 text-stone-100 hover:border-green-600 cursor-pointer">
               <img
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/89284abb4a3a9f6ed90954b4580f829c637307abcfe8f168c546f55998b55f61?apiKey=b1a4c3002d354a0a9e5d1136f5930ee4&"

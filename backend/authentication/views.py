@@ -43,7 +43,11 @@ class JWTAuthentication(permissions.BasePermission):
             try_to_decode = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
             print(try_to_decode)
                 
-            user = UserModel.objects.get(email=try_to_decode['email'])
+            try:
+                user = UserModel.objects.get(email=try_to_decode['email'])
+            except UserModel.DoesNotExist:
+                return JsonResponse({'error': 'User not found'}, status=404)
+
             print(user)
             # Here you can add logic to check if the user is authorized to access the endpoint
             # For example, you can check if the user has the necessary permissions
@@ -143,6 +147,13 @@ def check_email(request):
         else:
             return JsonResponse({"message":"Email already used"}, status=409)
         
+class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [JWTAuthentication] 
+    serializer_class = UserModelSerializer
+
+    def get_queryset(self):
+        return UserModel.objects.all()
+        
 def test_token(request):
     token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDkxNjQ2MDAsImlhdCI6MTY0OTE2MjYwMCwic3ViIjoiYXV0aGVudGljYXRlZCJ9.dT2-WIUcYEDb4nRQ4LhHoyAmLl8QdU2m0f1co-Wp8DU'
 
@@ -165,8 +176,7 @@ def test_token(request):
     return JsonResponse({"message": "pass"}, status=200)
 
 class InvestorOrganizationRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [JWTAuthentication] 
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication] 
     serializer_class = InvestorOrganizationSerializer
 
     def get_queryset(self):
@@ -187,8 +197,7 @@ class InvestorOrganizationRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAP
         return self.update(request, *args, **kwargs)
     
 class PartnerOrganizationRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [JWTAuthentication] 
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication]
     serializer_class = PartnerOrganizationSerializer
 
     def get_queryset(self):
@@ -212,8 +221,7 @@ class PartnerOrganizationRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPI
         return Response(serializer.data)
 
 class InvestorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-     # permission_classes = [JWTAuthentication] 
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication] 
     serializer_class = InvestorSerializer
 
     def get_queryset(self):
@@ -224,18 +232,30 @@ class InvestorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        partial = request.method == 'PUT'  # Check if request method is PUT
+        partial = request.method == 'PUT'  # Periksa apakah metode permintaan adalah PUT
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        # Buat payload baru dengan data investor yang diperbarui
+        payload = model_to_dict(instance)
+        payload.pop('password', None)
+        
+        # Buat token JWT baru
+        jwt_token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
+
+        # Kirim respons JSON dengan token JWT baru dan data investor yang diperbarui
+        return Response({"token": jwt_token, **payload}, status=200)
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
 
-    def partial_update(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
 class PartnerRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [JWTAuthentication] 
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication] 
     serializer_class = PartnerSerializer
 
     def get_queryset(self):
@@ -246,10 +266,20 @@ class PartnerRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data)
+        partial = request.method == 'PUT'  # Periksa apakah metode permintaan adalah PUT
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data)
+
+        # Buat payload baru dengan data investor yang diperbarui
+        payload = model_to_dict(instance)
+        payload.pop('password', None)
+        
+        # Buat token JWT baru
+        jwt_token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
+
+        # Kirim respons JSON dengan token JWT baru dan data investor yang diperbarui
+        return Response({"token": jwt_token, **payload}, status=200)
 
     def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -259,8 +289,7 @@ class PartnerRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.data)
         
 class FounderRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [JWTAuthentication] 
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication] 
     serializer_class = FounderSerializer
 
     def get_queryset(self):
@@ -271,10 +300,20 @@ class FounderRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data)
+        partial = request.method == 'PUT'  # Periksa apakah metode permintaan adalah PUT
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data)
+
+        # Buat payload baru dengan data investor yang diperbarui
+        payload = model_to_dict(instance)
+        payload.pop('password', None)
+        
+        # Buat token JWT baru
+        jwt_token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
+
+        # Kirim respons JSON dengan token JWT baru dan data investor yang diperbarui
+        return Response({"token": jwt_token, **payload}, status=200)
 
     def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -284,8 +323,7 @@ class FounderRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.data)
 
 class StartupRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [JWTAuthentication]
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication]
     serializer_class = StartupSerializer
 
     def get_queryset(self):
@@ -306,18 +344,25 @@ class StartupRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         serializer.save()
         return Response(serializer.data)
 
-class TopStartupRetriever(generics.RetrieveAPIView):
-    # permission_classes = [JWTAuthentication]
-    permission_classes = [AllowAny]
-    serializer_class = Top10StartupSerializer
+class TopStartupRetriever(generics.ListAPIView):
+    permission_classes = [JWTAuthentication]
+    serializer_class = StartupSerializer
 
     def get_queryset(self):
-        return Top10Startup.objects.all().order_by('-id')
+        startups = Top10Startup.objects.all().order_by('-id').first()
+        list_startup = []
+        for i in range(1, 11):
+            startup = getattr(startups, f"rank{i}")
+            list_startup.append(startup)
+        
+        startup_info = []
+        for startup in list_startup:
+            info = Startup.objects.filter(id=startup).first()
+            startup_info.append(info)
+        return startup_info
 
-    def get_object(self):
-        queryset = self.get_queryset()
-        return queryset.first()
+        
 
-    
+
 
 

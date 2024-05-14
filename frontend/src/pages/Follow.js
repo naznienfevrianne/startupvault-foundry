@@ -19,10 +19,18 @@ function Follow({ page }) {
   const [startupName, setStartupName] = useState("");
   const [totalFollowers, setTotalFollowers] = useState(0);
   const [isFollowing, setIsFollowing] = useState(false);
+  const token = myCookies.get('token')
+
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/auth/startup/${idStartup}/`);
+      const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`, {
+        method: "GET",
+        headers:{
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+      }
+      });
       const data = await response.json();
       console.log('Fetched data:', data);
       console.log('role cookie:', role);
@@ -30,7 +38,13 @@ function Follow({ page }) {
         setStartupName(data.name);
 
         // Fetch total followers separately
-        const followersResponse = await fetch(`http://localhost:8000/diary/total_followers/${idStartup}/`);
+        const followersResponse = await fetch(`https://startupvault-foundry.vercel.app/diary/total_followers/${idStartup}/`, {
+          method: 'GET',
+          headers:{
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+        });
         const follsData = await followersResponse.json();
         console.log('Fetched followers count:', follsData );
         if (followersResponse.ok) {
@@ -52,7 +66,13 @@ function Follow({ page }) {
 
  const fetchFollowStatus = async () => {
    try {
-     const response = await fetch(`http://localhost:8000/diary/check_follow/?startup_id=${idStartup}&investor_id=${idInvestor}`);
+     const response = await fetch(`https://startupvault-foundry.vercel.app/diary/check_follow/?startup_id=${idStartup}&investor_id=${idInvestor}`, {
+       method: 'GET',
+       headers:{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+    }
+     });
      const data = await response.json();
      console.log('Fetched isFollowing:', data);
      if (response.ok) {
@@ -68,12 +88,11 @@ function Follow({ page }) {
   const toggleFollow = async () => {
 
     try {
-      const response = await fetch('http://localhost:8000/diary/follow/', {
+      const response = await fetch('https://startupvault-foundry.vercel.app/diary/follow/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // Add your authentication token if needed
-          // 'Authorization': `Bearer ${token}`,
+           'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           startup: idStartup,

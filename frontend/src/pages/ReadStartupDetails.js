@@ -28,6 +28,7 @@ const StartupDetails = () => {
 
 
   useEffect(() => {
+    handleChartButtonClick('sales'); // Default to the Sales button being clicked
     if (activeTab == 'diary'){
        fetchWeeklyEntries(startup.founder_id);
     }
@@ -38,7 +39,7 @@ const StartupDetails = () => {
   useEffect(() => {
       const fetchStartup = async () => {
           try {
-              const response = await fetch(`http://127.0.0.1:8000/auth/startup/${idStartup}/`, {
+              const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`, {
                   method: "GET",
                   headers: {
                       'Content-Type': 'application/json',
@@ -62,7 +63,7 @@ const StartupDetails = () => {
       if (startup && startup.founder_id) {
           const fetchFounder = async () => {
               try {
-                  const response = await fetch(`http://127.0.0.1:8000/auth/founder/${startup.founder_id}/`, {
+                  const response = await fetch(`https://startupvault-foundry.vercel.app/auth/founder/${startup.founder_id}/`, {
                       method: "GET",
                       headers: {
                           'Content-Type': 'application/json',
@@ -87,7 +88,7 @@ const StartupDetails = () => {
 
   const fetchDataMetrics = async (founderId) => {
       try {
-          const response = await fetch(`http://127.0.0.1:8000/diary/${founderId}/`, {
+          const response = await fetch(`https://startupvault-foundry.vercel.app/diary/${founderId}/`, {
               method: 'GET',
               headers: {
                   'Content-Type': 'application/json',
@@ -108,7 +109,7 @@ const StartupDetails = () => {
       if (!founderId) return; // Ensure founderId is available
 
       try {
-          const response = await fetch(`http://127.0.0.1:8000/diary/diaryEntriesRead/founder/${founderId}?sort=date`, {
+          const response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntriesRead/founder/${founderId}?sort=date`, {
               method: 'GET',
               headers: {
                   'Content-Type': 'application/json',
@@ -206,7 +207,7 @@ useEffect(() => {
       
 
     try {
-      const response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}?sort=-date`, {
+      const response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}/?sort=-date`, {
         method:"GET",
         headers: {
           'Content-Type': 'application/json',
@@ -317,17 +318,21 @@ useEffect(() => {
 
     const handleTabClick = (tabName) => {
       setActiveTab(tabName);
+      if (tabName === "metrics"){
+        setSelectedChart("sales");
+        handleChartButtonClick('sales'); // Default to the Sales button being clicked
+      }
     };
 
     const TabContent = () => {
       switch (activeTab) {
           case 'summary':
-            setSelectedChart("");
+            handleChartButtonClick('sales'); // Default to the Sales button being clicked
             return <SummaryTab startup={startup} founder={founder} />;
           case 'metrics':
               return <MetricsTab />;
           case 'diary':
-            setSelectedChart("");
+            handleChartButtonClick('sales'); // Default to the Sales button being clicked
               return <DiaryTab />;
           default:
               return null;
@@ -341,9 +346,9 @@ useEffect(() => {
         <div className="mb-2 mt-12 text-3xl max-w-full w-[930px] font-semibold tracking-wide text-stone-100 max-md:max-w-full">
             About
             </div>
-          <div className="justify-center p-6 mt-4 max-w-full text-lg tracking-normal rounded-lg bg-neutral-800 text-stone-100 max-w-full w-[930px] max-md:flex-wrap">
+          <div className="justify-center p-6 mt-4 text-lg tracking-normal rounded-lg bg-neutral-800 text-stone-100 max-w-full w-[930px] max-md:flex-wrap">
           <div className="text-xl text-neutral-400">Description</div>
-          <div className="mt-3 text-xl text-stone-100">{startup.desc}</div>
+          <div className="mt-3 text-xl text-stone-100 whitespace-pre-line break-all">{startup.desc}</div>
           </div>
           <div className="mt-6 max-w-full w-[930px]">
             <div className="flex gap-5 max-md:flex-col max-md:gap-0">
@@ -445,7 +450,7 @@ useEffect(() => {
             <div className="self-start mt-6 text-2xl font-medium tracking-wide text-stone-100 max-md:ml-2.5">
             Founder
             </div>
-            <div className="flex flex-col items-start self-start p-6 mt-3 max-w-full rounded-lg bg-neutral-800 w-[410px] max-md:px-5 max-md:ml-2.5">
+            <div className="flex flex-col items-start self-start p-6 mt-3 max-w-full rounded-lg bg-neutral-800 w-[500px] max-md:px-5 max-md:ml-2.5">
             <div className="flex gap-4">
               <div className="flex justify-center items-center">
                 <img
@@ -541,8 +546,8 @@ useEffect(() => {
                   {listEntries.length} entries found
                 </div>
               </div>
-              <div className="py-auto flex gap-5">
-                <button onClick={handleSort} className="flex text-sm text-stone-100 justify-between px-3 py-2.5 font-light tracking-wide rounded-2xl border-solid border-[0.75px] border-[color:var(--line-white,#9E9FA0)]">
+              <div className="py-auto flex gap-2">
+                <button onClick={handleSort} className="flex text-sm text-stone-100 justify-between px-3 py-2.5 font-light tracking-wide rounded-[25px] border border-neutral-400">
                     {descending ? (
                         <>
                             <img
@@ -564,9 +569,12 @@ useEffect(() => {
                     )}
                 </button>
                 <Datepicker
+                  inputClassName="w-full pl-10 pr-3 py-2 placeholder-stone-100 rounded-[25px] focus:outline-none border font-normal text-stone-100 border-neutral-400 bg-black" 
                   primaryColor={"emerald"} 
                   value={value} 
                   onChange={handleValueChange} 
+                  toggleClassName="absolute left-0 h-full px-3 text-neutral-400 focus:outline-none"
+                  useRange={false}
                 /> 
               </div>
             </div>
@@ -601,7 +609,7 @@ useEffect(() => {
                                 </div>
                             </div>
                             <div className="mt-7 text-base tracking-wide text-neutral-400">
-                                {item.sales} unit(s)
+                                {item.sales.toLocaleString('id-ID')} unit(s)
                             </div>
                             </div>
                         </div>
@@ -620,7 +628,7 @@ useEffect(() => {
                                 </div>
                             </div>
                             <div className="mt-7 text-base tracking-wide text-neutral-400">
-                                IDR {item.revenue}
+                                IDR {item.revenue.toLocaleString('id-ID')}
                             </div>
                             </div>
                         </div>
@@ -639,7 +647,7 @@ useEffect(() => {
                                 </div>
                             </div>
                             <div className="mt-7 text-base tracking-wide whitespace-nowrap text-neutral-400">
-                                {item.user} user(s)
+                                {item.user.toLocaleString('id-ID')} user(s)
                             </div>
                             </div>
                         </div>
@@ -648,7 +656,7 @@ useEffect(() => {
                     <div className="mt-3 text-lg font-semibold tracking-wide text-stone-100 max-md:max-w-full">
                         Lesson Learned
                     </div>
-                    <div className="mt-4 text-base tracking-wide text-neutral-400 max-md:max-w-full">
+                    <div className="mt-4 text-base tracking-wide text-neutral-400 max-md:max-w-full whitespace-pre-line break-words">
                         {item.lessonLearned}
                     </div>
                     </div>
@@ -666,14 +674,14 @@ useEffect(() => {
         
 
     return (
-      <div className="flex flex-col justify-center bg-black min-h-screen px-20">
-      <NavBar />
+      <div className="flex flex-col justify-center bg-black min-h-screen px-20 overflow-auto">
+      <NavBar status={"startups"}/>
       <main className="px-px pb-20 w-full max-md:max-w-full">
       <aside className="flex gap-5 max-md:flex-col max-md:gap-0">
       <div className="flex flex-col grow items-end py-6 pr-5 max-md:pl-5 max-md:max-w-full">
       <div className="flex gap-2 self-start ml-10 text-xl text-neutral-400 max-md:ml-2.5">
         <div>
-            <Link to="/listStartup" className="cursor-pointer">Our Startups</Link>
+            <Link to="/startupList" className="cursor-pointer">Our Startups</Link>
         </div>
         <img
           loading="lazy"

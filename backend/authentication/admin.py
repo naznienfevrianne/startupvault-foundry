@@ -4,33 +4,33 @@ from django import forms
 
 # Register your models here.
 admin.site.register(UserModel)
-admin.site.register(Startup)
 admin.site.register(Founder)
 admin.site.register(Investor)
 admin.site.register(Partner)
 
-# Form create Top 10 Startup List
-class Top10StartupForm(forms.ModelForm):
-    class Meta:
-        model = Startup
-        fields = '__all__'
+class StartupAdmin(admin.ModelAdmin):
+    search_fields = ['name']
 
+admin.site.register(Startup, StartupAdmin)
+
+class Top10Form(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Filter startup with a verified founder
-        self.fields['rank1'].queryset = Startup.objects.filter(founder__isVerified=1)
-        self.fields['rank2'].queryset = Startup.objects.filter(founder__isVerified=1)
-        self.fields['rank3'].queryset = Startup.objects.filter(founder__isVerified=1)
-        self.fields['rank4'].queryset = Startup.objects.filter(founder__isVerified=1)
-        self.fields['rank5'].queryset = Startup.objects.filter(founder__isVerified=1)
-        self.fields['rank6'].queryset = Startup.objects.filter(founder__isVerified=1)
-        self.fields['rank7'].queryset = Startup.objects.filter(founder__isVerified=1)
-        self.fields['rank8'].queryset = Startup.objects.filter(founder__isVerified=1)
-        self.fields['rank9'].queryset = Startup.objects.filter(founder__isVerified=1)
-        self.fields['rank10'].queryset = Startup.objects.filter(founder__isVerified=1)
+        
+        for field_name in ['rank1', 'rank2', 'rank3', 'rank4', 'rank5', 'rank6', 'rank7', 'rank8', 'rank9', 'rank10']:
+            self.fields[field_name].queryset = Startup.objects.filter(founder__isVerified=1)
+            self.fields[field_name].widget = forms.Select(choices=self.get_startup_id_name_choices())
 
+    def get_startup_id_name_choices(self):
+        startups = Startup.objects.filter(founder__isVerified=1).values_list('id', 'name')
+        choices = [(startup[0], startup[1]) for startup in startups]
+        return choices
 
-class Top10StartupAdmin(admin.ModelAdmin):
-    form = Top10StartupForm
+    class Meta:
+        model = Top10Startup
+        fields = ['rank1', 'rank2', 'rank3', 'rank4', 'rank5', 'rank6', 'rank7', 'rank8', 'rank9', 'rank10']
 
-admin.site.register(Top10Startup, Top10StartupAdmin)
+class Top10Admin(admin.ModelAdmin):
+    form = Top10Form
+
+admin.site.register(Top10Startup, Top10Admin)

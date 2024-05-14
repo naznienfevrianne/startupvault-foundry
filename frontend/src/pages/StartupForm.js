@@ -234,7 +234,7 @@ function StartupForm(props) {
           if (localStorage.getItem("startupType") == "idea") {
             urlPitchdeck = null
           }
-            const response = await fetch("http://localhost:8000/auth/startup/", {
+            const response = await fetch("https://startupvault-foundry.vercel.app/auth/startup/", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -260,7 +260,7 @@ function StartupForm(props) {
               console.log(data);
               const pk = data.id
               // Perform fetch request
-              const responseFounder = await fetch("http://localhost:8000/auth/founder/", {
+              const responseFounder = await fetch("https://startupvault-foundry.vercel.app/auth/founder/", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -488,7 +488,7 @@ function StartupForm(props) {
               }`}
             >
             <div
-            className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+            className={`w-3.5 rounded-full h-3.5 border-solid border-[1px] ${
                 revenue === '0' ? 'bg-green-400 border-green-400' : ''
             }`}
             ></div>                <div>USD 0-50K</div>
@@ -511,7 +511,7 @@ function StartupForm(props) {
               }`}
             >
             <div
-            className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+            className={`w-3.5 rounded-full h-3.5 border-solid border-[1px] ${
                 revenue === '1' ? 'bg-green-400 border-green-400' : ''
             }`}
             ></div>              
@@ -535,7 +535,7 @@ function StartupForm(props) {
               }`}
             >
             <div
-            className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+            className={`w-3.5 rounded-full h-3.5 border-solid border-[1px] ${
                 revenue === '2' ? 'bg-green-400 border-green-400' : ''
             }`}
             ></div>                <div>USD 11-50K</div>
@@ -561,7 +561,7 @@ function StartupForm(props) {
               }`}
             >
 <div
-            className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+            className={`w-3.5 rounded-full h-3.5 border-solid border-[1px] ${
                 revenue === '3' ? 'bg-green-400 border-green-400' : ''
             }`}
             ></div>                <div>USD 51-100K</div>
@@ -584,7 +584,7 @@ function StartupForm(props) {
               }`}
             >
 <div
-            className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+            className={`w-3.5 rounded-full h-3.5 border-solid border-[1px] ${
                 revenue === '4' ? 'bg-green-400 border-green-400' : ''
             }`}
             ></div>                
@@ -608,7 +608,7 @@ function StartupForm(props) {
               }`}
             >
 <div
-            className={`w-3.5 rounded-full h-3.5 border border-solid border-[1px] ${
+            className={`w-3.5 rounded-full h-3.5 border-solid border-[1px] ${
                 revenue === '5' ? 'bg-green-400 border-green-400' : ''
             }`}
             ></div>                <div>USD 501+K</div>
@@ -655,7 +655,7 @@ function StartupForm(props) {
             <div 
             onClick = {handlePrevious}
             type="button"
-            className="flex gap-2.5 justify-between px-3 py-2 rounded-3xl border-solid border-[1.048px] border-[color:var(--secondary-button-outline,#F3F1ED)] text-stone-100 hover:border-green-600 border-solid cursor-pointer">
+            className="flex gap-2.5 justify-between px-3 py-2 rounded-3xl border-[1.048px] border-[color:var(--secondary-button-outline,#F3F1ED)] text-stone-100 hover:border-green-600 border-solid cursor-pointer">
               <img
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/1490109502cde58f41daf764ada1e96816a28eb0bdf60fae2f6faa1f38c7c09d?apiKey=b1a4c3002d354a0a9e5d1136f5930ee4&"

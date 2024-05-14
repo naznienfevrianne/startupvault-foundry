@@ -3,7 +3,7 @@ import Chart from "chart.js/auto";
 import{ Cookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import NavBar from "../component/NavBar";
-
+import SideBar from "../component/SideFounder";
 
 function FounderDashboard(props) {
   
@@ -11,6 +11,7 @@ function FounderDashboard(props) {
   const [listEntry, setListEntry] = React.useState([]);
   const [selectedChart, setSelectedChart] = React.useState('sales'); // sales is default
   const [startupData, setStartupData] = React.useState({});
+  const [totalFollowers, setTotalFollowers] = React.useState("");
   const myCookies = new Cookies();
 
   const idFounder = myCookies.get('id')
@@ -99,10 +100,26 @@ function FounderDashboard(props) {
 
       if (!response.ok) {
           throw new Error("Failed to fetch startup data");
+      } else{
+        const followersResponse = await fetch(`https://startupvault-foundry.vercel.app/diary/total_followers/${idStartup}/`, {
+            method:'GET',
+            headers:{
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+            }
+          });
+          const follsData = await followersResponse.json();
+          if (followersResponse.ok) {
+            setTotalFollowers(follsData.total_followers);
+          } else {
+            console.error('Error fetching total followers:', follsData.message);
+          }
       }
 
       const data = await response.json();
       setStartupData(data);
+
+      
   } catch (error) {
       console.error('Error fetching startup data:', error);
   }
@@ -130,7 +147,7 @@ function FounderDashboard(props) {
 
   const fetchDataAnalytics = async () => {
     try {
-      const responseAnalytics = await fetch("https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/" + idFounder + "?sort=date", {
+      const responseAnalytics = await fetch("https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/" + idFounder + "/?sort=date", {
         method:'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -156,11 +173,11 @@ function FounderDashboard(props) {
 
   const fetchDataFounder = async () => {
     try {
-        const response = await fetch(`http://localhost:8000/auth/startup/${idStartup}/`,{
+        const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`,{
           method: "GET", 
           headers:{
               'Content-Type': 'application/json',
-              'Authorization': 'Bearer' + token
+              'Authorization': 'Bearer ' + token
           }
           }
           );
@@ -175,77 +192,24 @@ function FounderDashboard(props) {
 };
 
   return (
-    <div className="flex flex-col justify-center bg-black min-h-screen px-20">
-   <NavBar />
+    <div className="flex flex-col justify-center bg-black min-h-screen px-20 overflow-auto">
+    <NavBar status={"dashboard"}/>
       <div className="pb-20 w-full max-md:pr-5 max-md:max-w-full">
         <div className="flex gap-5 max-md:flex-col max-md:gap-0">
           <div className="flex flex-col w-[74%] max-md:ml-0 max-md:w-full">
             <div className="max-md:mt-10 max-md:max-w-full">
-              <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-
-                <div className="flex flex-col w-[25%] max-md:ml-0 max-md:w-full pl-0">
-                  <div className="flex flex-col items-center self-stretch pb-2 mt-6 text- tracking-wide text-neutral-400">
-                    <div className="flex gap-3 p-4 text-base tracking-normal bg-neutral-800 rounded-[30px] text-stone-300">
-                      <img
-                        loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/5141f2b3392732e7dceb2287d5276e2c7df22cecc85670302b617d425ec44b62?"
-                        className="shrink-0 w-5 aspect-square"
-                      />
-                      <div className="flex-auto">Search in dashboard</div>
-                    </div>
-                    <div className="flex gap-5 justify-between self-stretch pr-10 mt-5 font-medium text-green-400 whitespace-nowrap max-md:pr-5">
-                      <div className="shrink-0 w-1 h-12 bg-green-400 rounded-none shadow-sm" />
-                      <div className="flex gap-2 pr-12 pl-2 py-2 rounded-lg bg-green-400 bg-opacity-20">
-                        <img
-                          loading="lazy"
-                          src="https://cdn.builder.io/api/v1/image/assets/TEMP/f1487560442a58b51dcbec994221baf3cf665d63416908100ec5efda2c599f05?"
-                          className="shrink-0 w-8 aspect-square"
-                        />
-                        <div className="flex-auto my-auto">
-                          <Link to="/dashboard">Overview</Link>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex gap-2 mt-5 whitespace-nowrap">
-                      <img
-                        loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/3cef65a25dfa47f096a12f653a5687356c49974a2b901252287cba6ffe7f302d?"
-                        className="shrink-0 w-8 aspect-square"
-                      />
-                      <div className="grow my-auto">
-                        <Link to="/diary">Weekly Updates</Link>
-                        </div>
-                    </div>
-                    <div className="flex gap-2 mt-5 whitespace-nowrap max-md:mt-10">
-                      <img
-                        loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/af603136276046e8322b35f550ed99cb4cb7f42f4be19979861c7f70c3f1a3ce?"
-                        className="shrink-0 w-8 aspect-square"
-                      />
-                      <div className="grow my-auto">
-                        <Link to="/startupReadForm">Startup Details</Link>
-                        </div>
-                    </div>
-                    <div className="flex gap-2 mt-5 whitespace-nowrap max-md:mt-10">
-                      <img
-                        loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/f06c757951079842a9d6e5f08a6cb907c6632c2879d3daa3ad22a2e2979cd8c5?"
-                        className="shrink-0 w-8 aspect-square"
-                      />
-                      <div className="grow my-auto">                       
-                       <Link to="/founderReadForm">Founder Details</Link>
-                    </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-col ml-10 w-[67%] max-md:ml-0 max-md:w-full">
+              <div className="flex max-md:flex-col max-md:gap-0">
+                {/* <div className="flex flex-col w-[25%] max-md:ml-0 max-md:w-full pl-0"> */}
+                <SideBar status={"overview"}/>
+                {/* </div> */}
+                <div className="flex flex-col ml-6 w-[67%] max-md:ml-0 max-md:w-full">
                   <div className="flex flex-col grow justify-center pt-6 max-md:max-w-full">
                     <div className="flex gap-5 justify-between max-md:flex-wrap max-md:max-w-full">
-                      <div className="flex-auto text-2xl font-semibold tracking-wide text-stone-100">
+                      <div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">
                         Metrics Overview
                       </div>
                       <div className="flex-auto text-right text-base tracking-normal text-neutral-400">
-                        {entry.date ? `Last updated ${entry.date}` : 'No new entry this week'}
+                        {entry.date ? `Last updated ${entry.date}` : 'No entry this week'}
                       </div>
                     </div>
                     <div className="mt-6 max-md:max-w-full">
@@ -304,7 +268,7 @@ function FounderDashboard(props) {
                       </div>
                     </div>
                     <div className="flex gap-5 justify-between mt-10 w-full whitespace-nowrap text-stone-100 max-md:flex-wrap max-md:max-w-full">
-                      <div className="flex-auto my-auto text-2xl font-semibold tracking-wide">
+                      <div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">
                         Analytics
                       </div>
                       <div className="flex gap-3 text-base tracking-normal">
@@ -340,7 +304,7 @@ function FounderDashboard(props) {
           </div>
           <div className="flex flex-col ml-8 w-[26%] max-md:ml-0 max-md:w-full">
             <div className="flex flex-col p-6 mx-auto mt-6 w-full rounded-lg bg-neutral-800 max-md:px-5 max-md:mt-10">
-              <div className="flex gap-5 justify-between w-full">
+              <div className="flex gap-5 justify-between w-full break-words">
                 <div className="flex-auto text-l font-medium tracking-wide text-white">
                   My Startup
                 </div>
@@ -363,8 +327,8 @@ function FounderDashboard(props) {
                     className="aspect-[1.02] w-[46px]"
                   />
                 </div>
-                <div className="flex gap-2 self-start pr-2 text-2xl font-semibold tracking-wider leading-10 text-white whitespace-nowrap">
-                  <div className="grow">{startupData.name}</div>
+                <div className="flex gap-2 self-start pr-2 text-2xl font-semibold tracking-wider leading-10 text-white break-all">
+                  <div className="grow break-words">{startupData.name}</div>
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/6417a1a8e6e4f317123380fe8fed9093f6b5dd538926f00e91d377d6f03966c5?"
@@ -381,7 +345,7 @@ function FounderDashboard(props) {
                 <div className="flex-auto my-auto">Followers</div>
               </div>
               <div className="mt-2 text-l font-medium tracking-wide text-white">
-                127 Followers
+                {totalFollowers} Followers
               </div>
               <div className="flex gap-2 justify-center mt-6 text-base tracking-wide whitespace-nowrap text-neutral-400">
                 <img

@@ -67,3 +67,22 @@ class ToggleLikeView(generics.GenericAPIView):
             return Response({'message': action, 'likesCount': post.like_count}, status=status.HTTP_200_OK)
         else:
             return Response({'message': 'Action failed'}, status=status.HTTP_400_BAD_REQUEST)
+
+class ShowcasePartnerList(generics.ListAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = ShowcasePostSerializer
+
+    # Read
+    def get_queryset(self):
+        partnerId = self.kwargs["partner"]
+        search_query = self.request.query_params.get("search", None)
+        sort_by = self.request.query_params.get("sort", None)
+
+        if(search_query is not None and sort_by is not None):
+            return ShowcasePost.objects.filter(user_id=partnerId, content__icontains=search_query).order_by(sort_by)
+        elif(search_query is not None):
+            return ShowcasePost.objects.filter(user_id=partnerId, content__icontains=search_query).order_by(sort_by)
+        elif(sort_by is not None):
+            return ShowcasePost.objects.filter(user_id=partnerId).order_by(sort_by)
+
+        return ShowcasePost.objects.filter(user_id=partnerId).order_by('-date')

@@ -19,7 +19,13 @@ function SideBarContact() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/auth/startup/${idStartup}/`);
+        const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`, {
+          method:"GET",
+          headers:{
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+        });
         const data = await response.json();
         console.log('Fetched data:', data);
         console.log('role cookie:', role);
@@ -27,7 +33,13 @@ function SideBarContact() {
           setStartup(data);
   
           // Fetch total followers separately
-          const followersResponse = await fetch(`http://localhost:8000/diary/total_followers/${idStartup}/`);
+          const followersResponse = await fetch(`https://startupvault-foundry.vercel.app/diary/total_followers/${idStartup}/`, {
+            method:'GET',
+            headers:{
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+          }
+          });
           const follsData = await followersResponse.json();
           console.log('Fetched followers count:', follsData );
           if (followersResponse.ok) {
@@ -49,7 +61,13 @@ function SideBarContact() {
   
    const fetchFollowStatus = async () => {
      try {
-       const response = await fetch(`http://localhost:8000/diary/check_follow/?startup_id=${idStartup}&investor_id=${idInvestor}`);
+       const response = await fetch(`https://startupvault-foundry.vercel.app/diary/check_follow/?startup_id=${idStartup}&investor_id=${idInvestor}`, {
+         method: "GET",
+         headers:{
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+      }
+       });
        const data = await response.json();
        console.log('Fetched isFollowing:', data);
        if (response.ok) {
@@ -65,12 +83,11 @@ function SideBarContact() {
     const toggleFollow = async () => {
   
       try {
-        const response = await fetch('http://localhost:8000/diary/follow/', {
+        const response = await fetch('https://startupvault-foundry.vercel.app/diary/follow/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            // Add your authentication token if needed
-            // 'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
           },
           body: JSON.stringify({
             startup: idStartup,
@@ -126,7 +143,7 @@ function SideBarContact() {
     useEffect(() => {
         const fetchFounder = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:8000/auth/founder/${idFounder}/`, {
+                const response = await fetch(`https://startupvault-foundry.vercel.app/auth/founder/${idFounder}/`, {
                     method: "GET",
                     headers: {
                         'Content-Type': 'application/json',
@@ -150,17 +167,9 @@ function SideBarContact() {
   
     return (
     <div className="flex flex-col items-start py-6 pr-20 pl-3 max-md:pr-5 max-md:max-w-full">
-      <div className="flex gap-3 p-4 text-base tracking-normal bg-neutral-800 w-[340px] rounded-[30px] text-stone-300">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/6cb446593643fc5888a09f9076f1b9a6893981e0397365468e85765b7a309812?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-          className="shrink-0 w-5 aspect-square"
-        />
-        <div>Search in Startup Details</div>
-      </div>
-      <div className="flex flex-col p-7 mt-6 max-w-full rounded-lg bg-neutral-800 w-[340px] max-md:px-5">
+      <div className="flex flex-col p-7 mt-6 max-w-full rounded-lg bg-neutral-800 w-[360px] max-md:px-5">
       <div className="flex gap-1 pr-8 text-2xl font-medium tracking-wide whitespace-nowrap text-stone-100 max-md:pr-5">
-        <div>{startup.name}</div>
+      <div style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{startup.name}</div>
 
         <img
           loading="lazy"
@@ -184,7 +193,7 @@ function SideBarContact() {
       {role === 'investor' && (
             <button
               className={`justify-center items-center px-5 py-3 mt-4 text-xl font-semibold tracking-widest text-black whitespace-nowrap rounded-3xl ${
-                isFollowing ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-400'
+                isFollowing ? 'bg-gray-400' : 'bg-green-400'
               }`}
               onClick={toggleFollow}
             >
@@ -193,12 +202,12 @@ function SideBarContact() {
 
           )}
         </div>
-      <div className="flex gap-2 justify-center mt-6 text-xl text-stone-100 w-[340px]">
-        <div className="flex-1">Contact 
+      <div className="flex gap-2 justify-center mt-10 text-xl text-stone-100 w-[360px]">
+        <div className="flex-1" style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>Contact 
         <span className="text-xl font-semibold"> {startup.name}</span></div>
         <div className="flex-1 shrink-0 my-auto h-px border border-solid bg-neutral-400 border-neutral-400" />
       </div>
-      <div className="flex gap-4 p-4 mt-6 text-xl font-medium tracking-wide whitespace-nowrap rounded-lg bg-neutral-800 text-stone-100 w-[340px]">
+      <div className="flex gap-4 p-4 mt-6 text-xl font-medium tracking-wide whitespace-nowrap rounded-lg bg-neutral-800 text-stone-100 w-[360px]">
         <img
           loading="lazy"
           src="https://cdn.builder.io/api/v1/image/assets/TEMP/c1395c447d349c52211298177bdfc474d8036628e1c8b9d4d8650f731b9465d3?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
@@ -206,8 +215,8 @@ function SideBarContact() {
         />
         <div className="flex-1">{founder.phoneNumber}</div>
         <button
-        onClick={() => copyToClipboard(founder.email)}
-        title="Copy Email"  // Providing a title for accessibility and usability
+        onClick={() => copyToClipboard(founder.phoneNumber)}
+        title="Copy phoneNumber"  // Providing a title for accessibility and usability
         >
         <img
           loading="lazy"
@@ -216,7 +225,7 @@ function SideBarContact() {
         />
         </button>
       </div>
-      <div className="flex gap-4 p-4 mt-4 text-xl font-medium tracking-wide whitespace-nowrap rounded-lg bg-neutral-800 text-stone-100 w-[340px]">
+      <div className="flex gap-4 p-4 mt-4 text-xl font-medium tracking-wide whitespace-nowrap rounded-lg bg-neutral-800 text-stone-100 w-[360px]">
         <img
           loading="lazy"
           src="https://cdn.builder.io/api/v1/image/assets/TEMP/daf72df48e17d81b24803c12cb158348c64ab6ee45505db07c4fc1e23121f601?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
@@ -229,8 +238,9 @@ function SideBarContact() {
         >
             <img
             loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/c785140e93ef7df38c896c220a92fe3ee37b702cce118ddcfe7a5eba277bdf6a?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-            className="shrink-0 w-6 h-6"  // Ensure your image fits well in the button
+            // src="https://cdn.builder.io/api/v1/image/assets/TEMP/c785140e93ef7df38c896c220a92fe3ee37b702cce118ddcfe7a5eba277bdf6a?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/9ffae47cb816d5ac5b57e512113910e3a80652aebbaabf17304aa8d64e019d5d?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
+            className="shrink-0 w-6"  // Ensure your image fits well in the button
             alt="Copy Icon"  // Important for accessibility
             />
         </button>
