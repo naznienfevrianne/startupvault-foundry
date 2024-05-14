@@ -12,8 +12,7 @@ import NavBar from "../component/NavBar.js";
 const myCookies = new Cookies();
 const isLogin = myCookies.get('login')
 const token = myCookies.get('token')
-const idCookies = myCookies.get('id')
-
+const id = myCookies.get('id')
 
 const NavbarItem = ({ children, href }) => (
   <div className="grow">
@@ -194,7 +193,7 @@ const Likes = ({ LikedPost, user, initialLikes, isInitiallyLiked }) => {
   const toggleLike = async () => {
     console.log(JSON.stringify({
       "post": LikedPost,  // Assuming this is the ID of the post to be liked/unliked
-      "user": idCookies,  // Assuming this is the ID of the user performing the action
+      "user": id,  // Assuming this is the ID of the user performing the action
     }))
     const response = await fetch("https://startupvault-foundry.vercel.app/showcase/toggle_like/", {
       method: 'POST',
@@ -204,7 +203,7 @@ const Likes = ({ LikedPost, user, initialLikes, isInitiallyLiked }) => {
       },
       body: JSON.stringify({
         "post": LikedPost,  // Assuming this is the ID of the post to be liked/unliked
-        "user": idCookies,  // Assuming this is the ID of the user performing the action
+        "user": id,  // Assuming this is the ID of the user performing the action
       })
     });
 
@@ -319,8 +318,32 @@ const Showcase = () => {
   const myCookies = new Cookies();
   const rejectionNote = myCookies.get('rejectionNote');
   const isVerified = myCookies.get('isVerified');
-  
-  
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/auth/getStatus/' + id, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          myCookies.set('isVerified', data.isVerified);
+        } else {
+          console.error('Failed to fetch isVerified status');
+        }
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    fetchData();
+  }, []); 
+
    return (
   <div className="flex flex-col h-screen bg-black min-h-screen px-20"> {/* Ensures the main container takes up the full viewport height */}
     <NavBar status='showcase'/>

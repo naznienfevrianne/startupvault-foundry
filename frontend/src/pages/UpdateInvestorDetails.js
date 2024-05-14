@@ -213,16 +213,15 @@ function UpdateInvestorDetails(props) {
   return (
     <div className="flex flex-col pb-20 px-20 min-h-screen bg-black">
       <form onSubmit={handleSubmit}>
-      <NavBar status={"dashboard"}/>
-        
+      <NavBar status={"dashboard"}/>     
         <div className="z-10 mt-0 w-full max-md:max-w-full">
           <div className="flex gap-5 max-md:flex-col max-md:gap-0">
             <SideBar status={"profile"}/>
-            <div className="flex flex-col ml-5 w-[77%] max-md:ml-0 max-md:w-full">
+            <div className="flex flex-col w-[77%] max-md:ml-0 max-md:w-full">
               <div className="flex flex-col grow px-5 pt-9 pb-20 max-md:mt-5 max-md:max-w-full">
                 <div className="flex flex-wrap gap-0 content-center pr-20 max-md:pr-5 text-stone-100">
-                  <div className="text-4xl font-semibold tracking-wider leading-[54px]  max-md:text-4xl">
-                    INVESTOR DETAILS
+                  <div className="text-2xl font-semibold tracking-wider leading-[54px]  max-md:text-4xl">
+                    Investor Details
                   </div>
                   <div className="flex gap-1.5 justify-center ml-4 px-2 py-1 my-auto text-sm tracking-wide rounded-xl border border-solid shadow-sm bg-neutral-400 bg-opacity-40 border-neutral-400">
                     <div>editing mode</div>
@@ -233,7 +232,7 @@ function UpdateInvestorDetails(props) {
                     />
                   </div>
                 </div>
-                <div className="flex gap-4 justify-between self-start mt-5">
+                <div className="flex gap-4 justify-between self-start">
                   <div className="flex justify-center items-center">
                     <img
                       loading="lazy"
