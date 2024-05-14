@@ -62,19 +62,19 @@ const PartnerDetails = () => {
           )}
           </div>
           <h2 className="mt-5 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">Name</h2>
-          <div className="justify-center items-start px-3 py-3.5 mt-2.5 text-sm font-light tracking-normal whitespace-nowrap rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-w-[800px]">
+          <div className="justify-center items-start px-3 py-3.5 mt-2.5 text-sm tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-w-[800px]">
               {partnerDetails.name}
           </div>
           <h3 className="mt-5 text-l font-medium tracking-wide text-stone-100 max-md:max-w-full">LinkedIn</h3>
-          <div className="justify-center items-start px-3 py-3.5 mt-2.5 text-sm font-light tracking-normal whitespace-nowrap rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-w-[800px]">
+          <div className="justify-center items-start px-3 py-3.5 mt-2.5 text-sm tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-w-[800px]">
               {partnerDetails.linkedin}
           </div>
           <h4 className="mt-5 text-l font-medium tracking-wide text-stone-100 max-md:max-w-full">Email</h4>
-          <div className="justify-center items-start px-3 py-3.5 mt-2.5 text-sm font-light tracking-normal whitespace-nowrap rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-w-[800px]">
+          <div className="justify-center items-start px-3 py-3.5 mt-2.5 text-sm tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-w-[800px]">
               {partnerDetails.email}
           </div>
           <h5 className="mt-5 text-l font-medium tracking-wide text-stone-100 max-md:max-w-full">Phone Number</h5>
-          <div className="justify-center items-start px-3 py-3.5 mt-2.5 text-sm font-light tracking-normal whitespace-nowrap rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-w-[800px]">
+          <div className="justify-center items-start px-3 py-3.5 mt-2.5 text-sm tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-w-[800px]">
               {partnerDetails.phoneNumber}
           </div>
       </section>

@@ -276,7 +276,7 @@ function InvestorDashboard(props){
 									{/* card */}
 									{listEntries.map((item, index) => (
 										<li key={index}>
-											<div className="p-6 bg-neutral-800 rounded-lg flex-col justify-center items-start gap-6 flex">
+											<div className="p-6 bg-neutral-800 rounded-lg flex-col justify-center items-start gap-6 flex mt-5">
 												<div className="justify-start items-center gap-[16.98px] inline-flex">
 														<div className="justify-start items-start gap-4 flex">
 																<img
