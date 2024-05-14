@@ -74,7 +74,6 @@ function App() {
                     <Route path="/founderReadForm" element={<FounderReadForm />} />
                     <Route path="/diary" element={<FounderDiary />}/>
                     <Route path="/startupEditForm" element={<StartupEditForm />} />
-                    <Route path="/startupDetails/:idStartup" element={<StartupDetails />} />
                     <Route path="/diary" element={<FounderDiary />}/>
                     <Route path="/cookies" element={<CookieDisplay />} />
                     <Route path="/startupEditForm" element={<StartupEditDetails />} />
@@ -95,6 +94,7 @@ function App() {
                     <Route path="/event" element={<ListEvent />} />
                     <Route path="/cookies" element={<CookieDisplay />} />
                     <Route path="/event-details/:idEvent/:idOrgPartner" element={<PartnerPublicProfile />} />
+                    <Route path="/startupDetails/:idStartup" element={<StartupDetails />} />
                     </React.Fragment>
                 ) : isAuthenticated && isVerified === 1 && role === "partner" ? (
                     <React.Fragment>
