@@ -176,23 +176,73 @@ const EventDetails = () => {
       }
 
       console.log(eventDetails);
-      navigate('/event');
+      navigate('/dashboardPartner');
 
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
+  const [isPriceValid, setIsPriceValid] = useState(true);
+
+    // Validate the price to ensure it is a valid number
+    const validatePrice = (price) => {
+        // Check if price is not a number or if it's empty
+        return !isNaN(price) && price.trim() !== '';
+    };
+
+    // Handle changes to the price input
+    const handlePriceChange = (e) => {
+        const { value } = e.target;
+        const isValid = validatePrice(value);
+        setIsPriceValid(isValid); // Update validity state based on the number check
+        setEventDetails({ ...eventDetails, price: value });
+    };
+
+    const [isWebsiteValid, setIsWebsiteValid] = useState(true);
+
+    const handleWebsiteChange = (e) => {
+      const url = e.target.value;
+      setEventDetails({ ...eventDetails, link: url });
+      validateWebsite(url);
+    };
   
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (formChanged) {
-        handleUpdate();
-    } else {
-        console.log("No changes made to the event details.");
-        navigate('/event'); // Optionally navigate back if no changes are detected
-    }
-  };
+    const validateWebsite = (url) => {
+      const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name and extension
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+      setIsWebsiteValid(!!pattern.test(url));
+    };
+
+  
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+    const UpdateConfirmationModal = ({ onClose, onUpdate }) => {
+      return (
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
+          <div className="bg-gray-800 p-8 rounded-lg">
+            <p className="text-white mb-4">Are you sure you want to update these details?</p>
+            <div className="flex justify-end">
+              <button className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50" onClick={onClose}>No</button>
+              <button className="bg-green-500 text-white py-2 px-4 ml-1 mr-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50" onClick={onUpdate}>Yes</button>
+              
+            </div>
+          </div>
+        </div>
+      );
+    };
+  
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      setShowConfirmationModal(true); // Show confirmation modal
+    };
+    
+    const handleUpdateConfirmation = async () => {
+      setShowConfirmationModal(false); // Close the modal after confirming
+      await handleUpdate(); // Proceed with the update
+    };
 
   return (
     <div className="flex flex-col justify-center bg-black min-h-screen px-20">
@@ -262,26 +312,36 @@ const EventDetails = () => {
                 </div>
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Price</div>
                 <div className="flex gap-2">
-                <input
-                    type="number"
-                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
-                    placeholder=" "
-                    value={eventDetails.price}
-                    onChange={(e) => setEventDetails({ ...eventDetails, price: e.target.value })}
-                    required
-                  />
+                    <input
+                        type="text"
+                        className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
+                        placeholder=""
+                        value={eventDetails.price}
+                        onChange={handlePriceChange}
+                        required
+                    />
                 </div>
+                {!isPriceValid && (
+                        <div className="text-red-500 text-xs mt-1">
+                            Please enter a valid number.
+                        </div>
+                    )}
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Link</div>
                 <div className="flex gap-2">
                 <input
-                    type="text"
-                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
-                    placeholder=" "
-                    value={eventDetails.link}
-                    onChange={(e) => setEventDetails({ ...eventDetails, link: e.target.value })}
-                    required
-                  />
+                  type="text"
+                  className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
+                  placeholder="Enter website URL"
+                  value={eventDetails.link}
+                  onChange={handleWebsiteChange}
+                  required
+                />
                 </div>
+                {!isWebsiteValid && (
+                  <div className="text-red-500 text-xs mt-1">
+                    Please enter a valid link URL.
+                  </div>
+                )}
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Upload Image</div>
                 <div
                     className="flex justify-center items-center self-stretch px-5 py-6 mt-5 text-xs rounded-md bg-neutral-700 max-w-[608px] max-md:px-5"
@@ -338,13 +398,19 @@ const EventDetails = () => {
                 </div>
                 
               <div className="flex gap-2 mt-5 pr-20 text-xl font-semibold tracking-widest">
-                  <a type="button" href="/event" className="px-4 py-2 rounded-2xl border border-solid border-stone-100 text-stone-100">cancel</a>
+                  <a type="button" href="/dashboardPartner" className="px-4 py-2 rounded-2xl border border-solid border-stone-100 text-stone-100">cancel</a>
                   <button className="px-5 py-2 text-black bg-green-400 rounded-2xl" type="submit">save</button>
               </div>
           </div>
         </form>
       </section>
       </aside>
+      {showConfirmationModal && (
+              <UpdateConfirmationModal
+                onClose={() => setShowConfirmationModal(false)}
+                onUpdate={handleUpdateConfirmation}
+              />
+            )}
       </main>
     </div>
   );
