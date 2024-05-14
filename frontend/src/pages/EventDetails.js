@@ -116,6 +116,7 @@ function EventDetails(props){
                           />
                           {formattedDate}
                         </div>
+                        <Link to={`/event-details/${idEvent}/${eventDetails.partner_org_id}`}>
                         <div className="justify-start items-start gap-4 flex mt-5">
                           <img
                               loading="lazy"
@@ -134,6 +135,7 @@ function EventDetails(props){
                             <div className="text-s text-neutral-400">Partner</div>
                           </div>
                         </div>
+                        </Link>
                       </div>
                     )}
                     {activeMenu === "about" && (
