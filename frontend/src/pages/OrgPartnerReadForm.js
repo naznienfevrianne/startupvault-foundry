@@ -101,7 +101,7 @@ function OrgPartnerReadForm(props) {
                       />
                     </div>
                     <div className="flex flex-col">
-                      <div className="flex gap-1 pr-4 text-xl font-semibold tracking-wide whitespace-nowrap text-stone-100">
+                      <div className="flex gap-1 pr-4 text-xl font-semibold tracking-wide text-stone-100 max-w-[700px]">
                         <div>{orgPartnerData.name}</div>
                         <img
                           loading="lazy"
