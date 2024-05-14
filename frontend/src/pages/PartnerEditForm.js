@@ -208,7 +208,7 @@ const PartnerDetails = () => {
         <form onSubmit={handleSubmit}>
           <div className="px-5 pt-9 pb-20">
               <div className="flex flex-wrap gap-5 justify-between content-center self-start pr-14 text-stone-100 max-md:pr-5">
-                  <h2 className="text-5xl font-semibold tracking-wider leading-[54px]">Partner Details</h2>
+                  <h2 className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">Partner Details</h2>
                   <button className="flex gap-1.5 justify-center px-3.5 py-1.5 my-auto text-xl tracking-wide rounded-xl border border-solid shadow-sm bg-neutral-400 bg-opacity-40 border-neutral-400">
                       <span>editing mode</span>
                       {/* Add your image component here */}
