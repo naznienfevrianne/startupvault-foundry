@@ -281,22 +281,22 @@ const CategoryButton = ({ categoryName, onClick }) => (
 
 
 
-const CategoriesSection = ({ setSelectedCategory }) => {
-  const categories = ["Ed-Tech", "Health-Tech", "Transportation", "Fin-Tech", "Food-Tech"]; // Example categories
-
-  return (
-    <section className="flex flex-col items-start p-6 mt-6 rounded-lg w-[338px] bg-neutral-800 text-stone-100 max-md:px-5">
-      <header className="self-stretch mb-3">
-        <h2 className="text-xl font-medium tracking-wide text-white">Popular categories</h2>
-      </header>
-      <div className="flex gap-3 flex-wrap">
-        {categories.map(categoryName => (
-          <CategoryButton key={categoryName} categoryName={categoryName} onClick={() => setSelectedCategory(categoryName)} />
-        ))}
-      </div>
-    </section>
-  );
-};
+//const CategoriesSection = ({ setSelectedCategory }) => {
+//  const categories = ["Ed-Tech", "Health-Tech", "Transportation", "Fin-Tech", "Food-Tech"]; // Example categories
+//
+//  return (
+//    <section className="flex flex-col items-start p-6 mt-6 rounded-lg w-[338px] bg-neutral-800 text-stone-100 max-md:px-5">
+//      <header className="self-stretch mb-3">
+//        <h2 className="text-xl font-medium tracking-wide text-white">Popular categories</h2>
+//      </header>
+//      <div className="flex gap-3 flex-wrap">
+//        {categories.map(categoryName => (
+//          <CategoryButton key={categoryName} categoryName={categoryName} onClick={() => setSelectedCategory(categoryName)} />
+//        ))}
+//      </div>
+//    </section>
+//  );
+//};
 
 
 
@@ -342,7 +342,6 @@ const Showcase = () => {
       </main>
       <aside className="w-1/3 h-full overflow-auto top-0"> {/* Aside section made sticky */}
         <SearchBar setSearchTerm={setSearchTerm}/>
-        <CategoriesSection/>
       </aside>
     </div>
   </div>
