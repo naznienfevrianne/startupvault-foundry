@@ -53,7 +53,7 @@ const EventDetails = () => {
 
   const fetchDataEvent = async () => {
     try {
-        const response = await fetch(`http://localhost:8000/event/${eventId}/`, {
+        const response = await fetch(`https://startupvault-foundry.vercel.app/event/${eventId}/`, {
             method: "GET", 
             headers:{
                 'Content-Type': 'application/json',
@@ -129,40 +129,50 @@ const EventDetails = () => {
   const handlePictureChange = async (e) => {
     e.preventDefault();
     let file = e.target.files[0];
+    if (!file) return; // Make sure a file was selected
+
     const imageUrl = URL.createObjectURL(file);
     setPicture(imageUrl);
-  
-    // Upload the image first
-    uploadUserImg(fileName).then(photoUrl => {
-      // Update state after the image has been uploaded
-      setEventDetails(prevDetails => ({
-        ...prevDetails,
-        image: photoUrl, // Use the URL from the upload function
-      }));
-    }).catch(error => console.error("Error uploading image:", error));
-    console.log(eventDetails.image);
-  }
 
-  const uploadUserImg = async (file, fileName) => {
+    // Upload the image first
+    const fileName = generateFileName(file); // Assume you have a function to generate file names
+
+    uploadUserImg(file, fileName).then(photoUrl => {
+        // Update state after the image has been uploaded
+        setEventDetails(prevDetails => ({
+            ...prevDetails,
+            image: photoUrl, // Use the URL from the upload function
+        }));
+    }).catch(error => console.error("Error uploading image:", error));
+};
+
+// Ensure you pass both file and fileName when uploading
+const uploadUserImg = async (file, fileName) => {
     try {
-      // Upload the image to Supabase Storage
-      const { data, error } = await supabase.storage.from('userimg').upload(fileName, file);
-      if (error) {
-        console.error('Error uploading Picture:', error.message);
-        throw error;
-      } else {
-        console.log('Image uploaded successfully:', fileName);
-        return `${supabaseUrl}/storage/v1/object/public/userimg/${fileName}`;
-      }
+        // Upload the image to Supabase Storage
+        const { data, error } = await supabase.storage.from('userimg').upload(fileName, file);
+        if (error) {
+            console.error('Error uploading Picture:', error.message);
+            throw error;
+        } else {
+            console.log('Image uploaded successfully:', fileName);
+            return `${supabaseUrl}/storage/v1/object/public/userimg/${fileName}`;
+        }
     } catch (error) {
-      console.error('Error during image upload:', error);
-      throw error;
+        console.error('Error during image upload:', error);
+        throw error;
     }
-  };
+};
+
+function generateFileName(file) {
+    const ext = file.name.split('.').pop();
+    const randomString = generateRandomString(25); // Your existing random string generator
+    return `${randomString}.${ext}`;
+}
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/event/${eventId}/`, {
+      const response = await fetch(`https://startupvault-foundry.vercel.app/event/${eventId}/`, {
         method: "PUT",
         headers: {
           'Authorization': 'Bearer ' + token,
