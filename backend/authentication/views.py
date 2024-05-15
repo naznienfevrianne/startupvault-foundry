@@ -382,8 +382,8 @@ class TopStartupRetriever(generics.ListAPIView):
             info = Startup.objects.filter(id=startup).first()
             startup_info.append(info)
         return startup_info
-    
 
+        
 
 
 
