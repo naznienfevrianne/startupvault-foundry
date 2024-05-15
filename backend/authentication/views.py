@@ -21,6 +21,7 @@ from functools import wraps
 from rest_framework  import permissions
 from jwt.exceptions import InvalidTokenError, ExpiredSignatureError
 from rest_framework import exceptions
+from django.contrib.auth.hashers import make_password, check_password
 
 
 class JWTAuthentication(permissions.BasePermission):
@@ -64,21 +65,49 @@ class UserModelListCreate(generics.ListCreateAPIView):
     permission_classes = [JWTAuthentication]
     queryset = UserModel.objects.all()
     serializer_class = UserModelSerializer
+    
+    def perform_create(self, serializer):
+        # Hash the password before saving the user instance
+        password = serializer.validated_data.get('password')
+        if password:
+            serializer.validated_data['password'] = make_password(password)
+        serializer.save()
 
 class FounderListCreate(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
     queryset = Founder.objects.all()
     serializer_class = FounderSerializer
     
+    def perform_create(self, serializer):
+        # Hash the password before saving the user instance
+        password = serializer.validated_data.get('password')
+        if password:
+            serializer.validated_data['password'] = make_password(password)
+        serializer.save()
+    
 class PartnerListCreate(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
     queryset = Partner.objects.all()
     serializer_class = PartnerSerializer
+    
+    def perform_create(self, serializer):
+        # Hash the password before saving the user instance
+        password = serializer.validated_data.get('password')
+        if password:
+            serializer.validated_data['password'] = make_password(password)
+        serializer.save()
 
 class InvestorListCreate(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
     queryset = Investor.objects.all()
     serializer_class = InvestorSerializer
+    
+    def perform_create(self, serializer):
+        # Hash the password before saving the user instance
+        password = serializer.validated_data.get('password')
+        if password:
+            serializer.validated_data['password'] = make_password(password)
+        serializer.save()
 
 class StartupListCreate(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
@@ -99,17 +128,13 @@ class PartnerOrganizationListCreate(generics.ListCreateAPIView):
 def login(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        print(data)
         email_req = data.get('email')
-        print("email_req " + email_req)
         password_req = data.get('password')
-        print("password_req " + password_req)
+        
         user = UserModel.objects.filter(email=email_req).first()
         if user is not None:
-           
-            if user.password == password_req:
+            if check_password(password_req, user.password):
                 payload = None
-                
                 if user.role == "founder":
                     user = Founder.objects.filter(email=email_req).first()
                     payload = model_to_dict(user)
@@ -122,13 +147,10 @@ def login(request):
                     user = Partner.objects.filter(email=email_req).first()
                     payload = model_to_dict(user)
                     payload.pop('password', None)
-                # payload_json = json.dumps(payload)
-                jwt_token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
-                try_to_decode = jwt.decode(jwt_token, settings.SECRET_KEY, algorithms=["HS256"])
-                print("login")
-                print(try_to_decode)
-                print(jwt_token)
-                return JsonResponse({"token":jwt_token, **payload}, status=200)
+                if payload:
+                    jwt_token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
+                    try_to_decode = jwt.decode(jwt_token, settings.SECRET_KEY, algorithms=["HS256"])
+                    return JsonResponse({"token":jwt_token, **payload}, status=200)
             else:
                 return JsonResponse({"status":"failed", "login":False,"message":"Password false"}, status=400)
         else:
