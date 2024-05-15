@@ -383,22 +383,7 @@ class TopStartupRetriever(generics.ListAPIView):
             startup_info.append(info)
         return startup_info
     
-@csrf_exempt
-def encrypt_passwords(request):
-    if request.method == 'GET':
-        # Identify users with unencrypted passwords
-        unencrypted_users = UserModel.objects.exclude(password__startswith='$pbkdf2_sha256$')
 
-        # Encrypt passwords
-        for user in unencrypted_users:
-            user.password = make_password(user.password)
-            user.save()
-
-        return JsonResponse({"message": f"Encrypted passwords for {unencrypted_users.count()} users."})
-
-    return JsonResponse({"error": "Invalid request method."}, status=400)
-
-        
 
 
 

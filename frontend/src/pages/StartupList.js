@@ -232,7 +232,7 @@ const StartupList = () => {
                   />
                 </div>
                 <div className="flex-1 my-auto text-lg font-semibold tracking-wide text-stone-100">
-                  Valuation
+                  Ticket size
                 </div>
               </div>
               <div className="mt-2 text-lg tracking-wide text-green-400">
