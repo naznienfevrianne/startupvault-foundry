@@ -5,21 +5,10 @@ import { Link } from 'react-router-dom';
 import NavBar from "../component/NavBar";
 import { createClient } from "@supabase/supabase-js";
 import SideBar from "../component/SideFounder";
+import { useCookies } from 'react-cookie';
 
-// Reusable Image Component
-const ImageWithAlt = ({ src, alt, className }) => (
-  <img src={src} alt={alt} className={className} loading="lazy" />
-);
 
-// Reusable Icon Link Component
-const IconLink = ({ src, alt, label, className }) => (
-  <div className={`flex gap-2 items-center ${className}`}>
-    <ImageWithAlt src={src} alt={alt} className="shrink-0 w-8 aspect-square" />
-    <div className="grow my-auto">{label}</div>
-  </div>
-);
-
-const FounderDetails = () => {
+const FounderEditDetails = () => {
   const storedProfilePicture = localStorage.getItem("image") || '';
   const [founderDetails, setFounderDetails] = useState({
     email: "",
@@ -55,10 +44,9 @@ const FounderDetails = () => {
   const storedValue = founderDetails.name;
   const valueWithoutSpaces = storedValue.replace(/\s/g, '');
   const fileName = valueWithoutSpaces + "/" + generateRandomString(25);
+  const [cookies, setCookie] = useCookies()
+  const navigate = useNavigate("/")
 
-  
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -85,6 +73,49 @@ const FounderDetails = () => {
 
     fetchData();
   }, []);
+
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+  const handleEmailChange = (e) => {
+    const { value } = e.target;
+    const isValidEmail = validateEmail(value);
+    setIsEmailValid(isValidEmail); // Update the validity state
+    setFounderDetails({ ...founderDetails, email: value });
+  };
+
+
+  const [isLinkedinValid, setIsLinkedinValid] = useState(true);
+
+    const validateLinkedIn = (url) => {
+      const pattern = /^https?:\/\/(www\.)?linkedin\.co/;
+      return pattern.test(url);
+  };
+
+    const handleLinkedinChange = (e) => {
+      const { value } = e.target;
+      const isValidLinkedIn = validateLinkedIn(value);
+      setIsLinkedinValid(isValidLinkedIn); // Update validity state based on the URL check
+      setFounderDetails({ ...founderDetails, linkedin: value });
+    };
+
+    const [isPhoneValid, setIsPhoneValid] = useState(true);
+
+    const validatePhoneNumber = (phone) => {
+      const internationalPattern = /^\+[1-9]{1,3} [0-9]{1,11}$/; // Total max length 16 (including + and spaces)
+      const localPattern = /^0[0-9]{1,11}$/; // Total max length 12
+      return internationalPattern.test(phone) || localPattern.test(phone);
+      };
+
+      const handlePhoneChange = (e) => {
+          const { value } = e.target;
+          const isValidPhone = validatePhoneNumber(value);
+          setIsPhoneValid(isValidPhone); // Update validity state based on the phone number check
+          setFounderDetails({ ...founderDetails, phoneNumber: value });
+
+      };
 
   const handleProfilePictureChange = async (e) => {
     
@@ -134,7 +165,8 @@ const FounderDetails = () => {
   
   const handleUpdate = async () => {
  
-    console.log("before: ", founderDetails)
+    console.log( JSON.stringify(founderDetails))
+
     
     try {
         const response = await fetch(`https://startupvault-foundry.vercel.app/auth/founder/${idFounder}/`, {
@@ -148,137 +180,46 @@ const FounderDetails = () => {
         if (!response.ok) {
             throw new Error("Failed to update data");
         }
+        const data = await response.json()
         console.log("Data updated successfully");
         console.log("Navigating to /founderReadForm...");
+        setCookie("login", { path: '/', expires:new Date(Date.now() + 60 * 60 * 1000)});
+         // Set each key-value pair from the response JSON as a separate cookie
+        Object.keys(data).forEach(key => {
+          setCookie(key, data[key], { path: '/', expires:new Date(Date.now() + 60 * 60 * 1000)}); // Set cookie for each key-value pair
+        });
+          console.log(cookies)
         navigate('/founderReadForm');
     } catch (error) {
         console.error("Error:", error);
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleUpdate();
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const UpdateConfirmationModal = ({ onClose, onUpdate }) => {
+    return (
+      <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
+        <div className="bg-gray-800 p-8 rounded-lg">
+          <p className="text-white mb-4">Are you sure you want to update these details?</p>
+          <div className="flex justify-end">
+            <button className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50" onClick={onClose}>No</button>
+            <button className="bg-green-500 text-white py-2 px-4 mr-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50" onClick={onUpdate}>Yes</button>
+            
+          </div>
+        </div>
+      </div>
+    );
   };
 
-  return (
-      <section className="flex flex-col w-[60%] max-md:w-full">
-        <form onSubmit={handleSubmit}>
-          <div className="px-5 pt-9 pb-20">
-              <div className="flex flex-wrap gap-5 justify-between content-center self-start pr-14 text-stone-100 max-md:pr-5">
-                  <h2 className="text-5xl font-semibold tracking-wider leading-[54px]">Founder Details</h2>
-                  <button className="flex gap-1.5 justify-center px-3.5 py-1.5 my-auto text-xl tracking-wide rounded-xl border border-solid shadow-sm bg-neutral-400 bg-opacity-40 border-neutral-400">
-                      <span>editing mode</span>
-                      {/* Add your image component here */}
-                  </button>
-              </div>
-              {/* Add profile picture change section */}
-              <div className="mt-5 flex flex-col">
-                  {/* Replace the following divs with input fields for editing */}
-                  <div className="flex gap-4 self-start mt-5">
-                    {profilePicture ? (
-                      <div className="flex flex-1 justify-center items-center">
-                      <img
-                        src={profilePicture}
-                        loading="lazy"
-                        className="bg-green-700 rounded-full aspect-square w-[160px]"
-                        alt="profile avatar"
-                      />
-                      </div>
-                    ) : (
-                      <div className="flex flex-1 justify-center items-center">
-                        <img loading="lazy" 
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/ed1345ea404a723338ff721ac0a6577f3b2b779ec21cbe5039152ea32aaaf38f?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-                        alt="Founder's portrait" className="mt-5 bg-green-700 rounded-full aspect-[0.99] h-[160px] w-[160px]" />
-                      </div>
-                          )}
-                        <div className="flex justify-center items-center mt-3 pl-6">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      id="profile-picture-upload"
-                      // value={founderDetails.image}
-                      // onChange={(e) => setFounderDetails({ ...founderDetails, image: e.target.files[0] })}
-                      onChange={handleProfilePictureChange}
-                      style={{ display: "none" }} // Hide the file input
-                    />
-                    <label htmlFor="profile-picture-upload" className="cursor-pointer text-sm font-light tracking-wide text-blue-400 whitespace-nowrap">
-                      Change profile picture
-                    </label>
-                    </div>
-                  </div>
-                  <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Email</div>
-                  <input
-                    type="text"
-                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
-                    placeholder=" "
-                    value={founderDetails.email}
-                    onChange={(e) => setFounderDetails({ ...founderDetails, email: e.target.value })}
-                    required
-                  />
-                  <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Name</div>
-                  <input
-                    type="text"
-                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
-                    placeholder=" "
-                    value={founderDetails.name}
-                    onChange={(e) => setFounderDetails({ ...founderDetails, name: e.target.value })}
-                    required
-                  />
-                  <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">LinkedIn</div>
-                  <input
-                    type="text"
-                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
-                    placeholder=" "
-                    value={founderDetails.linkedin}
-                    onChange={(e) => setFounderDetails({ ...founderDetails, linkedin: e.target.value })}
-                    required
-                  />
-                  <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Phone Number</div>
-                  <input
-                    type="text"
-                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
-                    placeholder=" "
-                    value={founderDetails.phoneNumber}
-                    onChange={(e) => {
-                        const inputValue = e.target.value;
-                        const numericValue = parseInt(inputValue);
-
-                        // Check if the input is not a number or if its length exceeds 12
-                        if (isNaN(numericValue) || inputValue.length > 12) {
-                            alert("Please enter a valid phone number with a maximum of 12 numbers.");
-                            return;
-                        }
-
-                        // Update the state only if it meets the criteria
-                        setFounderDetails({ ...founderDetails, phoneNumber: inputValue });
-                    }}
-                    required
-                  />
-              </div>
-              <div className="flex gap-2 mt-5 pr-20 text-xl font-semibold tracking-widest">
-                  <a type="button" href="/founderReadForm" className="px-4 py-2 rounded-2xl border border-solid border-stone-100 text-stone-100">cancel</a>
-                  <button className="px-5 py-2 text-black bg-green-400 rounded-2xl" type="submit">save</button>
-              </div>
-          </div>
-        </form>
-      </section>
-  );
-};
-
-function EditDetailsPage() {
-  const myCookies = new Cookies();
-  const idFounder = myCookies.get('id')
-  const nameFounder = myCookies.get('name')
-  const profilePicture = myCookies.get('image')
-  const idStartup = myCookies.get('startup')
-  const token = myCookies.get('token')
-
-  const menuItems = [
-    { src: "https://cdn.builder.io/api/v1/image/assets/TEMP/27c36da114ed300adb9add9fce8d851f4c7b22802ffaf460c4b83dfdad7092bb?apiKey=9ff2a73e8144478896bce8206c80f3e2&", alt: "Overview icon", text: "Overview" },
-    { src: "https://cdn.builder.io/api/v1/image/assets/TEMP/3cef65a25dfa47f096a12f653a5687356c49974a2b901252287cba6ffe7f302d?apiKey=9ff2a73e8144478896bce8206c80f3e2&", alt: "Updates icon", text: "Weekly Updates" },
-    { src: "https://cdn.builder.io/api/v1/image/assets/TEMP/af603136276046e8322b35f550ed99cb4cb7f42f4be19979861c7f70c3f1a3ce?apiKey=9ff2a73e8144478896bce8206c80f3e2&", alt: "Details icon", text: "Startup Details" },
-  ];
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setShowConfirmationModal(true); // Show confirmation modal
+  };
+  
+  const handleUpdateConfirmation = async () => {
+    setShowConfirmationModal(false); // Close the modal after confirming
+    await handleUpdate(); // Proceed with the update
+  };
 
   return (
     <div className="flex flex-col justify-center bg-black min-h-screen px-20">
@@ -286,11 +227,124 @@ function EditDetailsPage() {
     <main className="pb-20 w-full max-md:pr-5 max-md:max-w-full">
       <aside className="flex gap-5 max-md:flex-col max-md:gap-0">
           <SideBar status={"profile"}/>
-          <FounderDetails/>
-        </aside>
+            <section className="flex flex-col w-[60%] max-md:w-full">
+              <form onSubmit={handleSubmit}>
+                <div className="px-5 pt-9 pb-20">
+                    <div className="flex flex-wrap gap-5 justify-between content-center self-start pr-14 text-stone-100 max-md:pr-5">
+                        <h2 className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">Founder Details</h2>
+                        <button className="flex gap-1.5 justify-center px-3.5 py-1.5 my-auto text-xl tracking-wide rounded-xl border border-solid shadow-sm bg-neutral-400 bg-opacity-40 border-neutral-400">
+                            <span>editing mode</span>
+                            {/* Add your image component here */}
+                        </button>
+                    </div>
+                    {/* Add profile picture change section */}
+                    <div className="mt-5 flex flex-col">
+                        {/* Replace the following divs with input fields for editing */}
+                        <div className="flex gap-4 self-start mt-5">
+                        { profilePicture? (
+                          <div className="flex flex-col justify-center items-start px-8 py-8 mt-3.5 max-w-full rounded-full w-[146px] h-[146px] max-md:px-5 bg-green-700"
+                          style={{ backgroundImage: `url(${founderDetails.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                          >
+                            </div>
+                          ) : (
+                              <div className="flex flex-col justify-center items-start px-8 py-8 mt-3.5 max-w-full rounded-full w-[146px] h-[146px] max-md:px-5 bg-green-700">
+                              <div className="flex flex-1 justify-center items-center">
+                              <img
+                                      loading="lazy"
+                                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/47ca398fa854e64d37677f75ca6a4dfad6cf6c9cad694afcabd944dce2397c1b?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
+                                      className="object-cover object-center w-[83px] h-[83px] rounded-xl"
+                                      alt="Founder's portrait"
+                                  />
+                              </div>
+                              </div>
+                                )}
+                              <div className="flex justify-center items-center mt-3 pl-6">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            id="profile-picture-upload"
+                            // value={founderDetails.image}
+                            // onChange={(e) => setFounderDetails({ ...founderDetails, image: e.target.files[0] })}
+                            onChange={handleProfilePictureChange}
+                            style={{ display: "none" }} // Hide the file input
+                          />
+                          <label htmlFor="profile-picture-upload" className="cursor-pointer text-sm font-light tracking-wide text-blue-400 whitespace-nowrap">
+                            Change profile picture
+                          </label>
+                          </div>
+                        </div>
+                        <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Email</div>
+                        <input
+                          type="email" // More semantic input type for email
+                          className={`block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 ${isEmailValid ? 'focus:border-green-400' : 'border-red-500 focus:border-red-500'} focus:outline-none focus:ring-0 peer`}
+                          placeholder="Enter your email"
+                          value={founderDetails.email}
+                          onChange={handleEmailChange}
+                          required
+                        />
+                        {!isEmailValid && (
+                          <div className="text-red-500 text-xs mt-1">
+                            Please enter a valid email address.
+                          </div>
+                        )}
+                        <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Name</div>
+                        <input
+                          type="text"
+                          className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
+                          placeholder=" "
+                          value={founderDetails.name}
+                          onChange={(e) => setFounderDetails({ ...founderDetails, name: e.target.value })}
+                          required
+                        />
+                        <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">LinkedIn</div>
+                        <input
+                          type="text"
+                          className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
+                          placeholder=" "
+                          value={founderDetails.linkedin}
+                          onChange={handleLinkedinChange}
+                          required
+                        />
+                        {!isLinkedinValid && (
+                              <div className="text-red-500 text-xs mt-1">
+                                  Please enter a valid LinkedIn URL.
+                              </div>
+                          )}
+                        <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Phone Number</div>
+                        <input
+                            type="text"
+                            className={`block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer ${isPhoneValid ? '' : 'border-red-500'}`}
+                            placeholder="Enter a valid phone number"
+                            value={founderDetails.phoneNumber}
+                            onChange={handlePhoneChange}
+                            required
+                        />
+                        {!isPhoneValid && (
+                            <div className="text-red-500 text-xs mt-1">
+                              Please enter a valid international number with a country code or local phone number. <br></br>
+                              International number starts with + and is followed by 1 to 3 digits. Then, add space between the country code and Phone Number Body. Maximum length of international number is 15 digits.<br></br>
+                              Local number starts with 0 and ensure the total length does not exceed 12 digits.
+                            </div>
+                        )}
+                    </div>
+                    <div className="flex gap-2 mt-5 pr-20 text-xl font-semibold tracking-widest">
+                        <a type="button" href="/founderReadForm" className="px-4 py-2 rounded-2xl border border-solid border-stone-100 text-stone-100">cancel</a>
+                        <button className="px-5 py-2 text-black bg-green-400 rounded-2xl" type="submit">save</button>
+                    </div>
+                </div>
+              </form>
+            </section>
+            </aside>
+        {showConfirmationModal && (
+              <UpdateConfirmationModal
+                onClose={() => setShowConfirmationModal(false)}
+                onUpdate={handleUpdateConfirmation}
+              />
+            )}
       </main>
     </div>
   );
-}
+};
 
-export default EditDetailsPage;
+
+export default FounderEditDetails;

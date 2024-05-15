@@ -44,7 +44,7 @@ function PartnerDashboard(props) {
 	  };
 
     const fetchDataPost = async () => {
-        const endpoint = `http://localhost:8000/showcase/${idPartner}/`
+        const endpoint = `https://startupvault-foundry.vercel.app/showcase/${idPartner}/`
   
         try {
           const response = await fetch(endpoint, {
@@ -67,7 +67,7 @@ function PartnerDashboard(props) {
 
 	const fetchDataEvent = async () => {
 		try {
-			const response = await fetch(`http://localhost:8000/event/created-events/${idPartner}/`, {
+			const response = await fetch(`https://startupvault-foundry.vercel.app/event/created-events/${idPartner}/`, {
 				method: 'GET',
 				headers: {
 					'Authorization': 'Bearer ' + token
@@ -88,7 +88,7 @@ function PartnerDashboard(props) {
 		<div className=" px-20 flex flex-col justify-center self-center bg-black overflow-auto">
 			<NavBar status={"dashboard"}/>
 			<div className="pb-20 w-full max-md:pr-5 max-md:max-w-full">
-				<div className="flex gap-8 max-md:flex-col max-md:gap-0">
+				<div className="flex gap-16 max-md:flex-col max-md:gap-0">
 					<SideBar status={"overview"}/>
 					<CreatedEvents />
 					<OrgPartnerPreview />

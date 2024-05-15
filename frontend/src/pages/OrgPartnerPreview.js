@@ -40,7 +40,7 @@ function OrgPartnerPreview(props) {
 	  };
 
     const fetchDataPost = async () => {
-        const endpoint = `http://localhost:8000/showcase/${idPartner}/`
+        const endpoint = `https://startupvault-foundry.vercel.app/showcase/${idPartner}/`
   
         try {
           const response = await fetch(endpoint, {
@@ -63,7 +63,7 @@ function OrgPartnerPreview(props) {
 
 	const fetchDataEvent = async () => {
 		try {
-			const response = await fetch(`http://localhost:8000/event/created-events/${idPartner}/`, {
+			const response = await fetch(`https://startupvault-foundry.vercel.app/event/created-events/${idPartner}/`, {
 				method: 'GET',
 				headers: {
 					'Authorization': 'Bearer ' + token
@@ -108,45 +108,45 @@ function OrgPartnerPreview(props) {
                         </div>		
                         </div>
                 </div>
-                <div class="self-stretch h-14 rounded-lg flex-col justify-start items-start gap-2 flex">
-                    <div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
-                        <div class="self-stretch">
-                            <span class="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Event</span>
+                <div className="self-stretch h-14 rounded-lg flex-col justify-start items-start gap-2 flex">
+                    <div className="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
+                        <div className="self-stretch">
+                            <span className="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Event</span>
                         </div>
                     </div>
-                    <div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
-                        <div class="self-stretch">
+                    <div className="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
+                        <div className="self-stretch">
                             <span className="text-stone-100 text-xl font-medium font-['SF Pro Display'] tracking-tight">{counts.all}</span>
-                            <span class="text-stone-100 text-base font-medium font-['SF Pro Display'] tracking-tight"> event</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="self-stretch h-14 rounded-lg flex-col justify-start items-start gap-2 flex">
-                    <div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
-                        <div class="self-stretch">
-                            <span class="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Post</span>
-                        </div>
-                    </div>
-                    <div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
-                        <div class="self-stretch">
-                            <span class="text-stone-100 text-xl font-medium font-['SF Pro Display'] tracking-tight">{listPost.length}</span>
-                            <span class="text-stone-100 text-base font-medium font-['SF Pro Display'] tracking-tight"> post</span>
+                            <span className="text-stone-100 text-base font-medium font-['SF Pro Display'] tracking-tight"> event</span>
                         </div>
                     </div>
                 </div>
                 <div className="self-stretch h-14 rounded-lg flex-col justify-start items-start gap-2 flex">
-                    <div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
-                        <div class="self-stretch">
-                            <span class="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Location</span>
+                    <div className="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
+                        <div className="self-stretch">
+                            <span className="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Post</span>
+                        </div>
+                    </div>
+                    <div className="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
+                        <div className="self-stretch">
+                            <span className="text-stone-100 text-xl font-medium font-['SF Pro Display'] tracking-tight">{listPost.length}</span>
+                            <span className="text-stone-100 text-base font-medium font-['SF Pro Display'] tracking-tight"> post</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="self-stretch h-14 rounded-lg flex-col justify-start items-start gap-2 flex">
+                    <div className="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
+                        <div className="self-stretch">
+                            <span className="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">Location</span>
                         </div>
                     </div>
                     <div className="text-white text-base font-medium font-['SF Pro Display'] tracking-tight">{partnerData.location}</div>
                 </div>
 
                 <div className="self-stretch h-[72px] rounded-lg flex-col justify-start items-start gap-2 flex" style={{ marginBottom:'20px'}}>
-                <div class="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
-                    <div class="self-stretch">
-                        <span class="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">LinkedIn</span>
+                <div className="w-[225px] h-[29px] flex-col justify-start items-start gap-1 flex">
+                    <div className="self-stretch">
+                        <span className="text-neutral-400 text-base font-normal font-['SF Pro Display'] tracking-tight">LinkedIn</span>
                     </div>
                 </div>
                         <div className="px-4 py-2 bg-neutral-700 rounded-lg justify-center items-center gap-3 inline-flex" style={{ maxWidth: 'calc(100% - 8px)'}}>
@@ -156,7 +156,7 @@ function OrgPartnerPreview(props) {
                 </div>
                 <div className="mt-5 self-stretch h-[72px] rounded-lg flex-col justify-start items-start gap-2 flex">
                 <Link to="/orgPartnerReadForm">
-                <div className="flex justify-end px-5 py-3 bg-stone-100 rounded-lg justify-center items-center gap-2.5 inline-flex" >				
+                <div className="px-5 py-3 bg-stone-100 rounded-lg justify-center items-center gap-2.5 inline-flex" >				
                     <div className="text-black text-xl font-semibold font-['Zuume'] tracking-wider">View public profile</div>
                 </div>
                 </Link>

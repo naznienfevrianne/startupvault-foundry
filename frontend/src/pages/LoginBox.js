@@ -22,7 +22,7 @@ function LoginBox(props) {
           "email":email,
           "password":password
         }))
-        const response = await fetch("https://startupvault-foundry.vercel.app/auth/login/", {
+        const response = await fetch("https://startupvault-foundry.vercel.app//auth/login/", {
         method:'POST',
         headers: {
           'Content-Type':'application/json'

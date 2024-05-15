@@ -20,11 +20,11 @@ function EventDetails(props){
 
     const fetchData = async () => {
         try {
-          const response = await fetch(`http://localhost:8000/event/${idEvent}/`, {
+          const response = await fetch(`https://startupvault-foundry.vercel.app/event/${idEvent}/`, {
             method:"GET",
             headers: {
               'Content-Type': 'application/json',
-              // 'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${token}`
             }
           });
           if (!response.ok) {
@@ -35,7 +35,7 @@ function EventDetails(props){
   
           console.log(details)
 
-          setFormattedPrice(details.price.toLocaleString())
+          setFormattedPrice(details.price.toLocaleString('id-ID'))
 
           let date = format(new Date(details.date), 'EEEE, d MMMM yyyy')
           setFormattedDate(date)
@@ -116,6 +116,7 @@ function EventDetails(props){
                           />
                           {formattedDate}
                         </div>
+                        <Link to={`/event-details/${idEvent}/${eventDetails.partner_org_id}`}>
                         <div className="justify-start items-start gap-4 flex mt-5">
                           <img
                               loading="lazy"
@@ -134,6 +135,7 @@ function EventDetails(props){
                             <div className="text-s text-neutral-400">Partner</div>
                           </div>
                         </div>
+                        </Link>
                       </div>
                     )}
                     {activeMenu === "about" && (
@@ -141,7 +143,7 @@ function EventDetails(props){
                         <div className="mt-3 text-2xl font-semibold text-stone-100 max-md:max-w-full">
                           About this event
                         </div>
-                        <div className="flex flex-wrap gap-3 mt-2 text-md text-stone-100 text-justify max-md:flex-wrap max-md:pr-5">
+                        <div className="flex flex-wrap gap-3 mt-2 text-md text-stone-100 text-justify max-md:flex-wrap max-md:pr-5 whitespace-pre-line break-words">
                           {eventDetails.desc}
                         </div>
                       </div>

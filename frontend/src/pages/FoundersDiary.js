@@ -206,7 +206,7 @@ function FounderDiary(props) {
             <div className="flex flex-col w-[55%] max-md:ml-0 max-md:w-full">
               <div className="flex flex-col grow justify-center pt-6 max-md:max-w-full">
                 <div className="flex gap-5 justify-between max-md:flex-wrap max-md:max-w-full">
-                  <div className="flex-auto text-3xl font-semibold tracking-wide text-stone-100">
+                  <div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">
                     Weekly Updates
                   </div>
                 </div>
@@ -386,7 +386,7 @@ function FounderDiary(props) {
                                     </div>
                                 </div>
                                 <div className="mt-7 text-base tracking-wide text-neutral-400">
-                                    {item.sales} unit(s)
+                                    {item.sales.toLocaleString('id-ID')} unit(s)
                                 </div>
                                 </div>
                             </div>
@@ -405,7 +405,7 @@ function FounderDiary(props) {
                                     </div>
                                 </div>
                                 <div className="mt-7 text-base tracking-wide text-neutral-400">
-                                    IDR {item.revenue}
+                                    IDR {item.revenue.toLocaleString('id-ID')}
                                 </div>
                                 </div>
                             </div>
@@ -424,7 +424,7 @@ function FounderDiary(props) {
                                     </div>
                                 </div>
                                 <div className="mt-7 text-base tracking-wide whitespace-nowrap text-neutral-400">
-                                    {item.user} user(s)
+                                    {item.user.toLocaleString('id-ID')} user(s)
                                 </div>
                                 </div>
                             </div>
@@ -433,7 +433,7 @@ function FounderDiary(props) {
                         <div className="mt-3 text-lg font-semibold tracking-wide text-stone-100 max-md:max-w-full">
                             Lesson Learned
                         </div>
-                        <div className="mt-4 text-base tracking-wide text-neutral-400 max-md:max-w-full break-words">
+                        <div className="mt-4 text-base tracking-wide text-neutral-400 max-md:max-w-full break-words whitespace-pre-line">
                             {item.lessonLearned}
                         </div>
                         </div>
