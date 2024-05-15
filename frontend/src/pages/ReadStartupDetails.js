@@ -202,32 +202,30 @@ useEffect(() => {
 
     const [sort, setSort] = useState("-date");
 
-  
-
     const fetchWeeklyEntries = async (founderId) => {
       if (!founderId) return; // Ensure founderId is available
-      let endpoint;
+      // let endpoint;
 
-			if(value.startDate != null && value.endDate != null && searchTerm.length != 0){
-				endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}&startup_name=`
+			// if(value.startDate != null && value.endDate != null && searchTerm.length != 0){
+			// 	endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}&startup_name=`
 
-				for(let i = 0; i < searchTerm.length; i++){
-					endpoint += `${searchTerm[i]},`
-				}
-			} else if (value.startDate != null && value.endDate != null){
-				endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}`
-			} else if (searchTerm.length != 0){
-				endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}?sort=${sort}&startup_name=`
-				for(let i = 0; i < searchTerm.length; i++){
-					endpoint += `${searchTerm[i]},`
-				}
-			} else{
-				endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}?sort=${sort}`
-			} 
+			// 	for(let i = 0; i < searchTerm.length; i++){
+			// 		endpoint += `${searchTerm[i]},`
+			// 	}
+			// } else if (value.startDate != null && value.endDate != null){
+			// 	endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}`
+			// } else if (searchTerm.length != 0){
+			// 	endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}?sort=${sort}&startup_name=`
+			// 	for(let i = 0; i < searchTerm.length; i++){
+			// 		endpoint += `${searchTerm[i]},`
+			// 	}
+			// } else{
+			// 	endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}?sort=${sort}`
+			// } 
       
 
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntriesRead/founder/${founderId}`, {
         method:"GET",
         headers: {
           'Content-Type': 'application/json',
@@ -245,6 +243,50 @@ useEffect(() => {
       console.error("Error:", error);
     }
   };
+
+  
+
+  //   const fetchWeeklyEntries = async (founderId) => {
+  //     if (!founderId) return; // Ensure founderId is available
+  //     let endpoint;
+
+	// 		if(value.startDate != null && value.endDate != null && searchTerm.length != 0){
+	// 			endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}&startup_name=`
+
+	// 			for(let i = 0; i < searchTerm.length; i++){
+	// 				endpoint += `${searchTerm[i]},`
+	// 			}
+	// 		} else if (value.startDate != null && value.endDate != null){
+	// 			endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}?sort=${sort}&startDate=${value.startDate}&endDate=${value.endDate}`
+	// 		} else if (searchTerm.length != 0){
+	// 			endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}?sort=${sort}&startup_name=`
+	// 			for(let i = 0; i < searchTerm.length; i++){
+	// 				endpoint += `${searchTerm[i]},`
+	// 			}
+	// 		} else{
+	// 			endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}?sort=${sort}`
+	// 		} 
+      
+
+  //   try {
+  //     const response = await fetch(endpoint, {
+  //       method:"GET",
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Bearer ${token}`
+  //       }
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error("Failed to fetch data");
+  //     }
+  //     const entry = await response.json();
+  //     setListEntries(entry);
+  //     console.log(listEntries);
+
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
 
   const handleSort = () => {
     if(sort === "-date"){
@@ -589,7 +631,7 @@ useEffect(() => {
         return (
           <>
           <div className="mt-2 max-w-full w-[930px]" style={{ minHeight: '400px' }}>
-            <div className="flex justify-between items-end mt-10">
+            {/* <div className="flex justify-between items-end mt-10">
               <div>
                 <div className="mb-2 text-3xl font-semibold tracking-wide text-stone-100 max-md:max-w-full">
                   Diary Entries
@@ -632,7 +674,7 @@ useEffect(() => {
 
                 /> 
               </div>
-            </div>
+            </div> */}
             {listEntries.length > 0 ? (
               listEntries.map((item, index) => (
                 <li key={index}>
