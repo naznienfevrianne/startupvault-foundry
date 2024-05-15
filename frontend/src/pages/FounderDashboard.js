@@ -353,11 +353,11 @@ function FounderDashboard(props) {
                 </div>
                 <div className="flex gap-5 justify-between mt-4 mr-3">
                 <div className="flex gap-2 self-start pr-2 text-2xl font-semibold tracking-wider leading-10 text-white">
-                  <div className="grow" style={{
+                  <div className="grow break-words" style={{
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',  // Ensures the text stays in a single line
-                    maxWidth: '80%',      // Use maxWidth to allow the container to grow and shrink dynamically
+                    maxWidth: '70%',      // Use maxWidth to allow the container to grow and shrink dynamically
                   }}>
                     {startupData.name}
                   </div>
