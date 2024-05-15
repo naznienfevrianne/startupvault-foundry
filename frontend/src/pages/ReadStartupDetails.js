@@ -443,7 +443,7 @@ useEffect(() => {
                       className="w-6 aspect-square"
                     />
                   </div>
-                  <div className="mt-4 text-xl text-neutral-400">Valuation</div>
+                  <div className="mt-4 text-xl text-neutral-400">Ticket size</div>
                   <div className="mt-4 text-xl tracking-wide text-green-400">
                   {(() => {
                     switch (startup.revenue) {
