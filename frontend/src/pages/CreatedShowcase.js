@@ -30,7 +30,7 @@ function CreatedShowcase(props) {
         let endpoint;
   
         if(searchTerm != ""){
-          endpoint = `https://startupvault-foundry.vercel.app/showcase/${idPartner}/?sort=${sort}&search=${searchTerm}`
+          endpoint = `https://startupvault-foundry.vercel.app/showcase/${idPartner}/?sort=${sort}&search=${typedValue}`
         } else{
           endpoint = `https://startupvault-foundry.vercel.app/showcase/${idPartner}/?sort=${sort}`
         }
