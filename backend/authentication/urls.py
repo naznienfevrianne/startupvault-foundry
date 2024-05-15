@@ -20,6 +20,7 @@ from .views import (
     login, 
     check_email,
     test_token,
+    encrypt_passwords
 )
 
 
@@ -44,4 +45,5 @@ urlpatterns = [
     path("checkEmail/", check_email, name="check-email"),
     path("testToken/", test_token, name="test-token"),
     path('getStatus/<int:pk>', UserRetrieveUpdateDestroy.as_view(), name='get-status'),
+    path('encryptPass/', encrypt_passwords, name="encrypt-pass")
 ]
