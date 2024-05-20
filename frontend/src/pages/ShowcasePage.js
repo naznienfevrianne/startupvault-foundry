@@ -278,27 +278,6 @@ const CategoryButton = ({ categoryName, onClick }) => (
   </div>
 );
 
-
-
-//const CategoriesSection = ({ setSelectedCategory }) => {
-//  const categories = ["Ed-Tech", "Health-Tech", "Transportation", "Fin-Tech", "Food-Tech"]; // Example categories
-//
-//  return (
-//    <section className="flex flex-col items-start p-6 mt-6 rounded-lg w-[338px] bg-neutral-800 text-stone-100 max-md:px-5">
-//      <header className="self-stretch mb-3">
-//        <h2 className="text-xl font-medium tracking-wide text-white">Popular categories</h2>
-//      </header>
-//      <div className="flex gap-3 flex-wrap">
-//        {categories.map(categoryName => (
-//          <CategoryButton key={categoryName} categoryName={categoryName} onClick={() => setSelectedCategory(categoryName)} />
-//        ))}
-//      </div>
-//    </section>
-//  );
-//};
-
-
-
 const SearchBar = ({ setSearchTerm }) => { // Accept setSearchTerm as a prop
   return (
     <div className="flex gap-3 p-4 bg-neutral-800 rounded-[30px] w-[338px] text-stone-300">
@@ -333,6 +312,7 @@ const Showcase = () => {
         if (response.ok) {
           const data = await response.json();
           myCookies.set('isVerified', data.isVerified);
+          myCookies.set('rejectionNote', data.rejectionNote);
         } else {
           console.error('Failed to fetch isVerified status');
         }
