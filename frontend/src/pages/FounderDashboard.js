@@ -15,8 +15,6 @@ function FounderDashboard(props) {
   const myCookies = new Cookies();
 
   const idFounder = myCookies.get('id')
-  const nameFounder = myCookies.get('name')
-  const profilePicture = myCookies.get('image')
   const idStartup = myCookies.get('startup')
   const token = myCookies.get('token')
   
@@ -194,27 +192,6 @@ function FounderDashboard(props) {
       document.body.removeChild(textarea);
     }
   };
-
-
-  const fetchDataFounder = async () => {
-    try {
-        const response = await fetch(`https://startupvault-foundry.vercel.app/auth/startup/${idStartup}/`,{
-          method: "GET", 
-          headers:{
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + token
-          }
-          }
-          );
-        if (!response.ok) {
-            throw new Error("Failed to fetch data");
-        }
-        const entry = await response.json();
-        setStartupData(entry);
-    } catch (error) {
-        console.log("Error:", error);
-    }
-};
 
   return (
     <div className="flex flex-col justify-center bg-black min-h-screen px-20 overflow-auto">
