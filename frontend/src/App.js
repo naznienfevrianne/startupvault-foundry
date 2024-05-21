@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import RegisterBoxFix from './pages/RegisterBoxFix';
+import RegisterBox from './pages/RegisterBox';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import PickRole from './pages/PickRole';
 import StartupType from './pages/StartupType';
@@ -56,7 +56,7 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Showcase />} />
-                <Route path="/register" element={<RegisterBoxFix />} />
+                <Route path="/register" element={<RegisterBox />} />
                 <Route path="/pickRole" element={<PickRole />} />
                 <Route path="/userForm" element={<UserForm />} />
                 <Route path="/startupType" element={<StartupType />} />
