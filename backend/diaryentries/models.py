@@ -21,8 +21,3 @@ class FollowTable(models.Model):
         return f"{self.investor.name} follow {self.startup.name}"
 
 
-# class Follow(models.Model):
-#     followed_startup = models.ForeignKey(Startup, on_delete=models.CASCADE, related_name='followed_startup')
-#     following_investor = models.ForeignKey(Investor, on_delete=models.CASCADE, related_name='following_investor')
-#     date = models.DateTimeField(auto_now_add=True)
-
