@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import{ Cookies } from 'react-cookie';
 import { useParams } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 function SideBarContact() {
     const myCookies = new Cookies();
@@ -192,18 +193,20 @@ function SideBarContact() {
           </div>
           )}
         <div className="my-auto text-base font-medium tracking-wide text-ellipsis text-neutral-400">
+
           <span className="text-2xl leading-7 text-stone-100">{totalFollowers}</span>{" "}
-          followers
+          follower(s)
+
         </div>
       </div>
       {role === 'investor' && (
             <button
-              className={`justify-center items-center px-5 py-3 mt-4 text-xl font-semibold tracking-widest text-black whitespace-nowrap rounded-3xl ${
+              className={`justify-center items-center px-5 py-3 mt-4 text-xl font-semibold text-black whitespace-nowrap rounded-3xl ${
                 isFollowing ? 'bg-gray-400' : 'bg-green-400'
               }`}
               onClick={toggleFollow}
             >
-              {isFollowing ? 'UNFOLLOW' : 'FOLLOW'}
+              {isFollowing ? 'Unfollow' : 'Follow'}
             </button>
 
           )}

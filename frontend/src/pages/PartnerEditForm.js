@@ -206,14 +206,14 @@ const PartnerDetails = () => {
           <div className="px-5 pt-9 pb-20">
               <div className="flex flex-wrap gap-5 justify-between content-center self-start pr-14 text-stone-100 max-md:pr-5">
                   <h2 className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">Partner Details</h2>
-                  <button className="flex gap-1.5 justify-center px-3.5 py-1.5 my-auto text-xl tracking-wide rounded-xl border border-solid shadow-sm bg-neutral-400 bg-opacity-40 border-neutral-400">
+                  <button className="flex gap-1.5 justify-center px-3.5 py-1.5 my-auto text-base tracking-wide rounded-xl border border-solid shadow-sm bg-neutral-400 bg-opacity-40 border-neutral-400">
                       <span>editing mode</span>
                       {/* Add your image component here */}
                   </button>
               </div>
               {/* Add profile picture change section */}
-              <div className="mt-5 flex flex-col">
-                <div className="flex gap-4 justify-between self-start mt-5">
+              <div className="flex flex-col">
+                <div className="flex gap-4 justify-between self-start mt-2">
                     { partnerDetails.image? (
                     <div className="flex flex-col justify-center items-start px-8 py-8 mt-3.5 max-w-full rounded-full w-[146px] h-[146px] max-md:px-5 bg-green-700"
                     style={{ backgroundImage: `url(${partnerDetails.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
@@ -298,9 +298,9 @@ const PartnerDetails = () => {
                       </div>
                   )}
               </div>
-              <div className="flex gap-2 mt-5 pr-20 text-xl font-semibold tracking-widest">
-                  <a type="button" href="/partnerReadForm" className="px-4 py-2 rounded-2xl border border-solid border-stone-100 text-stone-100">cancel</a>
-                  <button className="px-5 py-2 text-black bg-green-400 rounded-2xl" type="submit">save</button>
+              <div className="flex gap-2 mt-5 pr-20 text-base font-semibold">
+                  <a type="button" href="/partnerReadForm" className="px-4 py-2 rounded-2xl border border-solid border-stone-100 text-stone-100">Cancel</a>
+                  <button className="px-5 py-2 text-black bg-green-400 rounded-2xl" type="submit">Save</button>
               </div>
           </div>
         </form>

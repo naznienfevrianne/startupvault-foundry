@@ -41,7 +41,7 @@ function PartnerForm(props) {
       
 
     function handlePrevious () {
-        navigate("/partnerType")
+        navigate("/pickRole")
     }
 
     const handleSubmit = async () => {
@@ -123,8 +123,8 @@ function PartnerForm(props) {
         <div className="flex flex-col mt-0 mb-8 w-full max-w-[1120px] max-md:my-10 max-md:max-w-full">
           <div className="flex gap-5 justify-between w-full max-md:flex-wrap max-md:max-w-full">
             <div className="flex flex-col max-md:max-w-full">
-              <div className="mt-0 text-5xl font-semibold tracking-wider leading-[70.8px] text-stone-100 max-md:max-w-full max-md:text-4xl">
-                TELL US MORE ABOUT YOUR ORGANIZATION
+              <div className="mt-0 text-5xl font-semibold leading-[70.8px] text-stone-100 max-md:max-w-full max-md:text-4xl">
+                Tell us more about your organization
               </div>
             </div>
             <div className="flex gap-2.5 my-auto">
@@ -224,7 +224,7 @@ function PartnerForm(props) {
             {errorMessage && (
             <div className="mt-1 text-red-500 text-sm mb-2">{errorMessage}</div>
             )}
-          <div className="flex gap-5 justify-between mt-6 w-full text-l font-semibold tracking-widest whitespace-nowrap max-md:flex-wrap max-md:max-w-full">
+          <div className="flex gap-5 justify-between mt-6 w-full font-semibold whitespace-nowrap max-md:flex-wrap max-md:max-w-full">
             <div 
             onClick = {handlePrevious}
             type="button"
@@ -234,13 +234,13 @@ function PartnerForm(props) {
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/1490109502cde58f41daf764ada1e96816a28eb0bdf60fae2f6faa1f38c7c09d?apiKey=b1a4c3002d354a0a9e5d1136f5930ee4&"
                 className="w-6 aspect-square"
               />
-              <div>PREV</div>
+              <div>Previous</div>
             </div>
             <div 
             onClick = {handleSubmit}
             type="button"
             className="flex gap-2.5 justify-between px-3 py-2 text-black bg-green-400 rounded-3xl hover:border-green-600 border-solid cursor-pointer">
-              <div>NEXT</div>
+              <div>Next</div>
               <img
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/e4dfdc2d09f7db460f0dc4c1b665b65ad9ca9df48bf8263c3aa81b68cfc4cdfe?apiKey=b1a4c3002d354a0a9e5d1136f5930ee4&"

@@ -84,10 +84,10 @@ function OrgPartnerPreview(props) {
         <aside className="flex w-[26%] flex-col justify-start items-end gap-6 ml-auto">
             <div className="flex flex-col p-6 mt-6 w-full rounded-lg bg-neutral-800 gap-6">
                 <div className="self-stretch justify-between items-center inline-flex">
-                        <div className="w-10 text-white text-2xl font-medium font-['SF Pro Display'] tracking-tight">My Organization</div>
+                        <div className="w-10 text-white text-2xl font-medium font-['SF Pro Display']">My Organization</div>
                         <div className="justify-right items-right gap-1 flex">
                         <Link to="/orgPartnerEditForm">
-                        <div className="text-neutral-400 text-sm font-normal font-['SF Pro Display'] tracking-tight">Edit details</div>
+                        <div className="text-neutral-400 text-sm font-normal font-['SF Pro Display']">Edit details</div>
                         </Link>
                         <div className="w-4 h-4 pl-0.5 pr-[1.50px] pt-[1.50px] pb-0.5 justify-center items-center flex" />
                         </div>
@@ -154,12 +154,12 @@ function OrgPartnerPreview(props) {
                         <div className="w-6 h-6 p-[2.25px] justify-center items-center flex" />
                         </div>
                 </div>
-                <div className="mt-5 self-stretch h-[72px] rounded-lg flex-col justify-start items-start gap-2 flex">
-                <Link to="/orgPartnerReadForm">
-                <div className="px-5 py-3 bg-stone-100 rounded-lg justify-center items-center gap-2.5 inline-flex" >				
-                    <div className="text-black text-xl font-semibold font-['Zuume'] tracking-wider">View public profile</div>
-                </div>
-                </Link>
+                <div className="self-stretch h-[72px] rounded-lg flex justify-center items-center">
+                    <Link to="/orgPartnerReadForm" className="w-full flex justify-center">
+                        <div className="px-5 py-3 bg-stone-100 rounded-lg justify-center items-center gap-2.5 flex">
+                            <div className="text-black text-lg font-semibold font-['Zuume'] tracking-wider">View public profile</div>
+                        </div>
+                    </Link>
                 </div>
             </div>
         </aside>

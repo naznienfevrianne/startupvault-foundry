@@ -263,7 +263,7 @@ function generateFileName(file) {
       <form onSubmit={handleSubmit}>
           <div className="px-5 pt-9 pb-20">
               <div className="flex flex-wrap gap-5 justify-between content-center self-start pr-14 text-stone-100 max-md:pr-5">
-                  <h2 className="text-5xl font-semibold tracking-wider leading-[54px]">Edit Event Details</h2>
+                  <h2 className="text-2xl font-semibold tracking-tight text-wrap">Edit Event Details</h2>
                   <button className="flex gap-1.5 justify-center px-3.5 py-1.5 my-auto text-xl tracking-wide rounded-xl border border-solid shadow-sm bg-neutral-400 bg-opacity-40 border-neutral-400">
                       <span>editing mode</span>
                       {/* Add your image component here */}
@@ -407,9 +407,9 @@ function generateFileName(file) {
                     )}
                 </div>
                 
-              <div className="flex gap-2 mt-5 pr-20 text-xl font-semibold tracking-widest">
-                  <a type="button" href="/dashboardPartner" className="px-4 py-2 rounded-2xl border border-solid border-stone-100 text-stone-100">cancel</a>
-                  <button className="px-5 py-2 text-black bg-green-400 rounded-2xl" type="submit">save</button>
+              <div className="flex gap-2 mt-5 pr-20 text-xl font-semibold">
+                  <a type="button" href="/dashboardPartner" className="px-4 py-2 rounded-2xl border border-solid border-stone-100 text-stone-100">Cancel</a>
+                  <button className="px-5 py-2 text-black bg-green-400 rounded-2xl" type="submit">Save</button>
               </div>
           </div>
         </form>

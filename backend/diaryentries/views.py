@@ -91,13 +91,39 @@ class DiaryEntriesListRead(generics.ListCreateAPIView):
         return Entry.objects.filter(founder=founderId)
 
 # Read Diary Entry by Followed Founder
+# class FollowedFounderDiaryEntriesList(generics.ListAPIView):
+#     permission_classes = [AllowAny]
+#     serializer_class = FollowedFounderEntrySerializer
+
+#     # Read
+#     def get_queryset(self):
+#         sort_by = self.request.query_params.get("sort", None)
+#         investor_id = self.kwargs["investor"]
+
+#         start_date = self.request.query_params.get('startDate', None)
+#         end_date = self.request.query_params.get('endDate', None)
+#         startup_name = self.request.query_params.get('startup_name', None)
+        
+#         startups = FollowTable.objects.filter(investor=investor_id).values_list('startup', flat=True)
+#         startups_founders = Founder.objects.filter(startup__in=startups).values_list('id', flat=True)
+
+#         if (start_date is not None) and (end_date is not None) and (startup_name is not None):
+#             startup_name_list = startup_name.split(",")
+#             return Entry.objects.all().filter(founder__in=startups_founders, date__range=[start_date, end_date], founder__startup__name__in=startup_name_list).order_by(sort_by)
+#         elif (start_date is not None) and (end_date is not None):    
+#             return Entry.objects.all().filter(founder__in=startups_founders, date__range=[start_date, end_date]).order_by(sort_by)
+#         elif (startup_name is not None):
+#             startup_name_list = startup_name.split(",")
+#             return Entry.objects.all().filter(founder__in=startups_founders, founder__startup__name__in=startup_name_list).order_by(sort_by)
+#         else:
+#             return Entry.objects.filter(founder__in=startups_founders).order_by(sort_by)
+
 class FollowedFounderDiaryEntriesList(generics.ListAPIView):
     permission_classes = [JWTAuthentication]
     serializer_class = FollowedFounderEntrySerializer
 
-    # Read
     def get_queryset(self):
-        sort_by = self.request.query_params.get("sort", None)
+        sort_by = self.request.query_params.get("sort", "-date")
         investor_id = self.kwargs["investor"]
 
         start_date = self.request.query_params.get('startDate', None)
@@ -107,16 +133,17 @@ class FollowedFounderDiaryEntriesList(generics.ListAPIView):
         startups = FollowTable.objects.filter(investor=investor_id).values_list('startup', flat=True)
         startups_founders = Founder.objects.filter(startup__in=startups).values_list('id', flat=True)
 
-        if (start_date is not None) and (end_date is not None) and (startup_name is not None):
+        queryset = Entry.objects.filter(founder__in=startups_founders)
+        
+        if start_date and end_date:
+            queryset = queryset.filter(date__range=[start_date, end_date])
+        
+        if startup_name:
             startup_name_list = startup_name.split(",")
-            return Entry.objects.all().filter(founder__in=startups_founders, date__range=[start_date, end_date], founder__startup__name__in=startup_name_list).order_by(sort_by)
-        elif (start_date is not None) and (end_date is not None):    
-            return Entry.objects.all().filter(founder__in=startups_founders, date__range=[start_date, end_date]).order_by(sort_by)
-        elif (startup_name is not None):
-            startup_name_list = startup_name.split(",")
-            return Entry.objects.all().filter(founder__in=startups_founders, founder__startup__name__in=startup_name_list).order_by(sort_by)
-        else:
-            return Entry.objects.filter(founder__in=startups_founders).order_by(sort_by)
+            queryset = queryset.filter(founder__startup__name__in=startup_name_list)
+        
+        return queryset.order_by(sort_by)
+    
 
 class FollowingList(generics.ListAPIView):
     permission_classes = [JWTAuthentication]
@@ -127,6 +154,7 @@ class FollowingList(generics.ListAPIView):
         investorId = self.kwargs["investor"]
 
         return FollowTable.objects.filter(investor_id=investorId)
+    
 class ToggleFollowView(APIView):
     permission_classes = [JWTAuthentication]
 
@@ -158,6 +186,7 @@ class ToggleFollowView(APIView):
         total_followers = FollowTable.objects.filter(startup_id=startup_id).count()
 
         return Response({'message': f'{action} the startup.', 'follow_status': action, 'total_followers': total_followers}, status=status.HTTP_200_OK)
+    
 class TotalFollowersView(APIView):
     permission_classes = [JWTAuthentication]
     def get(self, request, startup_id):
@@ -178,3 +207,4 @@ class CheckFollowView(APIView):
         is_following = FollowTable.objects.filter(startup_id=startup_id, investor_id=investor_id).exists()
 
         return Response({'is_following': is_following})
+    

@@ -256,7 +256,7 @@ function InvestorEditForm(props) {
                     Change profile picture
                   </label>
                 </div>
-                <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">
+                <div className="mt-5 text-lg font-medium tracking-wide text-stone-100 max-md:max-w-full">
                   Name
                 </div>
                 <input 
@@ -267,7 +267,7 @@ function InvestorEditForm(props) {
                   className="justify-center items-start px-3 py-3.5 mt-2.5 text-sm tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-w-[800px]"
                   required
                 />
-                <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">
+                <div className="mt-5 text-lg font-medium tracking-wide text-stone-100 max-md:max-w-full">
                   LinkedIn
                 </div>
                 <input
@@ -280,7 +280,7 @@ function InvestorEditForm(props) {
                 { !isLinkedinValid && (
                   <div className="text-red-500 text-sm mt-2">The link should start with https://www.linkedin.com/in/</div>
                 )}
-                <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">
+                <div className="mt-5 text-lg font-medium tracking-wide text-stone-100 max-md:max-w-full">
                   Email
                 </div>
                 <input 
@@ -294,7 +294,7 @@ function InvestorEditForm(props) {
                 { !isEmailValid && (
                   <div className="text-red-500 text-sm mt-2">This email has been taken.</div>
                 )}
-                <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">
+                <div className="mt-5 text-lg font-medium tracking-wide text-stone-100 max-md:max-w-full">
                   Phone Number
                 </div>
                 <input 
@@ -314,11 +314,11 @@ function InvestorEditForm(props) {
                 <div className="flex gap-4 pr-20 mt-8 text-base font-semibold whitespace-nowrap max-md:flex-wrap max-md:pr-5">
                   <Link to="/investorReadForm" className="flex">
                     <div className="justify-center px-4 py-2 rounded-2xl border border-solid border-stone-100 text-stone-100">
-                      CANCEL
+                      Cancel
                     </div>    
                   </Link>              
                   <button className="justify-center px-4 py-2 text-black bg-green-400 rounded-2xl max-md:px-5" type="submit" disabled={!showButton || !isEmailValid || !isPhoneNumberValid || !isLinkedinValid}>
-                    SAVE
+                    Save
                   </button>
                 </div>
               </div>

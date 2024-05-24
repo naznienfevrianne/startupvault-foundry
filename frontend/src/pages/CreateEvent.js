@@ -212,8 +212,8 @@ const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
         placeholder="Add redirect link"
         className="mt-6 text-base font-medium tracking-wide text-white rounded-lg bg-neutral-700 p-2.5 focus:outline-none max-md:pr-5 max-md:max-w-full"
       />
-      <button type="submit" className="self-end px-5 py-3 mt-6 text-xl font-semibold tracking-widest text-black bg-green-400 rounded-lg">
-        SUBMIT EVENT REQUEST
+      <button type="submit" className="self-end px-5 py-3 mt-6 text-base font-semibold text-black bg-green-400 rounded-lg">
+        Submit event request
       </button>
     </form>
   );

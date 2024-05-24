@@ -57,17 +57,17 @@ const NavigationBar = () => (
 
 export const SignUpButton = () => (
   <div
-      className="justify-center self-center px-5 py-2 mt-0 text-xl font-semibold tracking-widest text-black bg-green-400 whitespace-nowrap rounded-3xl shadow-sm max-md:mt-10 hover:bg-green-500 cursor-pointer"
+      className="justify-center self-center px-5 py-2 mt-0 text-base font-semibold text-black bg-green-400 whitespace-nowrap rounded-3xl shadow-sm max-md:mt-10 hover:bg-green-500 cursor-pointer"
       type="button">
-       <Link to="/login">LOG IN</Link>
+       <Link to="/login">Log in</Link>
   </div>
 );
 
 export const LogOutButton = () => (
   <div
-      className="justify-center self-center px-5 py-2 mt-0 text-xl font-semibold tracking-widest text-black bg-green-400 whitespace-nowrap rounded-3xl shadow-sm max-md:mt-10 hover:bg-green-500 cursor-pointer"
+      className="justify-center self-center px-5 py-2 mt-0 text-base font-semibold text-black bg-green-400 whitespace-nowrap rounded-3xl shadow-sm max-md:mt-10 hover:bg-green-500 cursor-pointer"
       type="button">
-      <Link to="/logout">LOG OUT</Link>
+      <Link to="/logout">Log out</Link>
   </div>
 );
 
