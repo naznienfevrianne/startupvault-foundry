@@ -12,6 +12,7 @@ from authentication.views import JWTAuthentication
 import django_filters
 from authentication.models import UserModel
 from authentication.models import Investor
+from rest_framework.pagination import PageNumberPagination
 
 
 class MetricsRetrieve(generics.RetrieveAPIView):
