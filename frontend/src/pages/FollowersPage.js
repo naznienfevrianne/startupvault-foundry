@@ -24,7 +24,7 @@ const FollowersPage = () => {
     const fetchData = async () => {
       try {
         console.log("Fetching investors...");
-        const investorResponse = await fetch(`http://localhost:8000/diary/startups/${startupId}/followers/`, {
+        const investorResponse = await fetch(`https://startupvault-foundry.vercel.app/diary/startups/${startupId}/followers/`, {
           method: "GET",
           headers: {
             'Content-Type': 'application/json',
