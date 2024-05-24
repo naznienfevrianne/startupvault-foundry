@@ -75,10 +75,17 @@ function CreatedShowcase(props) {
 			}
 	  };
 		
-		const handleSortChange = (event) => {
-			setSort(event.target.value);
-			console.log("inih", sort)
-		};
+		const handleSort = () => {
+			if(sort === "-date"){
+				setSort("date", () => {
+					fetchData();
+				});
+			} else if(sort === "date"){
+				setSort("-date", () => {
+					fetchData();
+				});
+			}		 	
+		}
 
 		const countTimeStamp = (date) => {
 			const postDate = new Date(date);
@@ -140,44 +147,27 @@ function CreatedShowcase(props) {
 							</div>
 						  </div>
 						  <div className="py-auto flex gap-3">
-							<div className="relative">
-							  <div className="flex gap-1 items-center pl-3 px-5 py-2 rounded-[25px] cursor-pointer text-stone-100 border border-neutral-400 bg-black" onClick={toggleDropdown}>
-								<img
-								  loading="lazy"
-								  src="https://cdn.builder.io/api/v1/image/assets/TEMP/202d10897ec64fd7e51df1a8588619036ca06ad2803a7b30eb675b677c8755f0?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
-								  className="self-center w-6 aspect-square"
-								/>
-								Sort
-							  </div>
-							  {isDropdownOpen && (
-								<div className="absolute left-0 mt-2">
-								  <div className="flex gap-2 items-right px-1 py-3 bg-neutral-900 rounded-[10px] w-[250px]">
-									<ul className="px-3 self-stretch text-sm flex flex-col">
-									  <div className="flex-col flex rounded">
-										<li className="pb-1">
-										  <input id="latest" type="radio" value="-date" className="w-4 h-4 accent-green-400 rounded" onChange={handleSortChange}
-											checked={sort === '-date'}
-										  ></input>
-										  <label htmlFor="latest" className="w-full hover:text-green-400 ms-2 text-sm font-medium text-stone-100 rounded">Latest to Oldest</label>
-										</li>
-										<li className="pb-1">
-										  <input id="oldest" type="radio" value="date" className="w-4 h-4 accent-green-400 rounded" onChange={handleSortChange}
-											checked={sort === 'date'}
-										  ></input>
-										  <label htmlFor="oldest" className="w-full hover:text-green-400 ms-2 text-sm font-medium text-stone-100 rounded">Oldest to Latest</label>
-										</li>
-										<li className="pb-1">
-										  <input id="most" type="radio" value="likes" className="w-4 h-4 accent-green-400 rounded" onChange={handleSortChange}
-											checked={sort === 'likes'}
-										  ></input>
-										  <label htmlFor="most" className="w-full hover:text-green-400 ms-2 text-sm font-medium text-stone-100 rounded">Most Popular</label>
-										</li>
-									  </div>
-									</ul>
-								  </div>
-								</div>
-							  )}
-							</div>
+							<button onClick={handleSort} className="px-1 py-2 rounded-[25px] border text-stone-100 border-neutral-400 justify-center items-center gap-1 inline-flex w-[100px]">
+								{sort === "-date" ? (
+									<>
+										<img
+										loading="lazy"
+										src="https://cdn.builder.io/api/v1/image/assets/TEMP/3e3ec73880ece29d00f20e4db0e4b5475499af7b473b69d767d47b11119c4c98?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
+										className="self-center w-6 aspect-square"
+										/>
+										<div>Oldest</div>
+									</>
+								) : (
+									<>
+										<img
+										loading="lazy"
+										src="https://cdn.builder.io/api/v1/image/assets/TEMP/f17953187a4d2276470cd675c51584dad8f4c8e4316cd91c37a457aba3eac469?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
+										className="self-center w-6 aspect-square"
+										/>
+										<div>Latest</div>
+									</>
+								)}
+							</button>
 							<div className="pl-4 pr-4 py-2 rounded-[25px] border border-neutral-400 justify-center items-center gap-1 flex self-end">
 							  <>
 								<img
