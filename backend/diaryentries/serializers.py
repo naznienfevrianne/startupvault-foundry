@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Founder, Entry, FollowTable, Investor
+from .models import Founder, Entry, FollowTable
 
 class FounderEntrySerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,8 +30,3 @@ class FollowTableSer(serializers.ModelSerializer):
     class Meta:
         model = FollowTable
         fields = ["startup_name"]
-
-class InvestorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Investor
-        fields = ['id', 'name', 'image']
