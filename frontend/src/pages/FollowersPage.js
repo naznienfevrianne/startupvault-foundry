@@ -11,9 +11,9 @@ const FollowersPage = () => {
   const myCookies = new Cookies();
   const token = myCookies.get('token');
   const [investors, setInvestors] = useState([]);
-  const { startupId } = useParams();
+  const { idStartup } = useParams();
  
-  console.log(startupId);
+  console.log(idStartup);
   const numberOfInvestors = investors.length;
   console.log(numberOfInvestors); // This will log the total number of objects in your array
 
@@ -24,7 +24,7 @@ const FollowersPage = () => {
     const fetchData = async () => {
       try {
         console.log("Fetching investors...");
-        const investorResponse = await fetch(`https://startupvault-foundry.vercel.app/diary/startups/${startupId}/followers/`, {
+        const investorResponse = await fetch(`https://startupvault-foundry.vercel.app/diary/startups/${idStartup}/followers/`, {
           method: "GET",
           headers: {
             'Content-Type': 'application/json',
