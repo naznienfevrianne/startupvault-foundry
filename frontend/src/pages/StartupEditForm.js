@@ -208,7 +208,7 @@ const StartupEditDetails = () => {
       setPitchdeck(null);
     };
 
-    const [descValid, setDescValid] = useState(true);
+    // const [descValid, setDescValid] = useState(true);
     const handleDescriptionChange = (e) => {
         const newDescription = e.target.value;
       
@@ -216,19 +216,19 @@ const StartupEditDetails = () => {
         const wordCount = newDescription.trim().split(/\s+/).length;
         setWordCount(wordCount);
 
-        if (!startupDetails.desc) {
-          setDescValid(false);
-            setErrorMessage("Please input startup's description")
-        } else if (wordCount < 4 || wordCount > 50) {
-          setDescValid(false);
-          setErrorMessage('Please input a startup description between 4 and 50 words.');
-        }else{
-          setDescValid(true);
+        // if (!startupDetails.desc) {
+        //   setDescValid(false);
+        //     setErrorMessage("Please input startup's description")
+        // } else if (wordCount < 4 || wordCount > 50) {
+        //   setDescValid(false);
+        //   setErrorMessage('Please input a startup description between 4 and 50 words.');
+        // }else{
+          // setDescValid(true);
           setStartupDetails({
             ...startupDetails,
             desc: newDescription,
         });
-        }  
+        // }  
         
       };
 
@@ -354,7 +354,7 @@ const StartupEditDetails = () => {
           <p className="text-white mb-4">Are you sure you want to update these details?</p>
           <div className="flex justify-end">
             <button className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50" onClick={onClose}>No</button>
-            <button className="bg-green-500 text-white py-2 px-4 mr-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50" onClick={onUpdate}>Yes</button>
+            <button className="bg-green-500 text-white py-2 px-4 mr-4 ml-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50" onClick={onUpdate}>Yes</button>
           </div>
         </div>
       </div>
@@ -548,9 +548,9 @@ const StartupEditDetails = () => {
                 Previous Selection : {previousSector}
             </div>
             <div>
-                <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">
+                <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 mr-4">
                     Describe your startup in less than 50 words
-                    <span className={`text-${descValid ? 'green-400' : 'red-500'} ml-2`}>
+                    <span className="self-start mt-3 text-base font-semibold tracking-normal text-green-400 ml-3">
                     {wordCount}/50
                     </span>
                 </div>
@@ -562,23 +562,47 @@ const StartupEditDetails = () => {
                 rows={3} // Set the number of rows
                 required
                 />
-                {!descValid && (
-                    <p className="text-red-500 text-sm mt-1">{errorMessage}</p>
-                )}
+                
                 </div>
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">
                     Existing Startup Pitchdeck
                 </div>
+                {startupDetails.pitchdeck ? (
                 <a href={startupDetails.pitchdeck} className="flex gap-2.5 self-start px-3 py-3 mt-3 text-base font-medium tracking-wide whitespace-nowrap rounded-lg border border-green-400 border-solid bg-green-400 bg-opacity-20 text-stone-100 max-md:px-5">
-                    <img
-                      loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/cc2edde9f8ae8f079b56f3bbd090661b2694c068012ac8b9ab8b9a0a34ddb1d8?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
-                      className="shrink-0 w-6 aspect-square"
-                      href={startupDetails.pitchdeck}
-                    />
-                    <div className="flex-auto my-auto">pitch deck (.pdf)</div>
-                  </a>
-                  <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">
+                  <img
+                    loading="lazy"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/cc2edde9f8ae8f079b56f3bbd090661b2694c068012ac8b9ab8b9a0a34ddb1d8?apiKey=9ff2a73e8144478896bce8206c80f3e2&"
+                    className="shrink-0 w-6 aspect-square"
+                    href={startupDetails.pitchdeck}
+                  />
+                  <div className="flex-auto my-auto">pitch deck (.pdf)</div>
+                </a>
+                ) : (
+                  <div className='flex gap-2.5 self-start max-md:px-5'>
+                  <div className="flex gap-2.5 self-start px-3 py-3 mt-3 text-base font-medium tracking-wide whitespace-nowrap rounded-lg border border-red-400 border-solid bg-red-400 bg-opacity-20 text-stone-100">
+                    <div className="flex-auto my-auto">File is not found</div>
+                  </div>
+                  <div className="self-start mt-10 text-xs font-xs tracking-wide text-red-400">
+                  *Your current startup stage might not require any pitchdeck file.
+                  </div>
+                  </div>
+                )}
+
+
+            {startupDetails.typ === "idea" ? (
+               <>
+                <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">
+                    Upload Here For Updated Startup Pitchdeck 
+                </div>
+                  <div className="self-start mt-2 text-xs font-xs tracking-wide text-red-400">
+                    * A pitchdeck file is not required for your current startup stage (idea) *
+                  </div>
+               </>
+              
+                ) : (
+                  <>
+                
+                <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">
                     Upload Here For Updated Startup Pitchdeck 
                 </div>
                 <div className="flex gap-2.5 self-start px-3 py-3 mt-2 text-m font-semibold tracking-widest text-black rounded bg-stone-100 hover:border-green-600 border-solid cursor-pointer">
@@ -618,6 +642,9 @@ const StartupEditDetails = () => {
                 </div>
                 ):(
                   <div></div>
+                )}
+                </>
+                  
                 )}
                 
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">

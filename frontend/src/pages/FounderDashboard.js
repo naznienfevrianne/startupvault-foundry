@@ -304,7 +304,7 @@ function FounderDashboard(props) {
               </div>
             </div>
           </div>
-          <div className="flex flex-col ml-8 w-[26%] max-md:ml-0 max-md:w-full">
+          <div className="flex flex-col ml-8 w-[26%] max-md:ml-0 max-md:w-full overflow-hidden">
             <div className="flex flex-col p-6 mx-auto mt-6 w-full rounded-lg bg-neutral-800 max-md:px-5 max-md:mt-10">
               <div className="flex gap-5 justify-between w-full break-words">
                 <div className="flex-auto text-xl font-medium tracking-wide text-white">
@@ -334,7 +334,7 @@ function FounderDashboard(props) {
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',  // Ensures the text stays in a single line
-                    maxWidth: '40%',      // Use maxWidth to allow the container to grow and shrink dynamically
+                    maxWidth: '250px',      // Use maxWidth to allow the container to grow and shrink dynamically
                   }}>
                     {startupData.name}
                   </div>
