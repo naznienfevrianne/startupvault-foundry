@@ -135,6 +135,7 @@ const StartupDetails = () => {
             <div className="mt-3 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
             Startup Pitchdeck
             </div>
+            {startupDetails.pitchdeck ? (
             <a href={startupDetails.pitchdeck} className="flex gap-2.5 self-start px-3 py-3 mt-3 text-base font-medium tracking-wide whitespace-nowrap rounded-lg border border-green-400 border-solid bg-green-400 bg-opacity-20 text-stone-100 max-md:px-5">
             <img
                 loading="lazy"
@@ -144,6 +145,17 @@ const StartupDetails = () => {
             />
             <div className="flex-auto my-auto">pitch deck (.pdf)</div>
             </a>
+            ) : (
+                <div className='flex gap-2.5 self-start max-md:px-5'>
+                <div className="flex gap-2.5 self-start px-3 py-3 mt-3 text-base font-medium tracking-wide whitespace-nowrap rounded-lg border border-red-400 border-solid bg-red-400 bg-opacity-20 text-stone-100">
+                  <div className="flex-auto my-auto">File is not found</div>
+                </div>
+                <div className="self-start mt-10 text-xs font-xs tracking-wide text-red-400">
+                *Your current startup stage might not require any pitchdeck file.
+                </div>
+                </div>
+                
+            )}
             <div className="self-start mt-3 text-base font-medium tracking-wide text-stone-100">
             Revenue over the last 6 months
             </div>
