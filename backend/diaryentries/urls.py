@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import DiaryEntriesListCreate, DiaryEntriesRetrieveUpdate, MetricsRetrieve, DiaryEntriesListRead, DiaryEntriesListRead, FollowedFounderDiaryEntriesList, \
-    ToggleFollowView, TotalFollowersView, CheckFollowView, FollowingList
+    ToggleFollowView, TotalFollowersView, CheckFollowView, FollowingList, FollowersListView
 
 urlpatterns = [
     path('diaryEntries/founder/<int:founder>/', DiaryEntriesListCreate.as_view(), name='diary-entry-list'),
@@ -14,4 +14,5 @@ urlpatterns = [
     path('follow/', ToggleFollowView.as_view(), name='toggle-follow'),
     path('total_followers/<int:startup_id>/', TotalFollowersView.as_view(), name='total-followers'),
     path('check_follow/', CheckFollowView.as_view(), name='check-follow'),
+    path('startups/<int:startup_id>/followers/', FollowersListView.as_view(), name='followers-list'),
 ]

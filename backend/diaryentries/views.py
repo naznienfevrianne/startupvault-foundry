@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
 
 from .models import Founder, Entry, FollowTable, Startup
-from .serializers import MetricSerializer, FounderEntrySerializer, EntrySerializer, FollowedFounderEntrySerializer, FollowTableSer
+from .serializers import MetricSerializer, FounderEntrySerializer, EntrySerializer, FollowedFounderEntrySerializer, FollowTableSer, InvestorSerializer
 from rest_framework import generics, filters, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from datetime import datetime, timedelta
@@ -207,3 +207,11 @@ class CheckFollowView(APIView):
         is_following = FollowTable.objects.filter(startup_id=startup_id, investor_id=investor_id).exists()
 
         return Response({'is_following': is_following})
+    
+class FollowersListView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, startup_id):
+        followers = FollowTable.objects.filter(startup_id=startup_id).select_related('investor')
+        investor_data = [InvestorSerializer(follow.investor).data for follow in followers]
+        return Response({'followers': investor_data})
