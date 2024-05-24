@@ -19,9 +19,9 @@ function InvestorType(props) {
     <div className="flex flex-col justify-center bg-black min-h-screen">
       <div className="flex justify-center items-center px-20 py-3 w-full max-md:px-5 max-md:max-w-full">
         <div className="flex flex-col mt-1 mb-30 w-full max-w-[950px] max-md:my-5 max-md:max-w-full">
-          <div className="flex gap-5 justify-between w-full max-md:flex-wrap max-md:max-w-full">
-            <div className="flex-auto text-4xl font-semibold tracking-wider leading-[70.8px] text-stone-100 max-md:max-w-full max-md:text-4xl">
-              Which type investor best describe you?
+          <div className="flex gap-5 items-center justify-between w-full max-md:flex-wrap max-md:max-w-full">
+            <div className="flex-auto text-center text-4xl font-semibold leading-[70.8px] text-stone-100 max-md:max-w-full max-md:text-4xl">
+              Which type of investor best describes you?
             </div>
             <div className="flex gap-2.5 my-auto">
               <div className="shrink-0 w-3.5 bg-green-900 rounded-full h-[10px]" />
@@ -74,13 +74,13 @@ function InvestorType(props) {
           <div 
           type="button"
           onClick={handlePrev}
-          className="flex gap-2.5 justify-center self-start px-5 py-3 mt-3 text-l font-semibold tracking-widest whitespace-nowrap rounded-3xl border border-solid border-stone-100 text-stone-100 max-md:mt-10">
+          className="flex gap-2.5 justify-center self-start px-5 py-3 mt-5 text-base font-semibold whitespace-nowrap rounded-3xl border border-solid border-stone-100 text-stone-100 max-md:mt-10">
             <img
               loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/89284abb4a3a9f6ed90954b4580f829c637307abcfe8f168c546f55998b55f61?apiKey=b1a4c3002d354a0a9e5d1136f5930ee4&"
               className="shrink-0 w-6 aspect-square"
             />
-            <div>PREV</div>
+            <div>Previous</div>
           </div>
         </div>
       </div>

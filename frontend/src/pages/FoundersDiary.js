@@ -307,8 +307,8 @@ function FounderDiary(props) {
                         )}
                       </div>
                       <div>
-                        <button type="submit" className="px-6 py-3 text-xl font-semibold tracking-widest text-black whitespace-nowrap bg-green-400 rounded-3xl shadow-2xl max-md:px-5">
-                            SUBMIT
+                        <button type="submit" className="px-6 py-3 text-base font-semibold text-black whitespace-nowrap bg-green-400 rounded-3xl shadow-2xl max-md:px-5">
+                            Submit
                         </button>
                       </div>
                     </div>
@@ -358,7 +358,7 @@ function FounderDiary(props) {
                 </div>
                 {listEntries.map((item, index) => (
                     <li key={index}>
-                        <div className="flex flex-col p-6 rounded-lg bg-neutral-800 max-md:px-5 max-md:max-w-full">
+                        <div className="flex flex-col p-6 mt-5 rounded-lg bg-neutral-800 max-md:px-5 max-md:max-w-full">
                         <div className="flex gap-5 justify-between whitespace-nowrap max-md:flex-wrap max-md:max-w-full">
                             <div className="text-3xl font-medium tracking-wide text-neutral-400">
                             {/* {monday, sunday} = getMondayAndSundayDate(item.date) */}

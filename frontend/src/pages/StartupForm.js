@@ -331,10 +331,10 @@ function StartupForm(props) {
           <div className="flex gap-5 justify-between w-full max-md:flex-wrap max-md:max-w-full">
             <div className="flex flex-col max-md:max-w-full">
               <div className="text-xs tracking-wide text-neutral-400 max-md:max-w-full">
-                To set up your startup's public profile
+                Set up your startup's profile
               </div>
-              <div className="mt-0 text-5xl font-semibold tracking-wider leading-[70.8px] text-stone-100 max-md:max-w-full max-md:text-4xl">
-                TELL US MORE ABOUT YOUR STARTUP
+              <div className="mt-0 text-5xl font-semibold leading-[70.8px] text-stone-100 max-md:max-w-full max-md:text-4xl">
+                Tell us more about your startup
               </div>
             </div>
             <div className="flex gap-2.5 my-auto">
@@ -429,14 +429,14 @@ function StartupForm(props) {
         </div>
       )}
       {localStorage.getItem("startupType") !== 'idea' && !pitchdeck ? (
-        <div className="flex gap-2.5 self-start px-3 py-3 mt-2 text-m font-semibold tracking-widest text-black rounded bg-stone-100 hover:border-green-600 border-solid cursor-pointer">
+        <div className="flex gap-2.5 self-start px-3 py-3 mt-2 text-m font-semibold text-black rounded bg-stone-100 hover:border-green-600 border-solid cursor-pointer">
           <img
             loading="lazy"
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/af8cf579d55d28b96355c0f20f34b97d03d322289eb0ffacc1358c9ce119e9dc?apiKey=b1a4c3002d354a0a9e5d1136f5930ee4&"
             className="w-6 aspect-square"
           />
           <div className="flex-auto">
-            <label htmlFor="pitchdeck-upload" className="hover:border-green-600 border-solid cursor-pointer">SELECT FILE</label>
+            <label htmlFor="pitchdeck-upload" className="hover:border-green-600 border-solid cursor-pointer">Select file</label>
             <input
               type="file"
               accept=".pdf"
@@ -640,7 +640,7 @@ function StartupForm(props) {
           </div>
           <div className="flex items-center mt-1 shrink-0 h-10 rounded-lg bg-neutral-800 text-white px-0 py-4 max-md:max-w-full">
             <div className="p-1.5 ml-2.5 text-sm rounded-lg bg-neutral-700 text-white">
-              linkedin.com/
+              linkedin.com/in/
             </div>
             <input 
             type="text" 
@@ -651,7 +651,7 @@ function StartupForm(props) {
             {errorMessage && (
             <div className="mt-1 text-red-500 text-sm mb-2">{errorMessage}</div>
             )}
-          <div className="flex gap-5 justify-between mt-6 w-full text-l font-semibold tracking-widest whitespace-nowrap max-md:flex-wrap max-md:max-w-full">
+          <div className="flex gap-5 justify-between mt-6 w-full font-semibold whitespace-nowrap max-md:flex-wrap max-md:max-w-full">
             <div 
             onClick = {handlePrevious}
             type="button"
@@ -661,13 +661,13 @@ function StartupForm(props) {
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/1490109502cde58f41daf764ada1e96816a28eb0bdf60fae2f6faa1f38c7c09d?apiKey=b1a4c3002d354a0a9e5d1136f5930ee4&"
                 className="w-6 aspect-square"
               />
-              <div>PREV</div>
+              <div>Previous</div>
             </div>
             <div 
             onClick = {handleSubmit}
             type="button"
             className="flex gap-2.5 justify-between px-3 py-2 text-black bg-green-400 rounded-3xl hover:border-green-600 border-solid cursor-pointer">
-              <div>SUBMIT</div>
+              <div>Submit</div>
               <img
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/e4dfdc2d09f7db460f0dc4c1b665b65ad9ca9df48bf8263c3aa81b68cfc4cdfe?apiKey=b1a4c3002d354a0a9e5d1136f5930ee4&"

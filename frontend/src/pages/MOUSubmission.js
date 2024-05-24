@@ -198,7 +198,7 @@ function MOUSubmission(props) {
         <div className="flex flex-col mt-0 mb-8 w-full max-w-[1120px] max-md:max-w-full">
           <div className="flex gap-5 justify-between w-full max-md:flex-wrap max-md:max-w-full">
             <div className="flex-auto text-4xl font-semibold tracking-wider leading-[70.8px] text-stone-100 max-md:max-w-full max-md:text-4xl">
-              VERIFICATION
+              Verification
             </div>
             <div className="flex gap-2.5 my-auto">
               <div className="shrink-0 w-3.5 bg-green-900 rounded-full border border-green-900 border-solid h-[15px] stroke-[1px]" />
@@ -256,7 +256,7 @@ function MOUSubmission(props) {
           {errorMessage && (
             <div className="mt-1 text-red-500 text-sm mb-2">{errorMessage}</div>
             )}
-          <div className="flex gap-5 justify-between mt-3 w-full text-l font-semibold tracking-widest whitespace-nowrap max-md:flex-wrap max-md:max-w-full">
+          <div className="flex gap-5 justify-between mt-3 w-full font-semibold whitespace-nowrap max-md:flex-wrap max-md:max-w-full">
             <div 
             onClick = {handlePrevious}
             type="button"
@@ -266,13 +266,13 @@ function MOUSubmission(props) {
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/89284abb4a3a9f6ed90954b4580f829c637307abcfe8f168c546f55998b55f61?apiKey=b1a4c3002d354a0a9e5d1136f5930ee4&"
                 className="shrink-0 w-6 aspect-square"
               />
-              <div>PREV</div>
+              <div>Previous</div>
             </div>
             <div 
              onClick = {handleSubmit}
              type="button"
             className="flex flex-1 gap-2.5 justify-center px-5 py-3 text-black bg-green-400 rounded-3xl hover:border-green-600 border-solid cursor-pointer">
-              <div>SUBMIT</div>
+              <div>Submit</div>
               <img
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/4baa0d556ae8a9ee2e6515bc316fd51328e25450530dcce0face96f9b00fe160?apiKey=b1a4c3002d354a0a9e5d1136f5930ee4&"

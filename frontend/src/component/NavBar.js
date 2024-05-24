@@ -89,7 +89,7 @@ const NavBar = ({ status }) => {
                                     <div className="flex gap-2 items-right px-14 py-2 bg-neutral-900 rounded-[10px] cursor-pointer">
                                       <Link to="/logout">
                                         <div className="flex gap-1 self-end px-4 py-3 text-md tracking-wide font-semibold text-green-400 whitespace-nowrap bg-neutral-800 rounded-[25px] cursor-pointer">
-                                          LOG OUT
+                                          Log out
                                         </div>
                                       </Link>
                                     </div>
