@@ -67,10 +67,10 @@ function UserForm(props) {
           <div className="flex gap-5 justify-between w-full max-md:flex-wrap max-md:max-w-full">
             <div className="flex flex-col max-md:max-w-full">
               <div className="text-xs tracking-wide text-neutral-400 max-md:max-w-full">
-                To set up your public profile and for us to contact you
+                Create your profile and contact information
               </div>
-              <div className="mt-0 text-5xl font-semibold tracking-wider leading-[70.8px] text-stone-100 max-md:max-w-full max-md:text-4xl">
-                TELL US ABOUT YOU
+              <div className="mt-0 text-5xl font-semibold leading-[70.8px] text-stone-100 max-md:max-w-full max-md:text-4xl">
+                Tell us about you
               </div>
             </div>
             <div className="flex gap-2.5 my-auto">
@@ -159,8 +159,8 @@ function UserForm(props) {
           <div 
           onClick = {handleUserForm}
           type="button"
-          className="flex gap-2.5 justify-center self-end px-2 py-2 mt-4 max-w-full text-xl font-semibold tracking-widest text-black whitespace-nowrap bg-green-400 rounded-3xl w-[106px] hover:border-green-600 border-solid cursor-pointer">
-            <div>NEXT</div>
+          className="flex gap-2.5 justify-center self-end px-2 py-2 mt-4 max-w-full text-base font-semibold text-black whitespace-nowrap bg-green-400 rounded-3xl w-[80px] hover:border-green-600 border-solid cursor-pointer">
+            <div>Next</div>
           </div>
         </div>
       </div>

@@ -420,14 +420,13 @@ function FounderDashboard(props) {
                 />
                 </button>
               </div>
-              <div className="flex gap-2.5 justify-center px-16 py-3 mt-6 text-l font-semibold tracking-widest text-black whitespace-nowrap rounded-lg bg-stone-100 max-md:px-5">
-                <img
-                  loading="lazy"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/00ef0af1e644c1bb102e817c9deeb66348c69aded2f176f8e4bf89a60f937ff5?"
-                  className="shrink-0 w-8 aspect-square"
-                />
-                <a href="/startupReadForm" className="grow my-auto">View public profile</a>
-              </div>
+              <div className="mt-5 self-stretch h-[72px] rounded-lg flex justify-center items-center">
+                    <Link to="/startupReadForm" className="w-full flex justify-center">
+                        <div className="px-5 py-3 bg-stone-100 rounded-lg justify-center items-center gap-2.5 flex">
+                            <div className="text-black text-lg font-semibold font-['Zuume'] tracking-wider">View public profile</div>
+                        </div>
+                    </Link>
+                </div>
             </div>
           </div>
         </div>

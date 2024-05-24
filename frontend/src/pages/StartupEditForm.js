@@ -612,7 +612,7 @@ const StartupEditDetails = () => {
                         className="w-6 aspect-square"
                     />
                     <div className="flex-auto">
-                        <label htmlFor="pitchdeck-upload" className="hover:border-green-600 border-solid cursor-pointer">SELECT FILE</label>
+                        <label htmlFor="pitchdeck-upload" className="hover:border-green-600 border-solid cursor-pointer">Select file</label>
                         <input
                         type="file"
                         accept=".pdf"
@@ -840,9 +840,9 @@ const StartupEditDetails = () => {
                           Please enter a valid LinkedIn URL.
                       </div>
                   )}
-                <div className="flex gap-2 mt-5 pr-20 text-xl font-semibold tracking-widest">
-                  <a type="button" href="/startupReadForm" className="px-4 py-2 rounded-2xl border border-solid border-stone-100 text-stone-100">cancel</a>
-                  <button className="px-5 py-2 text-black bg-green-400 rounded-2xl" type="submit">save</button>
+                <div className="flex gap-2 mt-5 pr-20 text-base font-semibold">
+                  <a type="button" href="/startupReadForm" className="px-4 py-2 rounded-2xl border border-solid border-stone-100 text-stone-100">Cancel</a>
+                  <button className="px-5 py-2 text-black bg-green-400 rounded-2xl" type="submit">Save</button>
                 </div>
                 </div>
               </form>
