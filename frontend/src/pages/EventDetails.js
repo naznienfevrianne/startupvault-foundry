@@ -159,7 +159,7 @@ function EventDetails(props){
                       <div className="flex-1 text-3xl font-medium self-center text-white max-md:max-w-full">
                         IDR {formattedPrice}
                       </div>
-                      <a href={eventDetails.link} target="_blank" rel="noopener noreferrer" className="flex-1 text-lg rounded-lg bg-green-400 text-neutral-800 px-16 py-2 font-medium self-center mb-2 mt-2">
+                      <a href={eventDetails.link} target="_blank" rel="noopener noreferrer" className="flex-1 text-lg rounded-lg bg-green-400 text-neutral-800 px-16 py-2 font-semibold self-center mb-2 mt-2">
                           Buy here
                       </a>
                     </div>

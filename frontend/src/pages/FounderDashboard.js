@@ -304,7 +304,7 @@ function FounderDashboard(props) {
               </div>
             </div>
           </div>
-          <div className="flex flex-col ml-8 w-[26%] max-md:ml-0 max-md:w-full">
+          <div className="flex flex-col ml-8 w-[26%] max-md:ml-0 max-md:w-full overflow-hidden">
             <div className="flex flex-col p-6 mx-auto mt-6 w-full rounded-lg bg-neutral-800 max-md:px-5 max-md:mt-10">
               <div className="flex gap-5 justify-between w-full break-words">
                 <div className="flex-auto text-xl font-medium tracking-wide text-white">
@@ -334,7 +334,7 @@ function FounderDashboard(props) {
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',  // Ensures the text stays in a single line
-                    maxWidth: '40%',      // Use maxWidth to allow the container to grow and shrink dynamically
+                    maxWidth: '250px',      // Use maxWidth to allow the container to grow and shrink dynamically
                   }}>
                     {startupData.name}
                   </div>
@@ -354,7 +354,7 @@ function FounderDashboard(props) {
                 <div className="flex-auto my-auto">Followers</div>
               </div>
               <div className="mt-2 text-l font-medium tracking-wide text-white">
-                {totalFollowers} Followers
+                {totalFollowers} Follower(s)
               </div>
               <div className="flex gap-2 justify-center mt-6 text-base tracking-wide whitespace-nowrap text-neutral-400">
                 <img
@@ -420,14 +420,13 @@ function FounderDashboard(props) {
                 />
                 </button>
               </div>
-              <div className="flex gap-2.5 justify-center px-16 py-3 mt-6 text-l font-semibold tracking-widest text-black whitespace-nowrap rounded-lg bg-stone-100 max-md:px-5">
-                <img
-                  loading="lazy"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/00ef0af1e644c1bb102e817c9deeb66348c69aded2f176f8e4bf89a60f937ff5?"
-                  className="shrink-0 w-8 aspect-square"
-                />
-                <a href="/startupReadForm" className="grow my-auto">View public profile</a>
-              </div>
+              <div className="mt-5 self-stretch h-[72px] rounded-lg flex justify-center items-center">
+                    <Link to="/startupReadForm" className="w-full flex justify-center">
+                        <div className="px-5 py-3 bg-stone-100 rounded-lg justify-center items-center gap-2.5 flex">
+                            <div className="text-black text-lg font-semibold font-['Zuume'] tracking-wider">View public profile</div>
+                        </div>
+                    </Link>
+                </div>
             </div>
           </div>
         </div>

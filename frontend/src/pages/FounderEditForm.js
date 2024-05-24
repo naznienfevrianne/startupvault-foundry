@@ -327,9 +327,9 @@ const FounderEditDetails = () => {
                             </div>
                         )}
                     </div>
-                    <div className="flex gap-2 mt-5 pr-20 text-xl font-semibold tracking-widest">
-                        <a type="button" href="/founderReadForm" className="px-4 py-2 rounded-2xl border border-solid border-stone-100 text-stone-100">cancel</a>
-                        <button className="px-5 py-2 text-black bg-green-400 rounded-2xl" type="submit">save</button>
+                    <div className="flex gap-2 mt-5 pr-20 text-base font-semibold">
+                        <a type="button" href="/founderReadForm" className="px-4 py-2 rounded-2xl border border-solid border-stone-100 text-stone-100">Cancel</a>
+                        <button className="px-5 py-2 text-black bg-green-400 rounded-2xl" type="submit">Save</button>
                     </div>
                 </div>
               </form>

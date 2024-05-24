@@ -67,13 +67,13 @@ function InvestorReadForm(props) {
                 src={investorData.image}
                 className="mt-5 bg-green-700 rounded-full aspect-[0.99] h-[74px] w-[74px]"
               />
-              <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">
+              <div className="mt-5 text-lg font-medium tracking-wide text-stone-100 max-md:max-w-full">
                 Name
               </div>
               <div className="justify-center items-start px-3 py-3.5 mt-2.5 text-sm tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-w-[800px]">
                 {investorData.name}
               </div>
-              <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">
+              <div className="mt-5 text-lg font-medium tracking-wide text-stone-100 max-md:max-w-full">
                 LinkedIn
               </div>
               <div className="flex gap-2.5 py-1.5 mt-2.5 text-sm whitespace-nowrap rounded-md max-w-[800px] bg-neutral-800 max-md:flex-wrap">
@@ -86,13 +86,13 @@ function InvestorReadForm(props) {
                 </div>
                 )}
               </div>
-              <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">
+              <div className="mt-5 text-lg font-medium tracking-wide text-stone-100 max-md:max-w-full">
                 Email
               </div>
               <div className="justify-center items-start px-3 py-3.5 mt-2.5 text-sm font-light tracking-normal whitespace-nowrap rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-w-[800px]">
                 {investorData.email}
               </div>
-              <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">
+              <div className="mt-5 text-lg font-medium tracking-wide text-stone-100 max-md:max-w-full">
                 Phone Number
               </div>
               <div className="justify-center items-start px-3 py-3.5 mt-2.5 text-sm font-light tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-w-[800px]">
