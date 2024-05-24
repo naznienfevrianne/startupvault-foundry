@@ -33,9 +33,7 @@ const StartupDetails = () => {
   useEffect(() => {
     if (activeTab === 'diary') {
       fetchWeeklyEntries(startup.founder_id);
-      
-    }
-    if (activeTab === 'metrics') {
+    } else if (activeTab === 'metrics') {
       handleChartButtonClick(selectedChart);
     }
   }, [activeTab, startup.founder_id]);
@@ -286,12 +284,10 @@ useEffect(() => {
     const TabContent = () => {
       switch (activeTab) {
           case 'summary':
-            // handleChartButtonClick('sales'); // Default to the Sales button being clicked
             return <SummaryTab startup={startup} founder={founder} />;
           case 'metrics':
               return <MetricsTab />;
           case 'diary':
-            // handleChartButtonClick('sales'); // Default to the Sales button being clicked
               return <DiaryTab />;
           default:
               return <SummaryTab startup={startup} founder={founder} />;
