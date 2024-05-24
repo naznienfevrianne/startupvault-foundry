@@ -354,7 +354,7 @@ function FounderDashboard(props) {
                 <div className="flex-auto my-auto">Followers</div>
               </div>
               <div className="mt-2 text-l font-medium tracking-wide text-white">
-                {totalFollowers} Followers
+                {totalFollowers} Follower(s)
               </div>
               <div className="flex gap-2 justify-center mt-6 text-base tracking-wide whitespace-nowrap text-neutral-400">
                 <img
