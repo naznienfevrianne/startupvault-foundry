@@ -215,8 +215,8 @@ const ShowcaseForm = ({ afterPostSuccess, userRequest, contentRequest, imagesReq
             />
           </label>
           {/* POST Button */}
-          <button type="submit" className="flex items-center justify-center px-8 py-3 bg-green-400 rounded-3xl" onClick={handleButtonClick}>
-            POST
+          <button type="submit" className="flex items-center font-semibold justify-center px-8 py-3 bg-green-400 rounded-3xl" onClick={handleButtonClick}>
+            Post
           </button>
         </div>
       </form>

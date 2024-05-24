@@ -154,7 +154,7 @@ function OrgInvestorReadForm(props) {
                   </Link>
                 </div>
                 <div className="flex gap-5 py-1 pr-20 max-md:flex-wrap">
-                  <div className="text-2xl font-semibold tracking-wide text-stone-100">
+                  <div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">
                     Public profile
                   </div>
                   <div className="flex gap-1.5 justify-center my-auto text-xl tracking-wide text-neutral-400">
@@ -180,7 +180,7 @@ function OrgInvestorReadForm(props) {
                       />
                     </div>
                     <div className="flex flex-col">
-                      <div className="flex gap-1 pr-4 text-xl font-semibold tracking-wide whitespace-nowrap text-stone-100">
+                      <div className="flex gap-1 pr-4 text-xl font-semibold tracking-wide text-stone-100 max-w-[700px]">
                         <div>{investorData.name}</div>
                         <img
                           loading="lazy"
@@ -242,7 +242,7 @@ function OrgInvestorReadForm(props) {
 
                 {activeMenu === "summary" && (
                 <div>
-                    <div className="justify-center p-4 mt-3 text-base tracking-normal rounded-lg bg-neutral-800 text-stone-100 max-md:px-5 max-md:max-w-full">
+                    <div className="justify-center p-4 mt-3 text-base tracking-normal rounded-lg bg-neutral-800 text-stone-100 max-md:px-5 max-md:max-w-full whitespace-pre-line break-words">
                   {investorData.desc}
                 </div>
                 <div className="self-start mt-3 text-2xl font-medium tracking-wide text-stone-100">

@@ -14,6 +14,7 @@ const StartupDetails = () => {
 
   const cookies = new Cookies();
   const token = cookies.get('token');
+  const investorId = cookies.get('id');
   const { idStartup } = useParams();
   const [startup, setStartup] = useState("");
   const [founder, setFounder] = useState("");
@@ -27,13 +28,15 @@ const StartupDetails = () => {
 
 
 
+
+
   useEffect(() => {
-    handleChartButtonClick('sales'); // Default to the Sales button being clicked
-    if (activeTab == 'diary'){
-       fetchWeeklyEntries(startup.founder_id);
+    if (activeTab === 'diary') {
+      fetchWeeklyEntries(startup.founder_id);
+    } else if (activeTab === 'metrics') {
+      handleChartButtonClick(selectedChart);
     }
-   
-  }, [activeTab]);
+  }, [activeTab, startup.founder_id]);
 
   
   useEffect(() => {
@@ -200,31 +203,13 @@ useEffect(() => {
       // setShowCanvas(true);  
     };
 
-  
 
-    const fetchWeeklyEntries = async (founderId) => {
-      if (!founderId) return; // Ensure founderId is available
-      
+  const handleWeeklyChange = newValue => {
+    setValue(newValue, () => {
+      fetchWeeklyEntries();
+    });
+  }
 
-    try {
-      const response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${founderId}/?sort=-date`, {
-        method:"GET",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      if (!response.ok) {
-        throw new Error("Failed to fetch data");
-      }
-      const entry = await response.json();
-      setListEntries(entry);
-      console.log(listEntries);
-
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
 
 
   function getMonday(date){
@@ -237,7 +222,6 @@ useEffect(() => {
 
   function getSunday(date){
     let today = new Date(date)
-    let sunday
     
     // set to "Sunday" for the previous week
     today.setDate(today.getDate() - (today.getDay() || 7)) // if getDay is 0 (Sunday), take 7 days
@@ -250,92 +234,63 @@ useEffect(() => {
     endDate: ""
   });
 
+  const [sort, setSort] = useState("-date");
 
-    const handleSort = async () => {
-      try {
-        let response;
-        if(descending){ // if udah descending bakal manggil yg ascending
-            response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${startup.founder_id}?sort=date`, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-              }
-            });
-        } else{
-            response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${startup.founder_id}?sort=-date`, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-              }
-            });
-        }
 
-        if (!response.ok) {
-            throw new Error("Failed to fetch data");
-        }
+  const fetchWeeklyEntries = async () => {
 
-        const entry = await response.json();
-        setListEntries(entry);
-        setDescending(!descending); // mengubah nilai descending
+    let endpoint = `https://startupvault-foundry.vercel.app/diary/diaryEntries/investor/${investorId}?sort=${sort}&startup_name=${startup.name}`;
 
-      } catch (error) {
-          console.error("Error:", error);
+    if (value.startDate && value.endDate) {
+        endpoint += `&startDate=${value.startDate}&endDate=${value.endDate}`;
+    }
+    
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
       }
+      const entry = await response.json();
+      setListEntries(entry);
+      console.log(listEntries);
+      // setTotalPages(totalPages);
+
+    } catch (error) {
+      console.error("Error:", error);
+        }
     };
 
-    const handleValueChange = async(newValue) => {
-      setValue(newValue);
+    const handleSort = () => {
+      setSort(prevSort => (prevSort === "-date" ? "date" : "-date"), fetchWeeklyEntries);
+    };
 
-      try {
-        let response;
-        if(newValue.startDate === null && newValue.endDate === null){
-          await fetchWeeklyEntries(startup.founder_id);
-          return;
-        }
 
-        response = await fetch(`https://startupvault-foundry.vercel.app/diary/diaryEntries/founder/${startup.founder_id}?sort=-date&startDate=${newValue.startDate}&endDate=${newValue.endDate}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        
-        if (!response.ok) {
-            throw new Error("Failed to fetch data");
-        }
-
-        const entry = await response.json();
-        setListEntries(entry);
-
-      } catch (error) {
-          console.error("Error:", error);
-      }
-    } 
+    useEffect(() => {
+      fetchWeeklyEntries();
+    }, [sort, value]);
 
 
     const handleTabClick = (tabName) => {
       setActiveTab(tabName);
-      if (tabName === "metrics"){
-        setSelectedChart("sales");
-        handleChartButtonClick('sales'); // Default to the Sales button being clicked
-      }
     };
 
     const TabContent = () => {
       switch (activeTab) {
           case 'summary':
-            handleChartButtonClick('sales'); // Default to the Sales button being clicked
             return <SummaryTab startup={startup} founder={founder} />;
           case 'metrics':
               return <MetricsTab />;
           case 'diary':
-            handleChartButtonClick('sales'); // Default to the Sales button being clicked
               return <DiaryTab />;
           default:
-              return null;
+              return <SummaryTab startup={startup} founder={founder} />;
       }
 
   };
@@ -346,9 +301,9 @@ useEffect(() => {
         <div className="mb-2 mt-12 text-3xl max-w-full w-[930px] font-semibold tracking-wide text-stone-100 max-md:max-w-full">
             About
             </div>
-          <div className="justify-center p-6 mt-4 max-w-full text-lg tracking-normal rounded-lg bg-neutral-800 text-stone-100 max-w-full w-[930px] max-md:flex-wrap">
+          <div className="justify-center p-6 mt-4 text-lg tracking-normal rounded-lg bg-neutral-800 text-stone-100 max-w-full w-[930px] max-md:flex-wrap">
           <div className="text-xl text-neutral-400">Description</div>
-          <div className="mt-3 text-xl text-stone-100">{startup.desc}</div>
+          <div className="mt-3 text-xl text-stone-100 whitespace-pre-line break-all">{startup.desc}</div>
           </div>
           <div className="mt-6 max-w-full w-[930px]">
             <div className="flex gap-5 max-md:flex-col max-md:gap-0">
@@ -391,7 +346,7 @@ useEffect(() => {
                       className="w-6 aspect-square"
                     />
                   </div>
-                  <div className="mt-4 text-xl text-neutral-400">Valuation</div>
+                  <div className="mt-4 text-xl text-neutral-400">Ticket size</div>
                   <div className="mt-4 text-xl tracking-wide text-green-400">
                   {(() => {
                     switch (startup.revenue) {
@@ -537,133 +492,163 @@ useEffect(() => {
         return (
           <>
           <div className="mt-2 max-w-full w-[930px]" style={{ minHeight: '400px' }}>
-            <div className="flex justify-between items-end mt-10">
-              <div>
-                <div className="mb-2 text-3xl font-semibold tracking-wide text-stone-100 max-md:max-w-full">
-                  Diary Entries
-                </div>
-                <div className="grow text-base tracking-normal text-neutral-400 max-md:max-w-full">
-                  {listEntries.length} entries found
-                </div>
-              </div>
-              <div className="py-auto flex gap-5">
-                <button onClick={handleSort} className="flex text-sm text-stone-100 justify-between px-3 py-2.5 font-light tracking-wide rounded-2xl border-solid border-[0.75px] border-[color:var(--line-white,#9E9FA0)]">
-                    {descending ? (
-                        <>
-                            <img
-                            loading="lazy"
-                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/09336f1e86e0673713128171ba8064262d4bd1188b3c06a9a1927d3fb0833bd3?"
-                            className="self-start w-10 aspect-square"
-                            />
-                            <div>Oldest</div>
-                        </>
-                    ) : (
-                        <>
-                            <img
-                            loading="lazy"
-                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/0dbf444f4ed2068ea13b4fa12b9927d011b42ce3f3eae40a73704f2c533c26ce?"
-                            className="self-start w-10 aspect-square"
-                            />
-                            <div>Latest</div>
-                        </>
-                    )}
-                </button>
-                <Datepicker
-                  primaryColor={"emerald"} 
-                  value={value} 
-                  onChange={handleValueChange} 
-                /> 
-              </div>
-            </div>
-            {listEntries.length > 0 ? (
-              listEntries.map((item, index) => (
-                <li key={index}>
-                    <div className="flex flex-col p-6 rounded-lg bg-neutral-800 max-md:px-5 max-md:max-w-full">
-                    <div className="flex gap-5 justify-between whitespace-nowrap max-md:flex-wrap max-md:max-w-full">
-                        <div className="text-3xl font-medium tracking-wide text-neutral-400">
-                        {/* {monday, sunday} = getMondayAndSundayDate(item.date) */}
-                        {format(getMonday(item.date), 'd MMM yyyy')} - {format(getSunday(item.date), 'd MMM yyyy')}
-                        </div>
-                        <div className="justify-center self-start px-4 py-2 text-base tracking-normal rounded-lg bg-neutral-700 text-stone-100">
-                            {format(new Date(item.date), 'd MMMM yyyy')}
-                        </div>
-                    </div>
-                    <div className="shrink-0 mt-3 h-px bg-neutral-400 max-md:max-w-full" />
-                    <div className="justify-center mt-3 max-md:px-5 max-md:max-w-full">
-                        <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-                        <div className="flex flex-col w-[33%] max-md:ml-0 max-md:w-full">
-                            <div className="flex flex-col grow self-stretch py-5 mx-auto w-full rounded-md bg-neutral-800 max-md:mt-3">
-                            <div className="flex gap-3 justify-between py-1">
-                                <div className="flex justify-center items-center px-2.5 w-9 h-9 rounded-2xl aspect-square bg-green-400 bg-opacity-20">
-                                <img
-                                    loading="lazy"
-                                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/caa64bea637c6e0743f04ffbd7595c0fca032edb636e138e18c6ab2c45155fbe?"
-                                    className="w-full aspect-square"
-                                />
-                                </div>
-                                <div className="flex-auto my-auto text-lg font-semibold tracking-wide text-stone-100">
-                                Sales
-                                </div>
-                            </div>
-                            <div className="mt-7 text-base tracking-wide text-neutral-400">
-                                {item.sales} unit(s)
-                            </div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
-                            <div className="flex flex-col grow self-stretch py-5 mx-auto w-full rounded-md bg-neutral-800 max-md:mt-3">
-                            <div className="flex gap-3 justify-between py-1">
-                                <div className="flex justify-center items-center px-2.5 w-9 h-9 rounded-2xl aspect-square bg-green-400 bg-opacity-20">
-                                <img
-                                    loading="lazy"
-                                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/1aebee5a48a90008dee58f7d64c18eee2794f3b8327dd132e82cf294f8ccc005?"
-                                    className="w-full aspect-square"
-                                />
-                                </div>
-                                <div className="flex-auto my-auto text-lg font-semibold tracking-wide text-stone-100">
-                                Revenue
-                                </div>
-                            </div>
-                            <div className="mt-7 text-base tracking-wide text-neutral-400">
-                                IDR {item.revenue}
-                            </div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
-                            <div className="flex flex-col grow self-stretch py-5 mx-auto w-full rounded-md bg-neutral-800 max-md:mt-3">
-                            <div className="flex gap-3 justify-between py-1">
-                                <div className="flex justify-center items-center px-2.5 w-9 h-9 rounded-2xl aspect-square bg-green-400 bg-opacity-20">
-                                <img
-                                    loading="lazy"
-                                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/34323bc9996a3a8fedad074382f594477b98f86d0876cacd03790ce7711815c2?"
-                                    className="w-full aspect-square"
-                                />
-                                </div>
-                                <div className="flex-auto my-auto text-lg font-semibold tracking-wide text-stone-100">
-                                User Engagement
-                                </div>
-                            </div>
-                            <div className="mt-7 text-base tracking-wide whitespace-nowrap text-neutral-400">
-                                {item.user} user(s)
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <div className="mt-3 text-lg font-semibold tracking-wide text-stone-100 max-md:max-w-full">
-                        Lesson Learned
-                    </div>
-                    <div className="mt-4 text-base tracking-wide text-neutral-400 max-md:max-w-full">
-                        {item.lessonLearned}
-                    </div>
-                    </div>
-                </li>
-            ))
-          ) : (
-            <div style={{ color: 'white', opacity: '0.5', fontSize: '14px', marginTop: '50px' }}>
-              No Diary entries available
-            </div>
-          )}
+            
+          <div className="flex flex-col w-[65%]">
+									<div className="flex flex-col pt-6">
+									<div className="justify-between items-center inline-flex w-[900px]">
+											<div className="text-stone-100 text-3xl font-semibold tracking-tight text-wrap w-[300px]">Weekly Entry</div>
+											<div className="justify-start items-center gap-3 flex">
+                      <button onClick={handleSort} className="pl-4 pr-5 py-2 rounded-[25px] border text-stone-100 border-neutral-400 justify-center items-center gap-1 inline-flex w-[140px]">
+													{sort === "-date" ? (
+														<>
+															<img
+															loading="lazy"
+															src="https://cdn.builder.io/api/v1/image/assets/TEMP/3e3ec73880ece29d00f20e4db0e4b5475499af7b473b69d767d47b11119c4c98?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
+															className="self-center w-8 aspect-square"
+															/>
+															<div>Oldest</div>
+														</>
+													) : (
+														<>
+															<img
+															loading="lazy"
+															src="https://cdn.builder.io/api/v1/image/assets/TEMP/f17953187a4d2276470cd675c51584dad8f4c8e4316cd91c37a457aba3eac469?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
+															className="self-center w-8 aspect-square"
+															/>
+															<div>Latest</div>
+														</>
+													)}
+												</button>
+												<Datepicker
+													inputClassName="w-full pl-10 pr-3 py-2 placeholder-stone-100 rounded-[25px] focus:outline-none border font-normal text-stone-100 border-neutral-400 bg-black" 
+													value={value} 
+													onChange={handleWeeklyChange}
+													useRange={false}
+													readOnly={true}  
+													primaryColor={"emerald"}
+													placeholder="Date" 
+													toggleClassName="absolute left-0 h-full px-3 text-neutral-400 focus:outline-none" 
+
+												/> 
+											</div>
+									</div>
+                  <div className="my-auto mt-3 text-xl text-neutral-400">
+                      {listEntries.length} entries found
+                  </div>
+									{/* card */}
+									{listEntries.map((item, index) => (
+										<li key={index}>
+											<div className="p-6 bg-neutral-800 rounded-lg flex-col justify-center items-start gap-6 flex mt-5 w-[900px]">
+												<div className="justify-start items-center gap-[16.98px] inline-flex">
+														<div className="justify-start items-start gap-4 flex">
+																<img
+																				loading="lazy"
+																				src={item.startup_image}
+																				className="object-cover w-[55px] h-[55px] rounded-full border-dashed self-center"
+																/>
+																<div className="font-semibold whitespace-nowrap text-stone-100">
+																	<div className="flex gap-1 text-xl items-center">
+																		<Link to={`/startupDetails/${item.startup_id}`}><div className="hover:text-green-400">{item.startup}</div></Link>
+																		<img
+																			loading="lazy"
+																			src="https://cdn.builder.io/api/v1/image/assets/TEMP/5cd0618b56d923d8e9393e8312d89bc42be642f17db4d5994a14565779c2265e?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
+																			className="shrink-0 aspect-square w-[18px] self-center"
+																		/>
+																	</div>
+																	<div className=" justify-center inline-flex gap-1.5 pt-0.5 pb-1 pr-2.5 pl-2 mt-2 text-base rounded-2xl bg-neutral-700">
+																		<img
+																			loading="lazy"
+																			src="https://cdn.builder.io/api/v1/image/assets/TEMP/9254c7dc72155b0caec172b38820d32a17a1ff2eb1cf09d72b8ebe5abdfc1ebb?apiKey=c7ebd85b29da4b398aac6462eda13ba9&"
+																			className="shrink-0 aspect-square w-[15px] self-center"
+																		/>
+																		<div>{item.startup_type}</div>
+																	</div>
+																</div>
+														</div>
+												</div>
+												<div className="flex self-stretch flex-col px-6 pb-6 pt-4 rounded-lg border-neutral-700 border bg-neutral-800 max-md:px-5 max-md:max-w-full">
+													<div className="flex gap-5 justify-between max-md:flex-wrap max-md:max-w-full items-center">
+															<div className="text-2xl font-medium tracking-wide text-neutral-400">
+																{format(getMonday(item.date), 'd MMM yyyy')} - {format(getSunday(item.date), 'd MMM yyyy')}
+															</div>
+															<div className="justify-center self-start px-4 py-2 text-md tracking-normal rounded-lg bg-neutral-700 text-stone-100">
+																{format(new Date(item.date), 'd MMMM yyyy')}
+															</div>
+													</div>
+													<div className="shrink-0 mt-3 h-px bg-neutral-400 max-md:max-w-full" />
+													<div className="justify-center max-md:px-5 max-md:max-w-full flex flex-col">
+															<div className="flex max-md:flex-col max-md:gap-0">
+															<div className="flex flex-col w-[33%] max-md:ml-0 max-md:w-full">
+																	<div className="flex flex-col grow self-stretch py-5 mx-auto w-full rounded-md bg-neutral-800 max-md:mt-3">
+																	<div className="flex gap-3 justify-between py-1">
+																			<div className="flex justify-center items-center px-2.5 w-9 h-9 rounded-2xl aspect-square bg-green-400 bg-opacity-20">
+																			<img
+																					loading="lazy"
+																					src="https://cdn.builder.io/api/v1/image/assets/TEMP/caa64bea637c6e0743f04ffbd7595c0fca032edb636e138e18c6ab2c45155fbe?"
+																					className="w-full aspect-square"
+																			/>
+																			</div>
+																			<div className="flex-auto my-auto font-semibold tracking-wide text-stone-100">
+																			Sales
+																			</div>
+																	</div>
+																	<div className="mt-7 text-base tracking-wide text-neutral-400">
+																			{item.sales.toLocaleString('id-ID')} unit(s)
+																	</div>
+																	</div>
+															</div>
+															<div className="flex flex-col w-[33%] max-md:ml-0 max-md:w-full">
+																	<div className="flex flex-col grow self-stretch py-5 mx-auto w-full rounded-md bg-neutral-800 max-md:mt-3">
+																	<div className="flex gap-3 justify-between py-1">
+																			<div className="flex justify-center items-center px-2.5 w-9 h-9 rounded-2xl aspect-square bg-green-400 bg-opacity-20">
+																			<img
+																					loading="lazy"
+																					src="https://cdn.builder.io/api/v1/image/assets/TEMP/1aebee5a48a90008dee58f7d64c18eee2794f3b8327dd132e82cf294f8ccc005?"
+																					className="w-full aspect-square"
+																			/>
+																			</div>
+																			<div className="flex-auto my-auto font-semibold tracking-wide text-stone-100">
+																			Revenue
+																			</div>
+																	</div>
+																	<div className="mt-7 text-base tracking-wide text-neutral-400">
+																			IDR {item.revenue.toLocaleString('id-ID')}
+																	</div>
+																	</div>
+															</div>
+															<div className="flex flex-col w-[33%] max-md:ml-0 max-md:w-full">
+																	<div className="flex flex-col py-5 mx-auto w-full rounded-md bg-neutral-800 max-md:mt-3">
+																	<div className="flex gap-3 justify-between py-1 items-center">
+																			<div className="flex justify-center items-center px-2.5 w-9 h-9 rounded-2xl aspect-square bg-green-400 bg-opacity-20">
+																			<img
+																					loading="lazy"
+																					src="https://cdn.builder.io/api/v1/image/assets/TEMP/34323bc9996a3a8fedad074382f594477b98f86d0876cacd03790ce7711815c2?"
+																					className="w-full aspect-square"
+																			/>
+																			</div>
+																			<div className="flex-auto font-semibold tracking-wide text-nowrap text-stone-100">
+																				User Engagement
+																			</div>
+																	</div>
+																	<div className="mt-7 text-base tracking-wide whitespace-nowrap text-neutral-400">
+																			{item.user.toLocaleString('id-ID')} user(s)
+																	</div>
+																	</div>
+															</div>
+														</div>
+													</div>
+													<div className="mt-3 font-semibold tracking-wide text-stone-100 max-md:max-w-full">
+															Lesson Learned
+													</div>
+													<div className="mt-4 text-base tracking-wide text-neutral-400 max-md:max-w-full break-words text-wrap whitespace-pre-line">
+															{item.lessonLearned}
+													</div>
+												</div>
+											</div>                        
+										</li>
+									))}
+									</div>
+								</div>
           </div>
         </>
         );
@@ -671,7 +656,7 @@ useEffect(() => {
         
 
     return (
-      <div className="flex flex-col justify-center bg-black min-h-screen px-20">
+      <div className="flex flex-col justify-center bg-black min-h-screen px-20 overflow-auto">
       <NavBar status={"startups"}/>
       <main className="px-px pb-20 w-full max-md:max-w-full">
       <aside className="flex gap-5 max-md:flex-col max-md:gap-0">

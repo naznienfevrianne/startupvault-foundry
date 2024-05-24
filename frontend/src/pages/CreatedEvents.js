@@ -118,7 +118,7 @@ function CreatedEvents() {
 
     const handleConfirmDelete = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/event/${eventIdToDelete}/`, {
+        const response = await fetch(`https://startupvault-foundry.vercel.app/event/${eventIdToDelete}/`, {
           method: 'DELETE',
           headers: {
             'Authorization': 'Bearer ' + token
@@ -163,7 +163,7 @@ function CreatedEvents() {
               <h2 className="text-2xl font-medium text-stone-100">{title}</h2>
               <div className="mt-4 text-lg text-stone-100">{location}</div>
               <div className="mt-2 text-lg text-stone-100">{date}</div>
-              <div className="mt-2 text-lg text-stone-100">IDR {price.toLocaleString()}</div>
+              <div className="mt-2 text-lg text-stone-100">IDR {price.toLocaleString('id-ID')}</div>
             </div>
           </div>
         </div>
@@ -199,7 +199,7 @@ function CreatedEvents() {
             }
 
         try {
-                const response = await fetch(`http://localhost:8000/event/created-events/${idPartner}/`, {
+                const response = await fetch(`https://startupvault-foundry.vercel.app/event/created-events/${idPartner}/`, {
                   method: 'GET',
                   headers: {
                     'Authorization': 'Bearer ' + token // Ensure you have a valid token
@@ -228,24 +228,35 @@ function CreatedEvents() {
     }, [idPartner]);
 
   return (
-    <div className="flex flex-col self-stretch max-w-2xl bg-transparent">
-          <div className="flex gap-5 justify-between px-5 w-full font-semibold max-md:flex-wrap max-md:max-w-full">
-            <div className="my-auto text-2xl tracking-wide text-stone-100">Your events</div>
-            <div className="flex gap-2.5 justify-center px-5 py-3 text-xl tracking-widest text-black bg-green-400 rounded-lg cursor-pointer" onClick={openCreateEventModal}>
-              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/565f5cbdb5778e2d0fff5686e6e930cecedc11f5c4f5f5d82c5a994a897fa2c8?apiKey=a9f236d74bde4869a09f0278cc07ff16&" className="shrink-0 w-6 aspect-square" />
+    <div className="flex flex-col self-stretch w-[50%] bg-transparent">
+          <div className="flex gap-5 pt-6 justify-between px-5 w-full font-semibold max-md:flex-wrap max-md:max-w-full">
+            <div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">Your events</div>
+            <div className="flex gap-2.5 justify-center px-3 py-2 text-base text-black bg-green-400 rounded-lg cursor-pointer" onClick={openCreateEventModal}>
+              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/565f5cbdb5778e2d0fff5686e6e930cecedc11f5c4f5f5d82c5a994a897fa2c8?apiKey=a9f236d74bde4869a09f0278cc07ff16&" className="shrink-0 w-5 aspect-square" />
               <div>Create event</div>
             </div>
           </div>
           <div className="flex gap-5 justify-center items-center self-start px-5 py-1.5 mt-6 text-s font-medium tracking-wide text-neutral-400 max-md:flex-wrap">
             <Tab isActive={activeTab === 'all'} onClick={() => handleTabClick('all')}>All ({counts.all})</Tab>
-            <Tab isActive={activeTab === 'in_verification'} onClick={() => handleTabClick('in_verification')}>In verification ({counts.in_verification})</Tab>
+            <Tab isActive={activeTab === 'not_verified'} onClick={() => handleTabClick('not_verified')}>In verification ({counts.in_verification})</Tab>
             <Tab isActive={activeTab === 'verified'} onClick={() => handleTabClick('verified')}>Published ({counts.verified})</Tab>
             <Tab isActive={activeTab === 'rejected'} onClick={() => handleTabClick('rejected')}>Rejected ({counts.rejected})</Tab>
           </div>
           {isCreateEventModalOpen && (
                   <ModalBackground onClick={closeCreateEventModal}>
                     <ModalContent onClick={e => e.stopPropagation()}>
-                      <CreateEvent closeModal={closeCreateEventModal} />
+                      <div className="flex-col relative">
+                        <div className="items-right justify-end self-right flex">
+                          <button type="button" className="ml-auto mr-8 mt-5 my-1.5 rounded-lg p-1.5 inline-flex absolute bg-neutral-800 text-gray-300 hover:bg-gray-700 hover:text-white" onClick={closeCreateEventModal}>
+                            <img
+                              loading="lazy"
+                              src="https://cdn.builder.io/api/v1/image/assets/TEMP/9221a0fea1725e9ddbbc7353112ba3e1a039f91473d88e295fe58883e456346b?apiKey=a9f236d74bde4869a09f0278cc07ff16&"
+                              className="shrink-0 my-auto w-6 aspect-square"
+                            />
+                          </button>
+                        </div>
+                        <CreateEvent closeModal={closeCreateEventModal} />
+                      </div>
                     </ModalContent>
                   </ModalBackground>
                 )}

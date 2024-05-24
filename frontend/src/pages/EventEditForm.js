@@ -20,7 +20,7 @@ const EventDetails = () => {
     date: "",
     price: 0,
     link: '',
-    image: '',
+    image: null,
     isVerified: 1,
 
   });
@@ -33,7 +33,6 @@ const EventDetails = () => {
   }, [eventDetails.name, eventDetails.desc, eventDetails.location, eventDetails.date, eventDetails.price, eventDetails.link, eventDetails.image]);
 
   const myCookies = new Cookies();
-  const idPartner = myCookies.get('id')
   const token = myCookies.get('token')
 
   let { eventId } = useParams(); // Assuming eventId is passed as a query parameter in the URL
@@ -41,8 +40,6 @@ const EventDetails = () => {
 
   let descValid = true;
 
-
-  const [isDigit, setIsDigit] = useState(true);
   const [wordCount, setWordCount] = useState(0);
   const [errorMessage, setErrorMessage] = useState(' ');
 
@@ -56,7 +53,7 @@ const EventDetails = () => {
 
   const fetchDataEvent = async () => {
     try {
-        const response = await fetch(`http://localhost:8000/event/${eventId}/`, {
+        const response = await fetch(`https://startupvault-foundry.vercel.app/event/${eventId}/`, {
             method: "GET", 
             headers:{
                 'Content-Type': 'application/json',
@@ -74,48 +71,48 @@ const EventDetails = () => {
     }
   };
 
-//   const handleDescriptionChange = (e) => {
-//     const newDescription = e.target.value;
+  const handleDescriptionChange = (e) => {
+    const newDescription = e.target.value;
   
-//     // Validate description word count
-//     const wordCount = newDescription.trim().split(/\s+/).length;
-//     setWordCount(wordCount);
+    // Validate description word count
+    const wordCount = newDescription.trim().split(/\s+/).length;
+    setWordCount(wordCount);
 
-//     if (!eventDetails.desc) {
-//         descValid = false;
-//         setErrorMessage("Please input event description")
-//     } else if (wordCount < 6) {
-//         descValid = false;
-//         setErrorMessage('Please input a description more than 5 words.');
-//     }
-
-//     setEventDetails({
-//         ...eventDetails,
-//         desc: newDescription,
-//     });
+    setEventDetails({
+        ...eventDetails,
+        desc: newDescription,
+    });
     
-//   };
+  };
 
-  const handleDrop = (e) => {
+  const handleDrop = async (e) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
     if (file && file.type.startsWith('image/')) {
       const imageUrl = URL.createObjectURL(file);
       setPicture(imageUrl);
-      setEventDetails({
-        ...eventDetails,
-        image: imageUrl
-      });
+  
+      // Upload and then update state
+      uploadUserImg(file, fileName).then(photoUrl => {
+        console.log("Photo URL:", photoUrl); // Check if this logs a valid URL
+        setEventDetails(prevDetails => {
+          console.log("Previous Details:", prevDetails); // Check the state before update
+          return {
+            ...prevDetails,
+            image: photoUrl,
+          };
+        });
+      }).catch(error => console.error("Error during image upload:", error));
     }
-    };
+  };
     
-      const handleDragOver = (e) => {
-        e.preventDefault();
-      };
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
     
 
-  const storedPicture = eventDetails.image;
-  const [picture, setPicture] = useState(storedPicture);
+  // const storedPicture = eventDetails.image;
+  const [picture, setPicture] = useState("");
 
   function generateRandomString(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -129,63 +126,53 @@ const EventDetails = () => {
   const valueWithoutSpaces = storedValue.replace(/\s/g, '');
   const fileName = valueWithoutSpaces + "/" + generateRandomString(25);
 
-  
-
-
   const handlePictureChange = async (e) => {
     e.preventDefault();
-    let file = e.target.files[0]
-    const imageUrl = URL.createObjectURL(file)
+    let file = e.target.files[0];
+    if (!file) return; // Make sure a file was selected
+
+    const imageUrl = URL.createObjectURL(file);
     setPicture(imageUrl);
-    console.log("tes");
-    console.log(eventDetails.image);
 
+    // Upload the image first
+    const fileName = generateFileName(file); // Assume you have a function to generate file names
 
-    localStorage.setItem("image", imageUrl);
+    uploadUserImg(file, fileName).then(photoUrl => {
+        // Update state after the image has been uploaded
+        setEventDetails(prevDetails => ({
+            ...prevDetails,
+            image: photoUrl, // Use the URL from the upload function
+        }));
+    }).catch(error => console.error("Error uploading image:", error));
+};
 
-    const photoUrl = await uploadUserImg(fileName);
-    console.log(photoUrl)
-   
-    // setEventDetails({
-    //   ...eventDetails,
-    //   image: photoUrl, // Update the image property with the new value
-    // });
-    console.log(eventDetails.image);
-
-    const transformedImageUrl = photoUrl.replace(eventDetails.image, photoUrl);
-    setEventDetails({
-        ...eventDetails,
-        image: transformedImageUrl,
-    });
-    console.log(eventDetails.image);
-  }
-
-  const uploadUserImg = async (fileName) => {
-    return fetch(localStorage.getItem("image"))
-      .then(response => response.blob())
-      .then(async blob => {
+// Ensure you pass both file and fileName when uploading
+const uploadUserImg = async (file, fileName) => {
+    try {
         // Upload the image to Supabase Storage
-        const { data, error } = await supabase.storage
-          .from('userimg')
-          .upload(fileName, blob);
-  
+        const { data, error } = await supabase.storage.from('userimg').upload(fileName, file);
         if (error) {
-          console.error('Error uploading profilePicture:', error.message);
-          throw error; // Throw the error to propagate it
+            console.error('Error uploading Picture:', error.message);
+            throw error;
         } else {
-          console.log('Image uploaded successfully:', fileName);
-          return supabaseUrl + "/storage/v1/object/public/userimg/" + fileName;
+            console.log('Image uploaded successfully:', fileName);
+            return `${supabaseUrl}/storage/v1/object/public/userimg/${fileName}`;
         }
-      })
-      .catch(error => {
-        console.error('profilePicture fetching image from localhost:', error);
-        throw error; // Throw the error to propagate it
-      });
-  };
+    } catch (error) {
+        console.error('Error during image upload:', error);
+        throw error;
+    }
+};
+
+function generateFileName(file) {
+    const ext = file.name.split('.').pop();
+    const randomString = generateRandomString(25); // Your existing random string generator
+    return `${randomString}.${ext}`;
+}
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/event/${eventId}/`, {
+      const response = await fetch(`https://startupvault-foundry.vercel.app/event/${eventId}/`, {
         method: "PUT",
         headers: {
           'Authorization': 'Bearer ' + token,
@@ -199,23 +186,73 @@ const EventDetails = () => {
       }
 
       console.log(eventDetails);
-      navigate('/event');
+      navigate('/dashboardPartner');
 
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
+  const [isPriceValid, setIsPriceValid] = useState(true);
+
+    // Validate the price to ensure it is a valid number
+    const validatePrice = (price) => {
+        // Check if price is not a number or if it's empty
+        return !isNaN(price) && price.trim() !== '';
+    };
+
+    // Handle changes to the price input
+    const handlePriceChange = (e) => {
+        const { value } = e.target;
+        const isValid = validatePrice(value);
+        setIsPriceValid(isValid); // Update validity state based on the number check
+        setEventDetails({ ...eventDetails, price: value });
+    };
+
+    const [isWebsiteValid, setIsWebsiteValid] = useState(true);
+
+    const handleWebsiteChange = (e) => {
+      const url = e.target.value;
+      setEventDetails({ ...eventDetails, link: url });
+      validateWebsite(url);
+    };
   
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (formChanged) {
-        handleUpdate();
-    } else {
-        console.log("No changes made to the event details.");
-        navigate('/event'); // Optionally navigate back if no changes are detected
-    }
-  };
+    const validateWebsite = (url) => {
+      const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name and extension
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+      setIsWebsiteValid(!!pattern.test(url));
+    };
+
+  
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+    const UpdateConfirmationModal = ({ onClose, onUpdate }) => {
+      return (
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
+          <div className="bg-gray-800 p-8 rounded-lg">
+            <p className="text-white mb-4">Are you sure you want to update these details?</p>
+            <div className="flex justify-end">
+              <button className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50" onClick={onClose}>No</button>
+              <button className="bg-green-500 text-white py-2 px-4 ml-1 mr-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50" onClick={onUpdate}>Yes</button>
+              
+            </div>
+          </div>
+        </div>
+      );
+    };
+  
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      setShowConfirmationModal(true); // Show confirmation modal
+    };
+    
+    const handleUpdateConfirmation = async () => {
+      setShowConfirmationModal(false); // Close the modal after confirming
+      await handleUpdate(); // Proceed with the update
+    };
 
   return (
     <div className="flex flex-col justify-center bg-black min-h-screen px-20">
@@ -226,7 +263,7 @@ const EventDetails = () => {
       <form onSubmit={handleSubmit}>
           <div className="px-5 pt-9 pb-20">
               <div className="flex flex-wrap gap-5 justify-between content-center self-start pr-14 text-stone-100 max-md:pr-5">
-                  <h2 className="text-5xl font-semibold tracking-wider leading-[54px]">Edit Event Details</h2>
+                  <h2 className="text-2xl font-semibold tracking-tight text-wrap">Edit Event Details</h2>
                   <button className="flex gap-1.5 justify-center px-3.5 py-1.5 my-auto text-xl tracking-wide rounded-xl border border-solid shadow-sm bg-neutral-400 bg-opacity-40 border-neutral-400">
                       <span>editing mode</span>
                       {/* Add your image component here */}
@@ -254,7 +291,7 @@ const EventDetails = () => {
                 className={`block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer`}
                 placeholder=""
                 value={eventDetails.desc}
-                onChange={(e) => setEventDetails({ ...eventDetails, desc: e.target.value })}
+                onChange={handleDescriptionChange}
                 rows={3} // Set the number of rows
                 required
                 />
@@ -285,26 +322,36 @@ const EventDetails = () => {
                 </div>
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Price</div>
                 <div className="flex gap-2">
-                <input
-                    type="number"
-                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
-                    placeholder=" "
-                    value={eventDetails.price}
-                    onChange={(e) => setEventDetails({ ...eventDetails, price: e.target.value })}
-                    required
-                  />
+                    <input
+                        type="text"
+                        className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
+                        placeholder=""
+                        value={eventDetails.price}
+                        onChange={handlePriceChange}
+                        required
+                    />
                 </div>
+                {!isPriceValid && (
+                        <div className="text-red-500 text-xs mt-1">
+                            Please enter a valid price.
+                        </div>
+                    )}
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Link</div>
                 <div className="flex gap-2">
                 <input
-                    type="text"
-                    className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
-                    placeholder=" "
-                    value={eventDetails.link}
-                    onChange={(e) => setEventDetails({ ...eventDetails, link: e.target.value })}
-                    required
-                  />
+                  type="text"
+                  className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none text-white border-gray-600 focus:border-green-400 focus:outline-none focus:ring-0 peer"
+                  placeholder="Enter website URL"
+                  value={eventDetails.link}
+                  onChange={handleWebsiteChange}
+                  required
+                />
                 </div>
+                {!isWebsiteValid && (
+                  <div className="text-red-500 text-xs mt-1">
+                    Please enter a valid link URL.
+                  </div>
+                )}
                 <div className="mt-5 text-xl font-medium tracking-wide text-stone-100">Upload Image</div>
                 <div
                     className="flex justify-center items-center self-stretch px-5 py-6 mt-5 text-xs rounded-md bg-neutral-700 max-w-[608px] max-md:px-5"
@@ -360,14 +407,20 @@ const EventDetails = () => {
                     )}
                 </div>
                 
-              <div className="flex gap-2 mt-5 pr-20 text-xl font-semibold tracking-widest">
-                  <a type="button" href="/event" className="px-4 py-2 rounded-2xl border border-solid border-stone-100 text-stone-100">cancel</a>
-                  <button className="px-5 py-2 text-black bg-green-400 rounded-2xl" type="submit">save</button>
+              <div className="flex gap-2 mt-5 pr-20 text-xl font-semibold">
+                  <a type="button" href="/dashboardPartner" className="px-4 py-2 rounded-2xl border border-solid border-stone-100 text-stone-100">Cancel</a>
+                  <button className="px-5 py-2 text-black bg-green-400 rounded-2xl" type="submit">Save</button>
               </div>
           </div>
         </form>
       </section>
       </aside>
+      {showConfirmationModal && (
+              <UpdateConfirmationModal
+                onClose={() => setShowConfirmationModal(false)}
+                onUpdate={handleUpdateConfirmation}
+              />
+            )}
       </main>
     </div>
   );

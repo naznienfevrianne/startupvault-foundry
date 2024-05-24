@@ -148,7 +148,7 @@ function Follow({ page }) {
               }`}
               onClick={toggleFollow}
             >
-              {isFollowing ? 'UNFOLLOW' : 'FOLLOW'}
+              {isFollowing ? 'Unfollow' : 'Follow'}
             </button>
 
           )}
@@ -163,7 +163,7 @@ function Follow({ page }) {
                 }`}
                 onClick={toggleFollow}
               >
-                {isFollowing ? 'UNFOLLOW' : 'FOLLOW'}
+                {isFollowing ? 'Unfollow' : 'Follow'}
               </button>
             )}
           </div>

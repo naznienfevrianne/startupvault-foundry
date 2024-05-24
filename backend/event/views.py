@@ -24,16 +24,43 @@ from jwt.exceptions import InvalidTokenError, ExpiredSignatureError
 from rest_framework import exceptions
 from authentication.models import Partner
 from authentication.views import JWTAuthentication
-
+from datetime import datetime, timedelta
+from django.utils import timezone
+from django.utils.dateparse import parse_date
+from authentication.views import JWTAuthentication
 
 # Create your models here.
 class EventListCreate(generics.ListCreateAPIView):
-    permission_classes = [AllowAny]
-    queryset = Event.objects.filter(isVerified=1)
+    permission_classes = [JWTAuthentication]
     serializer_class = EventSerializer
+
+    def get_queryset(self):
+        queryset = Event.objects.filter(isVerified=1)
+
+        # Sorting by date
+        sort_by_date = self.request.query_params.get('sort_by_date', None)
+        print("sort_by_date:", sort_by_date)  # Menambahkan pernyataan ini untuk debugging
+        if sort_by_date == 'true':
+            queryset = queryset.order_by('date')
+        else:
+            queryset = queryset.order_by('-date')
+
+        # Filtering by date range
+        start_date_str = self.request.query_params.get('startDate', None)
+        end_date_str = self.request.query_params.get('endDate', None)
+        print("start_date:", start_date_str)  # Menambahkan pernyataan ini untuk debugging
+        print("end_date:", end_date_str)  # Menambahkan pernyataan ini untuk debugging
+        if start_date_str and end_date_str:
+            start_date = parse_date(start_date_str)
+            end_date = parse_date(end_date_str)
+            if start_date and end_date:
+                queryset = queryset.filter(date__range=[start_date, end_date])
+
+        return queryset
+
     
 class EventRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [AllowAny] 
+    permission_classes = [JWTAuthentication] 
     
     def get_serializer_class(self):
         if self.request.method == 'GET':

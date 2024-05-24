@@ -57,7 +57,7 @@ const StartupDetails = () => {
         <div className="flex flex-col grow pt-6 pr-24 pl-5 max-md:max-w-full">
             <div className="flex flex-wrap gap-5 justify-between content-center pr-52 w-full max-md:pr-5 max-md:max-w-full">
             <a href="/startupEditForm" className="flex flex-wrap gap-5 justify-between content-center pr-20 max-md:pr-5">
-                <h1 className="text-5xl font-semibold tracking-wider leading-[54px] text-stone-100 max-md:text-4xl">Startup Details</h1>
+                <h1 className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">Startup Details</h1>
                 <div className="flex gap-1.5 justify-center px-0.5 my-auto text-xl tracking-wide whitespace-nowrap text-neutral-400" href="/FounderEditForm">
                     <div className="grow">edit details</div>
                     <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/04c641284d7871837890bdbbf518752e3d58158fa19f353bc7632662bcd27883?apiKey=9ff2a73e8144478896bce8206c80f3e2&" alt="Edit icon" className="shrink-0 aspect-square w-[23px]" />
@@ -118,23 +118,24 @@ const StartupDetails = () => {
             <div className="mt-3 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
             Sector
             </div>
-            <div className="flex gap-2.5 py-3 pr-20 mt-3 text-base font-semibold tracking-normal rounded-md text-stone-100 max-md:flex-wrap max-md:pr-5">
-{sectorsArray.map((sector, index) => (
-<div key={index} className="justify-center px-3 py-1.5 rounded-2xl border border-green-400 border-solid">
-{sector.trim()} {/* Trim to remove any leading or trailing whitespace */}
-</div>
-))}
-</div>
+            <div className="flex gap-4 py-3 pr-20 mt-3 text-base font-semibold tracking-normal rounded-md text-stone-100 max-md:flex-wrap max-md:pr-5">
+        {sectorsArray.map((sector, index) => (
+        <div key={index} className="justify-center px-3 py-1.5 rounded-2xl border border-green-400 border-solid">
+        {sector.trim()} {/* Trim to remove any leading or trailing whitespace */}
+        </div>
+        ))}
+        </div>
 
             <div className="mt-3 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
             Describe your startup in less than 50 words
             </div>
-            <div className="justify-center items-start py-3.5 pr-16 pl-3 mt-3 text-sm tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-md:max-w-full">
+            <div className="justify-center items-start py-3.5 pr-3 pl-3 mt-3 text-sm tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-md:max-w-full break-all whitespace-pre-line">
             {startupDetails.desc}
             </div>
             <div className="mt-3 text-base font-medium tracking-wide text-stone-100 max-md:max-w-full">
             Startup Pitchdeck
             </div>
+            {startupDetails.pitchdeck ? (
             <a href={startupDetails.pitchdeck} className="flex gap-2.5 self-start px-3 py-3 mt-3 text-base font-medium tracking-wide whitespace-nowrap rounded-lg border border-green-400 border-solid bg-green-400 bg-opacity-20 text-stone-100 max-md:px-5">
             <img
                 loading="lazy"
@@ -144,6 +145,17 @@ const StartupDetails = () => {
             />
             <div className="flex-auto my-auto">pitch deck (.pdf)</div>
             </a>
+            ) : (
+                <div className='flex gap-2.5 self-start max-md:px-5'>
+                <div className="flex gap-2.5 self-start px-3 py-3 mt-3 text-base font-medium tracking-wide whitespace-nowrap rounded-lg border border-red-400 border-solid bg-red-400 bg-opacity-20 text-stone-100">
+                  <div className="flex-auto my-auto">File is not found</div>
+                </div>
+                <div className="self-start mt-10 text-xs font-xs tracking-wide text-red-400">
+                *Your current startup stage might not require any pitchdeck file.
+                </div>
+                </div>
+                
+            )}
             <div className="self-start mt-3 text-base font-medium tracking-wide text-stone-100">
             Revenue over the last 6 months
             </div>

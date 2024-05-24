@@ -21,6 +21,7 @@ from functools import wraps
 from rest_framework  import permissions
 from jwt.exceptions import InvalidTokenError, ExpiredSignatureError
 from rest_framework import exceptions
+from django.contrib.auth.hashers import make_password, check_password
 
 
 class JWTAuthentication(permissions.BasePermission):
@@ -64,21 +65,49 @@ class UserModelListCreate(generics.ListCreateAPIView):
     permission_classes = [JWTAuthentication]
     queryset = UserModel.objects.all()
     serializer_class = UserModelSerializer
+    
+    def perform_create(self, serializer):
+        # Hash the password before saving the user instance
+        password = serializer.validated_data.get('password')
+        if password:
+            serializer.validated_data['password'] = make_password(password)
+        serializer.save()
 
 class FounderListCreate(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
     queryset = Founder.objects.all()
     serializer_class = FounderSerializer
     
+    def perform_create(self, serializer):
+        # Hash the password before saving the user instance
+        password = serializer.validated_data.get('password')
+        if password:
+            serializer.validated_data['password'] = make_password(password)
+        serializer.save()
+    
 class PartnerListCreate(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
     queryset = Partner.objects.all()
     serializer_class = PartnerSerializer
+    
+    def perform_create(self, serializer):
+        # Hash the password before saving the user instance
+        password = serializer.validated_data.get('password')
+        if password:
+            serializer.validated_data['password'] = make_password(password)
+        serializer.save()
 
 class InvestorListCreate(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
     queryset = Investor.objects.all()
     serializer_class = InvestorSerializer
+    
+    def perform_create(self, serializer):
+        # Hash the password before saving the user instance
+        password = serializer.validated_data.get('password')
+        if password:
+            serializer.validated_data['password'] = make_password(password)
+        serializer.save()
 
 class StartupListCreate(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
@@ -99,17 +128,13 @@ class PartnerOrganizationListCreate(generics.ListCreateAPIView):
 def login(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        print(data)
         email_req = data.get('email')
-        print("email_req " + email_req)
         password_req = data.get('password')
-        print("password_req " + password_req)
+        
         user = UserModel.objects.filter(email=email_req).first()
         if user is not None:
-           
-            if user.password == password_req:
+            if check_password(password_req, user.password):
                 payload = None
-                
                 if user.role == "founder":
                     user = Founder.objects.filter(email=email_req).first()
                     payload = model_to_dict(user)
@@ -122,13 +147,10 @@ def login(request):
                     user = Partner.objects.filter(email=email_req).first()
                     payload = model_to_dict(user)
                     payload.pop('password', None)
-                # payload_json = json.dumps(payload)
-                jwt_token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
-                try_to_decode = jwt.decode(jwt_token, settings.SECRET_KEY, algorithms=["HS256"])
-                print("login")
-                print(try_to_decode)
-                print(jwt_token)
-                return JsonResponse({"token":jwt_token, **payload}, status=200)
+                if payload:
+                    jwt_token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
+                    try_to_decode = jwt.decode(jwt_token, settings.SECRET_KEY, algorithms=["HS256"])
+                    return JsonResponse({"token":jwt_token, **payload}, status=200)
             else:
                 return JsonResponse({"status":"failed", "login":False,"message":"Password false"}, status=400)
         else:
@@ -146,6 +168,13 @@ def check_email(request):
             return JsonResponse({"message":"success"}, status=200)
         else:
             return JsonResponse({"message":"Email already used"}, status=409)
+        
+class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [JWTAuthentication] 
+    serializer_class = UserModelSerializer
+
+    def get_queryset(self):
+        return UserModel.objects.all()
         
 def test_token(request):
     token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDkxNjQ2MDAsImlhdCI6MTY0OTE2MjYwMCwic3ViIjoiYXV0aGVudGljYXRlZCJ9.dT2-WIUcYEDb4nRQ4LhHoyAmLl8QdU2m0f1co-Wp8DU'
@@ -225,14 +254,27 @@ class InvestorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        partial = request.method == 'PUT'  # Check if request method is PUT
+        partial = request.method == 'PUT'  # Periksa apakah metode permintaan adalah PUT
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data)
+
+        # Buat payload baru dengan data investor yang diperbarui
+        payload = model_to_dict(instance)
+        payload.pop('password', None)
+        
+        # Buat token JWT baru
+        jwt_token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
+
+        # Kirim respons JSON dengan token JWT baru dan data investor yang diperbarui
+        return Response({"token": jwt_token, **payload}, status=200)
 
     def partial_update(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
 class PartnerRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [JWTAuthentication] 
@@ -246,10 +288,20 @@ class PartnerRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data)
+        partial = request.method == 'PUT'  # Periksa apakah metode permintaan adalah PUT
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data)
+
+        # Buat payload baru dengan data investor yang diperbarui
+        payload = model_to_dict(instance)
+        payload.pop('password', None)
+        
+        # Buat token JWT baru
+        jwt_token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
+
+        # Kirim respons JSON dengan token JWT baru dan data investor yang diperbarui
+        return Response({"token": jwt_token, **payload}, status=200)
 
     def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -270,10 +322,20 @@ class FounderRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data)
+        partial = request.method == 'PUT'  # Periksa apakah metode permintaan adalah PUT
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data)
+
+        # Buat payload baru dengan data investor yang diperbarui
+        payload = model_to_dict(instance)
+        payload.pop('password', None)
+        
+        # Buat token JWT baru
+        jwt_token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
+
+        # Kirim respons JSON dengan token JWT baru dan data investor yang diperbarui
+        return Response({"token": jwt_token, **payload}, status=200)
 
     def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -304,17 +366,25 @@ class StartupRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         serializer.save()
         return Response(serializer.data)
 
-class TopStartupRetriever(generics.RetrieveAPIView):
+class TopStartupRetriever(generics.ListAPIView):
     permission_classes = [JWTAuthentication]
-    serializer_class = Top10StartupSerializer
+    serializer_class = StartupSerializer
 
     def get_queryset(self):
-        return Top10Startup.objects.all().order_by('-id')
+        startups = Top10Startup.objects.all().order_by('-id').first()
+        list_startup = []
+        for i in range(1, 11):
+            startup = getattr(startups, f"rank{i}")
+            list_startup.append(startup)
+        
+        startup_info = []
+        for startup in list_startup:
+            info = Startup.objects.filter(id=startup).first()
+            startup_info.append(info)
+        return startup_info
 
-    def get_object(self):
-        queryset = self.get_queryset()
-        return queryset.first()
+        
 
-    
+
 
 

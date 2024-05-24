@@ -5,7 +5,7 @@ import NavBar from "../component/NavBar";
 import SideBar from "../component/SideInvestor";
 
 
-function InvestorDetails(props) {
+function InvestorReadForm(props) {
   const [investorData, setInvestorEntry] = React.useState({
     name: '',
     linkedin: '',
@@ -42,16 +42,16 @@ function InvestorDetails(props) {
   return (
     <div className="flex flex-col pb-20 px-20 bg-black min-h-screen">
       <NavBar status={"dashboard"}/>
-      <div className="z-10 mt-0 w-full max-md:max-w-full">
+      <div className="mt-0 w-full max-md:max-w-full">
         <div className="flex gap-5 max-md:flex-col max-md:gap-0">
           <SideBar status={"profile"}/>
           <div className="flex flex-col w-[77%] max-md:ml-0 max-md:w-full">
             <div className="flex flex-col grow px-5 pt-9 pb-20 max-md:mt-5 max-md:max-w-full">
               <div className="flex flex-wrap gap-0 content-center pr-20 max-md:pr-5">
-                <div className="text-4xl font-semibold tracking-wider leading-[54px] text-stone-100 max-md:text-4xl">
-                  INVESTOR DETAILS
+                <div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">
+                  Investor Details
                 </div>
-                <Link to="/updateInvestorDetails" className="flex">
+                <Link to="/investorEditForm" className="flex">
                   <div className="flex gap-1.5 ml-4 justify-between px-0.5 my-auto text-base tracking-wide text-neutral-400">
                     <div>edit details</div> 
                     <img
@@ -67,13 +67,13 @@ function InvestorDetails(props) {
                 src={investorData.image}
                 className="mt-5 bg-green-700 rounded-full aspect-[0.99] h-[74px] w-[74px]"
               />
-              <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">
+              <div className="mt-5 text-lg font-medium tracking-wide text-stone-100 max-md:max-w-full">
                 Name
               </div>
               <div className="justify-center items-start px-3 py-3.5 mt-2.5 text-sm tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-w-[800px]">
                 {investorData.name}
               </div>
-              <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">
+              <div className="mt-5 text-lg font-medium tracking-wide text-stone-100 max-md:max-w-full">
                 LinkedIn
               </div>
               <div className="flex gap-2.5 py-1.5 mt-2.5 text-sm whitespace-nowrap rounded-md max-w-[800px] bg-neutral-800 max-md:flex-wrap">
@@ -86,13 +86,13 @@ function InvestorDetails(props) {
                 </div>
                 )}
               </div>
-              <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">
+              <div className="mt-5 text-lg font-medium tracking-wide text-stone-100 max-md:max-w-full">
                 Email
               </div>
               <div className="justify-center items-start px-3 py-3.5 mt-2.5 text-sm font-light tracking-normal whitespace-nowrap rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-w-[800px]">
                 {investorData.email}
               </div>
-              <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">
+              <div className="mt-5 text-lg font-medium tracking-wide text-stone-100 max-md:max-w-full">
                 Phone Number
               </div>
               <div className="justify-center items-start px-3 py-3.5 mt-2.5 text-sm font-light tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-w-[800px]">
@@ -106,4 +106,4 @@ function InvestorDetails(props) {
   );
 }
 
-export default InvestorDetails;
+export default InvestorReadForm;

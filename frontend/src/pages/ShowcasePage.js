@@ -12,8 +12,7 @@ import NavBar from "../component/NavBar.js";
 const myCookies = new Cookies();
 const isLogin = myCookies.get('login')
 const token = myCookies.get('token')
-const idCookies = myCookies.get('id')
-
+const id = myCookies.get('id')
 
 const NavbarItem = ({ children, href }) => (
   <div className="grow">
@@ -58,17 +57,17 @@ const NavigationBar = () => (
 
 export const SignUpButton = () => (
   <div
-      className="justify-center self-center px-5 py-2 mt-0 text-xl font-semibold tracking-widest text-black bg-green-400 whitespace-nowrap rounded-3xl shadow-sm max-md:mt-10 hover:bg-green-500 cursor-pointer"
+      className="justify-center self-center px-5 py-2 mt-0 text-base font-semibold text-black bg-green-400 whitespace-nowrap rounded-3xl shadow-sm max-md:mt-10 hover:bg-green-500 cursor-pointer"
       type="button">
-       <Link to="/login">LOG IN</Link>
+       <Link to="/login">Log in</Link>
   </div>
 );
 
 export const LogOutButton = () => (
   <div
-      className="justify-center self-center px-5 py-2 mt-0 text-xl font-semibold tracking-widest text-black bg-green-400 whitespace-nowrap rounded-3xl shadow-sm max-md:mt-10 hover:bg-green-500 cursor-pointer"
+      className="justify-center self-center px-5 py-2 mt-0 text-base font-semibold text-black bg-green-400 whitespace-nowrap rounded-3xl shadow-sm max-md:mt-10 hover:bg-green-500 cursor-pointer"
       type="button">
-      <Link to="/logout">LOG OUT</Link>
+      <Link to="/logout">Log out</Link>
   </div>
 );
 
@@ -154,7 +153,7 @@ const countTimeStamp = (date) => {
 
 const Content = ({ content }) => {
   return (
-    <article className="self-stretch mt-4 text-base tracking-normal text-stone-100 max-md:max-w-full">
+    <article className="self-stretch mt-4 text-base tracking-normal text-stone-100 max-md:max-w-full whitespace-pre-line break-words">
       {content}
     </article>
   );
@@ -194,7 +193,7 @@ const Likes = ({ LikedPost, user, initialLikes, isInitiallyLiked }) => {
   const toggleLike = async () => {
     console.log(JSON.stringify({
       "post": LikedPost,  // Assuming this is the ID of the post to be liked/unliked
-      "user": idCookies,  // Assuming this is the ID of the user performing the action
+      "user": id,  // Assuming this is the ID of the user performing the action
     }))
     const response = await fetch("https://startupvault-foundry.vercel.app/showcase/toggle_like/", {
       method: 'POST',
@@ -204,7 +203,7 @@ const Likes = ({ LikedPost, user, initialLikes, isInitiallyLiked }) => {
       },
       body: JSON.stringify({
         "post": LikedPost,  // Assuming this is the ID of the post to be liked/unliked
-        "user": idCookies,  // Assuming this is the ID of the user performing the action
+        "user": id,  // Assuming this is the ID of the user performing the action
       })
     });
 
@@ -220,7 +219,7 @@ const Likes = ({ LikedPost, user, initialLikes, isInitiallyLiked }) => {
   };
 
   return (
-    <div onClick={toggleLike} className="like-button flex items-center cursor-pointer text-neutral-400 flex mr-2 mt-4 text-base tracking-normal text-neutral-400">
+    <div onClick={toggleLike} className="like-button flex items-center cursor-pointer mr-2 mt-4 text-base tracking-normal text-neutral-400">
       <img
         src={isLiked ? 'https://cdn.builder.io/api/v1/image/assets/TEMP/a6b6a6fc12b49d682d339e680a99d0813ad9d1df078c58ecd84437a1faf83427?' : 'https://cdn.builder.io/api/v1/image/assets/TEMP/f90fa44f5c875dc682630d4e52d5606c05c4a6cc35fc4b07a84d3cd0bba786b7?apiKey=50c5361058c6465f94eb30dfd5c845d1&'}
         alt={isLiked ? 'Unlike' : 'Like'}
@@ -279,27 +278,6 @@ const CategoryButton = ({ categoryName, onClick }) => (
   </div>
 );
 
-
-
-const CategoriesSection = ({ setSelectedCategory }) => {
-  const categories = ["Ed-Tech", "Health-Tech", "Transportation", "Fin-Tech", "Food-Tech"]; // Example categories
-
-  return (
-    <section className="flex flex-col items-start p-6 mt-6 rounded-lg w-[338px] bg-neutral-800 text-stone-100 max-md:px-5">
-      <header className="self-stretch mb-3">
-        <h2 className="text-xl font-medium tracking-wide text-white">Popular categories</h2>
-      </header>
-      <div className="flex gap-3 flex-wrap">
-        {categories.map(categoryName => (
-          <CategoryButton key={categoryName} categoryName={categoryName} onClick={() => setSelectedCategory(categoryName)} />
-        ))}
-      </div>
-    </section>
-  );
-};
-
-
-
 const SearchBar = ({ setSearchTerm }) => { // Accept setSearchTerm as a prop
   return (
     <div className="flex gap-3 p-4 bg-neutral-800 rounded-[30px] w-[338px] text-stone-300">
@@ -319,8 +297,35 @@ const Showcase = () => {
   const myCookies = new Cookies();
   const rejectionNote = myCookies.get('rejectionNote');
   const isVerified = myCookies.get('isVerified');
-  
-  
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`https://startupvault-foundry.vercel.app/auth/getStatus/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          myCookies.set('isVerified', data.isVerified);
+          myCookies.set('rejectionNote', data.rejectionNote);
+        } else {
+          console.error('Failed to fetch isVerified status');
+        }
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    if (id){
+      fetchData();
+    }
+  }, []); 
+
    return (
   <div className="flex flex-col h-screen bg-black min-h-screen px-20"> {/* Ensures the main container takes up the full viewport height */}
     <NavBar status='showcase'/>
@@ -342,7 +347,6 @@ const Showcase = () => {
       </main>
       <aside className="w-1/3 h-full overflow-auto top-0"> {/* Aside section made sticky */}
         <SearchBar setSearchTerm={setSearchTerm}/>
-        <CategoriesSection/>
       </aside>
     </div>
   </div>

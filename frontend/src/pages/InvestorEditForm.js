@@ -5,9 +5,11 @@ import NavBar from "../component/NavBar";
 import { useNavigate } from 'react-router-dom';
 import { createClient } from "@supabase/supabase-js";
 import SideBar from "../component/SideInvestor";
+import { useCookies } from "react-cookie";
 
-function UpdateInvestorDetails(props) {
+function InvestorEditForm(props) {
   const navigate = useNavigate();
+  const [cookies, setCookie] = useCookies()
 
   const [investorData, setInvestorEntry] = React.useState({
     name: '',
@@ -23,6 +25,7 @@ function UpdateInvestorDetails(props) {
   const [isPhoneNumberValid, setPhoneNumberValid] = React.useState(true);
   const [isDigit, setIsDigit] = React.useState(true);
   const [isLinkedinValid, setLinkedinValid] = React.useState(true);
+  const [showButton, setShowButton] = React.useState(true);
   const supabaseUrl= "https://yitzsihwzshujgebmdrg.supabase.co";
   const supabaseKey= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpdHpzaWh3enNodWpnZWJtZHJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc1MzQyMjYsImV4cCI6MjAyMzExMDIyNn0.vDEP-XQL4BKAww7l_QW1vsQ4dZCM5GknBPACrgPXfKA"
   const supabase = createClient(supabaseUrl, supabaseKey);
@@ -108,6 +111,7 @@ function UpdateInvestorDetails(props) {
   };
 
   const handleUpdateEmail = async (e) => {
+    setShowButton(false)
     const { name, value } = e.target;
     setInvestorEntry((prevState) => ({
       ...prevState,
@@ -126,13 +130,16 @@ function UpdateInvestorDetails(props) {
       const data = await response.json();
       if (data.message === 'Email already used') {
         if (value == emailInvestor){
+          setShowButton(true)
           setIsEmailValid(true); 
         } else{
           console.log('Email already used');
+          setShowButton(false)
           setIsEmailValid(false); 
         }
       } else {
         console.log('Email is available');
+        setShowButton(true)
         setIsEmailValid(true); 
       }
     } catch (error) {
@@ -189,8 +196,14 @@ function UpdateInvestorDetails(props) {
       if (!response.ok) {
         throw new Error("Failed to update data");
       }
+      const data = await response.json();
+      setCookie("login", { path: '/', expires:new Date(Date.now() + 60 * 60 * 1000)});
+      // Set each key-value pair from the response JSON as a separate cookie
+        Object.keys(data).forEach(key => {
+          setCookie(key, data[key], { path: '/', expires:new Date(Date.now() + 60 * 60 * 1000)}); // Set cookie for each key-value pair
+        });
 
-      navigate('/investorDetails');
+      navigate('/investorReadForm');
     } catch (error) {
       console.error("Error:", error);
     }
@@ -205,16 +218,15 @@ function UpdateInvestorDetails(props) {
   return (
     <div className="flex flex-col pb-20 px-20 min-h-screen bg-black">
       <form onSubmit={handleSubmit}>
-      <NavBar status={"dashboard"}/>
-        
+      <NavBar status={"dashboard"}/>     
         <div className="z-10 mt-0 w-full max-md:max-w-full">
           <div className="flex gap-5 max-md:flex-col max-md:gap-0">
             <SideBar status={"profile"}/>
-            <div className="flex flex-col ml-5 w-[77%] max-md:ml-0 max-md:w-full">
+            <div className="flex flex-col w-[77%] max-md:ml-0 max-md:w-full">
               <div className="flex flex-col grow px-5 pt-9 pb-20 max-md:mt-5 max-md:max-w-full">
                 <div className="flex flex-wrap gap-0 content-center pr-20 max-md:pr-5 text-stone-100">
-                  <div className="text-4xl font-semibold tracking-wider leading-[54px]  max-md:text-4xl">
-                    INVESTOR DETAILS
+                  <div className="text-stone-100 text-2xl font-semibold tracking-tight text-wrap">
+                    Investor Details
                   </div>
                   <div className="flex gap-1.5 justify-center ml-4 px-2 py-1 my-auto text-sm tracking-wide rounded-xl border border-solid shadow-sm bg-neutral-400 bg-opacity-40 border-neutral-400">
                     <div>editing mode</div>
@@ -225,7 +237,7 @@ function UpdateInvestorDetails(props) {
                     />
                   </div>
                 </div>
-                <div className="flex gap-4 justify-between self-start mt-5">
+                <div className="flex gap-4 justify-between self-start">
                   <div className="flex justify-center items-center">
                     <img
                       loading="lazy"
@@ -244,7 +256,7 @@ function UpdateInvestorDetails(props) {
                     Change profile picture
                   </label>
                 </div>
-                <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">
+                <div className="mt-5 text-lg font-medium tracking-wide text-stone-100 max-md:max-w-full">
                   Name
                 </div>
                 <input 
@@ -255,7 +267,7 @@ function UpdateInvestorDetails(props) {
                   className="justify-center items-start px-3 py-3.5 mt-2.5 text-sm tracking-normal rounded-md bg-neutral-800 text-neutral-400 max-md:pr-5 max-w-[800px]"
                   required
                 />
-                <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">
+                <div className="mt-5 text-lg font-medium tracking-wide text-stone-100 max-md:max-w-full">
                   LinkedIn
                 </div>
                 <input
@@ -268,7 +280,7 @@ function UpdateInvestorDetails(props) {
                 { !isLinkedinValid && (
                   <div className="text-red-500 text-sm mt-2">The link should start with https://www.linkedin.com/in/</div>
                 )}
-                <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">
+                <div className="mt-5 text-lg font-medium tracking-wide text-stone-100 max-md:max-w-full">
                   Email
                 </div>
                 <input 
@@ -282,7 +294,7 @@ function UpdateInvestorDetails(props) {
                 { !isEmailValid && (
                   <div className="text-red-500 text-sm mt-2">This email has been taken.</div>
                 )}
-                <div className="mt-5 text-xl font-medium tracking-wide text-stone-100 max-md:max-w-full">
+                <div className="mt-5 text-lg font-medium tracking-wide text-stone-100 max-md:max-w-full">
                   Phone Number
                 </div>
                 <input 
@@ -300,13 +312,13 @@ function UpdateInvestorDetails(props) {
                   <div className="text-red-500 text-sm mt-2">Numeric characters only.</div>
                 )}
                 <div className="flex gap-4 pr-20 mt-8 text-base font-semibold whitespace-nowrap max-md:flex-wrap max-md:pr-5">
-                  <Link to="/investorDetails" className="flex">
+                  <Link to="/investorReadForm" className="flex">
                     <div className="justify-center px-4 py-2 rounded-2xl border border-solid border-stone-100 text-stone-100">
-                      CANCEL
+                      Cancel
                     </div>    
                   </Link>              
-                  <button className="justify-center px-4 py-2 text-black bg-green-400 rounded-2xl max-md:px-5" type="submit" disabled={!isEmailValid || !isPhoneNumberValid || !isLinkedinValid}>
-                    SAVE
+                  <button className="justify-center px-4 py-2 text-black bg-green-400 rounded-2xl max-md:px-5" type="submit" disabled={!showButton || !isEmailValid || !isPhoneNumberValid || !isLinkedinValid}>
+                    Save
                   </button>
                 </div>
               </div>
@@ -318,4 +330,4 @@ function UpdateInvestorDetails(props) {
   );
 }
 
-export default UpdateInvestorDetails;
+export default InvestorEditForm;
