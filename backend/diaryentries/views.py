@@ -119,15 +119,9 @@ class DiaryEntriesListRead(generics.ListCreateAPIView):
 #         else:
 #             return Entry.objects.filter(founder__in=startups_founders).order_by(sort_by)
 
-class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 10  # Default page size
-    page_size_query_param = 'page_size'
-    max_page_size = 100
-
 class FollowedFounderDiaryEntriesList(generics.ListAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [JWTAuthentication]
     serializer_class = FollowedFounderEntrySerializer
-    pagination_class = StandardResultsSetPagination
 
     def get_queryset(self):
         sort_by = self.request.query_params.get("sort", "-date")
@@ -151,7 +145,7 @@ class FollowedFounderDiaryEntriesList(generics.ListAPIView):
         
         return queryset.order_by(sort_by)
     
-    
+
 class FollowingList(generics.ListAPIView):
     permission_classes = [JWTAuthentication]
     serializer_class = FollowTableSer
