@@ -154,6 +154,7 @@ class FollowingList(generics.ListAPIView):
         investorId = self.kwargs["investor"]
 
         return FollowTable.objects.filter(investor_id=investorId)
+    
 class ToggleFollowView(APIView):
     permission_classes = [JWTAuthentication]
 
@@ -185,6 +186,7 @@ class ToggleFollowView(APIView):
         total_followers = FollowTable.objects.filter(startup_id=startup_id).count()
 
         return Response({'message': f'{action} the startup.', 'follow_status': action, 'total_followers': total_followers}, status=status.HTTP_200_OK)
+    
 class TotalFollowersView(APIView):
     permission_classes = [JWTAuthentication]
     def get(self, request, startup_id):
