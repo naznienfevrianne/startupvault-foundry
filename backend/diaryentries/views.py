@@ -207,3 +207,4 @@ class CheckFollowView(APIView):
         is_following = FollowTable.objects.filter(startup_id=startup_id, investor_id=investor_id).exists()
 
         return Response({'is_following': is_following})
+    

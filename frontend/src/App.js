@@ -46,6 +46,7 @@ import CreatedEvents from './pages/CreatedEvents';
 import NoAccess from './pages/NoAccess';
 import PartnerPublicProfile from './pages/PartnerPublicProfile';
 
+
 function App() {
     const myCookies = new Cookies();
     const isAuthenticated = myCookies.get('login');
@@ -97,6 +98,7 @@ function App() {
                     <Route path="/cookies" element={<CookieDisplay />} />
                     <Route path="/event-details/:idEvent/:idOrgPartner" element={<PartnerPublicProfile />} />
                     <Route path="/startupDetails/:idStartup" element={<StartupDetails />} />
+
                     </React.Fragment>
                 ) : isAuthenticated && isVerified === 1 && role === "partner" ? (
                     <React.Fragment>
