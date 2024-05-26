@@ -156,7 +156,7 @@ function FounderDashboard(props) {
         throw new Error("Failed to fetch data");
       }
       const entryAnalytics = await responseAnalytics.json();
-      const first8Entries = entryAnalytics.slice(0, 8);
+      const first8Entries = entryAnalytics.slice(-8);
      
       setListEntry(first8Entries);
       console.log(listEntry)

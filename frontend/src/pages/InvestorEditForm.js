@@ -176,7 +176,7 @@ function InvestorEditForm(props) {
         [name]: value
       }));
       setIsDigit(true)
-      setPhoneNumberValid(value.length <= 12); //Valid length
+      setPhoneNumberValid(value.length >= 11 && value.length <= 12); //Valid length
     } else {
       setIsDigit(false)
     }
@@ -306,7 +306,7 @@ function InvestorEditForm(props) {
                   required
                 />
                 { !isPhoneNumberValid && (
-                  <div className="text-red-500 text-sm mt-2">Phone number cannot exceed 12 characters.</div>
+                  <div className="text-red-500 text-sm mt-2">Please input valid phone number.</div>
                 )}
                 { !isDigit && (
                   <div className="text-red-500 text-sm mt-2">Numeric characters only.</div>
